@@ -1,0 +1,26 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "es2015",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "target": "es5"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "select-searchable.ts",
+        "source/select-searchable.module.ts",
+        "source/select-searchable.component.ts",
+        "source/select-searchable-page.component.ts"
+    ]
+}

@@ -1,0 +1,10 @@
+demo
+node_modules
+npm-debug.log
+.gitignore
+.npmignore
+*.ts
+!*.d.ts
+gulpfile.js
+tsconfig.json
+tslint.json

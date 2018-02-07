@@ -1,0 +1,7 @@
+coverage
+node_modules
+npm-debug.log
+*.js
+!gulpfile.js
+*.d.ts
+*.map

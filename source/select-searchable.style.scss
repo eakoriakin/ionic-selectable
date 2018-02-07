@@ -1,0 +1,92 @@
+.item-select-searchable {
+    .label {
+        margin-right: 0;
+    }
+}
+
+.select-searchable {
+    display: flex;
+
+    &-label {
+        flex: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &-value {
+        max-width: 45%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &-icon {
+        position: relative;
+        width: 20px;
+    }
+
+    &-icon-inner {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        border-top: 5px solid;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        pointer-events: none;
+    }
+
+    &-ios {
+        .select-searchable-icon {
+            height: 18px;
+        }
+
+        .select-searchable-icon-inner {
+            margin-top: -2px;
+            color: $select-ios-icon-color;
+        }
+
+        .select-searchable-value {
+            padding-left: $select-ios-padding-left;
+        }
+    }
+
+    &-md {
+        .select-searchable-icon {
+            height: 19px;
+        }
+
+        .select-searchable-icon-inner {
+            margin-top: -3px;
+            color: $select-md-icon-color;
+        }
+
+        .select-searchable-value {
+            padding-left: $select-md-padding-left;
+        }
+
+        .select-searchable-label {
+            color: $label-md-text-color
+        }
+    }
+
+    &-spinner {
+        &-background {
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            position: absolute;
+            background-color: #000;
+            z-index: 100;
+            opacity: 0.05;
+        }
+
+        ion-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            margin-top: -14px;
+            margin-left: -14px;
+        }
+    }
+}

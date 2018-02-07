@@ -1,0 +1,11 @@
+.select-searchable-page {
+    &.select-searchable-page-can-reset.select-searchable-page-multiple {
+        .footer .col:first-child {
+            padding-right: $content-margin / 2;
+        }
+        
+        .footer .col:last-child {
+            padding-left: $content-margin / 2;
+        }
+    }
+}
