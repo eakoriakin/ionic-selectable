@@ -4,7 +4,7 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 # Contents
 * [Demo](#demo)
 * [Download](#download)
-* [Getting started](#demo)
+* [Getting started](#getting-started)
 * [API](#api)
 * [Development](#development)
 
