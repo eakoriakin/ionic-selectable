@@ -50,7 +50,7 @@ export class SelectSearchable implements ControlValueAccessor, OnDestroy, OnChan
     @Input() canReset = false;
     @Input() hasInfiniteScroll = false;
     @Input() title: string;
-    @Input() searchPlaceholder: string = 'Enter 3 or more characters';
+    @Input() searchPlaceholder: string;
     @Output() onChange: EventEmitter<any> = new EventEmitter();
     @Output() onSearch: EventEmitter<any> = new EventEmitter();
     @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
