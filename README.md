@@ -12,7 +12,7 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 * [Demo](#demo)
 * [Download](#download)
 * [Getting started](#getting-started)
-* [API](#api)
+* [API documentation](../../wiki/API-Documentation)
 * [Development](#development)
 
 ## Demo
@@ -94,9 +94,6 @@ export class HomePage {
     }
 }
 ```
-
-## API
-Detailed API documentation and ways if usage can be found in [Wiki](../../wiki).
 
 ## Development
 1. Install dependencies.  
