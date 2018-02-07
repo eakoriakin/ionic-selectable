@@ -1,5 +1,5 @@
 {
-    "version": "0.0.4",
+    "version": "0.0.5",
     "name": "ionic-select-searchable",
     "title": "Ionic Select with Searchbar",
     "description": "An Ionic component similar to ion-select, that allows to search items, including async search and infinite scrolling.",
@@ -25,8 +25,8 @@
         "url": "https://github.com/eakoriakin/ionic-select-searchable/issues"
     },
     "dependencies": {
-        "ionic-angular": "3.9.2",
-        "ionicons": "3.0.0"
+        "ionic-angular": ">=3.6.0",
+        "ionicons": ">=3.0.0"
     },
     "devDependencies": {
         "@angular/common": "5.0.3",
