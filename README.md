@@ -89,7 +89,7 @@ export class HomePage {
         ];
     }
 
-    portChange(event: { component: SelectSearchable, value: Port }) {
+    portChange(event: { component: SelectSearchable, value: avy }) {
         console.log('port:', event.value);
     }
 }
