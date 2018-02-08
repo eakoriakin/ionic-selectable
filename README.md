@@ -16,7 +16,7 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 * [Development](#development)
 
 ## Demo
-* [Github demo app](https://github.com/eakoriakin/ionic-select-searchable-demo)
+* [GitHub demo app](https://github.com/eakoriakin/ionic-select-searchable-demo)
 * [Plunker](http://plnkr.co/edit/YzCBKS?p=preview)
 
 ### iOS
