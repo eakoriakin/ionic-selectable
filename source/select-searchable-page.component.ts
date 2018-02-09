@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { NavParams, NavController, Searchbar, InfiniteScroll } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 
@@ -65,7 +65,7 @@ import { SelectSearchable } from './select-searchable.component';
         '[class.select-searchable-page-multiple]': 'selectComponent.multiple'
     }
 })
-export class SelectSearchablePage {
+export class SelectSearchablePage implements AfterViewInit {
     selectComponent: SelectSearchable;
     filteredItems: any[];
     selectedItems: any[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Optional, OnDestroy, forwardRef, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, NavController, Platform } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
@@ -25,7 +25,7 @@ import { SelectSearchablePage } from './select-searchable-page.component';
         '[class.select-searchable-can-reset]': 'canReset'
     }
 })
-export class SelectSearchable implements ControlValueAccessor, OnDestroy, OnChanges {
+export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
     private _items: any[] = [];
     private isIos: boolean;
     private isMd: boolean;
