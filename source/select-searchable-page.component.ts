@@ -161,7 +161,7 @@ export class SelectSearchablePage implements AfterViewInit {
         setTimeout(() => {
             this.navController.pop();
 
-            if (!this.selectComponent.hasSearchEvent) {
+            if (!this.selectComponent.hasSearch) {
                 this.selectComponent.filterText = '';
             }
         });
@@ -173,7 +173,7 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     filterItems() {
-        if (this.selectComponent.hasSearchEvent) {
+        if (this.selectComponent.hasSearch) {
             // Delegate filtering to the event.
             this.selectComponent.emitSearch();
         } else {

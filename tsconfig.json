@@ -17,6 +17,7 @@
         "select-searchable.ts",
         "source/select-searchable.module.ts",
         "source/select-searchable.component.ts",
-        "source/select-searchable-page.component.ts"
+        "source/select-searchable-page.component.ts",
+        "source/select-searchable-title-template.component.ts"
     ]
 }

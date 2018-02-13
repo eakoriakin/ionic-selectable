@@ -1,12 +1,16 @@
-import { Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges, SimpleChanges, ContentChild, TemplateRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, NavController, Platform } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
+// import { SelectSearchableTitleTemplate } from './select-searchable-title-template.component';
 
 @Component({
     selector: 'select-searchable',
     template: `
-        <div class="select-searchable-label">{{title}}</div>
+        <div class="select-searchable-label">
+            {{title}}
+            <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
+        </div>
         <div class="select-searchable-value">{{formatValue()}}</div>
         <div class="select-searchable-icon">
             <div class="select-searchable-icon-inner"></div>
@@ -29,9 +33,13 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     private _items: any[] = [];
     private isIos: boolean;
     private isMd: boolean;
+    private _useSearch: boolean = true;
     filterText = '';
     value: any = null;
-    hasSearchEvent: boolean;
+    // @ContentChild(SelectSearchableTitleTemplate, { read: TemplateRef }) titleTemplate;
+    get hasSearch(): boolean {
+        return this.useSearch && this.onSearch.observers.length > 0 && !this.hasInfiniteScroll;
+    }
     get items(): any[] {
         return this._items;
     }
@@ -47,6 +55,13 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() itemValueField: string;
     @Input() itemTextField: string;
     @Input() canSearch = false;
+    @Input('useSearch')
+    get useSearch(): boolean {
+        return this._useSearch;
+    }
+    set useSearch(useSearch: boolean) {
+        this._useSearch = !!useSearch;
+    }
     @Input() canReset = false;
     @Input() hasInfiniteScroll = false;
     @Input() title: string;
@@ -71,7 +86,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     ngOnInit() {
         this.isIos = this.platform.is('ios');
         this.isMd = this.platform.is('android');
-        this.hasSearchEvent = this.onSearch.observers.length > 0 && !this.hasInfiniteScroll;
         this.ionForm.register(this);
 
         if (this.ionItem) {
