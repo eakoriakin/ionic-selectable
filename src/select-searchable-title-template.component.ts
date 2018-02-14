@@ -3,4 +3,4 @@ import { Directive } from '@angular/core';
 @Directive({
     selector: '[selectSearchableTitleTemplate]'
 })
-export class SelectSearchableTitleTemplate { }
+export class SelectSearchableTitleTemplateDirective { }

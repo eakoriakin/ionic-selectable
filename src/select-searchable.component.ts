@@ -1,8 +1,11 @@
-import { Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges, SimpleChanges, ContentChild, TemplateRef } from '@angular/core';
+import {
+    Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges,
+    SimpleChanges, ContentChild, TemplateRef
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, NavController, Platform } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
-// import { SelectSearchableTitleTemplate } from './select-searchable-title-template.component';
+// import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.component';
 
 @Component({
     selector: 'select-searchable',
@@ -33,10 +36,10 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     private _items: any[] = [];
     private isIos: boolean;
     private isMd: boolean;
-    private _useSearch: boolean = true;
+    private _useSearch = true;
     filterText = '';
     value: any = null;
-    // @ContentChild(SelectSearchableTitleTemplate, { read: TemplateRef }) titleTemplate;
+    // @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate;
     get hasSearch(): boolean {
         return this.useSearch && this.onSearch.observers.length > 0 && !this.hasInfiniteScroll;
     }
@@ -45,7 +48,8 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
     @Input('items')
     set items(items: any[]) {
-        // The original reference of the array should be preserved to keep two-way data binding working between SelectSearchable and SelectSearchablePage.
+        // The original reference of the array should be preserved to keep two-way data binding
+        // working between SelectSearchable and SelectSearchablePage.
         this._items.splice(0, this._items.length);
 
         // Add new items to the array.
@@ -72,7 +76,12 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() itemTemplate: Function;
     @Input() multiple: boolean;
 
-    constructor(private navController: NavController, private ionForm: Form, private platform: Platform, @Optional() private ionItem: Item) { }
+    constructor(
+        private navController: NavController,
+        private ionForm: Form,
+        private platform: Platform,
+        @Optional() private ionItem: Item
+    ) { }
 
     isNullOrWhiteSpace(value: any): boolean {
         if (value === null || value === undefined) {

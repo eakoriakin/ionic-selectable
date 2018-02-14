@@ -1,23 +1,35 @@
 {
-    "compileOnSave": false,
     "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
         "declaration": true,
+        "module": "es2015",
+        "target": "es5",
+        "stripInternal": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "module": "es2015",
         "moduleResolution": "node",
-        "sourceMap": true,
-        "target": "es5"
+        "outDir": "./build",
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "skipLibCheck": true,
+        "types": [],
+        "baseUrl": "./src",
+        "rootDir": "./src",
+        "paths": {
+            "@angular/*": [
+                "../../node_modules/@angular/*"
+            ]
+        }
     },
-    "exclude": [
-        "node_modules"
-    ],
+    "angularCompilerOptions": {
+        "annotateForClosureCompiler": true,
+        "strictMetadataEmit": true,
+        "skipTemplateCodegen": true,
+        "flatModuleOutFile": "ionic-select-searchable.js",
+        "flatModuleId": "ionic-select-searchable"
+    },
     "files": [
-        "select-searchable.ts",
-        "source/select-searchable.module.ts",
-        "source/select-searchable.component.ts",
-        "source/select-searchable-page.component.ts",
-        "source/select-searchable-title-template.component.ts"
+        "./src/index.ts"
     ]
 }

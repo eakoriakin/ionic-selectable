@@ -1,7 +1,32 @@
-coverage
-node_modules
+# Node
+node_modules/*
 npm-debug.log
-*.js
-!gulpfile.js
-*.d.ts
-*.map
+
+# TypeScript
+src/*.js
+src/*.map
+src/*.d.ts
+
+# JetBrains
+.idea
+.project
+.settings
+.idea/*
+*.iml
+
+# VS Code
+.vscode/*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+**/.DS_Store
+
+# Ngc generated files
+**/*.ngfactory.ts
+
+# Build files
+dist/*

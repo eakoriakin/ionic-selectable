@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { IonicPageModule } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 import { SelectSearchablePage } from './select-searchable-page.component';
@@ -6,11 +7,12 @@ import { SelectSearchablePage } from './select-searchable-page.component';
 let components = [SelectSearchable, SelectSearchablePage];
 
 @NgModule({
-    declarations: components,
     imports: [
+        CommonModule,
         IonicPageModule.forChild(SelectSearchable),
         IonicPageModule.forChild(SelectSearchablePage)
     ],
+    declarations: components,
     exports: components,
     entryComponents: components
 })
