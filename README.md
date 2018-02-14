@@ -95,8 +95,5 @@ export class HomePage {
 }
 ```
 
-## Development
-1. Install dependencies.  
-`npm install`  
-2. Start build.  
-`gulp`  
+## Support this project
+If you find this project useful, please star the repo to let people know that it's reliable. Also, share it with friends and colleagues that might find this useful as well. Thank you 😄
