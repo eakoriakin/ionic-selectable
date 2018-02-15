@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicPageModule } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 import { SelectSearchablePage } from './select-searchable-page.component';
+export { SelectSearchable } from './select-searchable.component';
 
 let components = [SelectSearchable, SelectSearchablePage];
 
