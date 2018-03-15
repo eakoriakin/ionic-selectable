@@ -75,6 +75,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
     @Input() itemTemplate: Function;
     @Input() multiple: boolean;
+    @Input() noItemsFoundText = 'No items found.';
 
     constructor(
         private navController: NavController,

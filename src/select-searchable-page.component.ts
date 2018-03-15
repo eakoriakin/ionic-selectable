@@ -36,7 +36,7 @@ import { SelectSearchable } from './select-searchable.component';
             <ion-infinite-scroll [enabled]="selectComponent.hasInfiniteScroll" (ionInfinite)="getMoreItems($event)">
                 <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
-            <div *ngIf="!filteredItems.length" margin>No items found.</div>
+            <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
         </ion-content>
         <ion-footer *ngIf="selectComponent.canReset || selectComponent.multiple">
             <ion-toolbar padding>
