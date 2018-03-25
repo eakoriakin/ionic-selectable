@@ -45,7 +45,7 @@ import { SelectSearchable } from './select-searchable.component';
                         [attr.col-6]="selectComponent.canReset && selectComponent.multiple ? '' : null"
                         [attr.col-12]="selectComponent.canReset && !selectComponent.multiple ? '' : null">
                         <button ion-button full no-margin (click)="reset()" [disabled]="!selectedItems.length">
-                            Clear
+                            {{selectComponent.resetButtonText}}
                         </button>
                     </ion-col>
                     <ion-col no-padding *ngIf="selectComponent.multiple"

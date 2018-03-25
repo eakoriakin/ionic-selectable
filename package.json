@@ -47,5 +47,6 @@
         "docs:serve": "npm run docs:build -- -s",
         "docs:watch": "npm run docs:build -- -s -w",
         "lint": "tslint --type-check --project tsconfig.json src/**/*.ts"
-    }
+    },
+    "dependencies": {}
 }
