@@ -62,7 +62,8 @@ import { SelectSearchable } from './select-searchable.component';
     host: {
         'class': 'select-searchable-page',
         '[class.select-searchable-page-can-reset]': 'selectComponent.canReset',
-        '[class.select-searchable-page-multiple]': 'selectComponent.multiple'
+        '[class.select-searchable-page-multiple]': 'selectComponent.multiple',
+        '[class.select-searchable-page-is-searching]': 'selectComponent.isSearching'
     }
 })
 export class SelectSearchablePage implements AfterViewInit {
@@ -70,6 +71,7 @@ export class SelectSearchablePage implements AfterViewInit {
     filteredItems: any[];
     selectedItems: any[] = [];
     navController: NavController;
+    infiniteScroll: InfiniteScroll;
     @ViewChild('searchbarComponent') searchbarComponent: Searchbar;
 
     constructor(private navParams: NavParams) {
@@ -175,7 +177,7 @@ export class SelectSearchablePage implements AfterViewInit {
     filterItems() {
         if (this.selectComponent.hasSearch) {
             // Delegate filtering to the event.
-            this.selectComponent.emitSearch();
+            this.selectComponent.emitSearch(this.infiniteScroll);
         } else {
             let items = [];
 
@@ -196,9 +198,14 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     getMoreItems(infiniteScroll: InfiniteScroll) {
+        // TODO: Try to get infiniteScroll via ViewChild. Maybe it works in a newer Ionic version.
+        // For now assign it here.
+        this.infiniteScroll = infiniteScroll;
+
         this.selectComponent.onInfiniteScroll.emit({
             component: this.selectComponent,
-            infiniteScroll: infiniteScroll
+            infiniteScroll: infiniteScroll,
+            text: this.selectComponent.filterText
         });
     }
 }

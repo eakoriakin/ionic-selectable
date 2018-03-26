@@ -69,6 +69,13 @@
     }
 
     &-spinner {
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+
         &-background {
             top: 0;
             bottom: 0;
@@ -76,7 +83,6 @@
             right: 0;
             position: absolute;
             background-color: #000;
-            z-index: 100;
             opacity: 0.05;
         }
 
@@ -99,6 +105,12 @@
 
         .footer .col:last-child {
             padding-left: $content-margin / 2;
+        }
+    }
+
+    &.select-searchable-page-is-searching {
+        .scroll-content {
+            overflow-y: hidden;
         }
     }
 }

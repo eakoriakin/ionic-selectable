@@ -3,7 +3,7 @@ import {
     SimpleChanges, ContentChild, TemplateRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Item, Form, NavController, Platform } from 'ionic-angular';
+import { Item, Form, NavController, Platform, InfiniteScroll } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
 // import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.component';
 
@@ -131,9 +131,10 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    emitSearch() {
+    emitSearch(infiniteScroll: InfiniteScroll) {
         this.onSearch.emit({
             component: this,
+            infiniteScroll: infiniteScroll,
             text: this.filterText
         });
     }
