@@ -41,7 +41,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     value: any = null;
     // @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate;
     get hasSearch(): boolean {
-        return this.useSearch && this.onSearch.observers.length > 0 && !this.hasInfiniteScroll;
+        return this.useSearch && this.onSearch.observers.length > 0;
     }
     get items(): any[] {
         return this._items;
