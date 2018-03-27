@@ -29,7 +29,8 @@ import { SelectSearchablePage } from './select-searchable-page.component';
         'class': 'select-searchable',
         '[class.select-searchable-ios]': 'isIos',
         '[class.select-searchable-md]': 'isMd',
-        '[class.select-searchable-can-reset]': 'canReset'
+        '[class.select-searchable-can-reset]': 'canReset',
+        '[class.select-searchable-is-enabled]': 'isEnabled'
     }
 })
 export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
@@ -37,6 +38,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     private isIos: boolean;
     private isMd: boolean;
     private _useSearch = true;
+    private _isEnabled = true;
     filterText = '';
     value: any = null;
     // @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate;
@@ -56,6 +58,14 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         Array.prototype.push.apply(this._items, items);
     }
     @Input() isSearching: boolean;
+    @Input('isEnabled')
+    get isEnabled(): boolean {
+        return this._isEnabled;
+    }
+    set isEnabled(isEnabled: boolean) {
+        this._isEnabled = !!isEnabled;
+        this.enableIonItem(this._isEnabled);
+    }
     @Input() itemValueField: string;
     @Input() itemTextField: string;
     @Input() canSearch = false;
@@ -102,13 +112,15 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         if (this.ionItem) {
             this.ionItem.setElementClass('item-select-searchable', true);
         }
+
+        this.enableIonItem(this.isEnabled);
     }
 
     initFocus() { }
 
     @HostListener('click', ['$event'])
     _click(event: UIEvent) {
-        if (event.detail === 0) {
+        if (!this.isEnabled || event.detail === 0) {
             // Don't continue if the click event came from a form submit.
             return;
         }
@@ -116,6 +128,14 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         event.preventDefault();
         event.stopPropagation();
         this.open();
+    }
+
+    enableIonItem(isEnabled: boolean) {
+        if (!this.ionItem) {
+            return;
+        }
+
+        this.ionItem.setElementClass('item-select-searchable-is-enabled', isEnabled);
     }
 
     select(selectedItem: any) {
