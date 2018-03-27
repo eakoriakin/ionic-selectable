@@ -4,6 +4,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 import { SelectSearchablePage } from './select-searchable-page.component';
 export { SelectSearchable } from './select-searchable.component';
+export { SelectSearchablePage } from './select-searchable-page.component';
 
 let components = [SelectSearchable, SelectSearchablePage];
 
