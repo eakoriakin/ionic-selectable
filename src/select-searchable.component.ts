@@ -139,7 +139,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
 
     select(selectedItem: any) {
-        this.value = selectedItem;
+        this.value = this.multiple ? selectedItem || [] : selectedItem;
         this.emitChange();
     }
 
@@ -167,7 +167,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
 
     reset() {
-        this.setValue(null);
+        this.setValue(this.multiple ? [] : null);
         this.emitChange();
     }
 
