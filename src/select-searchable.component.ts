@@ -14,7 +14,9 @@ import { SelectSearchablePage } from './select-searchable-page.component';
             {{title}}
             <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
         </div>
-        <div class="select-searchable-value">{{formatValue()}}</div>
+        <div class="select-searchable-value">
+            <div class="select-searchable-value-item" *ngFor="let valueItem of _valueItems">{{formatItem(valueItem)}}</div>
+        </div>
         <div class="select-searchable-icon">
             <div class="select-searchable-icon-inner"></div>
         </div>
@@ -39,8 +41,28 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     private isMd: boolean;
     private _useSearch = true;
     private _isEnabled = true;
+    private _valueItems: any[] = [];
+    private _value: any = null;
     filterText = '';
-    value: any = null;
+    get value(): any {
+        return this._value;
+    }
+    set value(value: any) {
+        this._value = value;
+
+        // Set value items.
+        this._valueItems.splice(0, this._valueItems.length);
+
+        if (this.multiple) {
+            if (value && value.length) {
+                Array.prototype.push.apply(this._valueItems, value);
+            }
+        } else {
+            if (value) {
+                this._valueItems.push(value);
+            }
+        }
+    }
     // @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate;
     get hasSearch(): boolean {
         return this.useSearch && this.onSearch.observers.length > 0;
@@ -140,6 +162,8 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
 
     select(selectedItem: any) {
         this.value = this.multiple ? selectedItem || [] : selectedItem;
+        console.log('selectedItem:', selectedItem);
+        console.log('this.value:', this.value);
         this.emitChange();
     }
 
@@ -181,18 +205,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         }
 
         return this.itemTextField ? value[this.itemTextField] : value.toString();
-    }
-
-    formatValue(): string {
-        if (!this.value) {
-            return null;
-        }
-
-        if (this.multiple) {
-            return this.value.map(item => this.formatItem(item)).join(', ');
-        } else {
-            return this.formatItem(this.value);
-        }
     }
 
     private propagateChange = (_: any) => { }

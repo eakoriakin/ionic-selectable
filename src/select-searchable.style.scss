@@ -20,8 +20,15 @@
 
     &-value {
         max-width: 45%;
-        text-overflow: ellipsis;
-        overflow: hidden;
+
+        &-item {
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &:not(:last-child) {
+                margin-bottom: 5px;
+            }
+        }
     }
 
     &-icon {
