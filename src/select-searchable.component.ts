@@ -162,8 +162,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
 
     select(selectedItem: any) {
         this.value = this.multiple ? selectedItem || [] : selectedItem;
-        console.log('selectedItem:', selectedItem);
-        console.log('this.value:', this.value);
         this.emitChange();
     }
 

@@ -149,7 +149,6 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     ok() {
-        console.log('this.selectedItems:', this.selectedItems);
         this.selectComponent.select(this.selectedItems);
         this.close();
     }
