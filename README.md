@@ -12,6 +12,7 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 * [Demo](#demo)
 * [Download](#download)
 * [Getting started](#getting-started)
+* [FAQ](#faq)
 * [API documentation](../../wiki/API-Documentation)
 * [Development](#development)
 
@@ -93,6 +94,28 @@ export class HomePage {
         console.log('port:', event.value);
     }
 }
+```
+
+## FAQ
+
+### 1. Why do I get error `Can't bind to 'items' since it isn't a known property of 'select-searchable'`?
+
+The error occurs when `SelectSearchableModule` isn't imported to your app module. In case of using lazy loading you need to import `SelectSearchableModule` to every page module.
+
+```
+import { LazyPage } from './lazy';
+import { SelectSearchableModule } from 'ionic-select-searchable';
+
+@NgModule({
+	declarations: [
+		LazyPage
+	],
+	imports: [
+		IonicPageModule.forChild(LazyPage),
+		SelectSearchableModule
+	]
+})
+export class LazyPageModule { }
 ```
 
 ## Support this project
