@@ -3,7 +3,7 @@ import {
     SimpleChanges, ContentChild, TemplateRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Item, Form, NavController, Platform, InfiniteScroll } from 'ionic-angular';
+import { Item, Form, NavController, Platform, InfiniteScroll, ModalController } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
 // import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.component';
 
@@ -109,9 +109,11 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
+    @Input() useModalInsteadOfPage = false;
 
     constructor(
         private navController: NavController,
+        private modalController: ModalController,
         private ionForm: Form,
         private platform: Platform,
         @Optional() private ionItem: Item
@@ -182,6 +184,14 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
 
     open() {
+        if (this.useModalInsteadOfPage) {
+            this.modalController.create(SelectSearchablePage, {
+                selectComponent: this
+            }).present();
+
+            return;
+        }
+
         this.navController.push(SelectSearchablePage, {
             selectComponent: this,
             navController: this.navController
@@ -205,7 +215,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         return this.itemTextField ? value[this.itemTextField] : value.toString();
     }
 
-    private propagateChange = (_: any) => { }
+    private propagateChange = (_: any) => { };
 
     writeValue(value: any) {
         this.setValue(value);
