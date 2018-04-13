@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { NavParams, NavController, Searchbar, InfiniteScroll, ModalController, Modal, ViewController } from 'ionic-angular';
+import { NavParams, NavController, Searchbar, InfiniteScroll, ViewController } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 
 @Component({
@@ -74,8 +74,10 @@ export class SelectSearchablePage implements AfterViewInit {
     infiniteScroll: InfiniteScroll;
     @ViewChild('searchbarComponent') searchbarComponent: Searchbar;
 
-    constructor(private navParams: NavParams,
-        public viewController: ViewController) {
+    constructor(
+        private navParams: NavParams,
+        private viewController: ViewController
+    ) {
         this.selectComponent = this.navParams.get('selectComponent');
         this.navController = this.navParams.get('navController');
         this.filteredItems = this.selectComponent.items;
@@ -162,7 +164,7 @@ export class SelectSearchablePage implements AfterViewInit {
         }
 
         setTimeout(() => {
-            if (this.selectComponent.useModalInsteadOfPage) {
+            if (this.selectComponent.useModal) {
                 this.viewController.dismiss();
             } else {
                 this.navController.pop();
@@ -175,11 +177,12 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     reset() {
-        if (this.selectComponent.useModalInsteadOfPage) {
+        if (this.selectComponent.useModal) {
             this.viewController.dismiss();
         } else {
             this.navController.pop();
         }
+
         this.selectComponent.reset();
     }
 

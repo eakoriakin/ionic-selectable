@@ -109,7 +109,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
-    @Input() useModalInsteadOfPage = false;
+    @Input() useModal = false;
 
     constructor(
         private navController: NavController,
@@ -184,18 +184,16 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
 
     open() {
-        if (this.useModalInsteadOfPage) {
+        if (this.useModal) {
             this.modalController.create(SelectSearchablePage, {
                 selectComponent: this
             }).present();
-
-            return;
+        } else {
+            this.navController.push(SelectSearchablePage, {
+                selectComponent: this,
+                navController: this.navController
+            });
         }
-
-        this.navController.push(SelectSearchablePage, {
-            selectComponent: this,
-            navController: this.navController
-        });
     }
 
     reset() {
