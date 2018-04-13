@@ -109,7 +109,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
-    @Input() useModal = false;
+    @Input() useModal = true;
 
     constructor(
         private navController: NavController,
