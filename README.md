@@ -118,5 +118,20 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
 export class LazyPageModule { }
 ```
 
+### 2. What's the best way to handle a large amount of items? 
+Loading and responsiveness might get rather slow, when dealing with many items, e.g. a 1000 or more.
+There are two ways to tackle it.
+
+**Async search**
+ 
+In this case no items are loaded and displayed initially. Items will be added while user is typing to search.  
+[Demo](http://plnkr.co/edit/YzCBKS?p=preview)
+ 
+**Infinite scrolling**
+ 
+Initially only the first bunch of items is loaded and displayed, for example we can show only the first 20 items.  
+Then more items is loaded bunch by bunch while user is scrolling down.  
+[Demo](http://plnkr.co/edit/YzCBKS?p=preview)
+
 ## Support this project
 If you find this project useful, please star the repo to let people know that it's reliable. Also, share it with friends and colleagues that might find this useful as well. Thank you 😄
