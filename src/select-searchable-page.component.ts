@@ -101,7 +101,7 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        if (this.searchbarComponent) {
+        if (this.searchbarComponent && this.selectComponent.focusSearchbar) {
             // Focus after a delay because focus doesn't work without it.
             setTimeout(() => {
                 this.searchbarComponent.setFocus();
