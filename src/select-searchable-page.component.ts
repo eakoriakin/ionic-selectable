@@ -11,7 +11,7 @@ import { SelectSearchable } from './select-searchable.component';
                 <ion-buttons start *ngIf="selectComponent.useModal">
                     <button ion-button (click)="viewController.dismiss()">
                         <span ion-text color="primary" showWhen="ios">Cancel</span>
-                        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+                        <ion-icon name="md-close" hideWhen="ios"></ion-icon>
                     </button>
                 </ion-buttons>
             </ion-navbar>
