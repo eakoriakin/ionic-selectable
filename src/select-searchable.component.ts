@@ -15,7 +15,7 @@ import { SelectSearchablePage } from './select-searchable-page.component';
             <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
         </div>
         <div class="select-searchable-value">
-            <div class="select-searchable-value-item" *ngFor="let valueItem of _valueItems">{{formatItem(valueItem)}}</div>
+            <div class="select-searchable-value-item" *ngFor="let valueItem of _valueItems" [innerHTML]="formatItem(valueItem)"></div>
         </div>
         <div class="select-searchable-icon">
             <div class="select-searchable-icon-inner"></div>
