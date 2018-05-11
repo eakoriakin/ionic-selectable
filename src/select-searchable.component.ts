@@ -5,7 +5,6 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
-// import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.component';
 
 @Component({
     selector: 'select-searchable',
@@ -65,7 +64,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
             }
         }
     }
-    // @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate;
     get hasSearch(): boolean {
         return this.useSearch && this.onSearch.observers.length > 0;
     }
