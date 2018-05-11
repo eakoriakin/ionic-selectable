@@ -112,6 +112,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() useModal = true;
     @Input() focusSearchbar = false;
     @Input() closeModalText = "Cancel";
+    @Input() headerColorName = "primary";
 
     constructor(
         private navController: NavController,
