@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { NavParams, NavController, Searchbar, InfiniteScroll, ViewController } from 'ionic-angular';
+import { NavParams, Searchbar, InfiniteScroll, ViewController } from 'ionic-angular';
 import { SelectSearchable } from './select-searchable.component';
 
 @Component({
@@ -8,8 +8,8 @@ import { SelectSearchable } from './select-searchable.component';
         <ion-header>
             <ion-navbar>
                 <ion-title>{{selectComponent.title}}</ion-title>
-                <ion-buttons start *ngIf="selectComponent.useModal">
-                    <button ion-button (click)="viewController.dismiss()">
+                <ion-buttons start>
+                    <button ion-button (click)="close()">
                         <span ion-text color="primary" showWhen="ios">Cancel</span>
                         <ion-icon name="md-close" hideWhen="ios"></ion-icon>
                     </button>
@@ -76,7 +76,6 @@ export class SelectSearchablePage implements AfterViewInit {
     selectComponent: SelectSearchable;
     filteredItems: any[];
     selectedItems: any[] = [];
-    navController: NavController;
     infiniteScroll: InfiniteScroll;
     @ViewChild('searchbarComponent') searchbarComponent: Searchbar;
 
@@ -85,7 +84,6 @@ export class SelectSearchablePage implements AfterViewInit {
         private viewController: ViewController
     ) {
         this.selectComponent = this.navParams.get('selectComponent');
-        this.navController = this.navParams.get('navController');
         this.filteredItems = this.selectComponent.items;
         this.filterItems();
 
@@ -170,11 +168,11 @@ export class SelectSearchablePage implements AfterViewInit {
         }
 
         setTimeout(() => {
-            if (this.selectComponent.useModal) {
-                this.viewController.dismiss();
-            } else {
-                this.navController.pop();
-            }
+            this.selectComponent.close().then(() => {
+                this.selectComponent.onClose.emit({
+                    component: this.selectComponent
+                });
+            });
 
             if (!this.selectComponent.hasSearch) {
                 this.selectComponent.filterText = '';
@@ -183,13 +181,12 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     reset() {
-        if (this.selectComponent.useModal) {
-            this.viewController.dismiss();
-        } else {
-            this.navController.pop();
-        }
-
         this.selectComponent.reset();
+        this.selectComponent.close().then(() => {
+            this.selectComponent.onClose.emit({
+                component: this.selectComponent
+            });
+        });
     }
 
     filterItems() {

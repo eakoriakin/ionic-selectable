@@ -3,7 +3,7 @@ import {
     SimpleChanges, ContentChild, TemplateRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Item, Form, NavController, Platform, InfiniteScroll, ModalController } from 'ionic-angular';
+import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
 // import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.component';
 
@@ -41,8 +41,10 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     private isMd: boolean;
     private _useSearch = true;
     private _isEnabled = true;
+    private _isOpened = false;
     private _valueItems: any[] = [];
     private _value: any = null;
+    private _modal: Modal;
     filterText = '';
     get value(): any {
         return this._value;
@@ -105,15 +107,15 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Output() onChange: EventEmitter<any> = new EventEmitter();
     @Output() onSearch: EventEmitter<any> = new EventEmitter();
     @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
+    @Output() onOpen: EventEmitter<any> = new EventEmitter();
+    @Output() onClose: EventEmitter<any> = new EventEmitter();
     @Input() itemTemplate: Function;
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
-    @Input() useModal = true;
     @Input() focusSearchbar = false;
 
     constructor(
-        private navController: NavController,
         private modalController: ModalController,
         private ionForm: Form,
         private platform: Platform,
@@ -152,7 +154,11 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
 
         event.preventDefault();
         event.stopPropagation();
-        this.open();
+        this.open().then(() => {
+            this.onOpen.emit({
+                component: this
+            });
+        });
     }
 
     enableIonItem(isEnabled: boolean) {
@@ -184,17 +190,41 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    open() {
-        if (this.useModal) {
-            this.modalController.create(SelectSearchablePage, {
-                selectComponent: this
-            }).present();
-        } else {
-            this.navController.push(SelectSearchablePage, {
-                selectComponent: this,
-                navController: this.navController
+    open(): Promise<any> {
+        let self = this;
+
+        return new Promise(function (resolve, reject) {
+            if (self._isOpened) {
+                // Don't use reject() as if throws an error.
+                resolve();
+                return;
+            }
+
+            self._isOpened = true;
+            self._modal = self.modalController.create(SelectSearchablePage, {
+                selectComponent: self
             });
-        }
+            self._modal.present().then(() => {
+                resolve();
+            });
+        });
+    }
+
+    close(): Promise<any> {
+        let self = this;
+
+        return new Promise(function (resolve, reject) {
+            if (!self._isOpened) {
+                // Don't use reject() as if throws an error.
+                resolve();
+                return;
+            }
+
+            self._isOpened = false;
+            self._modal.dismiss().then(() => {
+                resolve();
+            });
+        });
     }
 
     reset() {
