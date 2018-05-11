@@ -36,7 +36,13 @@ import { SelectSearchable } from './select-searchable.component';
                         [color]="isItemSelected(item) ? 'primary' : 'daek'"
                         item-left>
                     </ion-icon>
-                    <h2 [innerHTML]="selectComponent.formatItem(item)"></h2>
+                    <h2 *ngIf="selectComponent.itemTemplate"
+                        [ngTemplateOutlet]="selectComponent.itemTemplate"
+                        [ngTemplateOutletContext]="{ item: item }">
+                    </h2>
+                    <h2 *ngIf="!selectComponent.itemTemplate">
+                        {{selectComponent._formatItem(item)}}
+                    </h2>
                 </button>
             </ion-list>
             <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>

@@ -1,6 +1,6 @@
 import {
     Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges,
-    SimpleChanges, ContentChild, TemplateRef
+    SimpleChanges, TemplateRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
@@ -11,10 +11,22 @@ import { SelectSearchablePage } from './select-searchable-page.component';
     template: `
         <div class="select-searchable-label">
             {{title}}
-            <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
         </div>
         <div class="select-searchable-value">
-            <div class="select-searchable-value-item" *ngFor="let valueItem of _valueItems" [innerHTML]="formatItem(valueItem)"></div>
+            <div *ngIf="valueTemplate && multiple"
+                [ngTemplateOutlet]="valueTemplate"
+                [ngTemplateOutletContext]="{ items: _valueItems }">
+            </div>
+            <div class="select-searchable-value-item" *ngIf="valueTemplate && !multiple">
+                <div [ngTemplateOutlet]="valueTemplate"
+                    [ngTemplateOutletContext]="{ item: _valueItems[0] }">
+                </div>
+            </div>
+            <span *ngIf="!valueTemplate">
+                <div class="select-searchable-value-item" *ngFor="let valueItem of _valueItems">
+                    {{_formatItem(valueItem)}}
+                </div>
+            </span>
         </div>
         <div class="select-searchable-icon">
             <div class="select-searchable-icon-inner"></div>
@@ -107,11 +119,12 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
     @Output() onOpen: EventEmitter<any> = new EventEmitter();
     @Output() onClose: EventEmitter<any> = new EventEmitter();
-    @Input() itemTemplate: Function;
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
     @Input() focusSearchbar = false;
+    @Input() itemTemplate: TemplateRef<any>;
+    @Input() valueTemplate: TemplateRef<any>;
 
     constructor(
         private modalController: ModalController,
@@ -230,16 +243,12 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         this.emitChange();
     }
 
-    formatItem(value: any): string {
-        if (this.itemTemplate) {
-            return this.itemTemplate(value);
-        }
-
-        if (this.isNullOrWhiteSpace(value)) {
+    _formatItem(item: any): string {
+        if (this.isNullOrWhiteSpace(item)) {
             return null;
         }
 
-        return this.itemTextField ? value[this.itemTextField] : value.toString();
+        return this.itemTextField ? item[this.itemTextField] : item.toString();
     }
 
     private propagateChange = (_: any) => { };
