@@ -6,11 +6,11 @@ import { SelectSearchable } from './select-searchable.component';
     selector: 'select-searchable-page',
     template: `
         <ion-header>
-            <ion-navbar>
+            <ion-navbar [color]="selectComponent.headerColorName">
                 <ion-title>{{selectComponent.title}}</ion-title>
                 <ion-buttons start *ngIf="selectComponent.useModal">
                     <button ion-button (click)="viewController.dismiss()">
-                        <span ion-text color="primary" showWhen="ios">Cancel</span>
+                        <span ion-text color="primary" showWhen="ios">{{selectComponent.closeModalText}}</span>
                         <ion-icon name="md-close" hideWhen="ios"></ion-icon>
                     </button>
                 </ion-buttons>
