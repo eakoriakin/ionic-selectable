@@ -119,6 +119,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input() multiple: boolean;
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
+    @Input() closeButtonText = 'Cancel';
     @Input() focusSearchbar = false;
     @Output() onChange: EventEmitter<any> = new EventEmitter();
     @Output() onSearch: EventEmitter<any> = new EventEmitter();

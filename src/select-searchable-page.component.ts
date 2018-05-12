@@ -12,12 +12,14 @@ import { SelectSearchableComponent } from './select-searchable.component';
                         [ngTemplateOutlet]="selectComponent.titleTemplate">
                     </div>
                     <div *ngIf="!selectComponent.titleTemplate && selectComponent.labelTemplate"
-                        [ngTemplateOutlet]="labelTemplate">
+                        [ngTemplateOutlet]="selectComponent.labelTemplate">
                     </div>
                 </ion-title>
                 <ion-buttons start>
                     <button ion-button (click)="close()">
-                        <span ion-text color="primary" showWhen="ios">Cancel</span>
+                        <span ion-text color="primary" showWhen="ios">
+                            {{selectComponent.closeButtonText}}
+                        </span>
                         <ion-icon name="md-close" hideWhen="ios"></ion-icon>
                     </button>
                 </ion-buttons>
