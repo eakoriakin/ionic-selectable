@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { NavParams, Searchbar, InfiniteScroll, ViewController } from 'ionic-angular';
-import { SelectSearchable } from './select-searchable.component';
+import { SelectSearchableComponent } from './select-searchable.component';
 
 @Component({
     selector: 'select-searchable-page',
@@ -85,8 +85,8 @@ import { SelectSearchable } from './select-searchable.component';
         '[class.select-searchable-page-is-searching]': 'selectComponent.isSearching'
     }
 })
-export class SelectSearchablePage implements AfterViewInit {
-    selectComponent: SelectSearchable;
+export class SelectSearchablePageComponent implements AfterViewInit {
+    selectComponent: SelectSearchableComponent;
     filteredItems: any[];
     selectedItems: any[] = [];
     infiniteScroll: InfiniteScroll;
@@ -161,7 +161,7 @@ export class SelectSearchablePage implements AfterViewInit {
             if (!this.isItemSelected(item)) {
                 this.selectedItems = [];
                 this.addSelectedItem(item);
-                this.selectComponent.select(item);
+                this.selectComponent._select(item);
             }
 
             this.close();
@@ -169,7 +169,7 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     ok() {
-        this.selectComponent.select(this.selectedItems);
+        this.selectComponent._select(this.selectedItems);
         this.close();
     }
 
@@ -187,7 +187,7 @@ export class SelectSearchablePage implements AfterViewInit {
                 });
             });
 
-            if (!this.selectComponent.hasSearch) {
+            if (!this.selectComponent._hasSearch()) {
                 this.selectComponent.filterText = '';
             }
         });
@@ -195,6 +195,7 @@ export class SelectSearchablePage implements AfterViewInit {
 
     reset() {
         this.selectComponent.reset();
+        this.selectComponent._emitChange();
         this.selectComponent.close().then(() => {
             this.selectComponent.onClose.emit({
                 component: this.selectComponent
@@ -203,9 +204,9 @@ export class SelectSearchablePage implements AfterViewInit {
     }
 
     filterItems() {
-        if (this.selectComponent.hasSearch) {
+        if (this.selectComponent._hasSearch()) {
             // Delegate filtering to the event.
-            this.selectComponent.emitSearch(this.infiniteScroll);
+            this.selectComponent._emitSearch(this.infiniteScroll);
         } else {
             let items = [];
 

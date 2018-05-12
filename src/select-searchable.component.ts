@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
-import { SelectSearchablePage } from './select-searchable-page.component';
+import { SelectSearchablePageComponent } from './select-searchable-page.component';
 import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
@@ -41,21 +41,21 @@ import { SelectSearchableTitleTemplateDirective } from './select-searchable-titl
     `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectSearchable),
+        useExisting: forwardRef(() => SelectSearchableComponent),
         multi: true
     }],
     host: {
         'class': 'select-searchable',
-        '[class.select-searchable-ios]': 'isIos',
-        '[class.select-searchable-md]': 'isMd',
+        '[class.select-searchable-ios]': '_isIos',
+        '[class.select-searchable-md]': '_isMd',
         '[class.select-searchable-can-reset]': 'canReset',
         '[class.select-searchable-is-enabled]': 'isEnabled'
     }
 })
-export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
     private _items: any[] = [];
-    private isIos: boolean;
-    private isMd: boolean;
+    private _isIos: boolean;
+    private _isMd: boolean;
     private _useSearch = true;
     private _isEnabled = true;
     private _isOpened = false;
@@ -81,9 +81,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
                 this._valueItems.push(value);
             }
         }
-    }
-    get hasSearch(): boolean {
-        return this.useSearch && this.onSearch.observers.length > 0;
     }
     get items(): any[] {
         return this._items;
@@ -119,15 +116,15 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() canReset = false;
     @Input() hasInfiniteScroll = false;
     @Input() searchPlaceholder: string;
+    @Input() multiple: boolean;
+    @Input() noItemsFoundText = 'No items found.';
+    @Input() resetButtonText = 'Clear';
+    @Input() focusSearchbar = false;
     @Output() onChange: EventEmitter<any> = new EventEmitter();
     @Output() onSearch: EventEmitter<any> = new EventEmitter();
     @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
     @Output() onOpen: EventEmitter<any> = new EventEmitter();
     @Output() onClose: EventEmitter<any> = new EventEmitter();
-    @Input() multiple: boolean;
-    @Input() noItemsFoundText = 'No items found.';
-    @Input() resetButtonText = 'Clear';
-    @Input() focusSearchbar = false;
     @ContentChild(SelectSearchableValueTemplateDirective, { read: TemplateRef }) valueTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableItemTemplateDirective, { read: TemplateRef }) itemTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableLabelTemplateDirective, { read: TemplateRef }) labelTemplate: TemplateRef<any>;
@@ -140,28 +137,15 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         @Optional() private ionItem: Item
     ) { }
 
-    isNullOrWhiteSpace(value: any): boolean {
-        if (value === null || value === undefined) {
-            return true;
-        }
-
-        // Convert value to string in case if it's not.
-        return value.toString().replace(/\s/g, '').length < 1;
-    }
-
-    ngOnInit() {
-        this.isIos = this.platform.is('ios');
-        this.isMd = this.platform.is('android');
-        this.ionForm.register(this);
-
-        if (this.ionItem) {
-            this.ionItem.setElementClass('item-select-searchable', true);
-        }
-
-        this.enableIonItem(this.isEnabled);
-    }
-
     initFocus() { }
+
+    enableIonItem(isEnabled: boolean) {
+        if (!this.ionItem) {
+            return;
+        }
+
+        this.ionItem.setElementClass('item-select-searchable-is-enabled', isEnabled);
+    }
 
     @HostListener('click', ['$event'])
     _click(event: UIEvent) {
@@ -179,20 +163,25 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    enableIonItem(isEnabled: boolean) {
-        if (!this.ionItem) {
-            return;
+    _isNullOrWhiteSpace(value: any): boolean {
+        if (value === null || value === undefined) {
+            return true;
         }
 
-        this.ionItem.setElementClass('item-select-searchable-is-enabled', isEnabled);
+        // Convert value to string in case if it's not.
+        return value.toString().replace(/\s/g, '').length < 1;
     }
 
-    select(selectedItem: any) {
+    _hasSearch(): boolean {
+        return this.useSearch && this.onSearch.observers.length > 0;
+    }
+
+    _select(selectedItem: any) {
         this.value = this.multiple ? selectedItem || [] : selectedItem;
-        this.emitChange();
+        this._emitChange();
     }
 
-    emitChange() {
+    _emitChange() {
         this.propagateChange(this.value);
         this.onChange.emit({
             component: this,
@@ -200,7 +189,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    emitSearch(infiniteScroll: InfiniteScroll) {
+    _emitSearch(infiniteScroll: InfiniteScroll) {
         this.onSearch.emit({
             component: this,
             infiniteScroll: infiniteScroll,
@@ -208,7 +197,69 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    open(): Promise<any> {
+    _formatItem(item: any): string {
+        if (this._isNullOrWhiteSpace(item)) {
+            return null;
+        }
+
+        return this.itemTextField ? item[this.itemTextField] : item.toString();
+    }
+
+    private propagateChange = (_: any) => { };
+
+    /* ControlValueAccessor */
+    writeValue(value: any) {
+        this.setValue(value);
+    }
+
+    registerOnChange(fn: any): void {
+        this.propagateChange = fn;
+    }
+
+    registerOnTouched(fn: any) { }
+
+    setDisabledState(isDisabled: boolean) { }
+    /* .ControlValueAccessor */
+
+    ngOnInit() {
+        this._isIos = this.platform.is('ios');
+        this._isMd = this.platform.is('android');
+        this.ionForm.register(this);
+
+        if (this.ionItem) {
+            this.ionItem.setElementClass('item-select-searchable', true);
+        }
+
+        this.enableIonItem(this.isEnabled);
+    }
+
+    ngOnDestroy() {
+        this.ionForm.deregister(this);
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['items'] && this.items.length > 0) {
+            this.setValue(this.value);
+        }
+    }
+
+    setValue(value: any) {
+        this.value = value;
+
+        // Get an item from the list for value.
+        // We need this in case value contains only id, which is not sufficient for template rendering.
+        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
+            let selectedItem = this.items.find(item => {
+                return item[this.itemValueField] === this.value[this.itemValueField];
+            });
+
+            if (selectedItem) {
+                this.value = selectedItem;
+            }
+        }
+    }
+
+    public open(): Promise<any> {
         let self = this;
 
         return new Promise(function (resolve, reject) {
@@ -219,7 +270,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
             }
 
             self._isOpened = true;
-            self._modal = self.modalController.create(SelectSearchablePage, {
+            self._modal = self.modalController.create(SelectSearchablePageComponent, {
                 selectComponent: self
             });
             self._modal.present().then(() => {
@@ -228,7 +279,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    close(): Promise<any> {
+    public close(): Promise<any> {
         let self = this;
 
         return new Promise(function (resolve, reject) {
@@ -245,56 +296,7 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
         });
     }
 
-    reset() {
+    public reset() {
         this.setValue(this.multiple ? [] : null);
-        this.emitChange();
-    }
-
-    _formatItem(item: any): string {
-        if (this.isNullOrWhiteSpace(item)) {
-            return null;
-        }
-
-        return this.itemTextField ? item[this.itemTextField] : item.toString();
-    }
-
-    private propagateChange = (_: any) => { };
-
-    writeValue(value: any) {
-        this.setValue(value);
-    }
-
-    registerOnChange(fn: any): void {
-        this.propagateChange = fn;
-    }
-
-    registerOnTouched(fn: any) { }
-
-    setDisabledState(isDisabled: boolean) { }
-
-    ngOnDestroy() {
-        this.ionForm.deregister(this);
-    }
-
-    setValue(value: any) {
-        this.value = value;
-
-        // Get an item from the list for value.
-        // We need this in case value contains only id, which is not sufficient for template rendering.
-        if (this.value && !this.isNullOrWhiteSpace(this.value[this.itemValueField])) {
-            let selectedItem = this.items.find(item => {
-                return item[this.itemValueField] === this.value[this.itemValueField];
-            });
-
-            if (selectedItem) {
-                this.value = selectedItem;
-            }
-        }
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['items'] && this.items.length > 0) {
-            this.setValue(this.value);
-        }
     }
 }
