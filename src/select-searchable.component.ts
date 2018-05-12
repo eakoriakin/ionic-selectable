@@ -1,25 +1,31 @@
 import {
     Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges,
-    SimpleChanges, TemplateRef
+    SimpleChanges, TemplateRef, ContentChild
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
 import { SelectSearchablePage } from './select-searchable-page.component';
+import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
+import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
+import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
+import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
 
 @Component({
     selector: 'select-searchable',
     template: `
         <div class="select-searchable-label">
-            {{title}}
+            <div *ngIf="labelTemplate" [ngTemplateOutlet]="labelTemplate">
+            </div>
         </div>
         <div class="select-searchable-value">
-            <div *ngIf="valueTemplate && multiple"
+            <div *ngIf="valueTemplate && _valueItems.length && multiple"
                 [ngTemplateOutlet]="valueTemplate"
-                [ngTemplateOutletContext]="{ items: _valueItems }">
+                [ngTemplateOutletContext]="{ value: _valueItems }">
             </div>
-            <div class="select-searchable-value-item" *ngIf="valueTemplate && !multiple">
+            <div class="select-searchable-value-item"
+                *ngIf="valueTemplate && _valueItems.length && !multiple">
                 <div [ngTemplateOutlet]="valueTemplate"
-                    [ngTemplateOutletContext]="{ item: _valueItems[0] }">
+                    [ngTemplateOutletContext]="{ value: _valueItems[0] }">
                 </div>
             </div>
             <span *ngIf="!valueTemplate">
@@ -112,7 +118,6 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     }
     @Input() canReset = false;
     @Input() hasInfiniteScroll = false;
-    @Input() title: string;
     @Input() searchPlaceholder: string;
     @Output() onChange: EventEmitter<any> = new EventEmitter();
     @Output() onSearch: EventEmitter<any> = new EventEmitter();
@@ -123,8 +128,10 @@ export class SelectSearchable implements ControlValueAccessor, OnInit, OnDestroy
     @Input() noItemsFoundText = 'No items found.';
     @Input() resetButtonText = 'Clear';
     @Input() focusSearchbar = false;
-    @Input() itemTemplate: TemplateRef<any>;
-    @Input() valueTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableValueTemplateDirective, { read: TemplateRef }) valueTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableItemTemplateDirective, { read: TemplateRef }) itemTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableLabelTemplateDirective, { read: TemplateRef }) labelTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate: TemplateRef<any>;
 
     constructor(
         private modalController: ModalController,

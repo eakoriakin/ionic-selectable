@@ -55,13 +55,15 @@ export class AppModule { }
 ```
 <ion-item>
     <select-searchable
-        title="Port"
         [(ngModel)]="port"
         [items]="ports"
         itemValueField="id"
         itemTextField="name"
         [canSearch]="true"
         (onChange)="portChange($event)">
+        <ng-template selectSearchableLabelTemplate>
+            Port
+        </ng-template>
     </select-searchable>
 </ion-item>
 ```

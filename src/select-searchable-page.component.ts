@@ -7,7 +7,14 @@ import { SelectSearchable } from './select-searchable.component';
     template: `
         <ion-header>
             <ion-navbar>
-                <ion-title>{{selectComponent.title}}</ion-title>
+                <ion-title>
+                    <div *ngIf="selectComponent.titleTemplate"
+                        [ngTemplateOutlet]="selectComponent.titleTemplate">
+                    </div>
+                    <div *ngIf="!selectComponent.titleTemplate && selectComponent.labelTemplate"
+                        [ngTemplateOutlet]="labelTemplate">
+                    </div>
+                </ion-title>
                 <ion-buttons start>
                     <button ion-button (click)="close()">
                         <span ion-text color="primary" showWhen="ios">Cancel</span>
