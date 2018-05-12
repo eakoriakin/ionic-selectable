@@ -6,7 +6,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
     selector: 'select-searchable-page',
     template: `
         <ion-header>
-            <ion-navbar>
+            <ion-navbar [color]="selectComponent.headerColor ? selectComponent.headerColor : null">
                 <ion-title>
                     <div *ngIf="selectComponent.titleTemplate"
                         [ngTemplateOutlet]="selectComponent.titleTemplate">
@@ -17,7 +17,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 </ion-title>
                 <ion-buttons start>
                     <button ion-button (click)="close()">
-                        <span ion-text color="primary" showWhen="ios">
+                        <span ion-text showWhen="ios">
                             {{selectComponent.closeButtonText}}
                         </span>
                         <ion-icon name="md-close" hideWhen="ios"></ion-icon>
