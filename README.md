@@ -67,10 +67,10 @@ export class AppModule { }
     </select-searchable>
 </ion-item>
 ```
-3. Prepare your component file for `SelectSearchable`.
+3. Prepare your component file.
 ```
 import { Component } from '@angular/core';
-import { SelectSearchable } from 'ionic-select-searchable';
+import { SelectSearchableComponent } from 'ionic-select-searchable';
 
 class Port {
     public id: number;
@@ -92,7 +92,7 @@ export class HomePage {
         ];
     }
 
-    portChange(event: { component: SelectSearchable, value: any }) {
+    portChange(event: { component: SelectSearchableComponent, value: any }) {
         console.log('port:', event.value);
     }
 }
