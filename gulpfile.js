@@ -5,7 +5,9 @@ var gulp = require('gulp'),
     rollup = require('gulp-rollup'),
     rename = require('gulp-rename'),
     fs = require('fs-extra'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    sass = require('gulp-sass'),
+    header = require('gulp-header');
 // inlineResources = require('./tools/gulp/inline-resources');
 
 const rootFolder = path.join(__dirname);
@@ -183,6 +185,30 @@ gulp.task('copy:css', function () {
         .pipe(gulp.dest(distFolder));
 });
 
+gulp.task('copy-and-minify:css', function () {
+    return gulp.src([path.join(rootFolder, 'src/select-searchable.style.scss')])
+        // This is to create a minified CSS file in order to use in StackBlitz demos.
+        // This minified file isn't required for component to work.
+        .pipe(header('\
+            $select-ios-icon-color: #999;\
+            $select-md-icon-color: #999;\
+            $select-ios-padding-left: 16px;\
+            $select-md-padding-left: 16px;\
+            $label-md-text-color: #999;\
+            $content-margin: 16px !default;\
+        '))
+        .pipe(sass({
+            outputStyle: 'compressed'
+        }).on('error', function (error) {
+            console.log(error);
+            // This is necessary for the error not to stop build process.
+            this.emit('end');
+        }))
+        .pipe(rename('select-searchable.style.min.css'))
+        .pipe(gulp.dest(distFolder));
+});
+
+
 gulp.task('compile', function () {
     runSequence(
         'clean:dist',
@@ -195,6 +221,7 @@ gulp.task('compile', function () {
         'copy:manifest',
         'copy:readme',
         'copy:css',
+        'copy-and-minify:css',
         'clean:build',
         'clean:tmp',
         function (err) {

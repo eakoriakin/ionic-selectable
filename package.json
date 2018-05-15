@@ -48,5 +48,8 @@
         "docs:watch": "npm run docs:build -- -s -w",
         "lint": "tslint --type-check --project tsconfig.json src/**/*.ts"
     },
-    "dependencies": {}
+    "dependencies": {
+        "gulp-header": "2.0.5",
+        "gulp-sass": "4.0.1"
+    }
 }
