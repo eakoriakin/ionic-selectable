@@ -4,56 +4,43 @@
 [dt-image]: https://img.shields.io/npm/dt/ionic-select-searchable.svg
 
 # Ionic Select with Searchbar
-[![npm version][npm-image]][npm-url]
-[![npm dt][dt-image]][npm-url]
-[![npm dm][dm-image]][npm-url]
+[![npm][npm-image]][npm-url]
+[![npm][dt-image]][npm-url]
+[![npm][dm-image]][npm-url]
 
-An Ionic component similar to `ion-select`, that allows to search items, including async search and infinite scrolling.
+An Ionic component similar to `ion-select`, that allows to search items, including async search and infinite scrolling.  
+
+![iOS Demo](demo/ios.gif)
 
 # Contents
-* [Demo](#demo)
-* [Download](#download)
+* [Demo (GitHub)](https://github.com/eakoriakin/ionic-select-searchable-demo)
+* [Demo (Plunker)](http://plnkr.co/edit/YzCBKS?p=preview)
 * [Getting started](#getting-started)
 * [FAQ](#faq)
-* [API documentation](../../wiki/API-Documentation)
-* [Development](#development)
-
-## Demo
-* [GitHub demo app](https://github.com/eakoriakin/ionic-select-searchable-demo)
-* [Plunker](http://plnkr.co/edit/YzCBKS?p=preview)
-
-### iOS
-![iOS Demo 1](demo/ios-1.png)
-![iOS Demo 2](demo/ios-2.png)
-
-### Android
-![Android Demo 1](demo/android-1.png)
-![Android Demo 2](demo/android-2.png)
-
-## Download
-Download it using npm:
-
-`npm install ionic-select-searchable --save`
+* [Documentation](../../wiki/Documentation)
 
 ## Getting started
 
-1. Import `SelectSearchable` to your main app module.
+1. Install it.
+
+```
+npm install ionic-select-searchable --save
+```
+
+1. Import it.
 ```
 import { NgModule } from '@angular/core';
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 @NgModule({
-    ...
     imports: [
-        ...
         SelectSearchableModule
-    ],
-    ...
+    ]
 })
 export class AppModule { }
 
 ```
-2. Add `SelectSearchable` to your component template.
+2. Add it to template.
 ```
 <ion-item>
     <select-searchable
@@ -69,7 +56,7 @@ export class AppModule { }
     </select-searchable>
 </ion-item>
 ```
-3. Prepare your component file.
+3. Configure it.
 ```
 import { Component } from '@angular/core';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
@@ -111,19 +98,19 @@ import { LazyPage } from './lazy';
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 @NgModule({
-	declarations: [
-		LazyPage
-	],
-	imports: [
-		IonicPageModule.forChild(LazyPage),
-		SelectSearchableModule
-	]
+    declarations: [
+        LazyPage
+    ],
+    imports: [
+        IonicPageModule.forChild(LazyPage),
+        SelectSearchableModule
+    ]
 })
 export class LazyPageModule { }
 ```
 
 ### 2. What's the best way to handle a large amount of items? 
-Loading and responsiveness might get rather slow, when dealing with many items, e.g. a 1000 or more.
+Loading time and responsiveness of the component might get rather slow, when dealing with a lot of items, e.g. a 1000 or more.
 There are two ways to tackle it.
 
 **Async search**
@@ -138,4 +125,4 @@ Then more items is loaded bunch by bunch while user is scrolling down.
 See **Infinite scroll** passage in [demo](http://plnkr.co/edit/YzCBKS?p=preview).
 
 ## Support this project
-If you find this project useful, please star the repo to let people know that it's reliable. Also, share it with friends and colleagues that might find this useful as well. Thank you 😄
+If you find this component useful, please star the repo to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
