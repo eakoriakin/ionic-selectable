@@ -29,7 +29,6 @@ npm install ionic-select-searchable --save
 
 2. Import it.
 ```
-import { NgModule } from '@angular/core';
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 @NgModule({
@@ -58,7 +57,6 @@ export class AppModule { }
 ```
 4. Configure it.
 ```
-import { Component } from '@angular/core';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 
 class Port {
@@ -66,9 +64,7 @@ class Port {
     public name: string;
 }
 
-@Component({
-    ...
-})
+@Component({ ... })
 export class HomePage {
     ports: Port[];
     port: Port;
