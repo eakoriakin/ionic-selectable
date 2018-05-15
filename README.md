@@ -27,7 +27,7 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 npm install ionic-select-searchable --save
 ```
 
-1. Import it.
+2. Import it.
 ```
 import { NgModule } from '@angular/core';
 import { SelectSearchableModule } from 'ionic-select-searchable';
@@ -40,7 +40,7 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
 export class AppModule { }
 
 ```
-2. Add it to template.
+3. Add it to template.
 ```
 <ion-item>
     <select-searchable
@@ -56,7 +56,7 @@ export class AppModule { }
     </select-searchable>
 </ion-item>
 ```
-3. Configure it.
+4. Configure it.
 ```
 import { Component } from '@angular/core';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
