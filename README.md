@@ -1,10 +1,12 @@
 [npm-image]: https://img.shields.io/npm/v/ionic-select-searchable.svg
 [npm-url]: https://npmjs.org/package/ionic-select-searchable
-[downloads-image]: https://img.shields.io/npm/dm/ionic-select-searchable.svg
+[dm-image]: https://img.shields.io/npm/dm/ionic-select-searchable.svg
+[dt-image]: https://img.shields.io/npm/dt/ionic-select-searchable.svg
 
 # Ionic Select with Searchbar
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][npm-url]
+[![npm][npm-image]][npm-url]
+[![npm][dt-image]][npm-url]
+[![npm][dm-image]][npm-url]
 
 An Ionic component similar to `ion-select`, that allows to search items, including async search and infinite scrolling.
 
