@@ -13,8 +13,8 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 ![iOS Demo](demo/ios.gif)
 
 # Contents
+* [Demo (Live)](https://stackblitz.com/edit/ionic-select-searchable-basic?file=pages%2Fhome%2Fhome.html)
 * [Demo (GitHub)](https://github.com/eakoriakin/ionic-select-searchable-demo)
-* [Demo (Live)](https://ionic-select-searchable-basic.stackblitz.io)
 * [Getting started](#getting-started)
 * [FAQ](#faq)
 * [Documentation](../../wiki/Documentation)
