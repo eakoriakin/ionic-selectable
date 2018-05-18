@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { NavParams, Searchbar, InfiniteScroll, ViewController } from 'ionic-angular';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { InfiniteScroll, NavParams, Searchbar, ViewController } from 'ionic-angular';
 import { SelectSearchableComponent } from './select-searchable.component';
 
 @Component({
@@ -219,8 +219,10 @@ export class SelectSearchablePageComponent implements AfterViewInit {
                 let filterText = this.selectComponent.filterText.trim().toLowerCase();
 
                 items = this.selectComponent.items.filter(item => {
-                    return (this.selectComponent.itemTextField ? item[this.selectComponent.itemTextField] : item)
-                        .toLowerCase().indexOf(filterText) !== -1;
+                    let itemText = this.selectComponent.itemTextField ?
+                        item[this.selectComponent.itemTextField] : item.toString().toLowerCase();
+
+                    return itemText.indexOf(filterText) !== -1;
                 });
             }
 
