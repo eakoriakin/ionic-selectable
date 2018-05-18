@@ -1,14 +1,11 @@
-import {
-    Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy, forwardRef, HostListener, OnChanges,
-    SimpleChanges, TemplateRef, ContentChild
-} from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Item, Form, Platform, InfiniteScroll, ModalController, Modal } from 'ionic-angular';
-import { SelectSearchablePageComponent } from './select-searchable-page.component';
-import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
+import { Component, ContentChild, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
+import { SelectSearchablePageComponent } from './select-searchable-page.component';
 import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
+import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
 
 @Component({
     selector: 'select-searchable',
@@ -277,6 +274,16 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             });
             self._modal.present().then(() => {
                 resolve();
+            });
+            self._modal.onDidDismiss((data, role) => {
+                self._isOpened = false;
+
+                // Closed by clicking on backdrop outside modal.
+                if (role === 'backdrop') {
+                    self.onClose.emit({
+                        component: self
+                    });
+                }
             });
         });
     }
