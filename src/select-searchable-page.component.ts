@@ -219,8 +219,8 @@ export class SelectSearchablePageComponent implements AfterViewInit {
                 let filterText = this.selectComponent.filterText.trim().toLowerCase();
 
                 items = this.selectComponent.items.filter(item => {
-                    let itemText = this.selectComponent.itemTextField ?
-                        item[this.selectComponent.itemTextField] : item.toString().toLowerCase();
+                    let itemText = (this.selectComponent.itemTextField ?
+                        item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
 
                     return itemText.indexOf(filterText) !== -1;
                 });
