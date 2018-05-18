@@ -13,8 +13,8 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 ![iOS Demo](demo/ios.gif)
 
 # Contents
+* [Demo (Live)](https://stackblitz.com/edit/ionic-select-searchable-basic?file=pages%2Fhome%2Fhome.html)
 * [Demo (GitHub)](https://github.com/eakoriakin/ionic-select-searchable-demo)
-* [Demo (Live)](https://ionic-select-searchable-basic.stackblitz.io)
 * [Getting started](#getting-started)
 * [FAQ](#faq)
 * [Documentation](../../wiki/Documentation)
@@ -27,9 +27,8 @@ An Ionic component similar to `ion-select`, that allows to search items, includi
 npm install ionic-select-searchable --save
 ```
 
-1. Import it.
+2. Import it.
 ```
-import { NgModule } from '@angular/core';
 import { SelectSearchableModule } from 'ionic-select-searchable';
 
 @NgModule({
@@ -40,7 +39,7 @@ import { SelectSearchableModule } from 'ionic-select-searchable';
 export class AppModule { }
 
 ```
-2. Add it to template.
+3. Add it to template.
 ```
 <ion-item>
     <select-searchable
@@ -56,9 +55,8 @@ export class AppModule { }
     </select-searchable>
 </ion-item>
 ```
-3. Configure it.
+4. Configure it.
 ```
-import { Component } from '@angular/core';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 
 class Port {
@@ -66,9 +64,7 @@ class Port {
     public name: string;
 }
 
-@Component({
-    ...
-})
+@Component({ ... })
 export class HomePage {
     ports: Port[];
     port: Port;
