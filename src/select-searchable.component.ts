@@ -100,6 +100,9 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         this._isEnabled = !!isEnabled;
         this.enableIonItem(this._isEnabled);
     }
+    get isOpened(): boolean {
+        return this._isOpened;
+    }
     @Input()
     itemValueField: string;
     @Input()
@@ -286,9 +289,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         let self = this;
 
         return new Promise(function (resolve, reject) {
-            if (self._isOpened) {
-                // Don't use reject() as if throws an error.
-                resolve();
+            if (!self._isEnabled || self._isOpened) {
+                reject('SelectSearchable is disabled or already opened.');
                 return;
             }
 
@@ -316,9 +318,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         let self = this;
 
         return new Promise(function (resolve, reject) {
-            if (!self._isOpened) {
-                // Don't use reject() as if throws an error.
-                resolve();
+            if (!self._isEnabled || !self._isOpened) {
+                reject('SelectSearchable is disabled or already closed.');
                 return;
             }
 
