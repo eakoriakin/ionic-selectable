@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { InfiniteScroll, NavParams, Searchbar, ViewController } from 'ionic-angular';
+import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { InfiniteScroll, NavParams, Platform, Searchbar, ViewController } from 'ionic-angular';
 import { SelectSearchableComponent } from './select-searchable.component';
 
 @Component({
@@ -24,13 +24,17 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     </button>
                 </ion-buttons>
             </ion-navbar>
-            <ion-toolbar *ngIf="selectComponent.canSearch">
+            <ion-toolbar *ngIf="selectComponent.canSearch || selectComponent.messageTemplate">
                 <ion-searchbar
                     #searchbarComponent
                     [(ngModel)]="selectComponent.filterText"
                     (ionInput)="filterItems()"
                     [placeholder]="selectComponent.searchPlaceholder || 'Search'">
                 </ion-searchbar>
+                <div class="select-searchable-page-message" *ngIf="selectComponent.messageTemplate">
+                    <div [ngTemplateOutlet]="selectComponent.messageTemplate">
+                    </div>
+                </div>
             </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -79,24 +83,38 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 </ion-row>
             </ion-toolbar>
         </ion-footer>
-    `,
-    host: {
-        'class': 'select-searchable-page',
-        '[class.select-searchable-page-can-reset]': 'selectComponent.canReset',
-        '[class.select-searchable-page-multiple]': 'selectComponent.multiple',
-        '[class.select-searchable-page-is-searching]': 'selectComponent.isSearching'
-    }
+    `
 })
-export class SelectSearchablePageComponent implements AfterViewInit {
+export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
+    @HostBinding('class.select-searchable-page')
+    private _cssClass = true;
+    @HostBinding('class.select-searchable-page-can-reset')
+    private get _canResetCssClass(): boolean {
+        return this.selectComponent.canReset;
+    }
+    @HostBinding('class.select-searchable-page-is-multiple')
+    private get _isMultipleCssClass(): boolean {
+        return this.selectComponent.multiple;
+    }
+    @HostBinding('class.select-searchable-page-is-searching')
+    private get _isSearchingCssClass(): boolean {
+        return this.selectComponent.isSearching;
+    }
+    @HostBinding('class.select-searchable-page-ios')
+    private _isIos: boolean;
+    @HostBinding('class.select-searchable-page-md')
+    private _isMD: boolean;
     selectComponent: SelectSearchableComponent;
     filteredItems: any[];
     selectedItems: any[] = [];
     infiniteScroll: InfiniteScroll;
-    @ViewChild('searchbarComponent') searchbarComponent: Searchbar;
+    @ViewChild('searchbarComponent')
+    searchbarComponent: Searchbar;
 
     constructor(
         private navParams: NavParams,
-        private viewController: ViewController
+        private viewController: ViewController,
+        private platform: Platform
     ) {
         this.selectComponent = this.navParams.get('selectComponent');
         this.filteredItems = this.selectComponent.items;
@@ -111,6 +129,11 @@ export class SelectSearchablePageComponent implements AfterViewInit {
                 this.selectedItems.push(this.selectComponent.value);
             }
         }
+    }
+
+    ngOnInit() {
+        this._isIos = this.platform.is('ios');
+        this._isMD = !this._isIos;
     }
 
     ngAfterViewInit() {

@@ -1,8 +1,9 @@
-import { Component, ContentChild, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
+import { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
 import { SelectSearchablePageComponent } from './select-searchable-page.component';
 import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
 import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
@@ -40,19 +41,16 @@ import { SelectSearchableValueTemplateDirective } from './select-searchable-valu
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => SelectSearchableComponent),
         multi: true
-    }],
-    host: {
-        'class': 'select-searchable',
-        '[class.select-searchable-ios]': '_isIos',
-        '[class.select-searchable-md]': '_isMd',
-        '[class.select-searchable-can-reset]': 'canReset',
-        '[class.select-searchable-is-enabled]': 'isEnabled'
-    }
+    }]
 })
 export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+    @HostBinding('class.select-searchable')
+    private _cssClass = true;
     private _items: any[] = [];
+    @HostBinding('class.select-searchable-ios')
     private _isIos: boolean;
-    private _isMd: boolean;
+    @HostBinding('class.select-searchable-md')
+    private _isMD: boolean;
     private _useSearch = true;
     private _isEnabled = true;
     private _isOpened = false;
@@ -91,7 +89,9 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         // Add new items to the array.
         Array.prototype.push.apply(this._items, items);
     }
-    @Input() isSearching: boolean;
+    @Input()
+    isSearching: boolean;
+    @HostBinding('class.select-searchable-is-enabled')
     @Input('isEnabled')
     get isEnabled(): boolean {
         return this._isEnabled;
@@ -100,9 +100,12 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         this._isEnabled = !!isEnabled;
         this.enableIonItem(this._isEnabled);
     }
-    @Input() itemValueField: string;
-    @Input() itemTextField: string;
-    @Input() canSearch = false;
+    @Input()
+    itemValueField: string;
+    @Input()
+    itemTextField: string;
+    @Input()
+    canSearch = false;
     @Input('useSearch')
     get useSearch(): boolean {
         return this._useSearch;
@@ -110,24 +113,45 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     set useSearch(useSearch: boolean) {
         this._useSearch = !!useSearch;
     }
-    @Input() canReset = false;
-    @Input() hasInfiniteScroll = false;
-    @Input() searchPlaceholder: string;
-    @Input() multiple: boolean;
-    @Input() noItemsFoundText = 'No items found.';
-    @Input() resetButtonText = 'Clear';
-    @Input() closeButtonText = 'Cancel';
-    @Input() focusSearchbar = false;
-    @Input() headerColor: string;
-    @Output() onChange: EventEmitter<any> = new EventEmitter();
-    @Output() onSearch: EventEmitter<any> = new EventEmitter();
-    @Output() onInfiniteScroll: EventEmitter<any> = new EventEmitter();
-    @Output() onOpen: EventEmitter<any> = new EventEmitter();
-    @Output() onClose: EventEmitter<any> = new EventEmitter();
-    @ContentChild(SelectSearchableValueTemplateDirective, { read: TemplateRef }) valueTemplate: TemplateRef<any>;
-    @ContentChild(SelectSearchableItemTemplateDirective, { read: TemplateRef }) itemTemplate: TemplateRef<any>;
-    @ContentChild(SelectSearchableLabelTemplateDirective, { read: TemplateRef }) labelTemplate: TemplateRef<any>;
-    @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef }) titleTemplate: TemplateRef<any>;
+    @HostBinding('class.select-searchable-can-reset')
+    @Input()
+    canReset = false;
+    @Input()
+    hasInfiniteScroll = false;
+    @Input()
+    searchPlaceholder: string;
+    @Input()
+    multiple: boolean;
+    @Input()
+    noItemsFoundText = 'No items found.';
+    @Input()
+    resetButtonText = 'Clear';
+    @Input()
+    closeButtonText = 'Cancel';
+    @Input()
+    focusSearchbar = false;
+    @Input()
+    headerColor: string;
+    @Output()
+    onChange: EventEmitter<any> = new EventEmitter();
+    @Output()
+    onSearch: EventEmitter<any> = new EventEmitter();
+    @Output()
+    onInfiniteScroll: EventEmitter<any> = new EventEmitter();
+    @Output()
+    onOpen: EventEmitter<any> = new EventEmitter();
+    @Output()
+    onClose: EventEmitter<any> = new EventEmitter();
+    @ContentChild(SelectSearchableValueTemplateDirective, { read: TemplateRef })
+    valueTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableItemTemplateDirective, { read: TemplateRef })
+    itemTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableLabelTemplateDirective, { read: TemplateRef })
+    labelTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef })
+    titleTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableMessageTemplateDirective, { read: TemplateRef })
+    messageTemplate: TemplateRef<any>;
 
     constructor(
         private modalController: ModalController,
@@ -222,7 +246,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
 
     ngOnInit() {
         this._isIos = this.platform.is('ios');
-        this._isMd = this.platform.is('android');
+        this._isMD = !this._isIos;
         this.ionForm.register(this);
 
         if (this.ionItem) {
