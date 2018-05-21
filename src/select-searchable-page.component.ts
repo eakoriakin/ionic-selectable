@@ -27,7 +27,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
             <ion-toolbar *ngIf="selectComponent.canSearch || selectComponent.messageTemplate">
                 <ion-searchbar
                     #searchbarComponent
-                    [(ngModel)]="selectComponent.filterText"
+                    [(ngModel)]="selectComponent._filterText"
                     (ionInput)="filterItems()"
                     [placeholder]="selectComponent.searchPlaceholder || 'Search'">
                 </ion-searchbar>
@@ -49,13 +49,18 @@ import { SelectSearchableComponent } from './select-searchable.component';
                         [color]="isItemSelected(item) ? 'primary' : 'daek'"
                         item-left>
                     </ion-icon>
-                    <h2 *ngIf="selectComponent.itemTemplate"
+                    <div *ngIf="selectComponent.itemTemplate"
                         [ngTemplateOutlet]="selectComponent.itemTemplate"
                         [ngTemplateOutletContext]="{ item: item }">
-                    </h2>
-                    <h2 *ngIf="!selectComponent.itemTemplate">
+                    </div>
+                    <div *ngIf="!selectComponent.itemTemplate">
                         {{selectComponent._formatItem(item)}}
-                    </h2>
+                    </div>
+                    <div *ngIf="selectComponent.itemRightTemplate" item-right>
+                        <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+                            [ngTemplateOutletContext]="{ item: item }">
+                        </div>
+                    </div>
                 </button>
             </ion-list>
             <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
@@ -76,8 +81,9 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     <ion-col no-padding *ngIf="selectComponent.multiple"
                         [attr.col-6]="selectComponent.canReset && selectComponent.multiple ? '' : null"
                         [attr.col-12]="!selectComponent.canReset && selectComponent.multiple ? '' : null">
-                        <button ion-button full no-margin (click)="ok()">
-                            OK
+                        <button ion-button full no-margin (click)="ok()"
+                            [disabled]="!selectComponent.isOkButtonEnabled">
+                            {{selectComponent.okButtonText}}
                         </button>
                     </ion-col>
                 </ion-row>
@@ -129,6 +135,13 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
                 this.selectedItems.push(this.selectComponent.value);
             }
         }
+
+        this.setToBeSelectedItems(this.selectedItems);
+    }
+
+    private setToBeSelectedItems(items: any[]) {
+        // Return a copy of original array, so it couldn't be changed from outside.
+        this.selectComponent._toBeSelectedItems = [].concat(items);
     }
 
     ngOnInit() {
@@ -182,6 +195,8 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             } else {
                 this.addSelectedItem(item);
             }
+
+            this.setToBeSelectedItems(this.selectedItems);
         } else {
             if (!this.isItemSelected(item)) {
                 this.selectedItems = [];
@@ -213,7 +228,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             });
 
             if (!this.selectComponent._hasSearch()) {
-                this.selectComponent.filterText = '';
+                this.selectComponent._filterText = '';
             }
         });
     }
@@ -236,10 +251,10 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             let items = [];
 
             // Default filtering.
-            if (!this.selectComponent.filterText || !this.selectComponent.filterText.trim()) {
+            if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
                 items = this.selectComponent.items;
             } else {
-                let filterText = this.selectComponent.filterText.trim().toLowerCase();
+                let filterText = this.selectComponent._filterText.trim().toLowerCase();
 
                 items = this.selectComponent.items.filter(item => {
                     let itemText = (this.selectComponent.itemTextField ?
@@ -261,7 +276,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this.selectComponent.onInfiniteScroll.emit({
             component: this.selectComponent,
             infiniteScroll: infiniteScroll,
-            text: this.selectComponent.filterText
+            text: this.selectComponent._filterText
         });
     }
 }

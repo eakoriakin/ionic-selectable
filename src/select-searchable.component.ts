@@ -1,6 +1,7 @@
 import { Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
+import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
 import { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
@@ -57,7 +58,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _valueItems: any[] = [];
     private _value: any = null;
     private _modal: Modal;
-    filterText = '';
+    _filterText = '';
+    _toBeSelectedItems: any[] = [];
     get value(): any {
         return this._value;
     }
@@ -103,6 +105,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     get isOpened(): boolean {
         return this._isOpened;
     }
+    @Input('isOkButtonEnabled')
+    isOkButtonEnabled = true;
     @Input()
     itemValueField: string;
     @Input()
@@ -130,6 +134,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     resetButtonText = 'Clear';
     @Input()
+    okButtonText = 'OK';
+    @Input()
     closeButtonText = 'Cancel';
     @Input()
     focusSearchbar = false;
@@ -149,12 +155,17 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     valueTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableItemTemplateDirective, { read: TemplateRef })
     itemTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableItemRightTemplateDirective, { read: TemplateRef })
+    itemRightTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableLabelTemplateDirective, { read: TemplateRef })
     labelTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableTitleTemplateDirective, { read: TemplateRef })
     titleTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableMessageTemplateDirective, { read: TemplateRef })
     messageTemplate: TemplateRef<any>;
+    get toBeSelectedItems(): any[] {
+        return this._toBeSelectedItems;
+    }
 
     constructor(
         private modalController: ModalController,
@@ -219,7 +230,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         this.onSearch.emit({
             component: this,
             infiniteScroll: infiniteScroll,
-            text: this.filterText
+            text: this._filterText
         });
     }
 
@@ -304,6 +315,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             self._modal.onDidDismiss((data, role) => {
                 self._isOpened = false;
 
+                if (self.multiple) {
+                    self._toBeSelectedItems = [];
+                }
+
                 // Closed by clicking on backdrop outside modal.
                 if (role === 'backdrop') {
                     self.onClose.emit({
@@ -332,5 +347,9 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
 
     public reset() {
         this.setValue(this.multiple ? [] : null);
+
+        if (this.multiple) {
+            this._toBeSelectedItems = [];
+        }
     }
 }
