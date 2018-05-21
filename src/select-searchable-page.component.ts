@@ -26,6 +26,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
             </ion-navbar>
             <ion-toolbar *ngIf="selectComponent.canSearch || selectComponent.messageTemplate">
                 <ion-searchbar
+                    *ngIf="selectComponent.canSearch"
                     #searchbarComponent
                     [(ngModel)]="selectComponent._filterText"
                     (ionInput)="filterItems()"
