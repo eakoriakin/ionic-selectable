@@ -68,19 +68,19 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
         </ion-content>
-        <ion-footer *ngIf="selectComponent.canReset || selectComponent.multiple">
+        <ion-footer *ngIf="selectComponent.canReset || selectComponent.isMultiple">
             <ion-toolbar padding>
                 <ion-row>
                     <ion-col no-padding *ngIf="selectComponent.canReset"
-                        [attr.col-6]="selectComponent.canReset && selectComponent.multiple ? '' : null"
-                        [attr.col-12]="selectComponent.canReset && !selectComponent.multiple ? '' : null">
+                        [attr.col-6]="selectComponent.canReset && selectComponent.isMultiple ? '' : null"
+                        [attr.col-12]="selectComponent.canReset && !selectComponent.isMultiple ? '' : null">
                         <button ion-button full no-margin (click)="reset()" [disabled]="!selectedItems.length">
                             {{selectComponent.resetButtonText}}
                         </button>
                     </ion-col>
-                    <ion-col no-padding *ngIf="selectComponent.multiple"
-                        [attr.col-6]="selectComponent.canReset && selectComponent.multiple ? '' : null"
-                        [attr.col-12]="!selectComponent.canReset && selectComponent.multiple ? '' : null">
+                    <ion-col no-padding *ngIf="selectComponent.isMultiple"
+                        [attr.col-6]="selectComponent.canReset && selectComponent.isMultiple ? '' : null"
+                        [attr.col-12]="!selectComponent.canReset && selectComponent.isMultiple ? '' : null">
                         <button ion-button full no-margin (click)="ok()"
                             [disabled]="!selectComponent.isOkButtonEnabled">
                             {{selectComponent.okButtonText}}
@@ -100,7 +100,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     }
     @HostBinding('class.select-searchable-page-is-multiple')
     private get _isMultipleCssClass(): boolean {
-        return this.selectComponent.multiple;
+        return this.selectComponent.isMultiple;
     }
     @HostBinding('class.select-searchable-page-is-searching')
     private get _isSearchingCssClass(): boolean {
@@ -127,7 +127,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this.filterItems();
 
         if (this.selectComponent.value) {
-            if (this.selectComponent.multiple) {
+            if (this.selectComponent.isMultiple) {
                 this.selectComponent.value.forEach(item => {
                     this.selectedItems.push(item);
                 });
@@ -136,12 +136,12 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             }
         }
 
-        this.setToBeSelectedItems(this.selectedItems);
+        this._setItemsToConfirm(this.selectedItems);
     }
 
-    private setToBeSelectedItems(items: any[]) {
+    private _setItemsToConfirm(items: any[]) {
         // Return a copy of original array, so it couldn't be changed from outside.
-        this.selectComponent._toBeSelectedItems = [].concat(items);
+        this.selectComponent._itemsToConfirm = [].concat(items);
     }
 
     ngOnInit() {
@@ -189,14 +189,14 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     }
 
     select(item: any) {
-        if (this.selectComponent.multiple) {
+        if (this.selectComponent.isMultiple) {
             if (this.isItemSelected(item)) {
                 this.deleteSelectedItem(item);
             } else {
                 this.addSelectedItem(item);
             }
 
-            this.setToBeSelectedItems(this.selectedItems);
+            this._setItemsToConfirm(this.selectedItems);
         } else {
             if (!this.isItemSelected(item)) {
                 this.selectedItems = [];

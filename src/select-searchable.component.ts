@@ -17,12 +17,12 @@ import { SelectSearchableValueTemplateDirective } from './select-searchable-valu
             </div>
         </div>
         <div class="select-searchable-value">
-            <div *ngIf="valueTemplate && _valueItems.length && multiple"
+            <div *ngIf="valueTemplate && _valueItems.length && isMultiple"
                 [ngTemplateOutlet]="valueTemplate"
                 [ngTemplateOutletContext]="{ value: _valueItems }">
             </div>
             <div class="select-searchable-value-item"
-                *ngIf="valueTemplate && _valueItems.length && !multiple">
+                *ngIf="valueTemplate && _valueItems.length && !isMultiple">
                 <div [ngTemplateOutlet]="valueTemplate"
                     [ngTemplateOutletContext]="{ value: _valueItems[0] }">
                 </div>
@@ -59,7 +59,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _value: any = null;
     private _modal: Modal;
     _filterText = '';
-    _toBeSelectedItems: any[] = [];
+    _itemsToConfirm: any[] = [];
     get value(): any {
         return this._value;
     }
@@ -69,7 +69,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         // Set value items.
         this._valueItems.splice(0, this._valueItems.length);
 
-        if (this.multiple) {
+        if (this.isMultiple) {
             if (value && value.length) {
                 Array.prototype.push.apply(this._valueItems, value);
             }
@@ -128,7 +128,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     searchPlaceholder: string;
     @Input()
-    multiple: boolean;
+    isMultiple: boolean;
     @Input()
     noItemsFoundText = 'No items found.';
     @Input()
@@ -163,8 +163,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     titleTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableMessageTemplateDirective, { read: TemplateRef })
     messageTemplate: TemplateRef<any>;
-    get toBeSelectedItems(): any[] {
-        return this._toBeSelectedItems;
+    get itemsToConfirm(): any[] {
+        return this._itemsToConfirm;
     }
 
     constructor(
@@ -214,7 +214,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _select(selectedItem: any) {
-        this.value = this.multiple ? selectedItem || [] : selectedItem;
+        this.value = this.isMultiple ? selectedItem || [] : selectedItem;
         this._emitChange();
     }
 
@@ -315,8 +315,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             self._modal.onDidDismiss((data, role) => {
                 self._isOpened = false;
 
-                if (self.multiple) {
-                    self._toBeSelectedItems = [];
+                if (self.isMultiple) {
+                    self._itemsToConfirm = [];
                 }
 
                 // Closed by clicking on backdrop outside modal.
@@ -346,10 +346,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     public reset() {
-        this.setValue(this.multiple ? [] : null);
+        this.setValue(this.isMultiple ? [] : null);
 
-        if (this.multiple) {
-            this._toBeSelectedItems = [];
+        if (this.isMultiple) {
+            this._itemsToConfirm = [];
         }
     }
 }
