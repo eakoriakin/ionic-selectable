@@ -112,13 +112,13 @@ There are two ways to tackle it.
 **Async search**
  
 In this case no items are loaded and displayed initially. Items will be added while user is typing to search.  
-See **Search (Async)** passage in [demo](http://plnkr.co/edit/YzCBKS?p=preview).
+See [demo](https://stackblitz.com/edit/ionic-select-searchable-on-search).
  
 **Infinite scroll**
  
 Initially only the first bunch of items is loaded and displayed, for example we can show only the first 20 items.  
 Then more items is loaded bunch by bunch while user is scrolling down.  
-See **Infinite scroll** passage in [demo](http://plnkr.co/edit/YzCBKS?p=preview).
+See [demo](https://stackblitz.com/edit/ionic-select-searchable-infinite-scroll).
 
 ## Support this project
 If you find this component useful, please star the repo to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
