@@ -29,7 +29,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     *ngIf="selectComponent.canSearch"
                     #searchbarComponent
                     [(ngModel)]="selectComponent._filterText"
-                    (ionInput)="filterItems()"
+                    (ionInput)="_filterItems()"
                     [placeholder]="selectComponent.searchPlaceholder || 'Search'"
                     [debounce]="selectComponent.searchDebounce">
                 </ion-searchbar>
@@ -45,10 +45,16 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 <ion-spinner></ion-spinner>
             </div>
             <ion-list no-margin *ngIf="filteredItems.length">
-                <button ion-item detail-none *ngFor="let item of filteredItems" (click)="select(item)">
+                <button ion-item detail-none *ngFor="let item of filteredItems" (click)="select(item)"
+                    class="select-searchable-item"
+                    [ngClass]="{
+                        'select-searchable-item-is-selected': _isItemSelected(item),
+                        'select-searchable-item-is-disabled': !_isItemEnabled(item)
+                    }"
+                    [disabled]="!_isItemEnabled(item)">
                     <ion-icon
-                        [name]="isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
-                        [color]="isItemSelected(item) ? 'primary' : 'daek'"
+                        [name]="_isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
+                        [color]="_isItemSelected(item) ? 'primary' : 'daek'"
                         item-left>
                     </ion-icon>
                     <div *ngIf="selectComponent.itemTemplate"
@@ -66,7 +72,8 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 </button>
             </ion-list>
             <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
-            <ion-infinite-scroll [enabled]="selectComponent.hasInfiniteScroll" (ionInfinite)="getMoreItems($event)">
+            <ion-infinite-scroll [enabled]="selectComponent.hasInfiniteScroll"
+                (ionInfinite)="_getMoreItems($event)">
                 <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
         </ion-content>
@@ -128,7 +135,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this.selectComponent = this.navParams.get('selectComponent');
         this.selectComponent._selectPageComponent = this;
         this.filteredItems = this.selectComponent.items;
-        this.filterItems();
+        this._filterItems();
 
         if (this.selectComponent.value) {
             if (this.selectComponent.isMultiple) {
@@ -162,7 +169,11 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }
     }
 
-    isItemSelected(item: any) {
+    _isItemEnabled(item: any): boolean {
+        return Boolean(!this.selectComponent.isItemEnabled || this.selectComponent.isItemEnabled(item));
+    }
+
+    _isItemSelected(item: any) {
         return this.selectedItems.find(selectedItem => {
             if (this.selectComponent.itemValueField) {
                 return item[this.selectComponent.itemValueField] === selectedItem[this.selectComponent.itemValueField];
@@ -172,7 +183,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }) !== undefined;
     }
 
-    deleteSelectedItem(item: any) {
+    _deleteSelectedItem(item: any) {
         let itemToDeleteIndex;
 
         this.selectedItems.forEach((selectedItem, itemIndex) => {
@@ -188,23 +199,23 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this.selectedItems.splice(itemToDeleteIndex, 1);
     }
 
-    addSelectedItem(item: any) {
+    _addSelectedItem(item: any) {
         this.selectedItems.push(item);
     }
 
     select(item: any) {
         if (this.selectComponent.isMultiple) {
-            if (this.isItemSelected(item)) {
-                this.deleteSelectedItem(item);
+            if (this._isItemSelected(item)) {
+                this._deleteSelectedItem(item);
             } else {
-                this.addSelectedItem(item);
+                this._addSelectedItem(item);
             }
 
             this._setItemsToConfirm(this.selectedItems);
         } else {
-            if (!this.isItemSelected(item)) {
+            if (!this._isItemSelected(item)) {
                 this.selectedItems = [];
-                this.addSelectedItem(item);
+                this._addSelectedItem(item);
                 this.selectComponent._select(item);
             }
 
@@ -247,7 +258,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         });
     }
 
-    filterItems() {
+    _filterItems() {
         if (this.selectComponent._hasSearch()) {
             // Delegate filtering to the event.
             this.selectComponent._emitSearch(this.infiniteScroll);
@@ -272,7 +283,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }
     }
 
-    getMoreItems(infiniteScroll: InfiniteScroll) {
+    _getMoreItems(infiniteScroll: InfiniteScroll) {
         // TODO: Try to get infiniteScroll via ViewChild. Maybe it works in a newer Ionic version.
         // For now assign it here.
         this.infiniteScroll = infiniteScroll;
