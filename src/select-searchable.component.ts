@@ -167,6 +167,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     get itemsToConfirm(): any[] {
         return this._itemsToConfirm;
     }
+    @Input()
+    searchDebounce: Number = 250;
 
     constructor(
         private modalController: ModalController,

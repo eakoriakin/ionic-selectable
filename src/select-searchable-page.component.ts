@@ -30,7 +30,8 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     #searchbarComponent
                     [(ngModel)]="selectComponent._filterText"
                     (ionInput)="filterItems()"
-                    [placeholder]="selectComponent.searchPlaceholder || 'Search'">
+                    [placeholder]="selectComponent.searchPlaceholder || 'Search'"
+                    [debounce]="selectComponent.searchDebounce">
                 </ion-searchbar>
                 <div class="select-searchable-page-message" *ngIf="selectComponent.messageTemplate">
                     <div [ngTemplateOutlet]="selectComponent.messageTemplate">
