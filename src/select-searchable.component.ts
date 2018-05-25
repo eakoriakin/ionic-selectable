@@ -60,6 +60,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _modal: Modal;
     _filterText = '';
     _itemsToConfirm: any[] = [];
+    _selectPageComponent: SelectSearchablePageComponent;
     get value(): any {
         return this._value;
     }
@@ -351,5 +352,35 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         if (this.isMultiple) {
             this._itemsToConfirm = [];
         }
+    }
+
+    public scrollToTop(): Promise<any> {
+        let self = this;
+
+        return new Promise(function (resolve, reject) {
+            if (!self._isOpened) {
+                reject('SelectSearchable content cannot be scrolled.');
+                return;
+            }
+
+            self._selectPageComponent._content.scrollToTop().then(() => {
+                resolve();
+            });
+        });
+    }
+
+    public scrollToBottom(): Promise<any> {
+        let self = this;
+
+        return new Promise(function (resolve, reject) {
+            if (!self._isOpened) {
+                reject('SelectSearchable content cannot be scrolled.');
+                return;
+            }
+
+            self._selectPageComponent._content.scrollToBottom().then(() => {
+                resolve();
+            });
+        });
     }
 }

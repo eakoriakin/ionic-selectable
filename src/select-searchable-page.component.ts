@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScroll, NavParams, Platform, Searchbar, ViewController } from 'ionic-angular';
+import { Content, InfiniteScroll, NavParams, Platform, Searchbar, ViewController } from 'ionic-angular';
 import { SelectSearchableComponent } from './select-searchable.component';
 
 @Component({
@@ -117,6 +117,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     infiniteScroll: InfiniteScroll;
     @ViewChild('searchbarComponent')
     searchbarComponent: Searchbar;
+    @ViewChild(Content) _content: Content;
 
     constructor(
         private navParams: NavParams,
@@ -124,6 +125,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         private platform: Platform
     ) {
         this.selectComponent = this.navParams.get('selectComponent');
+        this.selectComponent._selectPageComponent = this;
         this.filteredItems = this.selectComponent.items;
         this.filterItems();
 
