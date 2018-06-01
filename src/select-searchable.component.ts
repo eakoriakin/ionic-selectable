@@ -12,10 +12,6 @@ import { SelectSearchableValueTemplateDirective } from './select-searchable-valu
 @Component({
     selector: 'select-searchable',
     template: `
-        <div class="select-searchable-label">
-            <div *ngIf="labelTemplate" [ngTemplateOutlet]="labelTemplate">
-            </div>
-        </div>
         <div class="select-searchable-value">
             <div *ngIf="valueTemplate && _valueItems.length && isMultiple"
                 [ngTemplateOutlet]="valueTemplate"
