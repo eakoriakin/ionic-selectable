@@ -170,7 +170,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     searchDebounce: Number = 250;
     @Input()
-    isItemEnabled: Function;
+    disabledItems: any[] = [];
 
     constructor(
         private modalController: ModalController,

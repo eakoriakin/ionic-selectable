@@ -49,9 +49,9 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     class="select-searchable-item"
                     [ngClass]="{
                         'select-searchable-item-is-selected': _isItemSelected(item),
-                        'select-searchable-item-is-disabled': !_isItemEnabled(item)
+                        'select-searchable-item-is-disabled': _isItemDisabled(item)
                     }"
-                    [disabled]="!_isItemEnabled(item)">
+                    [disabled]="_isItemDisabled(item)">
                     <ion-icon
                         [name]="_isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
                         [color]="_isItemSelected(item) ? 'primary' : 'daek'"
@@ -150,11 +150,6 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this._setItemsToConfirm(this.selectedItems);
     }
 
-    private _setItemsToConfirm(items: any[]) {
-        // Return a copy of original array, so it couldn't be changed from outside.
-        this.selectComponent._itemsToConfirm = [].concat(items);
-    }
-
     ngOnInit() {
         this._isIos = this.platform.is('ios');
         this._isMD = !this._isIos;
@@ -169,11 +164,27 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }
     }
 
-    _isItemEnabled(item: any): boolean {
-        return Boolean(!this.selectComponent.isItemEnabled || this.selectComponent.isItemEnabled(item));
+    private _setItemsToConfirm(items: any[]) {
+        // Return a copy of original array, so it couldn't be changed from outside.
+        this.selectComponent._itemsToConfirm = [].concat(items);
     }
 
-    _isItemSelected(item: any) {
+    private _isItemDisabled(item: any): boolean {
+        if (!this.selectComponent.disabledItems) {
+            return;
+        }
+
+        return this.selectComponent.disabledItems.some(_item => {
+            if (this.selectComponent.itemValueField) {
+                return _item[this.selectComponent.itemValueField] ===
+                    item[this.selectComponent.itemValueField];
+            }
+
+            return _item === item;
+        });
+    }
+
+    private _isItemSelected(item: any) {
         return this.selectedItems.find(selectedItem => {
             if (this.selectComponent.itemValueField) {
                 return item[this.selectComponent.itemValueField] === selectedItem[this.selectComponent.itemValueField];
@@ -183,7 +194,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }) !== undefined;
     }
 
-    _deleteSelectedItem(item: any) {
+    private _deleteSelectedItem(item: any) {
         let itemToDeleteIndex;
 
         this.selectedItems.forEach((selectedItem, itemIndex) => {
@@ -199,8 +210,45 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this.selectedItems.splice(itemToDeleteIndex, 1);
     }
 
-    _addSelectedItem(item: any) {
+    private _addSelectedItem(item: any) {
         this.selectedItems.push(item);
+    }
+
+    private _filterItems() {
+        if (this.selectComponent._hasSearch()) {
+            // Delegate filtering to the event.
+            this.selectComponent._emitSearch(this.infiniteScroll);
+        } else {
+            let items = [];
+
+            // Default filtering.
+            if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
+                items = this.selectComponent.items;
+            } else {
+                let filterText = this.selectComponent._filterText.trim().toLowerCase();
+
+                items = this.selectComponent.items.filter(item => {
+                    let itemText = (this.selectComponent.itemTextField ?
+                        item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
+
+                    return itemText.indexOf(filterText) !== -1;
+                });
+            }
+
+            this.filteredItems = items;
+        }
+    }
+
+    private _getMoreItems(infiniteScroll: InfiniteScroll) {
+        // TODO: Try to get infiniteScroll via ViewChild. Maybe it works in a newer Ionic version.
+        // For now assign it here.
+        this.infiniteScroll = infiniteScroll;
+
+        this.selectComponent.onInfiniteScroll.emit({
+            component: this.selectComponent,
+            infiniteScroll: infiniteScroll,
+            text: this.selectComponent._filterText
+        });
     }
 
     select(item: any) {
@@ -255,43 +303,6 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             this.selectComponent.onClose.emit({
                 component: this.selectComponent
             });
-        });
-    }
-
-    _filterItems() {
-        if (this.selectComponent._hasSearch()) {
-            // Delegate filtering to the event.
-            this.selectComponent._emitSearch(this.infiniteScroll);
-        } else {
-            let items = [];
-
-            // Default filtering.
-            if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
-                items = this.selectComponent.items;
-            } else {
-                let filterText = this.selectComponent._filterText.trim().toLowerCase();
-
-                items = this.selectComponent.items.filter(item => {
-                    let itemText = (this.selectComponent.itemTextField ?
-                        item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
-
-                    return itemText.indexOf(filterText) !== -1;
-                });
-            }
-
-            this.filteredItems = items;
-        }
-    }
-
-    _getMoreItems(infiniteScroll: InfiniteScroll) {
-        // TODO: Try to get infiniteScroll via ViewChild. Maybe it works in a newer Ionic version.
-        // For now assign it here.
-        this.infiniteScroll = infiniteScroll;
-
-        this.selectComponent.onInfiniteScroll.emit({
-            component: this.selectComponent,
-            infiniteScroll: infiniteScroll,
-            text: this.selectComponent._filterText
         });
     }
 }
