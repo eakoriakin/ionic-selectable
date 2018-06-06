@@ -52,7 +52,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _isIos: boolean;
     @HostBinding('class.select-searchable-md')
     private _isMD: boolean;
-    private _useSearch = true;
+    private _isOnSearchEnabled = true;
     private _isEnabled = true;
     private _isOpened = false;
     private _valueItems: any[] = [];
@@ -114,12 +114,12 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     itemTextField: string;
     @Input()
     canSearch = false;
-    @Input('useSearch')
-    get useSearch(): boolean {
-        return this._useSearch;
+    @Input('isOnSearchEnabled')
+    get isOnSearchEnabled(): boolean {
+        return this._isOnSearchEnabled;
     }
-    set useSearch(useSearch: boolean) {
-        this._useSearch = !!useSearch;
+    set isOnSearchEnabled(isOnSearchEnabled: boolean) {
+        this._isOnSearchEnabled = !!isOnSearchEnabled;
     }
     @HostBinding('class.select-searchable-can-reset')
     @Input()
@@ -215,7 +215,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _hasSearch(): boolean {
-        return this.useSearch && this.onSearch.observers.length > 0;
+        return this.isOnSearchEnabled && this.onSearch.observers.length > 0;
     }
 
     _select(selectedItem: any) {
@@ -232,6 +232,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _emitSearch(infiniteScroll: InfiniteScroll) {
+        if (!this.canSearch) {
+            return;
+        }
+
         this.onSearch.emit({
             component: this,
             infiniteScroll: infiniteScroll,
