@@ -127,6 +127,14 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     hasInfiniteScroll = false;
     @Input()
+    hasVirtualScroll = false;
+    @Input()
+    virtualScrollApproxItemHeight = '40px';
+    @Input()
+    virtualScrollApproxItemWidth = '100%';
+    @Input()
+    virtualScrollBufferRatio = 3;
+    @Input()
     searchPlaceholder: string;
     @Input()
     isMultiple: boolean;

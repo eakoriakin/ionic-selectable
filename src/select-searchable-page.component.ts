@@ -44,7 +44,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 <div class="select-searchable-spinner-background"></div>
                 <ion-spinner></ion-spinner>
             </div>
-            <ion-list no-margin *ngIf="filteredItems.length">
+            <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && filteredItems.length">
                 <button ion-item detail-none *ngFor="let item of filteredItems" (click)="select(item)"
                     class="select-searchable-item"
                     [ngClass]="{
@@ -71,11 +71,44 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     </div>
                 </button>
             </ion-list>
-            <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
-            <ion-infinite-scroll [enabled]="selectComponent.hasInfiniteScroll"
+            <ion-infinite-scroll
+                *ngIf="!selectComponent.hasVirtualScroll"
+                [enabled]="selectComponent.hasInfiniteScroll"
                 (ionInfinite)="_getMoreItems($event)">
                 <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
+            <ion-list no-margin *ngIf="selectComponent.hasVirtualScroll"
+                [virtualScroll]="filteredItems"
+                [approxItemHeight]="selectComponent.virtualScrollApproxItemHeight"
+                [approxItemWidth]="selectComponent.virtualScrollApproxItemWidth"
+                [bufferRatio]="selectComponent.virtualScrollBufferRatio">
+                <button ion-item detail-none *virtualItem="let item" (click)="select(item)"
+                    class="select-searchable-item"
+                    [ngClass]="{
+                        'select-searchable-item-is-selected': _isItemSelected(item),
+                        'select-searchable-item-is-disabled': _isItemDisabled(item)
+                    }"
+                    [disabled]="_isItemDisabled(item)">
+                    <ion-icon
+                        [name]="_isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
+                        [color]="_isItemSelected(item) ? 'primary' : 'daek'"
+                        item-left>
+                    </ion-icon>
+                    <div *ngIf="selectComponent.itemTemplate"
+                        [ngTemplateOutlet]="selectComponent.itemTemplate"
+                        [ngTemplateOutletContext]="{ item: item }">
+                    </div>
+                    <div *ngIf="!selectComponent.itemTemplate">
+                        {{selectComponent._formatItem(item)}}
+                    </div>
+                    <div *ngIf="selectComponent.itemRightTemplate" item-right>
+                        <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+                            [ngTemplateOutletContext]="{ item: item }">
+                        </div>
+                    </div>
+                </button>
+            </ion-list>
+            <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
         </ion-content>
         <ion-footer *ngIf="selectComponent.canReset || selectComponent.isMultiple">
             <ion-toolbar padding>
