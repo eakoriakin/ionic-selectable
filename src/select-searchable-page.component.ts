@@ -167,7 +167,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     ) {
         this.selectComponent = this.navParams.get('selectComponent');
         this.selectComponent._selectPageComponent = this;
-        this.filteredItems = this.selectComponent.items;
+        this.filteredItems = this.selectComponent._items;
         this._filterItems();
 
         if (this.selectComponent.value) {
@@ -256,11 +256,11 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
 
             // Default filtering.
             if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
-                items = this.selectComponent.items;
+                items = this.selectComponent._items;
             } else {
                 let filterText = this.selectComponent._filterText.trim().toLowerCase();
 
-                items = this.selectComponent.items.filter(item => {
+                items = this.selectComponent._items.filter(item => {
                     let itemText = (this.selectComponent.itemTextField ?
                         item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
 

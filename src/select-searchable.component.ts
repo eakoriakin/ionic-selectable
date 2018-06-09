@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
+import { Component, ContentChild, DoCheck, EventEmitter, HostBinding, HostListener, Input, IterableDiffer, IterableDiffers, OnDestroy, OnInit, Optional, Output, TemplateRef, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
 import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
@@ -44,10 +44,9 @@ import { SelectSearchableValueTemplateDirective } from './select-searchable-valu
         multi: true
     }]
 })
-export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, DoCheck {
     @HostBinding('class.select-searchable')
     private _cssClass = true;
-    private _items: any[] = [];
     @HostBinding('class.select-searchable-ios')
     private _isIos: boolean;
     @HostBinding('class.select-searchable-md')
@@ -58,7 +57,9 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _valueItems: any[] = [];
     private _value: any = null;
     private _modal: Modal;
+    private _itemsDiffer: IterableDiffer<any>;
     _filterText = '';
+    _items: any[] = [];
     _itemsToConfirm: any[] = [];
     _selectPageComponent: SelectSearchablePageComponent;
     get value(): any {
@@ -80,18 +81,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             }
         }
     }
-    get items(): any[] {
-        return this._items;
-    }
-    @Input('items')
-    set items(items: any[]) {
-        // The original reference of the array should be preserved to keep two-way data binding
-        // working between SelectSearchable and SelectSearchablePage.
-        this._items.splice(0, this._items.length);
-
-        // Add new items to the array.
-        Array.prototype.push.apply(this._items, items);
-    }
+    @Input()
+    items: any[] = [];
     @Input()
     isSearching: boolean;
     @HostBinding('class.select-searchable-is-enabled')
@@ -181,11 +172,14 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     disabledItems: any[] = [];
 
     constructor(
-        private modalController: ModalController,
+        private _modalController: ModalController,
         private ionForm: Form,
-        private platform: Platform,
-        @Optional() private ionItem: Item
-    ) { }
+        private _platform: Platform,
+        @Optional() private ionItem: Item,
+        private _iterableDiffers: IterableDiffers
+    ) {
+        this._itemsDiffer = this._iterableDiffers.find(this.items).create();
+    }
 
     initFocus() { }
 
@@ -259,11 +253,37 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         return this.itemTextField ? item[this.itemTextField] : item.toString();
     }
 
+    private _setItems(items: any[]) {
+        console.log('setItems');
+        // The original reference of the array should be preserved to keep two-way data binding
+        // between SelectSearchable and SelectSearchablePage.
+        this._items.splice(0, this._items.length);
+
+        // Add new items to the array.
+        Array.prototype.push.apply(this._items, items);
+    }
+
+    private _setValue(value: any) {
+        this.value = value;
+
+        // Get an item from the list for value.
+        // We need this in case value contains only id, which is not sufficient for template rendering.
+        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
+            let selectedItem = this._items.find(item => {
+                return item[this.itemValueField] === this.value[this.itemValueField];
+            });
+
+            if (selectedItem) {
+                this.value = selectedItem;
+            }
+        }
+    }
+
     private propagateChange = (_: any) => { };
 
     /* ControlValueAccessor */
     writeValue(value: any) {
-        this.setValue(value);
+        this._setValue(value);
     }
 
     registerOnChange(fn: any): void {
@@ -276,7 +296,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     /* .ControlValueAccessor */
 
     ngOnInit() {
-        this._isIos = this.platform.is('ios');
+        this._isIos = this._platform.is('ios');
         this._isMD = !this._isIos;
         this.ionForm.register(this);
 
@@ -291,25 +311,12 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         this.ionForm.deregister(this);
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['items'] && this.items.length > 0) {
-            this.setValue(this.value);
-        }
-    }
+    ngDoCheck() {
+        let itemsChanges = this._itemsDiffer.diff(this.items);
 
-    setValue(value: any) {
-        this.value = value;
-
-        // Get an item from the list for value.
-        // We need this in case value contains only id, which is not sufficient for template rendering.
-        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
-            let selectedItem = this.items.find(item => {
-                return item[this.itemValueField] === this.value[this.itemValueField];
-            });
-
-            if (selectedItem) {
-                this.value = selectedItem;
-            }
+        if (itemsChanges) {
+            this._setItems(this.items);
+            this._setValue(this.value);
         }
     }
 
@@ -323,7 +330,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             }
 
             self._isOpened = true;
-            self._modal = self.modalController.create(SelectSearchablePageComponent, {
+            self._modal = self._modalController.create(SelectSearchablePageComponent, {
                 selectComponent: self
             });
             self._modal.present().then(() => {
@@ -363,7 +370,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     public reset() {
-        this.setValue(this.isMultiple ? [] : null);
+        this._setValue(this.isMultiple ? [] : null);
 
         if (this.isMultiple) {
             this._itemsToConfirm = [];
