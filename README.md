@@ -115,10 +115,16 @@ In this case no items are loaded and displayed initially. Items will be added wh
 See [demo](https://stackblitz.com/edit/ionic-select-searchable-on-search).
  
 **Infinite scroll**
- 
+
+This approach relies on Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/).  
 Initially only the first bunch of items is loaded and displayed, for example we can show only the first 20 items.  
 Then more items is loaded bunch by bunch while user is scrolling down.  
 See [demo](https://stackblitz.com/edit/ionic-select-searchable-infinite-scroll).
+ 
+**Virtual scroll**
+
+This approach relies on Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/).  
+See [demo](https://stackblitz.com/edit/ionic-select-searchable-virtual-scroll).
 
 ## Support this project
 If you find this component useful, please star the repo to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
