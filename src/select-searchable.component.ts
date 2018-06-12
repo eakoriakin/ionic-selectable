@@ -1,6 +1,8 @@
-import { Component, ContentChild, DoCheck, EventEmitter, HostBinding, HostListener, Input, IterableDiffer, IterableDiffers, OnDestroy, OnInit, Optional, Output, TemplateRef, forwardRef } from '@angular/core';
+import { Component, ContentChild, DoCheck, EventEmitter, forwardRef, HostBinding, HostListener, Input, IterableDiffer, IterableDiffers, OnDestroy, OnInit, Optional, Output, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
+import { SelectSearchableGroupRightTemplateDirective } from './select-searchable-group-right-template.directive';
+import { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
 import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
@@ -59,9 +61,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _modal: Modal;
     private _itemsDiffer: IterableDiffer<any>;
     _filterText = '';
-    _items: any[] = [];
+    _groups: any[] = [];
     _itemsToConfirm: any[] = [];
     _selectPageComponent: SelectSearchablePageComponent;
+    _hasGroups: boolean;
     get value(): any {
         return this._value;
     }
@@ -104,6 +107,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     itemTextField: string;
     @Input()
+    groupValueField: string;
+    @Input()
+    groupTextField: string;
+    @Input()
     canSearch = false;
     @Input('isOnSearchEnabled')
     get isOnSearchEnabled(): boolean {
@@ -126,6 +133,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     virtualScrollBufferRatio = 3;
     @Input()
+    virtualScrollHeaderFn = () => { return null; }
+    @Input()
     searchPlaceholder: string;
     @Input()
     isMultiple: boolean;
@@ -141,6 +150,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     focusSearchbar = false;
     @Input()
     headerColor: string;
+    @Input()
+    groupColor: string;
     @Output()
     onChange: EventEmitter<any> = new EventEmitter();
     @Output()
@@ -163,6 +174,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     titleTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableMessageTemplateDirective, { read: TemplateRef })
     messageTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableGroupTemplateDirective, { read: TemplateRef })
+    groupTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableGroupRightTemplateDirective, { read: TemplateRef })
+    groupRightTemplate: TemplateRef<any>;
     get itemsToConfirm(): any[] {
         return this._itemsToConfirm;
     }
@@ -254,13 +269,40 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     private _setItems(items: any[]) {
-        console.log('setItems');
+        let groups = [];
+
+        if (items && items.length) {
+            if (this._hasGroups) {
+                groups = [];
+
+                items.forEach(item => {
+                    let groupValue = this._getPropertyValue(item, this.groupValueField),
+                        group = groups.find(_group => _group.value === groupValue);
+
+                    if (group) {
+                        group.items.push(item);
+                    } else {
+                        groups.push({
+                            value: groupValue,
+                            text: this._getPropertyValue(item, this.groupTextField),
+                            items: [item]
+                        });
+                    }
+                });
+
+            } else {
+                groups.push({
+                    items: items
+                });
+            }
+        }
+
         // The original reference of the array should be preserved to keep two-way data binding
         // between SelectSearchable and SelectSearchablePage.
-        this._items.splice(0, this._items.length);
+        this._groups.splice(0, this._groups.length);
 
         // Add new items to the array.
-        Array.prototype.push.apply(this._items, items);
+        Array.prototype.push.apply(this._groups, groups);
     }
 
     private _setValue(value: any) {
@@ -269,7 +311,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         // Get an item from the list for value.
         // We need this in case value contains only id, which is not sufficient for template rendering.
         if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
-            let selectedItem = this._items.find(item => {
+            let selectedItem = this._groups.find(item => {
                 return item[this.itemValueField] === this.value[this.itemValueField];
             });
 
@@ -277,6 +319,16 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
                 this.value = selectedItem;
             }
         }
+    }
+
+    private _getPropertyValue(object: any, property: string): any {
+        if (!property) {
+            return null;
+        }
+
+        return property.split('.').reduce((_object, _property) => {
+            return _object ? _object[_property] : null;
+        }, object);
     }
 
     private propagateChange = (_: any) => { };
@@ -298,6 +350,9 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     ngOnInit() {
         this._isIos = this._platform.is('ios');
         this._isMD = !this._isIos;
+        // Grouping is supported for objects only.
+        // Ionic VirtualScroll has it's own implementation of grouping.
+        this._hasGroups = Boolean(this.itemValueField && this.groupValueField && !this.hasVirtualScroll);
         this.ionForm.register(this);
 
         if (this.ionItem) {

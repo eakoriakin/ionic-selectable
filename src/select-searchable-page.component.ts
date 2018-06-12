@@ -44,32 +44,50 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 <div class="select-searchable-spinner-background"></div>
                 <ion-spinner></ion-spinner>
             </div>
-            <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && filteredItems.length">
-                <button ion-item detail-none *ngFor="let item of filteredItems" (click)="select(item)"
-                    class="select-searchable-item"
-                    [ngClass]="{
-                        'select-searchable-item-is-selected': _isItemSelected(item),
-                        'select-searchable-item-is-disabled': _isItemDisabled(item)
-                    }"
-                    [disabled]="_isItemDisabled(item)">
-                    <ion-icon
-                        [name]="_isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
-                        [color]="_isItemSelected(item) ? 'primary' : 'daek'"
-                        item-left>
-                    </ion-icon>
-                    <div *ngIf="selectComponent.itemTemplate"
-                        [ngTemplateOutlet]="selectComponent.itemTemplate"
-                        [ngTemplateOutletContext]="{ item: item }">
-                    </div>
-                    <div *ngIf="!selectComponent.itemTemplate">
-                        {{selectComponent._formatItem(item)}}
-                    </div>
-                    <div *ngIf="selectComponent.itemRightTemplate" item-right>
-                        <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+            <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && _filteredGroups.length">
+                <ion-item-group *ngFor="let group of _filteredGroups"
+                    class="select-searchable-group">
+                    <ion-item-divider *ngIf="selectComponent._hasGroups"
+                        [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
+                        <div *ngIf="selectComponent.groupTemplate"
+                            [ngTemplateOutlet]="selectComponent.groupTemplate"
+                            [ngTemplateOutletContext]="{ group: group }">
+                        </div>
+                        <div *ngIf="!selectComponent.groupTemplate">
+                            {{group.text}}
+                        </div>
+                        <div *ngIf="selectComponent.groupRightTemplate" item-right>
+                            <div [ngTemplateOutlet]="selectComponent.groupRightTemplate"
+                                [ngTemplateOutletContext]="{ group: group }">
+                            </div>
+                        </div>
+                    </ion-item-divider>
+                    <button ion-item detail-none *ngFor="let item of group.items" (click)="select(item)"
+                        class="select-searchable-item"
+                        [ngClass]="{
+                            'select-searchable-item-is-selected': _isItemSelected(item),
+                            'select-searchable-item-is-disabled': _isItemDisabled(item)
+                        }"
+                        [disabled]="_isItemDisabled(item)">
+                        <ion-icon
+                            [name]="_isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
+                            [color]="_isItemSelected(item) ? 'primary' : 'daek'"
+                            item-left>
+                        </ion-icon>
+                        <div *ngIf="selectComponent.itemTemplate"
+                            [ngTemplateOutlet]="selectComponent.itemTemplate"
                             [ngTemplateOutletContext]="{ item: item }">
                         </div>
-                    </div>
-                </button>
+                        <div *ngIf="!selectComponent.itemTemplate">
+                            {{selectComponent._formatItem(item)}}
+                        </div>
+                        <div *ngIf="selectComponent.itemRightTemplate" item-right>
+                            <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+                                [ngTemplateOutletContext]="{ item: item }">
+                            </div>
+                        </div>
+                    </button>
+                </ion-item-group>
             </ion-list>
             <ion-infinite-scroll
                 *ngIf="!selectComponent.hasVirtualScroll"
@@ -78,10 +96,15 @@ import { SelectSearchableComponent } from './select-searchable.component';
                 <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
             <ion-list no-margin *ngIf="selectComponent.hasVirtualScroll"
-                [virtualScroll]="filteredItems"
+                [virtualScroll]="_filteredGroups[0].items"
                 [approxItemHeight]="selectComponent.virtualScrollApproxItemHeight"
                 [approxItemWidth]="selectComponent.virtualScrollApproxItemWidth"
-                [bufferRatio]="selectComponent.virtualScrollBufferRatio">
+                [bufferRatio]="selectComponent.virtualScrollBufferRatio"
+                [headerFn]="selectComponent.virtualScrollHeaderFn">
+                <ion-item-divider *virtualHeader="let header"
+                    [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
+                    {{header}}
+                </ion-item-divider>
                 <button ion-item detail-none *virtualItem="let item" (click)="select(item)"
                     class="select-searchable-item"
                     [ngClass]="{
@@ -108,7 +131,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     </div>
                 </button>
             </ion-list>
-            <div *ngIf="!filteredItems.length" margin>{{selectComponent.noItemsFoundText}}</div>
+            <div *ngIf="!_filteredGroups.length" margin>{{selectComponent.noItemsFoundText}}</div>
         </ion-content>
         <ion-footer *ngIf="selectComponent.canReset || selectComponent.isMultiple">
             <ion-toolbar padding>
@@ -152,10 +175,10 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     private _isIos: boolean;
     @HostBinding('class.select-searchable-page-md')
     private _isMD: boolean;
-    selectComponent: SelectSearchableComponent;
-    filteredItems: any[];
+    private _filteredGroups: any[];
     selectedItems: any[] = [];
     infiniteScroll: InfiniteScroll;
+    selectComponent: SelectSearchableComponent;
     @ViewChild('searchbarComponent')
     searchbarComponent: Searchbar;
     @ViewChild(Content) _content: Content;
@@ -167,7 +190,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     ) {
         this.selectComponent = this.navParams.get('selectComponent');
         this.selectComponent._selectPageComponent = this;
-        this.filteredItems = this.selectComponent._items;
+        this._filteredGroups = this.selectComponent._groups;
         this._filterItems();
 
         if (this.selectComponent.value) {
@@ -252,23 +275,32 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             // Delegate filtering to the event.
             this.selectComponent._emitSearch(this.infiniteScroll);
         } else {
-            let items = [];
+            let groups = [];
 
             // Default filtering.
             if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
-                items = this.selectComponent._items;
+                groups = this.selectComponent._groups;
             } else {
                 let filterText = this.selectComponent._filterText.trim().toLowerCase();
 
-                items = this.selectComponent._items.filter(item => {
-                    let itemText = (this.selectComponent.itemTextField ?
-                        item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
+                this.selectComponent._groups.forEach(group => {
+                    let items = group.items.filter(item => {
+                        let itemText = (this.selectComponent.itemTextField ?
+                            item[this.selectComponent.itemTextField] : item).toString().toLowerCase();
+                        return itemText.indexOf(filterText) !== -1;
+                    });
 
-                    return itemText.indexOf(filterText) !== -1;
+                    if (items.length) {
+                        groups.push({
+                            value: group.value,
+                            text: group.text,
+                            items: items
+                        });
+                    }
                 });
             }
 
-            this.filteredItems = items;
+            this._filteredGroups = groups;
         }
     }
 
