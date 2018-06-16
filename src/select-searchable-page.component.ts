@@ -275,9 +275,9 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             // Delegate filtering to the event.
             this.selectComponent._emitSearch(this.infiniteScroll);
         } else {
+            // Default filtering.
             let groups = [];
 
-            // Default filtering.
             if (!this.selectComponent._filterText || !this.selectComponent._filterText.trim()) {
                 groups = this.selectComponent._groups;
             } else {
@@ -298,6 +298,13 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
                         });
                     }
                 });
+
+                // No items found.
+                if (!groups.length) {
+                    groups.push({
+                        items: []
+                    });
+                }
             }
 
             this._filteredGroups = groups;
