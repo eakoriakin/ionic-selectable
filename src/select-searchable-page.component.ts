@@ -40,7 +40,7 @@ import { SelectSearchableComponent } from './select-searchable.component';
             </ion-toolbar>
         </ion-header>
         <ion-content>
-            <div class="select-searchable-spinner" *ngIf="selectComponent.isSearching">
+            <div class="select-searchable-spinner" *ngIf="selectComponent._isSearching">
                 <div class="select-searchable-spinner-background"></div>
                 <ion-spinner></ion-spinner>
             </div>
@@ -169,7 +169,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     }
     @HostBinding('class.select-searchable-page-is-searching')
     private get _isSearchingCssClass(): boolean {
-        return this.selectComponent.isSearching;
+        return this.selectComponent._isSearching;
     }
     @HostBinding('class.select-searchable-page-ios')
     private _isIos: boolean;

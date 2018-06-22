@@ -65,6 +65,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     _itemsToConfirm: any[] = [];
     _selectPageComponent: SelectSearchablePageComponent;
     _hasGroups: boolean;
+    _isSearching: boolean;
     get value(): any {
         return this._value;
     }
@@ -86,8 +87,6 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
     @Input()
     items: any[] = [];
-    @Input()
-    isSearching: boolean;
     @HostBinding('class.select-searchable-is-enabled')
     @Input('isEnabled')
     get isEnabled(): boolean {
@@ -460,5 +459,19 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
                 resolve();
             });
         });
+    }
+
+    public startSearch() {
+        this._isSearching = true;
+    }
+
+    public endSearch() {
+        this._isSearching = false;
+
+        // When inside Ionic Modal and onSearch event is used,
+        // ngDoCheck() doesn't work as _itemsDiffer fails to detect changes.
+        // See https://github.com/eakoriakin/ionic-select-searchable/issues/44.
+        // Refresh items manually.
+        this._setItems(this.items);
     }
 }
