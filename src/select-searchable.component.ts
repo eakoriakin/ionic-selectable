@@ -1,6 +1,8 @@
-import { Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Optional, Output, SimpleChanges, TemplateRef, forwardRef } from '@angular/core';
+import { Component, ContentChild, DoCheck, EventEmitter, forwardRef, HostBinding, HostListener, Input, IterableDiffer, IterableDiffers, OnDestroy, OnInit, Optional, Output, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
+import { SelectSearchableGroupRightTemplateDirective } from './select-searchable-group-right-template.directive';
+import { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
 import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
@@ -40,23 +42,26 @@ import { SelectSearchableValueTemplateDirective } from './select-searchable-valu
         multi: true
     }]
 })
-export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class SelectSearchableComponent implements ControlValueAccessor, OnInit, OnDestroy, DoCheck {
     @HostBinding('class.select-searchable')
     private _cssClass = true;
-    private _items: any[] = [];
     @HostBinding('class.select-searchable-ios')
     private _isIos: boolean;
     @HostBinding('class.select-searchable-md')
     private _isMD: boolean;
-    private _useSearch = true;
+    private _isOnSearchEnabled = true;
     private _isEnabled = true;
     private _isOpened = false;
     private _valueItems: any[] = [];
     private _value: any = null;
     private _modal: Modal;
+    private _itemsDiffer: IterableDiffer<any>;
     _filterText = '';
+    _groups: any[] = [];
     _itemsToConfirm: any[] = [];
     _selectPageComponent: SelectSearchablePageComponent;
+    _hasGroups: boolean;
+    _isSearching: boolean;
     get value(): any {
         return this._value;
     }
@@ -76,20 +81,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             }
         }
     }
-    get items(): any[] {
-        return this._items;
-    }
-    @Input('items')
-    set items(items: any[]) {
-        // The original reference of the array should be preserved to keep two-way data binding
-        // working between SelectSearchable and SelectSearchablePage.
-        this._items.splice(0, this._items.length);
-
-        // Add new items to the array.
-        Array.prototype.push.apply(this._items, items);
-    }
     @Input()
-    isSearching: boolean;
+    items: any[] = [];
     @HostBinding('class.select-searchable-is-enabled')
     @Input('isEnabled')
     get isEnabled(): boolean {
@@ -109,19 +102,33 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     @Input()
     itemTextField: string;
     @Input()
+    groupValueField: string;
+    @Input()
+    groupTextField: string;
+    @Input()
     canSearch = false;
-    @Input('useSearch')
-    get useSearch(): boolean {
-        return this._useSearch;
+    @Input('isOnSearchEnabled')
+    get isOnSearchEnabled(): boolean {
+        return this._isOnSearchEnabled;
     }
-    set useSearch(useSearch: boolean) {
-        this._useSearch = !!useSearch;
+    set isOnSearchEnabled(isOnSearchEnabled: boolean) {
+        this._isOnSearchEnabled = !!isOnSearchEnabled;
     }
     @HostBinding('class.select-searchable-can-reset')
     @Input()
     canReset = false;
     @Input()
     hasInfiniteScroll = false;
+    @Input()
+    hasVirtualScroll = false;
+    @Input()
+    virtualScrollApproxItemHeight = '40px';
+    @Input()
+    virtualScrollApproxItemWidth = '100%';
+    @Input()
+    virtualScrollBufferRatio = 3;
+    @Input()
+    virtualScrollHeaderFn = () => { return null; }
     @Input()
     searchPlaceholder: string;
     @Input()
@@ -138,6 +145,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     focusSearchbar = false;
     @Input()
     headerColor: string;
+    @Input()
+    groupColor: string;
     @Output()
     onChange: EventEmitter<any> = new EventEmitter();
     @Output()
@@ -160,18 +169,27 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     titleTemplate: TemplateRef<any>;
     @ContentChild(SelectSearchableMessageTemplateDirective, { read: TemplateRef })
     messageTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableGroupTemplateDirective, { read: TemplateRef })
+    groupTemplate: TemplateRef<any>;
+    @ContentChild(SelectSearchableGroupRightTemplateDirective, { read: TemplateRef })
+    groupRightTemplate: TemplateRef<any>;
     get itemsToConfirm(): any[] {
         return this._itemsToConfirm;
     }
     @Input()
     searchDebounce: Number = 250;
+    @Input()
+    disabledItems: any[] = [];
 
     constructor(
-        private modalController: ModalController,
+        private _modalController: ModalController,
         private ionForm: Form,
-        private platform: Platform,
-        @Optional() private ionItem: Item
-    ) { }
+        private _platform: Platform,
+        @Optional() private ionItem: Item,
+        private _iterableDiffers: IterableDiffers
+    ) {
+        this._itemsDiffer = this._iterableDiffers.find(this.items).create();
+    }
 
     initFocus() { }
 
@@ -209,7 +227,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _hasSearch(): boolean {
-        return this.useSearch && this.onSearch.observers.length > 0;
+        return this.isOnSearchEnabled && this.onSearch.observers.length > 0;
     }
 
     _select(selectedItem: any) {
@@ -226,6 +244,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _emitSearch(infiniteScroll: InfiniteScroll) {
+        if (!this.canSearch) {
+            return;
+        }
+
         this.onSearch.emit({
             component: this,
             infiniteScroll: infiniteScroll,
@@ -241,11 +263,74 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         return this.itemTextField ? item[this.itemTextField] : item.toString();
     }
 
+    private _setItems(items: any[]) {
+        let groups = [];
+
+        if (items && items.length) {
+            if (this._hasGroups) {
+                groups = [];
+
+                items.forEach(item => {
+                    let groupValue = this._getPropertyValue(item, this.groupValueField),
+                        group = groups.find(_group => _group.value === groupValue);
+
+                    if (group) {
+                        group.items.push(item);
+                    } else {
+                        groups.push({
+                            value: groupValue,
+                            text: this._getPropertyValue(item, this.groupTextField),
+                            items: [item]
+                        });
+                    }
+                });
+
+            } else {
+                groups.push({
+                    items: items
+                });
+            }
+        }
+
+        // The original reference of the array should be preserved to keep two-way data binding
+        // between SelectSearchable and SelectSearchablePage.
+        this._groups.splice(0, this._groups.length);
+
+        // Add new items to the array.
+        Array.prototype.push.apply(this._groups, groups);
+    }
+
+    private _setValue(value: any) {
+        this.value = value;
+
+        // Get an item from the list for value.
+        // We need this in case value contains only id, which is not sufficient for template rendering.
+        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
+            let selectedItem = this._groups.find(item => {
+                return item[this.itemValueField] === this.value[this.itemValueField];
+            });
+
+            if (selectedItem) {
+                this.value = selectedItem;
+            }
+        }
+    }
+
+    private _getPropertyValue(object: any, property: string): any {
+        if (!property) {
+            return null;
+        }
+
+        return property.split('.').reduce((_object, _property) => {
+            return _object ? _object[_property] : null;
+        }, object);
+    }
+
     private propagateChange = (_: any) => { };
 
     /* ControlValueAccessor */
     writeValue(value: any) {
-        this.setValue(value);
+        this._setValue(value);
     }
 
     registerOnChange(fn: any): void {
@@ -258,8 +343,11 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     /* .ControlValueAccessor */
 
     ngOnInit() {
-        this._isIos = this.platform.is('ios');
+        this._isIos = this._platform.is('ios');
         this._isMD = !this._isIos;
+        // Grouping is supported for objects only.
+        // Ionic VirtualScroll has it's own implementation of grouping.
+        this._hasGroups = Boolean(this.itemValueField && this.groupValueField && !this.hasVirtualScroll);
         this.ionForm.register(this);
 
         if (this.ionItem) {
@@ -273,25 +361,12 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         this.ionForm.deregister(this);
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['items'] && this.items.length > 0) {
-            this.setValue(this.value);
-        }
-    }
+    ngDoCheck() {
+        let itemsChanges = this._itemsDiffer.diff(this.items);
 
-    setValue(value: any) {
-        this.value = value;
-
-        // Get an item from the list for value.
-        // We need this in case value contains only id, which is not sufficient for template rendering.
-        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
-            let selectedItem = this.items.find(item => {
-                return item[this.itemValueField] === this.value[this.itemValueField];
-            });
-
-            if (selectedItem) {
-                this.value = selectedItem;
-            }
+        if (itemsChanges) {
+            this._setItems(this.items);
+            this._setValue(this.value);
         }
     }
 
@@ -305,7 +380,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
             }
 
             self._isOpened = true;
-            self._modal = self.modalController.create(SelectSearchablePageComponent, {
+            self._modal = self._modalController.create(SelectSearchablePageComponent, {
                 selectComponent: self
             });
             self._modal.present().then(() => {
@@ -345,7 +420,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     public reset() {
-        this.setValue(this.isMultiple ? [] : null);
+        this._setValue(this.isMultiple ? [] : null);
 
         if (this.isMultiple) {
             this._itemsToConfirm = [];
@@ -380,5 +455,19 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
                 resolve();
             });
         });
+    }
+
+    public startSearch() {
+        this._isSearching = true;
+    }
+
+    public endSearch() {
+        this._isSearching = false;
+
+        // When inside Ionic Modal and onSearch event is used,
+        // ngDoCheck() doesn't work as _itemsDiffer fails to detect changes.
+        // See https://github.com/eakoriakin/ionic-select-searchable/issues/44.
+        // Refresh items manually.
+        this._setItems(this.items);
     }
 }

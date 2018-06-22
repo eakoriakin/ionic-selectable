@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
+import { SelectSearchableGroupRightTemplateDirective } from './select-searchable-group-right-template.directive';
+import { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
 import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
 import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
@@ -17,6 +19,8 @@ export { SelectSearchableItemRightTemplateDirective } from './select-searchable-
 export { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
 export { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
 export { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
+export { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
+export { SelectSearchableGroupRightTemplateDirective } from './select-searchable-group-right-template.directive';
 
 let components = [SelectSearchableComponent, SelectSearchablePageComponent];
 
@@ -33,7 +37,9 @@ let components = [SelectSearchableComponent, SelectSearchablePageComponent];
         SelectSearchableItemRightTemplateDirective,
         SelectSearchableLabelTemplateDirective,
         SelectSearchableTitleTemplateDirective,
-        SelectSearchableMessageTemplateDirective
+        SelectSearchableMessageTemplateDirective,
+        SelectSearchableGroupTemplateDirective,
+        SelectSearchableGroupRightTemplateDirective
     ],
     exports: [
         ...components,
@@ -42,7 +48,9 @@ let components = [SelectSearchableComponent, SelectSearchablePageComponent];
         SelectSearchableItemRightTemplateDirective,
         SelectSearchableLabelTemplateDirective,
         SelectSearchableTitleTemplateDirective,
-        SelectSearchableMessageTemplateDirective
+        SelectSearchableMessageTemplateDirective,
+        SelectSearchableGroupTemplateDirective,
+        SelectSearchableGroupRightTemplateDirective
     ],
     entryComponents: components
 })
