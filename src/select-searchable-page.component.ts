@@ -193,7 +193,7 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         this._filteredGroups = this.selectComponent._groups;
         this._filterItems();
 
-        if (this.selectComponent.value) {
+        if (!this.selectComponent._isNullOrWhiteSpace(this.selectComponent.value)) {
             if (this.selectComponent.isMultiple) {
                 this.selectComponent.value.forEach(item => {
                     this.selectedItems.push(item);
@@ -231,22 +231,14 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         }
 
         return this.selectComponent.disabledItems.some(_item => {
-            if (this.selectComponent.itemValueField) {
-                return _item[this.selectComponent.itemValueField] ===
-                    item[this.selectComponent.itemValueField];
-            }
-
-            return _item === item;
+            return this.selectComponent._getItemValue(_item) === this.selectComponent._getItemValue(item);
         });
     }
 
     private _isItemSelected(item: any) {
         return this.selectedItems.find(selectedItem => {
-            if (this.selectComponent.itemValueField) {
-                return item[this.selectComponent.itemValueField] === selectedItem[this.selectComponent.itemValueField];
-            }
-
-            return item === selectedItem;
+            return this.selectComponent._getItemValue(item) ===
+                this.selectComponent._getStoredItemValue(selectedItem);
         }) !== undefined;
     }
 
@@ -254,11 +246,10 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
         let itemToDeleteIndex;
 
         this.selectedItems.forEach((selectedItem, itemIndex) => {
-            if (this.selectComponent.itemValueField) {
-                if (item[this.selectComponent.itemValueField] === selectedItem[this.selectComponent.itemValueField]) {
-                    itemToDeleteIndex = itemIndex;
-                }
-            } else if (item === selectedItem) {
+            if (
+                this.selectComponent._getItemValue(item) ===
+                this.selectComponent._getStoredItemValue(selectedItem)
+            ) {
                 itemToDeleteIndex = itemIndex;
             }
         });
@@ -267,7 +258,12 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
     }
 
     private _addSelectedItem(item: any) {
-        this.selectedItems.push(item);
+        if (this.selectComponent._shouldStoreItemValue) {
+            this.selectedItems.push(this.selectComponent._getItemValue(item));
+
+        } else {
+            this.selectedItems.push(item);
+        }
     }
 
     private _filterItems() {
@@ -336,7 +332,12 @@ export class SelectSearchablePageComponent implements OnInit, AfterViewInit {
             if (!this._isItemSelected(item)) {
                 this.selectedItems = [];
                 this._addSelectedItem(item);
-                this.selectComponent._select(item);
+
+                if (this.selectComponent._shouldStoreItemValue) {
+                    this.selectComponent._select(this.selectComponent._getItemValue(item));
+                } else {
+                    this.selectComponent._select(item);
+                }
             }
 
             this.close();

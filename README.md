@@ -44,6 +44,7 @@ export class AppModule { }
 <ion-item>
     <ion-label>Port</ion-label>
     <select-searchable
+        item-content
         [(ngModel)]="port"
         [items]="ports"
         itemValueField="id"

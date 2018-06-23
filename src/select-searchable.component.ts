@@ -65,6 +65,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     private _value: any = null;
     private _modal: Modal;
     private _itemsDiffer: IterableDiffer<any>;
+    private _hasObjects: boolean;
+    get _shouldStoreItemValue(): boolean {
+        return this.shouldStoreItemValue && this._hasObjects;
+    }
     _filterText = '';
     _groups: any[] = [];
     _itemsToConfirm: any[] = [];
@@ -86,7 +90,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
                 Array.prototype.push.apply(this._valueItems, value);
             }
         } else {
-            if (value) {
+            if (!this._isNullOrWhiteSpace(value)) {
                 this._valueItems.push(value);
             }
         }
@@ -190,6 +194,8 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     searchDebounce: Number = 250;
     @Input()
     disabledItems: any[] = [];
+    @Input()
+    shouldStoreItemValue = false;
 
     constructor(
         private _modalController: ModalController,
@@ -242,7 +248,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     }
 
     _select(selectedItem: any) {
-        this.value = this.isMultiple ? selectedItem || [] : selectedItem;
+        this._setValue(selectedItem);
         this._emitChange();
     }
 
@@ -277,6 +283,22 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     _getLabelText(): string {
         let label = this.ionItem ? this.ionItem.getNativeElement().querySelector('ion-label') : null;
         return label ? label.textContent : null;
+    }
+
+    _getItemValue(item: any): any {
+        if (!this._hasObjects) {
+            return item;
+        }
+
+        return item[this.itemValueField];
+    }
+
+    _getStoredItemValue(item: any): any {
+        if (!this._hasObjects) {
+            return item;
+        }
+
+        return this._shouldStoreItemValue ? item : item[this.itemValueField];
     }
 
     private _setItems(items: any[]) {
@@ -318,18 +340,6 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
 
     private _setValue(value: any) {
         this.value = value;
-
-        // Get an item from the list for value.
-        // We need this in case value contains only id, which is not sufficient for template rendering.
-        if (this.value && !this._isNullOrWhiteSpace(this.value[this.itemValueField])) {
-            let selectedItem = this._groups.find(item => {
-                return item[this.itemValueField] === this.value[this.itemValueField];
-            });
-
-            if (selectedItem) {
-                this.value = selectedItem;
-            }
-        }
     }
 
     private _getPropertyValue(object: any, property: string): any {
@@ -356,7 +366,7 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
         if (this.isMultiple) {
             return this._valueItems.length !== 0;
         } else {
-            return this._valueItems.length !== 0 && this._valueItems[0];
+            return this._valueItems.length !== 0 && !this._isNullOrWhiteSpace(this._valueItems[0]);
         }
     }
 
@@ -379,9 +389,10 @@ export class SelectSearchableComponent implements ControlValueAccessor, OnInit, 
     ngOnInit() {
         this._isIos = this._platform.is('ios');
         this._isMD = !this._isIos;
+        this._hasObjects = !this._isNullOrWhiteSpace(this.itemValueField);
         // Grouping is supported for objects only.
         // Ionic VirtualScroll has it's own implementation of grouping.
-        this._hasGroups = Boolean(this.itemValueField && this.groupValueField && !this.hasVirtualScroll);
+        this._hasGroups = Boolean(this._hasObjects && this.groupValueField && !this.hasVirtualScroll);
         this.ionForm.register(this);
 
         if (this.ionItem) {
