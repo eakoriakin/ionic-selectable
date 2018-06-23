@@ -11,8 +11,8 @@ import { SelectSearchableComponent } from './select-searchable.component';
                     <div *ngIf="selectComponent.titleTemplate"
                         [ngTemplateOutlet]="selectComponent.titleTemplate">
                     </div>
-                    <div *ngIf="!selectComponent.titleTemplate && selectComponent.labelTemplate"
-                        [ngTemplateOutlet]="selectComponent.labelTemplate">
+                    <div *ngIf="!selectComponent.titleTemplate">
+                        {{selectComponent._labelText}}
                     </div>
                 </ion-title>
                 <ion-buttons start>

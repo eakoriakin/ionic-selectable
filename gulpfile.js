@@ -194,7 +194,6 @@ gulp.task('copy-and-minify:css', function () {
             $select-md-icon-color: #999;\
             $select-ios-padding-left: 16px;\
             $select-md-padding-left: 16px;\
-            $label-md-text-color: #999;\
             $content-margin: 16px !default;\
         '))
         .pipe(sass({

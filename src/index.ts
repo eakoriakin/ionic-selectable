@@ -5,22 +5,20 @@ import { SelectSearchableGroupRightTemplateDirective } from './select-searchable
 import { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
 import { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
 import { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
-import { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
 import { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
 import { SelectSearchablePageComponent } from './select-searchable-page.component';
 import { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
 import { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
 import { SelectSearchableComponent } from './select-searchable.component';
-export { SelectSearchableComponent } from './select-searchable.component';
-export { SelectSearchablePageComponent } from './select-searchable-page.component';
-export { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
-export { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
-export { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
-export { SelectSearchableLabelTemplateDirective } from './select-searchable-label-template.directive';
-export { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
-export { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
-export { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
 export { SelectSearchableGroupRightTemplateDirective } from './select-searchable-group-right-template.directive';
+export { SelectSearchableGroupTemplateDirective } from './select-searchable-group-template.directive';
+export { SelectSearchableItemRightTemplateDirective } from './select-searchable-item-right-template.directive';
+export { SelectSearchableItemTemplateDirective } from './select-searchable-item-template.directive';
+export { SelectSearchableMessageTemplateDirective } from './select-searchable-message-template.directive';
+export { SelectSearchablePageComponent } from './select-searchable-page.component';
+export { SelectSearchableTitleTemplateDirective } from './select-searchable-title-template.directive';
+export { SelectSearchableValueTemplateDirective } from './select-searchable-value-template.directive';
+export { SelectSearchableComponent } from './select-searchable.component';
 
 let components = [SelectSearchableComponent, SelectSearchablePageComponent];
 
@@ -35,7 +33,6 @@ let components = [SelectSearchableComponent, SelectSearchablePageComponent];
         SelectSearchableValueTemplateDirective,
         SelectSearchableItemTemplateDirective,
         SelectSearchableItemRightTemplateDirective,
-        SelectSearchableLabelTemplateDirective,
         SelectSearchableTitleTemplateDirective,
         SelectSearchableMessageTemplateDirective,
         SelectSearchableGroupTemplateDirective,
@@ -46,7 +43,6 @@ let components = [SelectSearchableComponent, SelectSearchablePageComponent];
         SelectSearchableValueTemplateDirective,
         SelectSearchableItemTemplateDirective,
         SelectSearchableItemRightTemplateDirective,
-        SelectSearchableLabelTemplateDirective,
         SelectSearchableTitleTemplateDirective,
         SelectSearchableMessageTemplateDirective,
         SelectSearchableGroupTemplateDirective,
