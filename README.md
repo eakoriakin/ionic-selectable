@@ -85,6 +85,27 @@ export class HomePage {
 }
 ```
 
+**NOTE for Ionic 3**:  Ionic 3 requires an additional step of modifying the file named something like page_name.module.ts (this file is usually used for lazy-loading pages.  To make it work, you will need to import the SelectSearchableModule in this file, and add is as part of the imports:
+
+```
+import { SelectSearchableModule } from 'ionic-select-searchable';
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { HomePage } from './home-page';
+
+@NgModule({
+  declarations: [
+    HomePage,
+  ],
+  imports: [
+    IonicPageModule.forChild(HomePage),
+    SelectSearchableModule
+  ],
+})
+export class HomePage {}
+
+```
+
 5. Enjoy it 😉
 6. That is just a small part of what `Ionic Selectable` is capable of.  
 See [more samples](https://stackblitz.com/@eakoriakin) and explore the [docs](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation) and [FAQ](https://github.com/eakoriakin/ionic-selectable/wiki/FAQ) to learn more.
