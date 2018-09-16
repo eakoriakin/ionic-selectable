@@ -22,7 +22,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Getting started
 
-1. Decide on the version you want to use `Free` or `Pro`. See [Version comparison](#version-comparison) to help you choose.
+1. Decide on the version you want to use [Free](https://www.npmjs.com/package/ionic-selectable) or [Pro](https://market.ionicframework.com/plugins/ionic-selectable-pro). See [Version comparison](#version-comparison) to help you choose.
 
 2. Install it.  
 
