@@ -33,7 +33,7 @@ npm install ionic-selectable --save
 
 `Ionic Selectable Pro`  
 
-Purchase it from [Ionic Market](https://market.ionicframework.com/plugins/ionic-selectable).  
+Purchase it from [Ionic Market](https://market.ionicframework.com/plugins/ionic-selectable-pro).  
 Copy `ionic-selectable-3.0.0.tgz` archive to the root of your project. Then `cd` to the project root and install the package.
 
 ```
