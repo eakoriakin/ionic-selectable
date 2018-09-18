@@ -41,6 +41,9 @@ npm install ionic-selectable-<version>.tgz
 ```
 
 3. Import it.
+
+First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
+
 ```
 import { IonicSelectableModule } from 'ionic-selectable';
 
@@ -50,6 +53,25 @@ import { IonicSelectableModule } from 'ionic-selectable';
     ]
 })
 export class AppModule { }
+
+```
+
+**Note:** Additionally, if you use Ionic 3+ you might be as well using lazy loaded pages. Check if your pages have a module file, for example, `home.module.ts`, and if they do then import `IonicSelectableModule` to each page module too.
+
+```
+import { IonicSelectableModule } from 'ionic-selectable';
+import { HomePage } from './home';
+
+@NgModule({
+    declarations: [
+        HomePage
+    ],
+    imports: [
+        IonicPageModule.forChild(HomePage),
+        IonicSelectableModule
+    ]
+})
+export class HomePageModule { }
 
 ```
 
