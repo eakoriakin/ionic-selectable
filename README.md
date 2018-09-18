@@ -1,5 +1,5 @@
 [npm-url]: https://npmjs.org/package/ionic-selectable
-[npm-image]: https://img.shields.io/npm/v/ionic-select-searchable.svg
+[npm-image]: https://img.shields.io/npm/v/ionic-selectable.svg
 [dm-image]: https://img.shields.io/npm/dm/ionic-select-searchable.svg
 [dt-image]: https://img.shields.io/npm/dt/ionic-select-searchable.svg
 
@@ -116,6 +116,7 @@ Also, explore the [docs](../../wiki/Documentation) and [FAQ](../../wiki/FAQ) to 
 | [Validation](../../wiki/Documentation#validation) | [Validation](../../wiki/Documentation#validation) |
 | [Ionic InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html) | [Ionic InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html) |
 | [Ionic VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html) | [Ionic VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html) |
+| [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) | [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) |
 |  | [Templates](../../wiki/Documentation#templates) |
 |  | [Grouping items](../..//wiki/Documentation#grouping) |
 |  | [Editing, adding and deleting items](../../wiki/Documentation#editing) |
