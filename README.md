@@ -144,11 +144,11 @@ Also, explore the [docs](../../wiki/Documentation) and [FAQ](../../wiki/FAQ) to 
 | [Multiple item selection](../../wiki/Documentation#ismultiple) | [Multiple item selection](../../wiki/Documentation#ismultiple) |
 | [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) |
 | [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) | [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) |
+| [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) | [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) |
 | [Angular Forms integration](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html) | [Angular Forms integration](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html) |
 | [Validation](../../wiki/Documentation#validation) | [Validation](../../wiki/Documentation#validation) |
 | [Ionic InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html) | [Ionic InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html) |
 | [Ionic VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html) | [Ionic VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html) |
-| [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) | [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html) |
 |  | [Templates](../../wiki/Documentation#templates) |
 |  | [Grouping items](../..//wiki/Documentation#grouping) |
 |  | [Editing, adding and deleting items](../../wiki/Documentation#editing) |
