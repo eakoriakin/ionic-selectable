@@ -15,10 +15,16 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 # Contents
 * [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
 * [Getting started](#getting-started)
+* [Supported Ionic versions](#supported-ionic-versions)
 * [FAQ](../../wiki/FAQ)
 * [Documentation](../../wiki/Documentation)
 * [Theming](../../wiki/Theming)
 * [Version comparison](#version-comparison)
+
+## Supported Ionic versions
+
+*	Ionic 3 (3.6.0 - 3.9.2)
+* Ionic 4 (>=4.0.0-beta.11)
 
 ## Getting started
 
@@ -28,7 +34,11 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 `Ionic Selectable Free`  
 ```
-npm install ionic-selectable --save
+// Ionic 3
+npm install ionic-selectable@3.0.3 --save
+
+// Ionic 4
+npm install ionic-selectable@4.0.0 --save
 ```
 
 `Ionic Selectable Pro`  
@@ -80,7 +90,7 @@ export class HomePageModule { }
 <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable
-        item-content
+        item-content // You don't need it if you use Ionic 4.
         [(ngModel)]="port"
         [items]="ports"
         itemValueField="id"
