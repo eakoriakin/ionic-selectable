@@ -25,6 +25,8 @@
   <div class="ionic-selectable-icon">
     <div class="ionic-selectable-icon-inner"></div>
   </div>
-  <button class="ionic-selectable-cover" [disabled]="!isEnabled" (click)="_click()">
+  <!-- Need to be type="button" otherwise click event triggers form ngSubmit. -->
+  <button class="ionic-selectable-cover" [disabled]="!isEnabled" (click)="_click()"
+    type="button">
   </button>
 </div>

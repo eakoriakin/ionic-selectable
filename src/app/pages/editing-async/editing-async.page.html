@@ -32,7 +32,7 @@
         </ion-label>
       </ng-template>
       <ng-template ionicSelectableAddItemTemplate let-port="item" let-isAdd="isAdd">
-        <form [formGroup]="portForm" novalidate>
+        <form [formGroup]="portForm">
           <ion-list>
             <ion-item-divider>
               {{isAdd ? 'Add' : 'Edit'}} Port
