@@ -173,9 +173,10 @@ gulp.task('build', function () {
   minifyJS().then(function () {
     modifyPackageJson().then(function () {
       copyCss().then(function () {
-        copyImages().then(function () {
-          pack();
-        });
+        copyImages();
+        // copyImages().then(function () {
+        //   pack();
+        // });
       });
     });
   });
