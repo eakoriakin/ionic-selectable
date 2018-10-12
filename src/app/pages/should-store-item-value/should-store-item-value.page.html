@@ -27,6 +27,11 @@
       [items]="ports" [shouldStoreItemValue]="true" (onChange)="portChange($event)">
     </ionic-selectable>
   </ion-item>
+  <ion-item>
+    <ion-label text-wrap>
+      <pre>{{portId | json}}</pre>
+    </ion-label>
+  </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
       Multiple values
@@ -38,5 +43,10 @@
       itemTextField="name" [items]="ports" [shouldStoreItemValue]="true"
       (onChange)="portChange($event)">
     </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <ion-label text-wrap>
+      <pre>{{portIds | json}}</pre>
+    </ion-label>
   </ion-item>
 </ion-content>
