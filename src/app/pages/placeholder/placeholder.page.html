@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>placeholder</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'placeholder' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>placeholder</b> field.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" placeholder="Port">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <ion-button (click)="portComponent.clear()">Clear</ion-button>
+  </ion-item>
+</ion-content>

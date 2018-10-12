@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use cases</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Basic usage.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      [items]="ports" [canSearch]="true" (onChange)="portChange($event)">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

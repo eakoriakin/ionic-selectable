@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>canClear</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'canclear' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>canClear</b> field.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      [items]="ports" [canClear]="true">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

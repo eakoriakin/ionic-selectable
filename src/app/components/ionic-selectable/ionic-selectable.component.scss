@@ -1,0 +1,205 @@
+$icon-color: #999;
+$placeholder-color: #999;
+$padding: 16px;
+.item {
+  &:not(&-label) {
+    /*Occupy 100% of width when there's no label.*/
+    .ionic-selectable {
+      max-width: 100%;
+      width: 100%;
+      &-value {
+        &-item {
+          text-align: right;
+        }
+      }
+    }
+  }
+  &-label-stacked,
+  &-label-floating {
+    .ionic-selectable {
+      align-self: stretch;
+      max-width: 100%;
+      padding-left: 0;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      &-value {
+        padding-top: 0;
+        padding-bottom: 0;
+        min-height: 19px;
+      }
+      &-icon-inner {
+        top: 7px;
+      }
+      &-ios {
+        .ionic-selectable-value {
+          padding-top: 0;
+          padding-bottom: 0;
+          min-height: 20px;
+        }
+        .ionic-selectable-icon-inner {
+          top: 8px;
+        }
+      }
+    }
+  }
+  &:not(.item-label-stacked):not(.item-label-floating) {
+    .ionic-selectable-value {
+      padding-left: var(--padding-start, $padding);
+    }
+  }
+  &-ionic-selectable {
+    // Vertical allignment for label.
+    .item-inner .input-wrapper {
+      align-items: normal;
+    }
+    ion-label {
+      flex: 1;
+      max-width: initial;
+    }
+  }
+}
+
+.ionic-selectable {
+  display: block;
+  max-width: 45%;
+  &-inner {
+    display: flex;
+    /*
+      When there's no ion-label we need to keep
+      value and icon alligned to the right ourselves.
+    */
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  &-has-placeholder {
+    .ionic-selectable-value-item {
+      color: var(--placeholder-color, $placeholder-color);
+    }
+  }
+  &-value {
+    flex: 1;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    overflow: hidden;
+    &-item {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+  &-icon {
+    position: relative;
+    width: 20px;
+    &-inner {
+      position: absolute;
+      top: 20px;
+      left: 5px;
+      border-top: 5px solid;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+      pointer-events: none;
+      color: var(--icon-color, $icon-color);
+    }
+  }
+  &-ios {
+    .ionic-selectable-value {
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+    .ionic-selectable-icon {
+      &-inner {
+        top: 19px;
+      }
+    }
+  }
+  &-spinner {
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    &-background {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      background-color: #000000;
+      opacity: 0.05;
+    }
+    ion-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+      margin-top: -14px;
+      margin-left: -14px;
+    }
+  }
+  &-cover {
+    left: 0;
+    top: 0;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: 0 0;
+    cursor: pointer;
+    appearance: none;
+    outline: 0;
+  }
+  &-add-item-template {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    &-inner {
+      overflow-y: auto;
+      >ion-footer {
+        bottom: 0;
+        position: absolute;
+      }
+    }
+  }
+}
+
+.ionic-selectable-page {
+  &-ios {
+    .ionic-selectable-message {
+      padding: 8px;
+    }
+  }
+  &-md {
+    .ionic-selectable-message {
+      padding: 8px 12px;
+    }
+  }
+  &.ionic-selectable-page-can-clear.ionic-selectable-page-is-multiple {
+    .footer .col:first-child {
+      padding-right: $padding / 2;
+    }
+    .footer .col:last-child {
+      padding-left: $padding / 2;
+    }
+  }
+  &.ionic-selectable-page-is-searching {
+    .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+  &.ionic-selectable-page-is-add-item-template-visible {
+    // Hide scroll from list content.
+    // Use immediate child selector as we don't want to apply the rule
+    // to content inside add item template defined by user.
+    >.content>.scroll-content {
+      overflow-y: hidden;
+    }
+  }
+}

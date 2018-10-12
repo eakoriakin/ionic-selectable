@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Forms</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'minmax-selection' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Min/max selection (between 1 to 3 items).
+    </ion-label>
+  </ion-item>
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label>Port</ion-label>
+      <ionic-selectable #portComponent formControlName="ports" itemValueField="id"
+        itemTextField="name" [items]="ports" [canClear]="true" [isMultiple]="true"
+        [isOkButtonEnabled]="portComponent.itemsToConfirm.length >= 1 && portComponent.itemsToConfirm.length <= 3">
+        <ng-template ionicSelectableMessageTemplate>
+          Select between 1 to 3 items.
+        </ng-template>
+      </ionic-selectable>
+    </ion-item>
+    <ion-item>
+      <ion-badge slot="end" color="danger" *ngIf="!form.valid">Invalid</ion-badge>
+      <ion-badge slot="end" color="secondary" *ngIf="form.valid">Valid</ion-badge>
+      <ion-button (click)="clear()" [disabled]="!form.valid">Clear</ion-button>
+    </ion-item>
+  </form>
+</ion-content>

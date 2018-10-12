@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>shouldStoreItemValue</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'shouldstoreitemvalue' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>shouldStoreItemValue</b> field.<br />
+      Only port <b>id</b> will be saved to <b>ngModel</b>, not the entire port.
+    </ion-label>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Single value
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="portId" itemValueField="id" itemTextField="name"
+      [items]="ports" [shouldStoreItemValue]="true" (onChange)="portChange($event)">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Multiple values
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ports</ion-label>
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="portIds" itemValueField="id"
+      itemTextField="name" [items]="ports" [shouldStoreItemValue]="true"
+      (onChange)="portChange($event)">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

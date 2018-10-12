@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editing</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'adding-item-asynchronously-when-search-fails' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Adding item asynchronously when search fails.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true" [canClear]="true"
+      (onSearch)="searchPorts($event)" (onSearchFail)="onSearchFail($event)"
+      (onSearchSuccess)="onSearchSuccess($event)">
+      <ng-template ionicSelectableItemTemplate let-port="item">
+        <ion-label>
+          {{port.name}} ({{port.country.name}})
+        </ion-label>
+      </ng-template>
+      <ng-template ionicSelectableAddItemTemplate let-port="item">
+        <form [formGroup]="portForm" novalidate>
+          <ion-list>
+            <ion-list-header>
+              Add Port
+            </ion-list-header>
+            <ion-item>
+              No ports found. Would you like to add one?
+            </ion-item>
+            <ion-item>
+              <ion-label>Name</ion-label>
+              <ion-input type="text" formControlName="portName" autocorrect="off"
+                autocapitalize="none">
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Country</ion-label>
+              <ionic-selectable formControlName="portCountry" itemValueField="id"
+                itemTextField="name" [items]="countries">
+              </ionic-selectable>
+            </ion-item>
+          </ion-list>
+        </form>
+        <ion-footer>
+          <ion-toolbar>
+            <ion-row>
+              <ion-col [size]="6">
+                <ion-button expand="full" (click)="portComponent.hideAddItemTemplate()">
+                  Cancel
+                </ion-button>
+              </ion-col>
+              <ion-col [size]="6">
+                <ion-button expand="full" (click)="addPort()" [disabled]="!portForm.valid">
+                  Add
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-toolbar>
+        </ion-footer>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

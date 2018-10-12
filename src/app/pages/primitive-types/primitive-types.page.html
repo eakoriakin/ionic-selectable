@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use cases</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage with primitive types.
+    </ion-label>
+  </ion-item>
+  <ion-item-group>
+    <ion-list-header color="light">String</ion-list-header>
+    <ion-item>
+      <ion-label>Port</ion-label>
+      <ionic-selectable [(ngModel)]="port" [items]="ports" [canSearch]="true"
+        (onChange)="portChange($event)">
+      </ionic-selectable>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-list-header color="light">Number</ion-list-header>
+    <ion-item>
+      <ion-label>Terminal</ion-label>
+      <ionic-selectable [(ngModel)]="terminal" [items]="terminals" [canSearch]="true"
+        (onChange)="terminalChange($event)">
+      </ionic-selectable>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-list-header color="light">Boolean</ion-list-header>
+    <ion-item>
+      <ion-label>Towage Required</ion-label>
+      <ionic-selectable [(ngModel)]="towageRequired" [items]="[true, false]"
+        (onChange)="towageRequiredChange($event)">
+        <ng-template ionicSelectableItemTemplate let-item="item">
+          {{item ? 'Yes' : 'No'}}
+        </ng-template>
+        <ng-template ionicSelectableValueTemplate let-item="value">
+          {{item ? 'Yes' : 'No'}}
+        </ng-template>
+      </ionic-selectable>
+    </ion-item>
+  </ion-item-group>
+</ion-content>

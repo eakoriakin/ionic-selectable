@@ -1,0 +1,7 @@
+{
+  "name": "ionic-selectable",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

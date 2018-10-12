@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Forms</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'formcontrol' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage with Angular <b>FormControl</b>.
+    </ion-label>
+  </ion-item>
+  <form [formGroup]="form" margin-bottom>
+    <ion-item>
+      <ion-label>Port</ion-label>
+      <ionic-selectable formControlName="port" itemValueField="id"
+        itemTextField="name" [items]="ports">
+      </ionic-selectable>
+    </ion-item>
+    <ion-item>
+      <ion-badge slot="end" color="danger" *ngIf="!form.valid">Invalid</ion-badge>
+      <ion-badge slot="end" color="secondary" *ngIf="form.valid">Valid</ion-badge>
+      <ion-button (click)="reset()" [disabled]="!form.valid">Clear</ion-button>
+    </ion-item>
+  </form>
+</ion-content>

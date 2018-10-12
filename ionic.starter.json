@@ -1,0 +1,12 @@
+{
+  "name": "Ionic Selectable",
+  "baseref": "master",
+  "tarignore": [
+    "node_modules",
+    "package-lock.json",
+    "www"
+  ],
+  "scripts": {
+    "test": "npm run lint && npm run ng -- build && npm run ng -- build --prod && npm run ng -- test --watch=false --progress=false && npm run ng -- e2e && npm run ng -- g pg my-page --dry-run && npm run ng -- g c my-component --dry-run"
+  }
+}

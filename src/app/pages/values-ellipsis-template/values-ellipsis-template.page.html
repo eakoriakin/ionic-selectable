@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Multiple values with ellipsis template</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'multiple-values-with-ellipsis-template' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>value template</b> to show multiple values in a single line
+      with ellipsis.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="selectedPorts"
+      itemValueField="id" itemTextField="name" [items]="ports">
+      <ng-template ionicSelectableValueTemplate let-ports="value">
+        <div class="ionic-selectable-value-item">
+          {{formatPorts(ports)}}
+        </div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

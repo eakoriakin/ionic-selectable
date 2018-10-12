@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "editor.detectIndentation": false,
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/public": true,
+      "**/.tmp": true,
+      "package-lock.json": true
+    },
+    "files.eol": "\n",
+    "typescript.autoImportSuggestions.enabled": false,
+    "html.format.wrapLineLength": 80,
+    "[typescript]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      }
+    },
+    "beautify.tabSize": 2
+  }
+}

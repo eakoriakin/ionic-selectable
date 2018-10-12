@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Grouping</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'grouping-items' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Grouping items.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      groupValueField="country.id" groupTextField="country.name" [items]="ports"
+      [canSearch]="true">
+      <ng-template ionicSelectableGroupTemplate let-group="group">
+        <ion-label>
+          {{group.text}}
+        </ion-label>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

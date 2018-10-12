@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>onSearch</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'onsearch' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>onSearch</b> event to search items asynchronously.<br />
+      Search can be conducted by several item fields: <b>id</b>, <b>name</b>
+      and <b>country</b>.<br />
+      For example, type <b>Ger</b> to filter ports by <b>name</b> or <b>country</b>,
+      or type <b>8</b> to search by <b>id</b>.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      [items]="ports" [canSearch]="true" (onSearch)="searchPorts($event)"
+      searchPlaceholder="Type &quot;Ger&quot; or &quot;8&quot;">
+      <ng-template ionicSelectableItemTemplate let-port="item">
+        <ion-label>
+          {{port.name}} - {{port.id}} ({{port.country.name}})
+        </ion-label>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

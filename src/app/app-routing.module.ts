@@ -1,0 +1,134 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [{
+  path: '',
+  redirectTo: 'home',
+  pathMatch: 'full'
+}, {
+  path: 'home',
+  loadChildren: './pages/home/home.module#HomePageModule'
+}, {
+  path: 'labels',
+  loadChildren: './pages/labels/labels.module#LabelsPageModule'
+}, {
+  path: 'basic',
+  loadChildren: './pages/basic/basic.module#BasicPageModule'
+}, {
+  path: 'inside-modal',
+  loadChildren: './pages/inside-modal/inside-modal.module#InsideModalPageModule'
+}, {
+  path: 'form-control',
+  loadChildren: './pages/form-control/form-control.module#FormControlPageModule'
+}, {
+  path: 'close-button-text',
+  loadChildren: './pages/close-button-text/close-button-text.module#CloseButtonTextPageModule'
+}, {
+  path: 'primitive-types',
+  loadChildren: './pages/primitive-types/primitive-types.module#PrimitiveTypesPageModule'
+}, {
+  path: 'initial-value',
+  loadChildren: './pages/initial-value/initial-value.module#InitialValuePageModule'
+}, {
+  path: 'is-enabled',
+  loadChildren: './pages/is-enabled/is-enabled.module#IsEnabledPageModule'
+}, {
+  path: 'can-clear',
+  loadChildren: './pages/can-clear/can-clear.module#CanClearPageModule'
+}, {
+  path: 'is-multiple',
+  loadChildren: './pages/is-multiple/is-multiple.module#IsMultiplePageModule'
+}, {
+  path: 'on-search',
+  loadChildren: './pages/on-search/on-search.module#OnSearchPageModule'
+}, {
+  path: 'infinite-scroll',
+  loadChildren: './pages/infinite-scroll/infinite-scroll.module#InfiniteScrollPageModule'
+}, {
+  path: 'min-max-selection',
+  loadChildren: './pages/min-max-selection/min-max-selection.module#MinMaxSelectionPageModule'
+}, {
+  path: 'scroll-to-top',
+  loadChildren: './pages/scroll-to-top/scroll-to-top.module#ScrollToTopPageModule'
+}, {
+  path: 'virtual-scroll',
+  loadChildren: './pages/virtual-scroll/virtual-scroll.module#VirtualScrollPageModule'
+}, {
+  path: 'should-store-item-value',
+  loadChildren: './pages/should-store-item-value/should-store-item-value.module#ShouldStoreItemValuePageModule'
+}, {
+  path: 'placeholder',
+  loadChildren: './pages/placeholder/placeholder.module#PlaceholderPageModule'
+}, {
+  path: 'infinite-scroll-is-multiple',
+  loadChildren: './pages/infinite-scroll-is-multiple/infinite-scroll-is-multiple.module#InfiniteScrollIsMultiplePageModule'
+}, {
+  path: 'cascading',
+  loadChildren: './pages/cascading/cascading.module#CascadingPageModule'
+}, {
+  path: 'values-ellipsis-template',
+  loadChildren: './pages/values-ellipsis-template/values-ellipsis-template.module#ValuesEllipsisTemplatePageModule'
+}, {
+  path: 'value-template',
+  loadChildren: './pages/value-template/value-template.module#ValueTemplatePageModule'
+}, {
+  path: 'title-template',
+  loadChildren: './pages/title-template/title-template.module#TitleTemplatePageModule'
+}, {
+  path: 'search-fail-template',
+  loadChildren: './pages/search-fail-template/search-fail-template.module#SearchFailTemplatePageModule'
+}, {
+  path: 'placeholder-template',
+  loadChildren: './pages/placeholder-template/placeholder-template.module#PlaceholderTemplatePageModule'
+}, {
+  path: 'multiple-values-template',
+  loadChildren: './pages/multiple-values-template/multiple-values-template.module#MultipleValuesTemplatePageModule'
+}, {
+  path: 'message-template',
+  loadChildren: './pages/message-template/message-template.module#MessageTemplatePageModule'
+}, {
+  path: 'item-template',
+  loadChildren: './pages/item-template/item-template.module#ItemTemplatePageModule'
+}, {
+  path: 'item-right-template',
+  loadChildren: './pages/item-right-template/item-right-template.module#ItemRightTemplatePageModule'
+}, {
+  path: 'grouping-virtual-scroll',
+  loadChildren: './pages/grouping-virtual-scroll/grouping-virtual-scroll.module#GroupingVirtualScrollPageModule'
+}, {
+  path: 'grouping',
+  loadChildren: './pages/grouping/grouping.module#GroupingPageModule'
+}, {
+  path: 'group-template',
+  loadChildren: './pages/group-template/group-template.module#GroupTemplatePageModule'
+}, {
+  path: 'group-right-template',
+  loadChildren: './pages/group-right-template/group-right-template.module#GroupRightTemplatePageModule'
+}, {
+  path: 'find-ports',
+  loadChildren: './pages/find-ports/find-ports.module#FindPortsPageModule'
+}, {
+  path: 'editing-async',
+  loadChildren: './pages/editing-async/editing-async.module#EditingAsyncPageModule'
+}, {
+  path: 'editing',
+  loadChildren: './pages/editing/editing.module#EditingPageModule'
+}, {
+  path: 'disabling-items',
+  loadChildren: './pages/disabling-items/disabling-items.module#DisablingItemsPageModule'
+}, {
+  path: 'close-button-template',
+  loadChildren: './pages/close-button-template/close-button-template.module#CloseButtonTemplatePageModule'
+}, {
+  path: 'adding-on-search-fail-async',
+  loadChildren: './pages/adding-on-search-fail-async/adding-on-search-fail-async.module#AddingOnSearchFailAsyncPageModule'
+}, {
+  path: 'adding-on-search-fail',
+  loadChildren: './pages/adding-on-search-fail/adding-on-search-fail.module#AddingOnSearchFailPageModule'
+}];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

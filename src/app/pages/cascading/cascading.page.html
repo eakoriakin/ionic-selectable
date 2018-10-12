@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use cases</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Cascading selection.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Country</ion-label>
+    <ionic-selectable #countryComponent [(ngModel)]="country" itemValueField="id"
+      itemTextField="name" [items]="countries" [canSearch]="true" (onChange)="countryChange($event)"
+      [canClear]="true">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      [items]="ports" [isEnabled]="countryComponent.value" [placeholder]="countryComponent.value ? '' : 'Select country first'">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

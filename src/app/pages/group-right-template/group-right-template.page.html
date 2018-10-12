@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Group right template</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'group-right-template' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Usage of <b>group right template</b>.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      groupValueField="country.id" groupTextField="country.name" [items]="ports"
+      [canSearch]="true">
+      <ng-template ionicSelectableGroupRightTemplate let-group="group">
+        <img class="country-flag" [src]="group.items[0].country.flagUrl" />
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

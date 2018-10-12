@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use cases</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Setting initial value.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
+      [items]="ports">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <p>
+      Setting initial multiple values.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ports</ion-label>
+    <ionic-selectable [(ngModel)]="selectedPorts" [isMultiple]="true"
+      itemValueField="id" itemTextField="name" [items]="ports">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>
