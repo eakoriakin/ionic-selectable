@@ -5,14 +5,12 @@ let gulp = require('gulp'),
   rename = require('gulp-rename'),
   jsonEditor = require('gulp-json-editor'),
   fs = require('fs'),
-  tar = require('tar'),
   sass = require('gulp-sass');
 
 let packageJson = JSON.parse(fs.readFileSync('./package.json')),
   paths = {
     gulp: 'node_modules/gulp/bin/gulp.js',
     ngPackagr: 'node_modules/ng-packagr/cli/main.js',
-    ionic: 'C:/Program Files/nodejs/node_modules/ionic/bin/ionic',
     images: {
       root: 'images/'
     },
@@ -46,25 +44,12 @@ function executeCommand(command, parameters) {
     command = paths.gulp;
   } else if (command === 'ng-packagr') {
     command = paths.ngPackagr;
-  } else if (command === 'ionic') {
-    command = paths.ionic;
   }
 
   var _parameters = _.cloneDeep(parameters);
   _parameters.unshift(command);
 
-  childProcess.spawnSync('node', _parameters, { stdio: 'inherit', cwd: './' });
-}
-
-function createTar(file, directory) {
-  return tar.create({
-    gzip: true,
-    strict: true,
-    portable: true,
-    cwd: directory,
-    file: file,
-    sync: true
-  }, ['.']);
+  childProcess.spawnSync('node', _parameters, { stdio: 'inherit' });
 }
 
 function copyCss() {
@@ -80,6 +65,8 @@ function copyCss() {
     }),
     new Promise(function (resolve, reject) {
       gulp.src(paths.src.css)
+        // This is to create a minified CSS file in order to use in StackBlitz demos.
+        // The minified file isn't required for component to work.
         .pipe(sass({
           outputStyle: 'compressed'
         }))
@@ -91,6 +78,14 @@ function copyCss() {
   ]);
 }
 
+function modifyReadme() {
+  // Replace version.
+  let readmeFile = `${paths.dist.root}README.md`,
+    data = fs.readFileSync(readmeFile, 'utf8');
+  data = data.replace(/<version>/g, packageJson.version);
+  fs.writeFileSync(readmeFile, data, 'utf8');
+}
+
 function copyImages() {
   return new Promise(function (resolve, reject) {
     gulp.src(`${paths.images.root}**/*`)
@@ -98,19 +93,6 @@ function copyImages() {
       .on('error', reject)
       .on('end', resolve);
   });
-}
-
-// Although ng-packagr creates .tgz package, we modify package.json after it,
-// so we need to repack it.
-function pack() {
-  let tarName = `${packageJson.name}-${packageJson.version}.tgz`;
-
-  // Remove archive created by ng-packagr.
-  fs.unlinkSync('dist.tgz');
-
-  // Create new archive.
-  createTar(tarName, paths.dist.root);
-  fs.renameSync(tarName, `${paths.dist.root}${tarName}`);
 }
 
 function minifyJS() {
@@ -150,11 +132,9 @@ function modifyPackageJson() {
         json.main = `bundles/${paths.dist.bundles.minFile}`;
         json.module = `esm5/${paths.dist.esm5.minFile}`;
         json.es2015 = `esm2015/${paths.dist.esm2015.minFile}`;
-        json.private = true;
         delete json.cordova;
         delete json.devDependencies;
         delete json.dependencies;
-        delete json.repository;
         return json;
       }))
       .pipe(gulp.dest(paths.dist.root))
@@ -163,20 +143,17 @@ function modifyPackageJson() {
   });
 }
 
-gulp.task('heroku', function () {
-  executeCommand('ionic', ['build', '--minifyjs', '--minifycss', '--optimizejs']);
-});
-
 gulp.task('build', function () {
   executeCommand('ng-packagr', ['-p', 'ng-package.json']);
 
   minifyJS().then(function () {
     modifyPackageJson().then(function () {
+      modifyReadme();
       copyCss().then(function () {
-        copyImages();
-        // copyImages().then(function () {
-        //   pack();
-        // });
+        copyImages().then(function () {
+          // Remove archive created by ng-packagr.
+          fs.unlinkSync('dist.tgz');
+        });
       });
     });
   });
