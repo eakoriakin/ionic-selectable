@@ -1,6 +1,6 @@
 [npm-url]: https://npmjs.org/package/ionic-selectable
 [npm-image]: https://img.shields.io/npm/v/ionic-selectable.svg
-[dm-image]: https://img.shields.io/npm/dm/ionic-select-searchable.svg
+[dm-image]: https://img.shields.io/npm/dm/ionic-selectable.svg
 [dt-image]: https://img.shields.io/npm/dt/ionic-select-searchable.svg
 
 # Ionic Selectable
@@ -8,7 +8,7 @@
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki/FAQ) | [Docs](../../wiki/Documentation) | [Ask on LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/) | [Share it](#share-it) | [Support development](https://gumroad.com/products/nkUr)
+[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki/FAQ) | [Docs](../../wiki/Documentation) | [Ask on LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/) | [Donate](https://gumroad.com/products/nkUr)
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
@@ -47,10 +47,10 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 1. Install it.  
 ```
 // Ionic 3
-npm install ionic-selectable@3.0.3 --save
+npm install ionic-selectable@3.1.0 --save
 
 // Ionic 4
-npm install ionic-selectable@4.0.0 --save
+npm install ionic-selectable@4.1.3 --save
 ```
 
 2. Import it.  
@@ -92,7 +92,7 @@ export class HomePageModule { }
 <ion-item>
   <ion-label>Port</ion-label>
   <ionic-selectable
-    item-content // You don't need it if you use Ionic 4.
+    item-content // Required for Ionic 3 only.
     [(ngModel)]="port"
     [items]="ports"
     itemValueField="id"
