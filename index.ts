@@ -1,1 +1,1 @@
-export * from './src/components/ionic-selectable/ionic-selectable.module';
+export * from './src/app/components/ionic-selectable/ionic-selectable.module';

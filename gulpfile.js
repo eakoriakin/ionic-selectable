@@ -16,7 +16,7 @@ let packageJson = JSON.parse(fs.readFileSync('./package.json')),
       root: 'images/'
     },
     src: {
-      css: `src/components/${packageJson.name}/${packageJson.name}.component.scss`
+      css: `src/app/components/${packageJson.name}/${packageJson.name}.component.scss`
     },
     dist: {
       root: 'dist/',
@@ -130,7 +130,6 @@ function modifyPackageJson() {
         delete json.cordova;
         delete json.devDependencies;
         delete json.dependencies;
-        delete json.repository;
         return json;
       }))
       .pipe(gulp.dest(paths.dist.root))
