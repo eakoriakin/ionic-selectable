@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Modal
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text color="primary" showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" hideWhen="ios"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <ion-label>Port</ion-label>
+        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+            itemTextField="name" [items]="ports" (onChange)="portChange($event)"
+            [canSearch]="true" [hasVirtualScroll]="false" (onSearch)="searchPorts($event)">
+        </ionic-selectable>
+    </ion-item>
+    <ion-item>
+        <ion-label>Port 2</ion-label>
+        <ionic-selectable item-content [(ngModel)]="port2" itemValueField="id"
+            itemTextField="name" [items]="ports" [canSearch]="true"
+            [hasInfiniteScroll]="true" (onSearch)="searchPortsInfinite($event)"
+            (onInfiniteScroll)="getMorePorts($event)">
+        </ionic-selectable>
+    </ion-item>
+</ion-content>

@@ -1,0 +1,202 @@
+$select-ios-icon-color: #999;
+$select-md-icon-color: #999;
+$select-ios-placeholder-color: #999;
+$select-md-placeholder-color: #999;
+$select-ios-padding-left: 16px;
+$select-md-padding-left: 16px;
+$content-margin: 16px !default;
+$content-padding: 16px;
+.item {
+  &-label-stacked,
+  &-label-floating {
+    .ionic-selectable {
+      align-self: stretch;
+      max-width: 100%;
+      padding-left: 0;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      &-value {
+        padding-top: 0;
+        padding-bottom: 0;
+        min-height: 19px;
+      }
+      &-icon-inner {
+        top: 7px;
+      }
+      &-ios {
+        .ionic-selectable-value {
+          padding-top: 0;
+          padding-bottom: 0;
+          min-height: 20px;
+        }
+        .ionic-selectable-icon-inner {
+          top: 8px;
+        }
+      }
+    }
+  }
+  &:not(.item-label-stacked):not(.item-label-floating) {
+    .ionic-selectable {
+      &-md {
+        .ionic-selectable-value {
+          padding-left: $select-md-padding-left;
+        }
+      }
+      &-ios {
+        .ionic-selectable-value {
+          padding-left: $select-ios-padding-left;
+        }
+      }
+    }
+  }
+  &-ionic-selectable {
+    // Vertical allignment for label.
+    .item-inner .input-wrapper {
+      align-items: normal;
+    }
+    ion-label {
+      flex: 1;
+      max-width: initial;
+    }
+  }
+}
+
+.ionic-selectable {
+  display: flex;
+  max-width: 45%;
+  &:not(.ionic-selectable-is-enabled) {
+    opacity: 0.4;
+  }
+  &-has-placeholder {
+    .ionic-selectable-value-item {
+      color: $select-md-placeholder-color;
+    }
+  }
+  &-value {
+    flex: 1;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    overflow: hidden;
+    &-item {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+  &-icon {
+    position: relative;
+    width: 20px;
+    &-inner {
+      position: absolute;
+      top: 20px;
+      left: 5px;
+      border-top: 5px solid;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+      pointer-events: none;
+    }
+  }
+  &-item {
+    &-button {
+      width: 25px;
+    }
+  }
+  &-ios {
+    &.ionic-selectable-has-placeholder {
+      .ionic-selectable-value-item {
+        color: $select-ios-placeholder-color;
+      }
+    }
+    .ionic-selectable-value {
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+    .ionic-selectable-icon {
+      &-inner {
+        top: 19px;
+        color: $select-ios-icon-color;
+      }
+    }
+  }
+  &-md {
+    .ionic-selectable-icon {
+      &-inner {
+        color: $select-md-icon-color;
+      }
+    }
+  }
+  &-spinner {
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    &-background {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      background-color: #000000;
+      opacity: 0.05;
+    }
+    ion-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+      margin-top: -14px;
+      margin-left: -14px;
+    }
+  }
+  &-add-item-template {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+  }
+}
+
+.ionic-selectable-page {
+  &-ios {
+    .ionic-selectable-message {
+      padding: 8px;
+    }
+  }
+  &-md {
+    .ionic-selectable-message {
+      padding: 8px 12px;
+    }
+  }
+  &.ionic-selectable-page-can-clear.ionic-selectable-page-is-multiple {
+    .footer .col:first-child {
+      padding-right: $content-margin / 2;
+    }
+    .footer .col:last-child {
+      padding-left: $content-margin / 2;
+    }
+  }
+  &.ionic-selectable-page-is-searching {
+    .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+  &.ionic-selectable-page-is-add-item-template-visible {
+    // Hide scroll from list content.
+    // Use immediate child selector as we don't want to apply the rule
+    // to content inside add item template defined by user.
+    >.content>.scroll-content {
+      overflow-y: hidden;
+    }
+  }
+  ion-footer {
+    ion-toolbar {
+      padding: 5px $content-padding;
+    }
+  }
+}

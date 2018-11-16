@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Templates</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Setting multiple values template.
+        </p>
+        <p>
+            See docs on <a href="{{'multiple-values-template' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ion-label>Port</ion-label>
+        <ionic-selectable item-content [(ngModel)]="selectedPorts"
+            itemValueField="id" itemTextField="name" [items]="ports"
+            [isMultiple]="true" [canClear]="true">
+            <ng-template ionicSelectableValueTemplate let-ports="value">
+                <div class="ionic-selectable-value-item" *ngFor="let port of ports">
+                    <img class="value-country-flag" [src]="port.country.flagUrl" />
+                    {{port.name}} ({{port.country.name}})
+                </div>
+            </ng-template>
+        </ionic-selectable>
+    </ion-item>
+</ion-content>

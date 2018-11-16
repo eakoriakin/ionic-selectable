@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Grouping</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Grouping items with Ionic <b>VirtualScroll</b>.
+        </p>
+        <p>
+            See docs on <a href="{{'grouping-items-with-ionic-virtualscroll' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ion-label>Port</ion-label>
+        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+            itemTextField="name" [items]="ports" [hasVirtualScroll]="true"
+            [virtualScrollHeaderFn]="getGroupText" [canSearch]="true">
+        </ionic-selectable>
+    </ion-item>
+</ion-content>

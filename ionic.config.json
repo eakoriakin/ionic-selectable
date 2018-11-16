@@ -1,0 +1,9 @@
+{
+  "name": "ionic-selectable",
+  "integrations": {
+    "cordova": {},
+    "gulp": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "a05695fc"
+}

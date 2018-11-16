@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Templates</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Setting value template.
+        </p>
+        <p>
+            See docs on <a href="{{'value-template' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ion-label>Port</ion-label>
+        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+            itemTextField="name" [items]="ports">
+            <ng-template ionicSelectableValueTemplate let-port="value">
+                {{port.name}} ({{port.country.name}})
+            </ng-template>
+        </ionic-selectable>
+    </ion-item>
+</ion-content>

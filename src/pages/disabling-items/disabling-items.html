@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Templates</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Usage of <b>disabledItems</b> for mutually exclusive values.
+        </p>
+        <p>
+            In the sample below selected loading ports will not be available
+        </p>
+        <p>
+            for selection in discharging ports and vice versa.
+        </p>
+        <p>
+            See docs on <a href="{{'disableditems' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ion-label>Loading Ports</ion-label>
+        <ionic-selectable #loadingPortsComponent item-content [(ngModel)]="loadingPorts"
+            itemValueField="id" itemTextField="name" [items]="ports" [canClear]="true"
+            [isMultiple]="true" (onChange)="loadingPortChange($event)"
+            [disabledItems]="disabledLoadingPorts">
+        </ionic-selectable>
+    </ion-item>
+    <ion-item>
+        <ion-label>Discharging Ports</ion-label>
+        <ionic-selectable #dischargingPortsComponent item-content [(ngModel)]="dischargingPorts"
+            itemValueField="id" itemTextField="name" [items]="ports" [canClear]="true"
+            [isMultiple]="true" (onChange)="dischargingPortChange($event)"
+            [disabledItems]="disabledDischargingPorts">
+        </ionic-selectable>
+    </ion-item>
+    <!-- <ion-item>
+        <button ion-button (click)="loadingPortsComponent.clear(); dischargingPortsComponent.clear();">
+            Clear
+        </button>
+    </ion-item> -->
+</ion-content>

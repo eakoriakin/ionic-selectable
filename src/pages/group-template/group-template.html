@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Templates</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Setting group template.
+        </p>
+        <p>
+            See docs on <a href="{{'group-template' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ion-label>Port</ion-label>
+        <ionic-selectable>
+            <ng-template ionicSelectableGroupTemplate let-group="group">
+                {{group.text}} ({{group.items[0].country.flag}})
+            </ng-template>
+        </ionic-selectable>
+    </ion-item>
+</ion-content>

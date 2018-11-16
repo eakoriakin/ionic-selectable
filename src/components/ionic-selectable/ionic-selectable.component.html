@@ -1,0 +1,26 @@
+<div class="ionic-selectable-value">
+    <div *ngIf="valueTemplate && _valueItems.length && isMultiple" [ngTemplateOutlet]="valueTemplate"
+        [ngTemplateOutletContext]="{ value: _valueItems }">
+    </div>
+    <div class="ionic-selectable-value-item" *ngIf="valueTemplate && _valueItems.length && !isMultiple">
+        <div [ngTemplateOutlet]="valueTemplate" [ngTemplateOutletContext]="{ value: _valueItems[0] }">
+        </div>
+    </div>
+    <span *ngIf="!valueTemplate && _valueItems.length">
+        <div class="ionic-selectable-value-item" *ngFor="let valueItem of _valueItems">
+            {{_formatValueItem(valueItem)}}
+        </div>
+    </span>
+    <div *ngIf="_hasPlaceholder && placeholderTemplate" class="ionic-selectable-value-item">
+        <div [ngTemplateOutlet]="placeholderTemplate">
+        </div>
+    </div>
+    <div class="ionic-selectable-value-item" *ngIf="_hasPlaceholder && !placeholderTemplate">
+        {{placeholder}}
+    </div>
+</div>
+<div class="ionic-selectable-icon">
+    <div class="ionic-selectable-icon-inner"></div>
+</div>
+<button aria-haspopup="true" ion-button="item-cover" class="item-cover" [disabled]="!isEnabled">
+</button>

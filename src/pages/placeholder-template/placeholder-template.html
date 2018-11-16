@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Templates</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <p>
+            Setting placeholder template.
+        </p>
+        <p>
+            See docs on <a href="{{'placeholder-template' | wikiUrl}}">GitHub</a>.
+        </p>
+    </ion-item>
+    <ion-item>
+        <ionic-selectable #portComponent item-content [(ngModel)]="port2"
+            itemValueField="id" itemTextField="name" [items]="ports">
+            <ng-template ionicSelectableTitleTemplate>
+                Port
+            </ng-template>
+            <ng-template ionicSelectablePlaceholderTemplate>
+                Port <span style="color: black;">(Dry)</span>
+            </ng-template>
+        </ionic-selectable>
+    </ion-item>
+    <ion-item>
+        <button ion-button (click)="portComponent.clear()">
+            Clear
+        </button>
+    </ion-item>
+</ion-content>
