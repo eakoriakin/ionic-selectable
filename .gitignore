@@ -9,9 +9,10 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
-.vscode/
 npm-debug.log*
 
+.vscode/
+.ng_pkg_build/
 .idea/
 .ionic/
 .sourcemaps/
@@ -19,7 +20,7 @@ npm-debug.log*
 .tmp/
 .versions/
 coverage/
-www/
+dist/
 node_modules/
 tmp/
 temp/
@@ -27,9 +28,8 @@ platforms/
 plugins/
 plugins/android.json
 plugins/ios.json
+www/
 $RECYCLE.BIN/
-.ng_pkg_build/
-dist/
 
 .DS_Store
 Thumbs.db

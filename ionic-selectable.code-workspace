@@ -15,7 +15,6 @@
       "package-lock.json": true
     },
     "files.eol": "\n",
-    "typescript.autoImportSuggestions.enabled": false,
     "html.format.wrapLineLength": 80,
     "[typescript]": {
       "editor.codeActionsOnSave": {
@@ -24,5 +23,5 @@
     },
     "beautify.tabSize": 2,
     "editor.tabSize": 2
-}
+  }
 }

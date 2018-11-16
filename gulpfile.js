@@ -78,14 +78,6 @@ function copyCss() {
   ]);
 }
 
-function modifyReadme() {
-  // Replace version.
-  let readmeFile = `${paths.dist.root}README.md`,
-    data = fs.readFileSync(readmeFile, 'utf8');
-  data = data.replace(/<version>/g, packageJson.version);
-  fs.writeFileSync(readmeFile, data, 'utf8');
-}
-
 function copyImages() {
   return new Promise(function (resolve, reject) {
     gulp.src(`${paths.images.root}**/*`)
@@ -148,7 +140,6 @@ gulp.task('build', function () {
 
   minifyJS().then(function () {
     modifyPackageJson().then(function () {
-      modifyReadme();
       copyCss().then(function () {
         copyImages().then(function () {
           // Remove archive created by ng-packagr.
