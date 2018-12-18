@@ -86,6 +86,14 @@
       </button>
     </ion-item-group>
   </ion-list>
+  <!-- Fail text should be above InfiniteScroll to avoid a gap when no items are found. -->
+  <div *ngIf="!selectComponent._filteredGroups.length || !selectComponent._filteredGroups[0].items.length">
+    <span *ngIf="selectComponent.searchFailTemplate" [ngTemplateOutlet]="selectComponent.searchFailTemplate">
+    </span>
+    <div *ngIf="!selectComponent.searchFailTemplate" margin>
+      {{selectComponent.searchFailText}}
+    </div>
+  </div>
   <ion-infinite-scroll *ngIf="!selectComponent.hasVirtualScroll" [enabled]="selectComponent.hasInfiniteScroll"
     (ionInfinite)="_getMoreItems($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
@@ -130,20 +138,13 @@
       </button>
     </button>
   </ion-list>
-  <div *ngIf="!selectComponent._filteredGroups.length || !selectComponent._filteredGroups[0].items.length">
-    <span *ngIf="selectComponent.searchFailTemplate" [ngTemplateOutlet]="selectComponent.searchFailTemplate">
-    </span>
-    <div *ngIf="!selectComponent.searchFailTemplate" margin>
-      {{selectComponent.searchFailText}}
-    </div>
-  </div>
-  <div class="ionic-selectable-add-item-template" *ngIf="selectComponent._isAddItemTemplateVisible"
-    [ngStyle]="{ 'top.px': _content.contentTop }">
+</ion-content>
+<div class="ionic-selectable-add-item-template" *ngIf="selectComponent._isAddItemTemplateVisible"
+    [ngStyle]="{ 'top.px': _header.offsetHeight }">
     <span [ngTemplateOutlet]="selectComponent.addItemTemplate"
       [ngTemplateOutletContext]="{ item: selectComponent._itemToAdd, isAdd: selectComponent._itemToAdd === null }">
     </span>
-  </div>
-</ion-content>
+</div>
 <ion-footer *ngIf="selectComponent._footerButtonsCount > 0" [ngStyle]="{ 'visibility': selectComponent._isFooterVisible ? 'initial' : 'hidden' }">
   <ion-toolbar>
     <ion-row>
