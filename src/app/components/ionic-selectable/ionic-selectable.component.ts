@@ -451,7 +451,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   groupColor: string = null;
 
   /**
-   * Fires when the user has selected item/s.
+   * Fires when item/s has been selected and Select page closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onchange).
    *
    * @memberof IonicSelectableComponent
@@ -498,7 +498,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onInfiniteScroll: EventEmitter<{ component: IonicSelectableComponent, text: string }> = new EventEmitter();
 
   /**
-   * Fires when the user has opened Select page.
+   * Fires when Select page has been opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
    *
    * @memberof IonicSelectableComponent
@@ -507,7 +507,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onOpen: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
 
   /**
-   * Fires when the user has closed Select page.
+   * Fires when Select page has been closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
    *
    * @memberof IonicSelectableComponent
@@ -606,7 +606,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
 
   /**
-   * Fires when the user has clicked Edit item button.
+   * Fires when Edit item button has been clicked.
    * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to edit item.
    * **Note**: `canSaveItem` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsaveitem).
@@ -617,7 +617,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onSaveItem: EventEmitter<{ component: IonicSelectableComponent, item: any }> = new EventEmitter();
 
   /**
-   * Fires when the user has clicked Delete item button.
+   * Fires when Delete item button has been clicked.
    * **Note**: `canDeleteItem` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ondeleteitem).
    *
@@ -627,7 +627,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onDeleteItem: EventEmitter<{ component: IonicSelectableComponent, item: any }> = new EventEmitter();
 
   /**
-   * Fires when the user has clicked Add item button.
+   * Fires when Add item button has been clicked.
    * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item.
    * **Note**: `canAddItem` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
