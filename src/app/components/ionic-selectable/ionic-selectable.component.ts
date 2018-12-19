@@ -45,6 +45,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
   private _isOnSearchEnabled = true;
   private _isEnabled = true;
+  private _isBackdropCloseEnabled = true;
   private _isOpened = false;
   private _valueItems: any[] = [];
   private _value: any = null;
@@ -162,6 +163,21 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   set isEnabled(isEnabled: boolean) {
     this._isEnabled = !!isEnabled;
     this.enableIonItem(this._isEnabled);
+  }
+
+  /**
+   * Determines whether Select page should be closed when backdrop is clicked.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isbackdropcloseenabled).
+   *
+   * @default true
+   * @memberof IonicSelectableComponent
+   */
+  @Input('isBackdropCloseEnabled')
+  get isBackdropCloseEnabled(): boolean {
+    return this._isBackdropCloseEnabled;
+  }
+  set isBackdropCloseEnabled(isBackdropCloseEnabled: boolean) {
+    this._isBackdropCloseEnabled = !!isBackdropCloseEnabled;
   }
 
   /**
@@ -1281,9 +1297,12 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       self._filterItems();
 
       self._isOpened = true;
-      self._modal = self._modalController.create(IonicSelectablePageComponent, {
-        selectComponent: self
-      });
+      self._modal = self._modalController.create(
+        IonicSelectablePageComponent, {
+          selectComponent: self
+        }, {
+          enableBackdropDismiss: self._isBackdropCloseEnabled
+        });
       self._modal.present().then(() => {
         // Set focus after page has opened to avoid flickering of focus highlighting
         // before page opening.
