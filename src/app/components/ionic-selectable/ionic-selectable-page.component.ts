@@ -91,8 +91,10 @@ export class IonicSelectablePageComponent implements AfterViewInit {
     if (this.selectComponent.isMultiple) {
       if (this.selectComponent._isItemSelected(item)) {
         this.selectComponent._deleteSelectedItem(item);
+        this.selectComponent._emitOnSelect(item, false);
       } else {
         this.selectComponent._addSelectedItem(item);
+        this.selectComponent._emitOnSelect(item, true);
       }
 
       this._setItemsToConfirm(this.selectComponent._selectedItems);
@@ -106,6 +108,8 @@ export class IonicSelectablePageComponent implements AfterViewInit {
         } else {
           this.selectComponent._select(item);
         }
+
+        this.selectComponent._emitOnSelect(item, true);
       }
 
       this._close();

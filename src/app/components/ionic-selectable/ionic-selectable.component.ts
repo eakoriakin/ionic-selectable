@@ -535,6 +535,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
    */
   @Output()
   onClose: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
+
+  /**
+   * Fires when an item has been selected or unselected.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Output()
+  onSelect: EventEmitter<{ component: IonicSelectableComponent, item: any, isSelected: boolean }> = new EventEmitter();
+
   @ContentChild(IonicSelectableValueTemplateDirective, { read: TemplateRef })
   valueTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef })
@@ -765,6 +775,14 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     this.onSearch.emit({
       component: this,
       text: this._searchText
+    });
+  }
+
+  _emitOnSelect(item: any, isSelected: boolean) {
+    this.onSelect.emit({
+      component: this,
+      item: item,
+      isSelected: isSelected
     });
   }
 
