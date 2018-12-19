@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, HostBinding, ViewChild } from '@angular/core';
-import { Content, InfiniteScroll, NavParams, Searchbar, ViewController } from 'ionic-angular';
+import { AfterViewInit, Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
+import { Content, InfiniteScroll, NavParams, Searchbar } from 'ionic-angular';
 import { IonicSelectableComponent } from './ionic-selectable.component';
 
 @Component({
@@ -38,10 +38,11 @@ export class IonicSelectablePageComponent implements AfterViewInit {
   @ViewChild(Content)
   _content: Content;
   selectComponent: IonicSelectableComponent;
+  _header: HTMLElement;
 
   constructor(
     private navParams: NavParams,
-    private viewController: ViewController
+    public _element: ElementRef,
   ) {
     this.selectComponent = this.navParams.get('selectComponent');
     this.selectComponent._selectPageComponent = this;
@@ -61,6 +62,7 @@ export class IonicSelectablePageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this._header = this._element.nativeElement.querySelector('ion-header');
     if (this._searchbarComponent && this.selectComponent.focusSearchbar) {
       // Focus after a delay because focus doesn't work without it.
       setTimeout(() => {
