@@ -96,6 +96,10 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   get searchText(): string {
     return this._searchText;
   }
+  set searchText(searchText: string) {
+    this._searchText = searchText;
+    this._setHasSearchText();
+  }
 
   /**
    * Determines whether search is running.
