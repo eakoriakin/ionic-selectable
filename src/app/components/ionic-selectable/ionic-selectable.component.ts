@@ -516,6 +516,15 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onClose: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
 
   /**
+   * Fires when an item has been selected or unselected.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Output()
+  onSelect: EventEmitter<{ component: IonicSelectableComponent, item: any, isSelected: boolean }> = new EventEmitter();
+
+  /**
    * A list of items that are selected and awaiting confirmation by user, when he has clicked OK button.
    * After the user has clicked OK button items to confirm are cleared.
    * **Note**: `isMultiple` has to be enabled.
@@ -739,6 +748,14 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     this.onSearch.emit({
       component: this,
       text: this._searchText
+    });
+  }
+
+  _emitOnSelect(item: any, isSelected: boolean) {
+    this.onSelect.emit({
+      component: this,
+      item: item,
+      isSelected: isSelected
     });
   }
 
