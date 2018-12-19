@@ -1,25 +1,25 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Grouping</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Grouping</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item>
-        <p>
-            Grouping items.
-        </p>
-        <p>
-            See docs on <a href="{{'grouping-items' | wikiUrl}}">GitHub</a>.
-        </p>
-    </ion-item>
-    <ion-item>
-        <ion-label>Port</ion-label>
-        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
-            itemTextField="name" groupValueField="country.id" groupTextField="country.name"
-            [items]="ports" [canSearch]="true">
-            <ng-template ionicSelectableGroupTemplate let-group="group">
-                {{group.text}}
-            </ng-template>
-        </ionic-selectable>
-    </ion-item>
+  <ion-item>
+    <p>
+      Grouping items.
+    </p>
+    <p>
+      See docs on <a href="{{'grouping-items' | wikiUrl}}">GitHub</a>.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" groupValueField="country.id" groupTextField="country.name"
+      [items]="ports" [canSearch]="true">
+      <ng-template ionicSelectableGroupTemplate let-group="group">
+        {{group.text}}
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
 </ion-content>

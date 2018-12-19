@@ -1,41 +1,41 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Find Ports</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Find Ports</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item>
-        <ion-label>Country</ion-label>
-        <ionic-selectable item-content [(ngModel)]="country" itemValueField="id"
-            itemTextField="name" [items]="countries" [canSearch]="true">
-            <ng-template ionicSelectableItemRightTemplate let-country="item">
-                <img class="country-flag" [src]="country.flagUrl" />
-            </ng-template>
-            <ng-template ionicSelectableValueTemplate let-country="value">
-                <div class="ionic-selectable-value-item">
-                    <img class="country-flag" [src]="country.flagUrl" />
-                    {{country.name}}
-                </div>
-            </ng-template>
-        </ionic-selectable>
-    </ion-item>
-    <ion-item>
-        <ion-label>Port</ion-label>
-        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
-            itemTextField="name" [isMultiple]="true" [items]="ports"
-            [canSearch]="true" [canClear]="true" (onSearch)="searchPorts($event)">
-            <ng-template ionicSelectableItemRightTemplate let-port="item">
-                <ion-badge color="light">
-                    UTC{{portService.formatTimeZone(port.timeZone)}}
-                </ion-badge>
-            </ng-template>
-            <!-- <ng-template ionicSelectableValueTemplate let-ports="value">
-                <div class="ionic-selectable-value-item" *ngFor="let port of ports">
-                    {{port.name}} <ion-badge color="light">
-                        UTC{{portService.formatTimeZone(port.timeZone)}}
-                    </ion-badge>
-                </div>
-            </ng-template> -->
-        </ionic-selectable>
-    </ion-item>
+  <ion-item>
+    <ion-label>Country</ion-label>
+    <ionic-selectable item-content [(ngModel)]="country" itemValueField="id"
+      itemTextField="name" [items]="countries" [canSearch]="true">
+      <ng-template ionicSelectableItemRightTemplate let-country="item">
+        <img class="country-flag" [src]="country.flagUrl" />
+      </ng-template>
+      <ng-template ionicSelectableValueTemplate let-country="value">
+        <div class="ionic-selectable-value-item">
+          <img class="country-flag" [src]="country.flagUrl" />
+          {{country.name}}
+        </div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [isMultiple]="true" [items]="ports" [canSearch]="true"
+      [canClear]="true" (onSearch)="searchPorts($event)">
+      <ng-template ionicSelectableItemRightTemplate let-port="item">
+        <ion-badge color="light">
+          UTC{{portService.formatTimeZone(port.timeZone)}}
+        </ion-badge>
+      </ng-template>
+      <!-- <ng-template ionicSelectableValueTemplate let-ports="value">
+        <div class="ionic-selectable-value-item" *ngFor="let port of ports">
+          {{port.name}} <ion-badge color="light">
+            UTC{{portService.formatTimeZone(port.timeZone)}}
+          </ion-badge>
+        </div>
+      </ng-template> -->
+    </ionic-selectable>
+  </ion-item>
 </ion-content>

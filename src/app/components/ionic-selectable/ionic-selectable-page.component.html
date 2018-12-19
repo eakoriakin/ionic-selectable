@@ -140,10 +140,10 @@
   </ion-list>
 </ion-content>
 <div class="ionic-selectable-add-item-template" *ngIf="selectComponent._isAddItemTemplateVisible"
-    [ngStyle]="{ 'top.px': _header.offsetHeight }">
-    <span [ngTemplateOutlet]="selectComponent.addItemTemplate"
-      [ngTemplateOutletContext]="{ item: selectComponent._itemToAdd, isAdd: selectComponent._itemToAdd === null }">
-    </span>
+  [ngStyle]="{ 'top.px': _header.offsetHeight }">
+  <span [ngTemplateOutlet]="selectComponent.addItemTemplate"
+    [ngTemplateOutletContext]="{ item: selectComponent._itemToAdd, isAdd: selectComponent._itemToAdd === null }">
+  </span>
 </div>
 <ion-footer *ngIf="selectComponent._footerButtonsCount > 0" [ngStyle]="{ 'visibility': selectComponent._isFooterVisible ? 'initial' : 'hidden' }">
   <ion-toolbar>

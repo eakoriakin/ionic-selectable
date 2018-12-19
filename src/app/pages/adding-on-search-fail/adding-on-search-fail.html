@@ -1,68 +1,66 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Editing</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Editing</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item>
-        <p>
-            Adding item when search fails.
-        </p>
-        <p>
-            See docs on <a href="{{'adding-item-when-search-fails' | wikiUrl}}">GitHub</a>.
-        </p>
-    </ion-item>
-    <ion-item>
-        <ion-label>Port</ion-label>
-        <ionic-selectable #portComponent item-content [(ngModel)]="port"
-            itemValueField="id" itemTextField="name" [items]="ports"
-            [canSearch]="true" [canClear]="true" (onSearchFail)="onSearchFail($event)"
-            (onSearchSuccess)="onSearchSuccess($event)">
-            <ng-template ionicSelectableItemTemplate let-port="item">
-                {{port.name}} ({{port.country.name}})
-            </ng-template>
-            <ng-template ionicSelectableAddItemTemplate let-port="item">
-                <form [formGroup]="portForm" novalidate>
-                    <ion-list>
-                        <ion-item-divider>
-                            Add Port
-                        </ion-item-divider>
-                        <ion-item>
-                            No ports found. Would you like to add one?
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Name</ion-label>
-                            <ion-input type="text" formControlName="portName"
-                                autocorrect="off" autocapitalize="none">
-                            </ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Country</ion-label>
-                            <ionic-selectable item-content formControlName="portCountry"
-                                itemValueField="id" itemTextField="name"
-                                [items]="countries">
-                            </ionic-selectable>
-                        </ion-item>
-                    </ion-list>
-                </form>
-                <ion-footer>
-                    <ion-toolbar>
-                        <ion-row>
-                            <ion-col col-6>
-                                <button ion-button full no-margin (click)="portComponent.hideAddItemTemplate()">
-                                    Cancel
-                                </button>
-                            </ion-col>
-                            <ion-col col-6>
-                                <button ion-button full no-margin (click)="addPort()"
-                                    [disabled]="!portForm.valid">
-                                    Add
-                                </button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-toolbar>
-                </ion-footer>
-            </ng-template>
-        </ionic-selectable>
-    </ion-item>
+  <ion-item>
+    <p>
+      Adding item when search fails.
+    </p>
+    <p>
+      See docs on <a href="{{'adding-item-when-search-fails' | wikiUrl}}">GitHub</a>.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable #portComponent item-content [(ngModel)]="port"
+      itemValueField="id" itemTextField="name" [items]="ports" [canSearch]="true"
+      [canClear]="true" (onSearchFail)="onSearchFail($event)" (onSearchSuccess)="onSearchSuccess($event)">
+      <ng-template ionicSelectableItemTemplate let-port="item">
+        {{port.name}} ({{port.country.name}})
+      </ng-template>
+      <ng-template ionicSelectableAddItemTemplate let-port="item">
+        <form [formGroup]="portForm" novalidate>
+          <ion-list>
+            <ion-item-divider>
+              Add Port
+            </ion-item-divider>
+            <ion-item>
+              No ports found. Would you like to add one?
+            </ion-item>
+            <ion-item>
+              <ion-label>Name</ion-label>
+              <ion-input type="text" formControlName="portName" autocorrect="off"
+                autocapitalize="none">
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Country</ion-label>
+              <ionic-selectable item-content formControlName="portCountry"
+                itemValueField="id" itemTextField="name" [items]="countries">
+              </ionic-selectable>
+            </ion-item>
+          </ion-list>
+        </form>
+        <ion-footer>
+          <ion-toolbar>
+            <ion-row>
+              <ion-col col-6>
+                <button ion-button full no-margin (click)="portComponent.hideAddItemTemplate()">
+                  Cancel
+                </button>
+              </ion-col>
+              <ion-col col-6>
+                <button ion-button full no-margin (click)="addPort()"
+                  [disabled]="!portForm.valid">
+                  Add
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-toolbar>
+        </ion-footer>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
 </ion-content>

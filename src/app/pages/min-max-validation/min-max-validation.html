@@ -1,31 +1,31 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Validation</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Validation</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
+  <ion-item>
+    <p>
+      Min/max selection.
+    </p>
+  </ion-item>
+  <form [formGroup]="form" margin-bottom>
     <ion-item>
-        <p>
-            Min/max selection.
-        </p>
+      <ion-label>Port</ion-label>
+      <ionic-selectable #portComponent item-content formControlName="ports"
+        itemValueField="id" itemTextField="name" [items]="ports" [canClear]="true"
+        [isMultiple]="true" [isOkButtonEnabled]="portComponent.itemsToConfirm.length >= 1 && portComponent.itemsToConfirm.length <= 3">
+        <ng-template ionicSelectableMessageTemplate>
+          Select between 1 to 3 items.
+        </ng-template>
+      </ionic-selectable>
     </ion-item>
-    <form [formGroup]="form" margin-bottom>
-        <ion-item>
-            <ion-label>Port</ion-label>
-            <ionic-selectable #portComponent item-content formControlName="ports"
-                itemValueField="id" itemTextField="name" [items]="ports"
-                [canClear]="true" [isMultiple]="true" [isOkButtonEnabled]="portComponent.itemsToConfirm.length >= 1 && portComponent.itemsToConfirm.length <= 3">
-                <ng-template ionicSelectableMessageTemplate>
-                    Select between 1 to 3 items.
-                </ng-template>
-            </ionic-selectable>
-        </ion-item>
-        <ion-item>
-            <ion-badge color="danger" *ngIf="!form.valid">Invalid</ion-badge>
-            <ion-badge color="secondary" *ngIf="form.valid">Valid</ion-badge>
-            <button ion-button item-right (click)="reset()" [disabled]="!form.valid">
-                Reset
-            </button>
-        </ion-item>
-    </form>
+    <ion-item>
+      <ion-badge color="danger" *ngIf="!form.valid">Invalid</ion-badge>
+      <ion-badge color="secondary" *ngIf="form.valid">Valid</ion-badge>
+      <button ion-button item-right (click)="reset()" [disabled]="!form.valid">
+        Reset
+      </button>
+    </ion-item>
+  </form>
 </ion-content>

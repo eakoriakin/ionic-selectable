@@ -1,26 +1,26 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Templates</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Templates</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item>
-        <p>
-            Setting search fail template.
-        </p>
-        <p>
-            See docs on <a href="{{'search-fail-template' | wikiUrl}}">GitHub</a>.
-        </p>
-    </ion-item>
-    <ion-item>
-        <ion-label>Port</ion-label>
-        <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
-            itemTextField="name" [items]="ports" [canSearch]="true">
-            <ng-template ionicSelectableSearchFailTemplate>
-                <div padding>
-                    No ports found.
-                </div>
-            </ng-template>
-        </ionic-selectable>
-    </ion-item>
+  <ion-item>
+    <p>
+      Setting search fail template.
+    </p>
+    <p>
+      See docs on <a href="{{'search-fail-template' | wikiUrl}}">GitHub</a>.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true">
+      <ng-template ionicSelectableSearchFailTemplate>
+        <div padding>
+          No ports found.
+        </div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
 </ion-content>

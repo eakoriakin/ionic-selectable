@@ -1,25 +1,25 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Templates</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Templates</ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-item>
-        <p>
-            Displaying multiple values in a single line with ellipsis.
-        </p>
-        <p>
-            See docs on <a href="{{'displaying-multiple-values-in-single-line-with-ellipsis' | wikiUrl}}">GitHub</a>.
-        </p>
-    </ion-item>
-    <ion-item>
-        <ion-label>Port</ion-label>
-        <ionic-selectable [isMultiple]="true">
-            <ng-template ionicSelectableValueTemplate let-ports="value">
-                <div class="ionic-selectable-value-item">
-                    {{formatPorts(ports)}}
-                </div>
-            </ng-template>
-        </ionic-selectable>
-    </ion-item>
+  <ion-item>
+    <p>
+      Displaying multiple values in a single line with ellipsis.
+    </p>
+    <p>
+      See docs on <a href="{{'displaying-multiple-values-in-single-line-with-ellipsis' | wikiUrl}}">GitHub</a>.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [isMultiple]="true">
+      <ng-template ionicSelectableValueTemplate let-ports="value">
+        <div class="ionic-selectable-value-item">
+          {{formatPorts(ports)}}
+        </div>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
 </ion-content>
