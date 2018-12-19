@@ -140,7 +140,7 @@ export class IonicSelectablePageComponent implements AfterViewInit {
   }
 
   _clear() {
-    let selectedItems = this.selectComponent._selectedItems;
+    const selectedItems = this.selectComponent._selectedItems;
 
     this.selectComponent.clear();
     this.selectComponent._emitValueChange();
