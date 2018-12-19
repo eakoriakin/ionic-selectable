@@ -1,11 +1,62 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Ionic Selectable</ion-title>
+    <ion-title>Ionic Selectable v3</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-item-group>
-    <ion-item-divider color="light">Grouping</ion-item-divider>
+    <ion-list-header color="light">Use cases</ion-list-header>
+    <button ion-item (click)="openPage('BasicPage')">
+      Basic
+    </button>
+    <!-- <ion-item detail="true" href="/cascading">
+      Cascading
+    </ion-item> -->
+    <button ion-item (click)="openPage('DisablingItemsPage')">
+      Disabling items
+    </button>
+    <button ion-item (click)="openPage('FindPortsPage')">
+      Find ports
+    </button>
+    <!-- <ion-item detail="true" href="/inside-modal">
+      Inside Modal
+    </ion-item>
+    <ion-item detail="true" href="/initial-value">
+      Initial value
+    </ion-item> -->
+    <button ion-item (click)="openPage('InfiniteScrollPage')">
+      InfiniteScroll
+    </button>
+    <button ion-item (click)="openPage('InfiniteScrollIsMultiplePage')">
+      InfiniteScroll - isMultiple
+    </button>
+    <!-- <ion-item detail="true" href="/labels">
+      Labels
+    </ion-item>
+    <ion-item detail="true" href="/primitive-types">
+      Primitive types
+    </ion-item>
+    <ion-item detail="true" href="/on-search">
+      Search by several item fields
+    </ion-item>
+    <ion-item detail="true" href="/on-search">
+      Search items asynchronously
+    </ion-item>
+    <ion-item detail="true" href="/virtual-scroll">
+      VirtualScroll
+    </ion-item> -->
+  </ion-item-group>
+  <ion-item-group>
+    <ion-list-header color="light">Forms</ion-list-header>
+    <!-- <ion-item detail="true" href="/form-control">
+      FormControl
+    </ion-item> -->
+    <button ion-item (click)="openPage('MinMaxSelectionPage')">
+      Min/max selection
+    </button>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-list-header color="light">Grouping</ion-list-header>
     <button ion-item (click)="openPage('GroupingPage')">
       Grouping items
     </button>
@@ -14,7 +65,7 @@
     </button>
   </ion-item-group>
   <ion-item-group>
-    <ion-item-divider color="light">Editing</ion-item-divider>
+    <ion-list-header color="light">Editing</ion-list-header>
     <button ion-item (click)="openPage('EditingPage')">
       Adding, editing and deleting items
     </button>
@@ -29,12 +80,9 @@
     </button>
   </ion-item-group>
   <ion-item-group>
-    <ion-item-divider color="light">Templates</ion-item-divider>
+    <ion-list-header color="light">Templates</ion-list-header>
     <button ion-item (click)="openPage('CloseButtonTemplatePage')">
       Close button template
-    </button>
-    <button ion-item (click)="openPage('ValuesEllipsisTemplatePage')">
-      Displaying multiple values in a single line with ellipsis
     </button>
     <button ion-item (click)="openPage('GroupTemplatePage')">
       Group template
@@ -54,6 +102,9 @@
     <button ion-item (click)="openPage('MultipleValuesTemplatePage')">
       Multiple values template
     </button>
+    <button ion-item (click)="openPage('ValuesEllipsisTemplatePage')">
+      Multiple values with ellipsis template
+    </button>
     <button ion-item (click)="openPage('PlaceholderTemplatePage')">
       Placeholder template
     </button>
@@ -67,19 +118,37 @@
       Value template
     </button>
   </ion-item-group>
-  <ion-item-group>
-    <ion-item-divider color="light">Validation</ion-item-divider>
-    <button ion-item (click)="openPage('MinMaxValidationPage')">
-      Min/max selection
-    </button>
+  <!-- <ion-item-group>
+    <ion-list-header color="light">Fields</ion-list-header>
+    <ion-item detail="true" href="/can-clear">
+      canClear
+    </ion-item>
+    <ion-item detail="true" href="/close-button-text">
+      closeButtonText
+    </ion-item>
+    <ion-item detail="true" href="/is-enabled">
+      isEnabled
+    </ion-item>
+    <ion-item detail="true" href="/is-multiple">
+      isMultiple
+    </ion-item>
+    <ion-item detail="true" href="/placeholder">
+      placeholder
+    </ion-item>
+  </ion-item-group> -->
+  <!-- <ion-item-group>
+    <ion-list-header color="light">Methods</ion-list-header>
+    <ion-item detail="true" href="/scroll-to-top">
+      scrollToTop()
+    </ion-item>
   </ion-item-group>
   <ion-item-group>
-    <ion-item-divider color="light">Other</ion-item-divider>
-    <button ion-item (click)="openPage('DisablingItemsPage')">
-      Disabling items
-    </button>
-    <button ion-item (click)="openPage('FindPortsPage')">
-      Find ports - cascading county/port selection
-    </button>
-  </ion-item-group>
+    <ion-list-header color="light">Events</ion-list-header>
+    <ion-item detail="true" href="/on-search">
+      onSearch
+    </ion-item>
+    <ion-item detail="true" href="/should-store-item-value">
+      shouldStoreItemValue
+    </ion-item>
+  </ion-item-group> -->
 </ion-content>

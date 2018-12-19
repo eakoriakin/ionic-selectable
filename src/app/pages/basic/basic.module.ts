@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { ModalPage } from './modal';
+import { PipesModule } from '../../pipes';
+import { BasicPage } from './basic';
 
 @NgModule({
   declarations: [
-    ModalPage
+    BasicPage
   ],
   imports: [
-    IonicPageModule.forChild(ModalPage),
-    IonicSelectableModule
+    IonicPageModule.forChild(BasicPage),
+    IonicSelectableModule,
+    PipesModule
   ]
 })
-export class ModalPageModule { }
+export class BasicPageModule { }

@@ -8,10 +8,10 @@ import { Port } from '../../types';
   defaultHistory: ['HomePage']
 })
 @Component({
-  selector: 'page-min-max-validation',
-  templateUrl: 'min-max-validation.html'
+  selector: 'page-min-max-selection',
+  templateUrl: 'min-max-selection.html'
 })
-export class MinMaxValidationPage {
+export class MinMaxSelectionPage {
   ports: Port[];
   port: Port;
   portsControl: FormControl;

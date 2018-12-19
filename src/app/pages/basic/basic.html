@@ -1,24 +1,18 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Templates</ion-title>
+    <ion-title>Use cases</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-item>
-    <a href="{{'message-template' | wikiUrl}}">GitHub</a>
-  </ion-item>
-  <ion-item>
     <ion-label text-wrap>
-      Setting message template.
+      Basic usage.
     </ion-label>
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
-      itemTextField="name" [items]="ports">
-      <ng-template ionicSelectableMessageTemplate>
-        Select port.
-      </ng-template>
+      itemTextField="name" [items]="ports" [canSearch]="true" (onChange)="portChange($event)">
     </ionic-selectable>
   </ion-item>
 </ion-content>

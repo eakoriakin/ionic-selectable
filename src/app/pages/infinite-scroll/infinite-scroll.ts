@@ -1,31 +1,29 @@
-import { Component } from '@angular/core';
-import { IonicPage, ViewController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 import { Subscription } from 'rxjs';
 import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
 
-@IonicPage()
-@Component({
-  selector: 'page-modal',
-  templateUrl: 'modal.html'
+@IonicPage({
+  defaultHistory: ['HomePage']
 })
-export class ModalPage {
-  port: Port;
-  port2: Port;
+@Component({
+  selector: 'page-infinite-scroll',
+  templateUrl: 'infinite-scroll.html'
+})
+export class InfiniteScrollPage implements OnInit {
   ports: Port[];
-  portsSubscription: Subscription;
+  port: Port;
   page = 2;
+  portsSubscription: Subscription;
 
   constructor(
-    private viewController: ViewController,
     private portService: PortService
-  ) {
-    this.ports = this.portService.getPorts();
-  }
+  ) { }
 
-  dismiss() {
-    this.viewController.dismiss();
+  ngOnInit() {
+    this.ports = this.portService.getPorts();
   }
 
   filterPorts(ports: Port[], text: string) {
@@ -39,48 +37,7 @@ export class ModalPage {
     component: IonicSelectableComponent,
     text: string
   }) {
-    let text = event.text.trim().toLowerCase();
-    event.component.startSearch();
-
-    // Close any running subscription.
-    if (this.portsSubscription) {
-      this.portsSubscription.unsubscribe();
-    }
-
-    if (!text) {
-      // Close any running subscription.
-      if (this.portsSubscription) {
-        this.portsSubscription.unsubscribe();
-      }
-
-      event.component.items = [];
-      event.component.endSearch();
-      return;
-    }
-
-    this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
-      // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
-        return;
-      }
-
-      event.component.items = this.filterPorts(ports, text);
-      event.component.endSearch();
-    });
-  }
-
-  portChange(event: {
-    component: IonicSelectableComponent,
-    value: any
-  }) {
-    console.log('port:', event.value);
-  }
-
-  searchPortsInfinite(event: {
-    component: IonicSelectableComponent,
-    text: string
-  }) {
-    let text = event.text.trim().toLowerCase();
+    const text = event.text.trim().toLowerCase();
     event.component.startSearch();
 
     // Close any running subscription.
@@ -118,7 +75,7 @@ export class ModalPage {
     component: IonicSelectableComponent,
     text: string
   }) {
-    let text = (event.text || '').trim().toLowerCase();
+    const text = (event.text || '').trim().toLowerCase();
 
     // There're no more ports - disable infinite scroll.
     if (this.page > 3) {

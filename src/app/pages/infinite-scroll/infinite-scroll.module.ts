@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PipesModule } from '../../pipes';
-import { MinMaxValidationPage } from './min-max-validation';
+import { InfiniteScrollPage } from './infinite-scroll';
 
 @NgModule({
   declarations: [
-    MinMaxValidationPage
+    InfiniteScrollPage
   ],
   imports: [
-    IonicPageModule.forChild(MinMaxValidationPage),
+    IonicPageModule.forChild(InfiniteScrollPage),
     IonicSelectableModule,
     PipesModule
   ]
 })
-export class MinMaxValidationPageModule { }
+export class InfiniteScrollPageModule { }

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Use cases</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <p>
+      Usage of Ionic <b>InfiniteScroll</b>.
+    </p>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true"
+      [hasInfiniteScroll]="true" (onSearch)="searchPorts($event)"
+      (onInfiniteScroll)="getMorePorts($event)">
+    </ionic-selectable>
+  </ion-item>
+</ion-content>
