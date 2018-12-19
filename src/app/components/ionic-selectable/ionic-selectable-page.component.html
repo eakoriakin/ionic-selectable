@@ -55,9 +55,9 @@
       </ion-item-divider>
       <button ion-item detail-none *ngFor="let item of group.items" (click)="_select(item)"
         class="ionic-selectable-item" [ngClass]="{
-                    'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
-                    'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
-                }"
+          'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
+          'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
+        }"
         [disabled]="selectComponent._isItemDisabled(item)">
         <ion-icon [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
           [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
@@ -108,9 +108,9 @@
     </ion-item-divider>
     <button ion-item detail-none *virtualItem="let item" (click)="_select(item)"
       class="ionic-selectable-item" [ngClass]="{
-                'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
-                'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
-            }"
+        'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
+        'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
+      }"
       [disabled]="selectComponent._isItemDisabled(item)">
       <ion-icon [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
         [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
