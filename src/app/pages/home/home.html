@@ -35,16 +35,16 @@
     </ion-item>
     <ion-item detail="true" href="/primitive-types">
       Primitive types
-    </ion-item>
-    <ion-item detail="true" href="/on-search">
-      Search by several item fields
-    </ion-item>
-    <ion-item detail="true" href="/on-search">
-      Search items asynchronously
-    </ion-item>
-    <ion-item detail="true" href="/virtual-scroll">
-      VirtualScroll
     </ion-item> -->
+    <button ion-item (click)="openPage('OnSearchPage')">
+      Search by several item fields
+    </button>
+    <button ion-item (click)="openPage('OnSearchPage')">
+      Search items asynchronously
+    </button>
+    <!-- <ion-item detail="true" href="/virtual-scroll">
+      VirtualScroll
+    </ion-item>  -->
   </ion-item-group>
   <ion-item-group>
     <ion-list-header color="light">Forms</ion-list-header>
@@ -141,14 +141,14 @@
     <ion-item detail="true" href="/scroll-to-top">
       scrollToTop()
     </ion-item>
-  </ion-item-group>
+  </ion-item-group> -->
   <ion-item-group>
     <ion-list-header color="light">Events</ion-list-header>
-    <ion-item detail="true" href="/on-search">
+    <button ion-item (click)="openPage('OnSearchPage')">
       onSearch
-    </ion-item>
-    <ion-item detail="true" href="/should-store-item-value">
+    </button>
+    <!-- <ion-item detail="true" href="/should-store-item-value">
       shouldStoreItemValue
-    </ion-item>
-  </ion-item-group> -->
+    </ion-item> -->
+  </ion-item-group>
 </ion-content>
