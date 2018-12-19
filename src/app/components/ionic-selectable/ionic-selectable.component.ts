@@ -545,6 +545,15 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   @Output()
   onSelect: EventEmitter<{ component: IonicSelectableComponent, item: any, isSelected: boolean }> = new EventEmitter();
 
+  /**
+   * Fires when Clear button has been clicked.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclear).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Output()
+  onClear: EventEmitter<{ component: IonicSelectableComponent, items: any[] }> = new EventEmitter();
+
   @ContentChild(IonicSelectableValueTemplateDirective, { read: TemplateRef })
   valueTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef })
@@ -783,6 +792,13 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       component: this,
       item: item,
       isSelected: isSelected
+    });
+  }
+
+  _emitOnClear(items: any[]) {
+    this.onClear.emit({
+      component: this,
+      items: items
     });
   }
 
