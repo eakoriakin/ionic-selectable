@@ -39,7 +39,7 @@
   </div>
   <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems">
     <ion-item-group *ngFor="let group of selectComponent._filteredGroups" class="ionic-selectable-group">
-      <ion-item-divider *ngIf="selectComponent._hasFilteredItems" [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
+      <ion-item-divider *ngIf="selectComponent._hasGroups" [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
         <!-- Use span for groupTemplate to preserve Ionic ellipsis styles. -->
         <span *ngIf="selectComponent.groupTemplate" [ngTemplateOutlet]="selectComponent.groupTemplate"
           [ngTemplateOutletContext]="{ group: group }">
