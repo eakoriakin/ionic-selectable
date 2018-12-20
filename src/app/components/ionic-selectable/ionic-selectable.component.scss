@@ -180,6 +180,10 @@ $item-padding-end-ios: 8px;
       padding-right: $item-padding-end;
     }
   }
+  .ionic-selectable-item-button {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
   &-ios {
     .ionic-selectable-message {
       padding: 8px;
