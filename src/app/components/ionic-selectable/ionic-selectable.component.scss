@@ -1,6 +1,8 @@
 $icon-color: #999;
 $placeholder-color: #999;
 $padding: 16px;
+$item-padding-end: 16px;
+$item-padding-end-ios: 8px;
 .item {
   &-ionic-selectable {
     // Vertical allignment for label.
@@ -173,9 +175,19 @@ $padding: 16px;
 }
 
 .ionic-selectable-page {
+  .ionic-selectable-group {
+    ion-item-divider {
+      padding-right: $item-padding-end;
+    }
+  }
   &-ios {
     .ionic-selectable-message {
       padding: 8px;
+    }
+    .ionic-selectable-group {
+      ion-item-divider {
+        padding-right: $item-padding-end-ios;
+      }
     }
   }
   &-md {
