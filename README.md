@@ -26,7 +26,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 ## Supported Ionic versions
 
 *	Ionic 3 (3.6.0 - 3.9.2)
-* Ionic 4 (>=4.0.0-beta.11)
+* Ionic 4 (>=4.0.0-beta.19)
 
 ## Features
 * [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
