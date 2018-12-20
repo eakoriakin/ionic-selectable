@@ -1,7 +1,7 @@
 // tslint:disable-next-line:max-line-length
 import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Item, ModalController, Platform } from '@ionic/angular';
+import { IonItem, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
@@ -46,6 +46,26 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   private get _hasPlaceholderCssClass(): boolean {
     return this._hasPlaceholder;
   }
+  @HostBinding('class.ionic-selectable-has-label')
+  private get _hasIonLabelCssClass(): boolean {
+    return this._hasIonLabel;
+  }
+  @HostBinding('class.ionic-selectable-label-default')
+  private get _hasDefaultIonLabelCssClass(): boolean {
+    return this._ionLabelPosition === 'default';
+  }
+  @HostBinding('class.ionic-selectable-label-fixed')
+  private get _hasFixedIonLabelCssClass(): boolean {
+    return this._ionLabelPosition === 'fixed';
+  }
+  @HostBinding('class.ionic-selectable-label-stacked')
+  private get _hasStackedIonLabelCssClass(): boolean {
+    return this._ionLabelPosition === 'stacked';
+  }
+  @HostBinding('class.ionic-selectable-label-floating')
+  private get _hasFloatingIonLabelCssClass(): boolean {
+    return this._ionLabelPosition === 'floating';
+  }
   private _isOnSearchEnabled = true;
   private _isEnabled = true;
   private _isBackdropCloseEnabled = true;
@@ -61,6 +81,9 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   private _deleteItemObservable: Subscription;
   private onItemsChange: EventEmitter<any> = new EventEmitter();
   private _ionItemElement: any;
+  private _ionLabelElement: any;
+  private _hasIonLabel = false;
+  private _ionLabelPosition: 'fixed' | 'stacked' | 'floating' | 'default' | null = null;
   private get _hasInfiniteScroll(): boolean {
     return this.isEnabled && this._selectPageComponent &&
       this._selectPageComponent._infiniteScroll ? true : false;
@@ -684,7 +707,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   constructor(
     private _modalController: ModalController,
     private _platform: Platform,
-    @Optional() private ionItem: Item,
+    @Optional() private ionItem: IonItem,
     private _iterableDiffers: IterableDiffers,
     private _element: ElementRef,
     private _renderer: Renderer
@@ -784,9 +807,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
 
   _getLabelText(): string {
-    const label = this._ionItemElement ?
-      this._ionItemElement.querySelector('ion-label') : null;
-    return label ? label.textContent : null;
+    return this._ionLabelElement ? this._ionLabelElement.textContent : null;
   }
 
   _getItemValue(item: any): any {
@@ -1128,6 +1149,15 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       this._ionItemElement = this._element.nativeElement.closest('ion-item');
       this._setIonItemCssClass('item-interactive', true);
       this._setIonItemCssClass('item-ionic-selectable', true);
+
+      if (this._ionItemElement) {
+        this._ionLabelElement = this._ionItemElement.querySelector('ion-label');
+
+        if (this._ionLabelElement) {
+          this._hasIonLabel = true;
+          this._ionLabelPosition = this._ionLabelElement.getAttribute('position') || 'default';
+        }
+      }
     }
 
     this.enableIonItem(this.isEnabled);

@@ -2,51 +2,6 @@ $icon-color: #999;
 $placeholder-color: #999;
 $padding: 16px;
 .item {
-  &:not(&-label) {
-    /*Occupy 100% of width when there's no label.*/
-    .ionic-selectable {
-      max-width: 100%;
-      width: 100%;
-      &-value {
-        &-item {
-          text-align: right;
-        }
-      }
-    }
-  }
-  &-label-stacked,
-  &-label-floating {
-    .ionic-selectable {
-      align-self: stretch;
-      max-width: 100%;
-      padding-left: 0;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      &-value {
-        padding-top: 0;
-        padding-bottom: 0;
-        min-height: 19px;
-      }
-      &-icon-inner {
-        top: 7px;
-      }
-      &-ios {
-        .ionic-selectable-value {
-          padding-top: 0;
-          padding-bottom: 0;
-          min-height: 20px;
-        }
-        .ionic-selectable-icon-inner {
-          top: 8px;
-        }
-      }
-    }
-  }
-  &:not(.item-label-stacked):not(.item-label-floating) {
-    .ionic-selectable-value {
-      padding-left: var(--padding-start, $padding);
-    }
-  }
   &-ionic-selectable {
     // Vertical allignment for label.
     .item-inner .input-wrapper {
@@ -166,6 +121,53 @@ $padding: 16px;
         bottom: 0;
         position: absolute;
       }
+    }
+  }
+  &:not(&-has-label) {
+    /*Occupy 100% of width when there's no label.*/
+    max-width: 100%;
+    width: 100%;
+    &-value {
+      &-item {
+        text-align: right;
+      }
+    }
+  }
+  &-label-stacked,
+  &-label-floating {
+    align-self: stretch;
+    max-width: 100%;
+    padding-left: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    .ionic-selectable-value {
+      padding-top: 0;
+      padding-bottom: 0;
+      min-height: 19px;
+    }
+    .ionic-selectable-icon-inner {
+      top: 7px;
+    }
+    &.ionic-selectable-ios {
+      .ionic-selectable-value {
+        padding-top: 0;
+        padding-bottom: 0;
+        min-height: 20px;
+      }
+      .ionic-selectable-icon-inner {
+        top: 8px;
+      }
+    }
+  }
+  &-label-default,
+  &-label-fixed {
+    .ionic-selectable-value {
+      padding-left: var(--padding-start, $padding);
+    }
+  }
+  &-label-fixed:not(&-has-value) {
+    .ionic-selectable-value {
+      padding-left: calc(var(--padding-start, $padding) + 11px);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, ViewChild } from '@angular/core';
-import { Content, InfiniteScroll, NavParams, Searchbar } from '@ionic/angular';
+import { IonContent, IonInfiniteScroll, IonSearchbar, NavParams } from '@ionic/angular';
 import { IonicSelectableComponent } from './ionic-selectable.component';
 
 @Component({
@@ -7,14 +7,14 @@ import { IonicSelectableComponent } from './ionic-selectable.component';
   templateUrl: './ionic-selectable-page.component.html'
 })
 export class IonicSelectablePageComponent implements AfterViewInit {
-  @ViewChild(Content)
-  _content: Content;
+  @ViewChild(IonContent)
+  _content: IonContent;
   _header: HTMLElement;
   selectComponent: IonicSelectableComponent;
   @ViewChild('searchbarComponent')
-  private _searchbarComponent: Searchbar;
-  @ViewChild(InfiniteScroll)
-  _infiniteScroll: InfiniteScroll;
+  private _searchbarComponent: IonSearchbar;
+  @ViewChild(IonInfiniteScroll)
+  _infiniteScroll: IonInfiniteScroll;
   @HostBinding('class.ionic-selectable-page')
   private _cssClass = true;
   @HostBinding('class.ionic-selectable-page-can-clear')
@@ -75,7 +75,7 @@ export class IonicSelectablePageComponent implements AfterViewInit {
     if (this._searchbarComponent && this.selectComponent.shouldFocusSearchbar) {
       // Focus after a delay because focus doesn't work without it.
       setTimeout(() => {
-        this._searchbarComponent.focus();
+        this._searchbarComponent.setFocus();
       }, 1000);
     }
   }
