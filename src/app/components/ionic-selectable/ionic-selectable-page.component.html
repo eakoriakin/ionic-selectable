@@ -37,9 +37,9 @@
     <div class="ionic-selectable-spinner-background"></div>
     <ion-spinner></ion-spinner>
   </div>
-  <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && selectComponent._filteredGroups.length">
+  <ion-list no-margin *ngIf="!selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems">
     <ion-item-group *ngFor="let group of selectComponent._filteredGroups" class="ionic-selectable-group">
-      <ion-item-divider *ngIf="selectComponent._hasGroups" [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
+      <ion-item-divider *ngIf="selectComponent._hasFilteredItems" [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
         <!-- Use span for groupTemplate to preserve Ionic ellipsis styles. -->
         <span *ngIf="selectComponent.groupTemplate" [ngTemplateOutlet]="selectComponent.groupTemplate"
           [ngTemplateOutletContext]="{ group: group }">
@@ -87,7 +87,7 @@
     </ion-item-group>
   </ion-list>
   <!-- Fail text should be above InfiniteScroll to avoid a gap when no items are found. -->
-  <div *ngIf="!selectComponent._filteredGroups.length || !selectComponent._filteredGroups[0].items.length">
+  <div *ngIf="!selectComponent._hasFilteredItems">
     <span *ngIf="selectComponent.searchFailTemplate" [ngTemplateOutlet]="selectComponent.searchFailTemplate">
     </span>
     <div *ngIf="!selectComponent.searchFailTemplate" margin>
@@ -98,7 +98,7 @@
     (ionInfinite)="_getMoreItems($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <ion-list no-margin *ngIf="selectComponent.hasVirtualScroll && selectComponent._filteredGroups.length"
+  <ion-list no-margin *ngIf="selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems"
     [virtualScroll]="selectComponent._filteredGroups[0].items"
     [approxItemHeight]="selectComponent.virtualScrollApproxItemHeight"
     [approxItemWidth]="selectComponent.virtualScrollApproxItemWidth"

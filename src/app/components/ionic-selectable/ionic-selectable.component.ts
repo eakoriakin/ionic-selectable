@@ -77,6 +77,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _isFooterVisible = true;
   _itemToAdd: any = null;
   _footerButtonsCount = 0;
+  _hasFilteredItems = false;
 
   /**
    * Text that the user has typed in Searchbar.
@@ -802,6 +803,19 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     });
   }
 
+  _emitOnSearchSuccessOrFail(isSuccess: boolean) {
+    const eventData = {
+      component: this,
+      text: this._searchText
+    };
+
+    if (isSuccess) {
+      this.onSearchSuccess.emit(eventData);
+    } else {
+      this.onSearchFail.emit(eventData);
+    }
+  }
+
   _formatItem(item: any): string {
     if (this._isNullOrWhiteSpace(item)) {
       return null;
@@ -871,18 +885,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       }
 
       this._filteredGroups = groups;
-
-      if (this._areGroupsEmpty(groups)) {
-        this.onSearchFail.emit({
-          component: this,
-          text: this._searchText
-        });
-      } else {
-        this.onSearchSuccess.emit({
-          component: this,
-          text: this._searchText
-        });
-      }
+      this._hasFilteredItems = !this._areGroupsEmpty(groups);
+      this._emitOnSearchSuccessOrFail(this._hasFilteredItems);
     }
   }
 
@@ -1021,6 +1025,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
 
     this._groups = groups;
     this._filteredGroups = this._groups;
+    this._hasFilteredItems = !this._areGroupsEmpty(this._filteredGroups);
   }
 
   private _formatValueItem(item: any): string {
@@ -1494,18 +1499,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     // See https://github.com/eakoriakin/ionic-selectable/issues/44.
     // Refresh items manually.
     this._setItems(this.items);
-
-    if (this._areGroupsEmpty(this._filteredGroups)) {
-      this.onSearchFail.emit({
-        component: this,
-        text: this._searchText
-      });
-    } else {
-      this.onSearchSuccess.emit({
-        component: this,
-        text: this._searchText
-      });
-    }
+    this._emitOnSearchSuccessOrFail(this._hasFilteredItems);
   }
 
   /**
