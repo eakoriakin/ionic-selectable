@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
@@ -9,6 +9,8 @@ import { Port } from '../../types';
   styleUrls: ['./disabling-items.page.scss'],
 })
 export class DisablingItemsPage implements OnInit {
+  @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent;
+  @ViewChild('dischargingPortsComponent') dischargingPortsComponent: IonicSelectableComponent;
   ports: Port[];
   loadingPorts: Port[] = [];
   dischargingPorts: Port[] = [];
@@ -35,5 +37,12 @@ export class DisablingItemsPage implements OnInit {
     value: any
   }) {
     this.disabledLoadingPorts = this.dischargingPorts;
+  }
+
+  clear() {
+    this.loadingPortsComponent.clear();
+    this.dischargingPortsComponent.clear();
+    this.disabledDischargingPorts = [];
+    this.disabledLoadingPorts = [];
   }
 }
