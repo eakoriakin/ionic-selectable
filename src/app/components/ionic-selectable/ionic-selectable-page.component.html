@@ -162,7 +162,8 @@
           {{selectComponent.addButtonText}}
         </button>
       </ion-col>
-      <ion-col *ngIf="selectComponent.isMultiple" [attr.col-4]="selectComponent._footerButtonsCount === 3 ? '' : null"
+      <ion-col *ngIf="selectComponent.isMultiple || selectComponent.hasOkButton"
+        [attr.col-4]="selectComponent._footerButtonsCount === 3 ? '' : null"
         [attr.col-6]="selectComponent._footerButtonsCount === 2 ? '' : null"
         [attr.col-12]="selectComponent._footerButtonsCount === 1 ? '' : null">
         <button ion-button full no-margin (click)="_ok()" [disabled]="!selectComponent.isOkButtonEnabled">
