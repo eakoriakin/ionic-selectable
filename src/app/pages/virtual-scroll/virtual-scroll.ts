@@ -7,10 +7,10 @@ import { Port } from '../../types';
   defaultHistory: ['HomePage']
 })
 @Component({
-  selector: 'page-grouping',
-  templateUrl: 'grouping.html'
+  selector: 'page-virtual-scroll',
+  templateUrl: 'virtual-scroll.html'
 })
-export class GroupingPage implements OnInit {
+export class VirtualScrollPage implements OnInit {
   ports: Port[];
   port: Port;
 
