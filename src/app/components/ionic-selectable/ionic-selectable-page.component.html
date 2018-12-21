@@ -158,7 +158,8 @@
           {{selectComponent.addButtonText}}
         </ion-button>
       </ion-col>
-      <ion-col *ngIf="selectComponent.isMultiple" [size]="12 / selectComponent._footerButtonsCount">
+      <ion-col *ngIf="selectComponent.isMultiple || selectComponent.hasOkButton"
+        [size]="12 / selectComponent._footerButtonsCount">
         <ion-button expand="full" (click)="_ok()" [disabled]="!selectComponent.isOkButtonEnabled">
           {{selectComponent.okButtonText}}
         </ion-button>

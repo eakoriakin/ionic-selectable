@@ -93,36 +93,62 @@ export class IonicSelectablePageComponent implements AfterViewInit {
   }
 
   _select(item: any) {
+    const isItemSelected = this.selectComponent._isItemSelected(item);
+
     if (this.selectComponent.isMultiple) {
-      if (this.selectComponent._isItemSelected(item)) {
+      if (isItemSelected) {
         this.selectComponent._deleteSelectedItem(item);
-        this.selectComponent._emitOnSelect(item, false);
       } else {
         this.selectComponent._addSelectedItem(item);
-        this.selectComponent._emitOnSelect(item, true);
       }
 
       this._setItemsToConfirm(this.selectComponent._selectedItems);
-    } else {
-      if (!this.selectComponent._isItemSelected(item)) {
-        this.selectComponent._selectedItems = [];
-        this.selectComponent._addSelectedItem(item);
 
-        if (this.selectComponent._shouldStoreItemValue) {
-          this.selectComponent._select(this.selectComponent._getItemValue(item));
+      // Emit onSelect event after setting items to confirm so they could be used
+      // inside the event.
+      this.selectComponent._emitOnSelect(item, !isItemSelected);
+    } else {
+      if (this.selectComponent.hasOkButton) {
+        this.selectComponent._selectedItems = [];
+
+        if (isItemSelected) {
+          this.selectComponent._deleteSelectedItem(item);
         } else {
-          this.selectComponent._select(item);
+          this.selectComponent._addSelectedItem(item);
         }
 
-        this.selectComponent._emitOnSelect(item, true);
-      }
+        this._setItemsToConfirm(this.selectComponent._selectedItems);
 
-      this._close();
+        // Emit onSelect event after setting items to confirm so they could be used
+        // inside the event.
+        this.selectComponent._emitOnSelect(item, !isItemSelected);
+      } else {
+        if (!isItemSelected) {
+          this.selectComponent._selectedItems = [];
+          this.selectComponent._addSelectedItem(item);
+
+          // Emit onSelect before onChange.
+          this.selectComponent._emitOnSelect(item, true);
+
+          if (this.selectComponent._shouldStoreItemValue) {
+            this.selectComponent._select(this.selectComponent._getItemValue(item));
+          } else {
+            this.selectComponent._select(item);
+          }
+        }
+
+        this._close();
+      }
     }
   }
 
   _ok() {
-    this.selectComponent._select(this.selectComponent._selectedItems);
+    if (this.selectComponent.isMultiple) {
+      this.selectComponent._select(this.selectComponent._selectedItems);
+    } else if (this.selectComponent.hasOkButton) {
+      this.selectComponent._select(this.selectComponent._selectedItems[0] || null);
+    }
+
     this._close();
   }
 

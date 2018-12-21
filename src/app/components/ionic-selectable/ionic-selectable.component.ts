@@ -75,6 +75,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   private _itemsDiffer: IterableDiffer<any>;
   private _hasObjects: boolean;
   private _canClear = false;
+  private _hasOkButton = false;
   private _isMultiple = false;
   private _canAddItem = false;
   private _addItemObservable: Subscription;
@@ -237,6 +238,24 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   @Input()
   isOkButtonEnabled = true;
+
+  /**
+ * Determines whether OK button is visible for single selection.
+ * By default OK button is visible only for multiple selection.
+ * **Note**: It is always true for multiple selection and cannot be changed.
+ * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasokbutton).
+ *
+ * @default true
+ * @memberof IonicSelectableComponent
+ */
+  @Input('hasOkButton')
+  get hasOkButton(): boolean {
+    return this._hasOkButton;
+  }
+  set hasOkButton(hasOkButton: boolean) {
+    this._hasOkButton = !!hasOkButton;
+    this._countFooterButtons();
+  }
 
   /**
    * Item property to use as a unique identifier, e.g, `'id'`.
@@ -560,7 +579,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   /**
    * A list of items that are selected and awaiting confirmation by user, when he has clicked OK button.
    * After the user has clicked OK button items to confirm are cleared.
-   * **Note**: `isMultiple` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
    *
    * @default []
@@ -1007,7 +1025,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       footerButtonsCount++;
     }
 
-    if (this.isMultiple) {
+    if (this.isMultiple || this._hasOkButton) {
       footerButtonsCount++;
     }
 
@@ -1346,10 +1364,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
         modal.onDidDismiss().then(event => {
           self._isOpened = false;
-
-          if (self.isMultiple) {
-            self._itemsToConfirm = [];
-          }
+          self._itemsToConfirm = [];
 
           // Closed by clicking on backdrop outside modal.
           if (event.role === 'backdrop') {
@@ -1397,11 +1412,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   clear() {
     this.value = this.isMultiple ? [] : null;
-
-    if (this.isMultiple) {
-      this._itemsToConfirm = [];
-    }
-
+    this._itemsToConfirm = [];
     this.propagateOnChange(this.value);
   }
 
