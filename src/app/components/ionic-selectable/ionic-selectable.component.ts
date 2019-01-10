@@ -650,7 +650,25 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   modalClass: string = undefined;
 
   /**
-   * Modal class
+   * Modal enter animation
+   *
+   * @default undefined
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalEnterAnimation: string = undefined;
+
+  /**
+   * Modal leave animation
+   *
+   * @default undefined
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalLeaveAnimation: string = undefined;
+
+  /**
+   * Close button position
    *
    * @default 'start'
    * @memberof IonicSelectableComponent
@@ -1367,7 +1385,9 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
         component: IonicSelectablePageComponent,
         componentProps: { selectComponent: self },
         backdropDismiss: self._isBackdropCloseEnabled,
-        cssClass: self.modalClass
+        cssClass: self.modalClass,
+        enterAnimation: self.modalEnterAnimation,
+        leaveAnimation: self.modalLeaveAnimation
       }).then(modal => {
         self._modal = modal;
         modal.present().then(() => {
