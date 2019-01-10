@@ -640,6 +640,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   @Input()
   canDeleteItem = false;
 
+
+  /**
+   * Modal class
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalClass: string = undefined;
+
   /**
    * Determines whether to allow adding items.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
@@ -1348,7 +1358,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       self._modalController.create({
         component: IonicSelectablePageComponent,
         componentProps: { selectComponent: self },
-        backdropDismiss: self._isBackdropCloseEnabled
+        backdropDismiss: self._isBackdropCloseEnabled,
+        cssClass: self.modalClass
       }).then(modal => {
         self._modal = modal;
         modal.present().then(() => {
