@@ -640,7 +640,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   @Input()
   canDeleteItem = false;
 
-
   /**
    * Modal class
    *
@@ -649,6 +648,15 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   @Input()
   modalClass: string = undefined;
+
+  /**
+   * Modal class
+   *
+   * @default 'start'
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  closeButtonPosition: 'start' | 'end' = 'start';
 
   /**
    * Determines whether to allow adding items.
