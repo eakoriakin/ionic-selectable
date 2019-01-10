@@ -644,7 +644,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   /**
    * Modal class
    *
-   * @default null
+   * @default undefined
    * @memberof IonicSelectableComponent
    */
   @Input()
