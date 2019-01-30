@@ -15,7 +15,8 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [isMultiple]="true">
+    <ionic-selectable [isMultiple]="true" item-content [(ngModel)]="selectedPorts" itemValueField="id"
+      itemTextField="name" [items]="ports">
       <ng-template ionicSelectableValueTemplate let-ports="value">
         <div class="ionic-selectable-value-item">
           {{formatPorts(ports)}}
