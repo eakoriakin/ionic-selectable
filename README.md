@@ -8,7 +8,7 @@
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki/FAQ) | [Docs](../../wiki/Documentation) | [Ask on LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/) | [Support development](https://gumroad.com/products/nkUr)
+[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki) | [Ask on LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/) | [Support development](https://gumroad.com/products/nkUr)
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
@@ -16,12 +16,12 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 # Contents
 * [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Features](#Features)
+* [Features](#features)
 * [Getting started](#getting-started)
 * [Supported Ionic versions](#supported-ionic-versions)
-* [FAQ](../../wiki/FAQ)
-* [Docs](../../wiki/Documentation)
-* [Theming](../../wiki/Theming)
+* [FAQ](../../wiki#faq)
+* [Docs](../../wiki)
+* [Theming](../../wiki#theming)
 
 ## Supported Ionic versions
 
@@ -30,17 +30,17 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Features
 * [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Multiple selection](../../wiki/Documentation#ismultiple)
+* [Multiple selection](../../wiki#ismultiple)
 * [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
 * [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
 * [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
 * [Forms](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html)
 * [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html)
 * [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html)
-* [Templates](../../wiki/Documentation#templates)
-* [Grouping items](../..//wiki/Documentation#grouping)
-* [Editing, adding and deleting items](../../wiki/Documentation#editing)
-* [Disabling items](../../wiki/Documentation#disableditems)
+* [Templates](../../wiki#templates)
+* [Grouping items](../..//wiki#grouping)
+* [Editing, adding and deleting items](../../wiki#editing)
+* [Disabling items](../../wiki#disableditems)
 
 ## Getting started
 
@@ -136,11 +136,11 @@ export class HomePage {
 
 5. Enjoy it 😉
 6. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
-Also, explore the [docs](../../wiki/Documentation) and [FAQ](../../wiki/FAQ) to learn more about its features.
+Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 7. Have a question? Ask me on [LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/)!
 
 ## Development
-* `ionic serve` runs dev app containing test cases/demos.
+* `ionic serve` ([v3](../../tree/v3)) or `ng serve` ([v4](../../tree/master)) runs dev app containing test cases/demos.
 * `gulp` creates npm package.
 * `npm publish dist` publishes npm package.
 
