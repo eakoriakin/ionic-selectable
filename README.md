@@ -30,17 +30,17 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Features
 * [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Multiple selection](../../wiki/Documentation#ismultiple)
+* [Multiple selection](../../wiki#ismultiple)
 * [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
 * [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
 * [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
 * [Forms](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html)
 * [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html)
 * [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html)
-* [Templates](../../wiki/Documentation#templates)
-* [Grouping items](../..//wiki/Documentation#grouping)
-* [Editing, adding and deleting items](../../wiki/Documentation#editing)
-* [Disabling items](../../wiki/Documentation#disableditems)
+* [Templates](../../wiki#templates)
+* [Grouping items](../..//wiki#grouping)
+* [Editing, adding and deleting items](../../wiki#editing)
+* [Disabling items](../../wiki#disableditems)
 
 ## Getting started
 
