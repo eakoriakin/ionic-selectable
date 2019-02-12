@@ -140,7 +140,7 @@ Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more abo
 7. Have a question? Ask me on [LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/)!
 
 ## Development
-* `ionic serve` (Ionic v3) or `ng serve` (Ionic v4) runs dev app containing test cases/demos.
+* `ionic serve` (for v3.*.*) or `ng serve` (for v4.*.*) runs dev app containing test cases/demos.
 * `gulp` creates npm package.
 * `npm publish dist` publishes npm package.
 
