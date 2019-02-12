@@ -16,7 +16,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 # Contents
 * [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Features](#Features)
+* [Features](#features)
 * [Getting started](#getting-started)
 * [Supported Ionic versions](#supported-ionic-versions)
 * [FAQ](../../wiki#faq)
