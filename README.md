@@ -136,7 +136,7 @@ export class HomePage {
 
 5. Enjoy it 😉
 6. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
-Also, explore the [docs](../../wiki/Documentation) and [FAQ](../../wiki/FAQ) to learn more about its features.
+Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 7. Have a question? Ask me on [LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/)!
 
 ## Development
