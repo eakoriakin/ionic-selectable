@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Templates</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'footer-template' | wikiUrl}}">GitHub</a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Setting footer template.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" footerValueField="country.id"
+      footerTextField="country.name" [items]="ports" [canSearch]="true">
+      <!-- <ng-template ionicSelectableFooterTemplate>
+        footer
+      </ng-template> -->
+    </ionic-selectable>
+  </ion-item>
+</ion-content>

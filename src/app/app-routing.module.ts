@@ -105,6 +105,9 @@ const routes: Routes = [{
   path: 'group-right-template',
   loadChildren: './pages/group-right-template/group-right-template.module#GroupRightTemplatePageModule'
 }, {
+  path: 'footer-template',
+  loadChildren: './pages/footer-template/footer-template.module#FooterTemplatePageModule'
+}, {
   path: 'find-ports',
   loadChildren: './pages/find-ports/find-ports.module#FindPortsPageModule'
 }, {
