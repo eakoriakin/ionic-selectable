@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-    selector: '[ionicSelectableSearchFailTemplate]',
+  selector: '[ionicSelectableSearchFailTemplate]',
 })
 export class IonicSelectableSearchFailTemplateDirective { }

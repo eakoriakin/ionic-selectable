@@ -14,8 +14,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      [items]="ports" [canSearch]="true" [hasInfiniteScroll]="true" (onSearch)="searchPorts($event)"
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true"
+      [hasInfiniteScroll]="true" (onSearch)="searchPorts($event)"
       (onInfiniteScroll)="getMorePorts($event)">
     </ionic-selectable>
   </ion-item>

@@ -8,7 +8,9 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'shouldstoreitemvalue' | wikiUrl}}">GitHub</a>
+    <a href="{{'shouldstoreitemvalue' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
@@ -23,8 +25,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="portId" itemValueField="id" itemTextField="name"
-      [items]="ports" [shouldStoreItemValue]="true" (onChange)="portChange($event)">
+    <ionic-selectable [(ngModel)]="portId" itemValueField="id"
+      itemTextField="name" [items]="ports" [shouldStoreItemValue]="true"
+      (onChange)="portChange($event)">
     </ionic-selectable>
   </ion-item>
   <ion-item>
@@ -39,9 +42,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Ports</ion-label>
-    <ionic-selectable [isMultiple]="true" [(ngModel)]="portIds" itemValueField="id"
-      itemTextField="name" [items]="ports" [shouldStoreItemValue]="true"
-      (onChange)="portChange($event)">
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="portIds"
+      itemValueField="id" itemTextField="name" [items]="ports"
+      [shouldStoreItemValue]="true" (onChange)="portChange($event)">
     </ionic-selectable>
   </ion-item>
   <ion-item>

@@ -8,7 +8,9 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'group-right-template' | wikiUrl}}">GitHub</a>
+    <a href="{{'group-right-template' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
@@ -17,9 +19,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      groupValueField="country.id" groupTextField="country.name" [items]="ports"
-      [canSearch]="true">
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" groupValueField="country.id"
+      groupTextField="country.name" [items]="ports" [canSearch]="true">
       <ng-template ionicSelectableGroupRightTemplate let-group="group">
         <img class="country-flag" [src]="group.items[0].country.flagUrl" />
       </ng-template>

@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CloseButtonTemplatePage } from './close-button-template.page';
+
 
 describe('CloseButtonTemplatePage', () => {
   let component: CloseButtonTemplatePage;
@@ -9,10 +9,10 @@ describe('CloseButtonTemplatePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CloseButtonTemplatePage ],
+      declarations: [CloseButtonTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

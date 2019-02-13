@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-    selector: '[ionicSelectableMessageTemplate]',
+  selector: '[ionicSelectableMessageTemplate]',
 })
 export class IonicSelectableMessageTemplateDirective { }
