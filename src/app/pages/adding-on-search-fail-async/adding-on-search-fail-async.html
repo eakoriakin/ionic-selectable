@@ -5,7 +5,9 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <a href="{{'adding-item-asynchronously-when-search-fails' | wikiUrl}}">GitHub</a>
+    <a href="{{'adding-item-asynchronously-when-search-fails' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item>
     <ion-label text-wrap>
@@ -15,8 +17,9 @@
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable #portComponent item-content [(ngModel)]="port"
-      itemValueField="id" itemTextField="name" [items]="ports" [canSearch]="true"
-      [canClear]="true" (onSearch)="searchPorts($event)" (onSearchFail)="onSearchFail($event)"
+      itemValueField="id" itemTextField="name" [items]="ports"
+      [canSearch]="true" [canClear]="true" (onSearch)="searchPorts($event)"
+      (onSearchFail)="onSearchFail($event)"
       (onSearchSuccess)="onSearchSuccess($event)">
       <ng-template ionicSelectableItemTemplate let-port="item">
         {{port.name}} ({{port.country.name}})
@@ -32,8 +35,8 @@
             </ion-item>
             <ion-item>
               <ion-label>Name</ion-label>
-              <ion-input type="text" formControlName="portName" autocorrect="off"
-                autocapitalize="none">
+              <ion-input type="text" formControlName="portName"
+                autocorrect="off" autocapitalize="none">
               </ion-input>
             </ion-item>
             <ion-item>
@@ -48,7 +51,8 @@
           <ion-toolbar>
             <ion-row>
               <ion-col col-6>
-                <button ion-button full no-margin (click)="portComponent.hideAddItemTemplate()">
+                <button ion-button full no-margin
+                  (click)="portComponent.hideAddItemTemplate()">
                   Cancel
                 </button>
               </ion-col>

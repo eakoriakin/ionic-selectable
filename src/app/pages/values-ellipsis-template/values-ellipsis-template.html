@@ -5,7 +5,10 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <a href="{{'displaying-multiple-values-in-single-line-with-ellipsis' | wikiUrl}}">GitHub</a>
+    <a
+      href="{{'displaying-multiple-values-in-single-line-with-ellipsis' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item>
     <ion-label text-wrap>
@@ -15,8 +18,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [isMultiple]="true" item-content [(ngModel)]="selectedPorts" itemValueField="id"
-      itemTextField="name" [items]="ports">
+    <ionic-selectable [isMultiple]="true" item-content
+      [(ngModel)]="selectedPorts" itemValueField="id" itemTextField="name"
+      [items]="ports">
       <ng-template ionicSelectableValueTemplate let-ports="value">
         <div class="ionic-selectable-value-item">
           {{formatPorts(ports)}}

@@ -22,8 +22,8 @@
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
-      itemTextField="name" [isMultiple]="true" [items]="ports" [canSearch]="true"
-      [canClear]="true" (onSearch)="searchPorts($event)">
+      itemTextField="name" [isMultiple]="true" [items]="ports"
+      [canSearch]="true" [canClear]="true" (onSearch)="searchPorts($event)">
       <ng-template ionicSelectableItemRightTemplate let-port="item">
         <ion-badge color="light">
           UTC{{portService.formatTimeZone(port.timeZone)}}

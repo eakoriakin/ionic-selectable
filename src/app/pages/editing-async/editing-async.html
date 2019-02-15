@@ -5,7 +5,9 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <a href="{{'adding-editing-and-deleting-items-asynchronously' | wikiUrl}}">GitHub</a>
+    <a href="{{'adding-editing-and-deleting-items-asynchronously' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item>
     <ion-label text-wrap>
@@ -19,14 +21,16 @@
       a port to be deleted from original array as well.
     -->
     <ionic-selectable #portComponent item-content [(ngModel)]="port"
-      itemValueField="id" itemTextField="name" [(items)]="ports" [canSearch]="true"
-      [canClear]="true" [canAddItem]="true" [canSaveItem]="true"
-      [canDeleteItem]="true" (onSearch)="searchPorts($event)" (onAddItem)="onAddPort($event)"
+      itemValueField="id" itemTextField="name" [(items)]="ports"
+      [canSearch]="true" [canClear]="true" [canAddItem]="true"
+      [canSaveItem]="true" [canDeleteItem]="true"
+      (onSearch)="searchPorts($event)" (onAddItem)="onAddPort($event)"
       (onSaveItem)="onSavePort($event)" (onDeleteItem)="onDeletePort($event)">
       <ng-template ionicSelectableItemTemplate let-port="item">
         {{port.name}} ({{port.country.name}})
       </ng-template>
-      <ng-template ionicSelectableAddItemTemplate let-port="item" let-isAdd="isAdd">
+      <ng-template ionicSelectableAddItemTemplate let-port="item"
+        let-isAdd="isAdd">
         <form [formGroup]="portForm" novalidate>
           <ion-list>
             <ion-item-divider>
@@ -34,8 +38,8 @@
             </ion-item-divider>
             <ion-item>
               <ion-label>Name</ion-label>
-              <ion-input type="text" formControlName="portName" autocorrect="off"
-                autocapitalize="none">
+              <ion-input type="text" formControlName="portName"
+                autocorrect="off" autocapitalize="none">
               </ion-input>
             </ion-item>
             <ion-item>
@@ -50,12 +54,14 @@
           <ion-toolbar>
             <ion-row>
               <ion-col col-6>
-                <button ion-button full no-margin (click)="portComponent.hideAddItemTemplate()">
+                <button ion-button full no-margin
+                  (click)="portComponent.hideAddItemTemplate()">
                   Cancel
                 </button>
               </ion-col>
               <ion-col col-6>
-                <button ion-button full no-margin (click)="isAdd ? addPort() : savePort(port)"
+                <button ion-button full no-margin
+                  (click)="isAdd ? addPort() : savePort(port)"
                   [disabled]="!portForm.valid">
                   {{isAdd ? 'Add' : 'Save'}}
                 </button>

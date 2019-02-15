@@ -47,7 +47,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   private _isEnabled = true;
   private _isBackdropCloseEnabled = true;
   private _isOpened = false;
-  private _valueItems: any[] = [];
   private _value: any = null;
   private _modal: Modal;
   private _itemsDiffer: IterableDiffer<any>;
@@ -62,6 +61,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   get _shouldStoreItemValue(): boolean {
     return this.shouldStoreItemValue && this._hasObjects;
   }
+  _valueItems: any[] = [];
   _searchText = '';
   _hasSearchText = false;
   _groups: any[] = [];

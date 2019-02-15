@@ -5,7 +5,9 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <a href="{{'disableditems' | wikiUrl}}">GitHub</a>
+    <a href="{{'disableditems' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item>
     <ion-label text-wrap>
@@ -16,17 +18,19 @@
   </ion-item>
   <ion-item>
     <ion-label>Loading Ports</ion-label>
-    <ionic-selectable #loadingPortsComponent item-content [(ngModel)]="loadingPorts"
-      itemValueField="id" itemTextField="name" [items]="ports" [canClear]="true"
-      [isMultiple]="true" (onChange)="loadingPortChange($event)"
+    <ionic-selectable #loadingPortsComponent item-content
+      [(ngModel)]="loadingPorts" itemValueField="id" itemTextField="name"
+      [items]="ports" [canClear]="true" [isMultiple]="true"
+      (onChange)="loadingPortChange($event)"
       [disabledItems]="disabledLoadingPorts">
     </ionic-selectable>
   </ion-item>
   <ion-item>
     <ion-label>Discharging Ports</ion-label>
-    <ionic-selectable #dischargingPortsComponent item-content [(ngModel)]="dischargingPorts"
-      itemValueField="id" itemTextField="name" [items]="ports" [canClear]="true"
-      [isMultiple]="true" (onChange)="dischargingPortChange($event)"
+    <ionic-selectable #dischargingPortsComponent item-content
+      [(ngModel)]="dischargingPorts" itemValueField="id" itemTextField="name"
+      [items]="ports" [canClear]="true" [isMultiple]="true"
+      (onChange)="dischargingPortChange($event)"
       [disabledItems]="disabledDischargingPorts">
     </ionic-selectable>
   </ion-item>
