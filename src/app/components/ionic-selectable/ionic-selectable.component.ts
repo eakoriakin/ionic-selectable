@@ -1513,7 +1513,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
 
   /**
-   * Confirms selected items by updading value.
+   * Confirms selected items by updating value.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
    *
    * @memberof IonicSelectableComponent
