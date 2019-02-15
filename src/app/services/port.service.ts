@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { delay, share } from 'rxjs/operators';
 import { Country, Port } from '../types';
 
@@ -324,7 +324,7 @@ export class PortService {
   }
 
   addPortAsync(port: Port, timeout = 1000): Observable<any> {
-    let self = this;
+    const self = this;
 
     return new Observable<any>(observer => {
       self.addPort(port);
@@ -334,8 +334,8 @@ export class PortService {
   }
 
   deletePort(port: Port) {
-    let country = this.countries.find(country => {
-      return country.id === port.country.id;
+    const country = this.countries.find(_country => {
+      return _country.id === port.country.id;
     });
 
     if (country && country.ports) {
@@ -346,7 +346,7 @@ export class PortService {
   }
 
   deletePortAsync(port: Port, timeout = 1000): Observable<any> {
-    let self = this;
+    const self = this;
 
     return new Observable<any>(observer => {
       self.deletePort(port);
@@ -390,7 +390,7 @@ export class PortService {
       sign = '-';
     }
 
-    let minutes = offset % 60,
+    const minutes = offset % 60,
       hours = (offset - minutes) / 60;
 
     return sign + this.formatNumber(hours, 2) + ':' + this.formatNumber(minutes, 2);
