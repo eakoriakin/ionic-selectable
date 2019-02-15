@@ -1474,6 +1474,45 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
 
   /**
+   * Closes Select page.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
+   *
+   * @returns Promise that resolves when Select page has been closed.
+   * @memberof IonicSelectableComponent
+   */
+  close(): Promise<void> {
+    const self = this;
+
+    return new Promise(function (resolve, reject) {
+      if (!self._isEnabled || !self._isOpened) {
+        reject('IonicSelectable is disabled or already closed.');
+        return;
+      }
+
+      self.propagateOnTouched();
+      self._isOpened = false;
+      self._itemToAdd = null;
+      self._modal.dismiss().then(() => {
+        self._setIonItemHasFocus(false);
+        self.hideAddItemTemplate();
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Clears value.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  clear() {
+    this.value = this.isMultiple ? [] : null;
+    this._itemsToConfirm = [];
+    this.propagateOnChange(this.value);
+  }
+
+  /**
    * Confirms selected items by updading value.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
    *
@@ -1521,7 +1560,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
         }
       }
 
-      console.log('itemsToToggle:', itemsToToggle);
       itemsToToggle.forEach(item => {
         this._addSelectedItem(item);
       });
@@ -1530,45 +1568,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     }
 
     this._setItemsToConfirm(this._selectedItems);
-  }
-
-  /**
-   * Closes Select page.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
-   *
-   * @returns Promise that resolves when Select page has been closed.
-   * @memberof IonicSelectableComponent
-   */
-  close(): Promise<void> {
-    const self = this;
-
-    return new Promise(function (resolve, reject) {
-      if (!self._isEnabled || !self._isOpened) {
-        reject('IonicSelectable is disabled or already closed.');
-        return;
-      }
-
-      self.propagateOnTouched();
-      self._isOpened = false;
-      self._itemToAdd = null;
-      self._modal.dismiss().then(() => {
-        self._setIonItemHasFocus(false);
-        self.hideAddItemTemplate();
-        resolve();
-      });
-    });
-  }
-
-  /**
-   * Clears value.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
-   *
-   * @memberof IonicSelectableComponent
-   */
-  clear() {
-    this.value = this.isMultiple ? [] : null;
-    this._itemsToConfirm = [];
-    this.propagateOnChange(this.value);
   }
 
   /**

@@ -54,13 +54,13 @@
         <ion-footer>
           <ion-toolbar>
             <ion-row>
-              <ion-col [size]="6">
+              <ion-col>
                 <ion-button expand="full"
                   (click)="portComponent.hideAddItemTemplate()">
                   Cancel
                 </ion-button>
               </ion-col>
-              <ion-col [size]="6">
+              <ion-col>
                 <ion-button expand="full" (click)="addPort()"
                   [disabled]="!portForm.valid">
                   Add

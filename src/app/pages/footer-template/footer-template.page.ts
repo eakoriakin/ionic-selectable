@@ -12,7 +12,6 @@ import { Country, Port } from '../../types';
 export class FooterTemplatePage implements OnInit {
   ports: Port[];
   countries: Country[];
-
   port: Port;
   @ViewChild('portComponent') portComponent: IonicSelectableComponent;
   portForm: FormGroup;

@@ -15,7 +15,7 @@ export class FindPortsPage implements OnInit {
   port: Port;
 
   constructor(
-    private portService: PortService
+    public portService: PortService
   ) { }
 
   ngOnInit() {
