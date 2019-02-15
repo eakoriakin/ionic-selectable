@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Editing</ion-title>
+    <ion-title>Templates</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -17,11 +17,9 @@
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable item-content #portComponent [(ngModel)]="port"
-      itemValueField="id" itemTextField="name" footerValueField="country.id"
-      footerTextField="country.name" [items]="ports" [canSearch]="false"
+      itemValueField="id" itemTextField="name" [items]="ports"
       [isMultiple]="true" [canAddItem]="true" [canSaveItem]="true"
-      [canClear]="true" (onSaveItem)="onSavePort($event)"
-      groupValueField="country.id" groupTextField="country.name">
+      [canClear]="true" (onSaveItem)="onSavePort($event)">
       <ng-template ionicSelectableAddItemTemplate let-port="item"
         let-isAdd="isAdd">
         <form [formGroup]="portForm">
