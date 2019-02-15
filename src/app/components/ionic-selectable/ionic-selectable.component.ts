@@ -4,6 +4,7 @@ import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'io
 import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
+import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
@@ -52,7 +53,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   private _itemsDiffer: IterableDiffer<any>;
   private _hasObjects: boolean;
   private _canClear = false;
-  private _hasOkButton = false;
+  private _hasConfirmButton = false;
   private _isMultiple = false;
   private _canAddItem = false;
   private _addItemObservable: Subscription;
@@ -199,30 +200,30 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Determines whether OK button is enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isokbuttonenabled).
+   * Determines whether Confirm button is enabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
    *
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Input('isOkButtonEnabled')
-  isOkButtonEnabled = true;
+  @Input('isConfirmButtonEnabled')
+  isConfirmButtonEnabled = true;
 
   /**
-   * Determines whether OK button is visible for single selection.
-   * By default OK button is visible only for multiple selection.
+   * Determines whether Confirm button is visible for single selection.
+   * By default Confirm button is visible only for multiple selection.
    * **Note**: It is always true for multiple selection and cannot be changed.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasokbutton).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasconfirmbutton).
    *
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Input('hasOkButton')
-  get hasOkButton(): boolean {
-    return this._hasOkButton;
+  @Input('hasConfirmButton')
+  get hasConfirmButton(): boolean {
+    return this._hasConfirmButton;
   }
-  set hasOkButton(hasOkButton: boolean) {
-    this._hasOkButton = !!hasOkButton;
+  set hasConfirmButton(hasConfirmButton: boolean) {
+    this._hasConfirmButton = !!hasConfirmButton;
     this._countFooterButtons();
   }
 
@@ -441,14 +442,14 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   addButtonText = 'Add';
 
   /**
-   * OK button text.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#okbuttontext).
+   * Confirm button text.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
    *
    * @default 'OK'
    * @memberof IonicSelectableComponent
    */
   @Input()
-  okButtonText = 'OK';
+  confirmButtonText = 'OK';
 
   /**
    * Close button text.
@@ -596,10 +597,12 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   searchFailTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableAddItemTemplateDirective, { read: TemplateRef })
   addItemTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableFooterTemplateDirective, { read: TemplateRef })
+  footerTemplate: TemplateRef<any>;
 
   /**
-   * A list of items that are selected and awaiting confirmation by user, when he has clicked OK button.
-   * After the user has clicked OK button items to confirm are cleared.
+   * A list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.
+   * After the user has clicked Confirm button items to confirm are cleared.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
    *
    * @default []
@@ -778,11 +781,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
 
   _hasOnDeleteItem(): boolean {
     return this.canDeleteItem && this.onDeleteItem.observers.length > 0;
-  }
-
-  _select(selectedItem: any) {
-    this.value = selectedItem;
-    this._emitValueChange();
   }
 
   _emitValueChange() {
@@ -988,6 +986,124 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     }
   }
 
+  _close() {
+    // Focused input interferes with the animation.
+    // Blur it first, wait a bit and then close the page.
+    if (this._selectPageComponent._searchbarComponent) {
+      this._selectPageComponent._searchbarComponent._fireBlur();
+    }
+
+    setTimeout(() => {
+      this.close().then(() => {
+        this.onClose.emit({
+          component: this
+        });
+      });
+
+      if (!this._hasOnSearch()) {
+        this._searchText = '';
+        this._setHasSearchText();
+      }
+    });
+  }
+
+  _clear() {
+    const selectedItems = this._selectedItems;
+
+    this.clear();
+    this._emitValueChange();
+    this._emitOnClear(selectedItems);
+    this.close().then(() => {
+      this.onClose.emit({
+        component: this
+      });
+    });
+  }
+
+  _getMoreItems(infiniteScroll: InfiniteScroll) {
+    // TODO: Try to get infiniteScroll via ViewChild. Maybe it works in a newer Ionic version.
+    // For now assign it here.
+    this._infiniteScroll = infiniteScroll;
+
+    this.onInfiniteScroll.emit({
+      component: this,
+      text: this._searchText
+    });
+  }
+
+  _setItemsToConfirm(items: any[]) {
+    // Return a copy of original array, so it couldn't be changed from outside.
+    this._itemsToConfirm = [].concat(items);
+  }
+
+  _doSelect(selectedItem: any) {
+    this.value = selectedItem;
+    this._emitValueChange();
+  }
+
+  _select(item: any) {
+    const isItemSelected = this._isItemSelected(item);
+
+    if (this.isMultiple) {
+      if (isItemSelected) {
+        this._deleteSelectedItem(item);
+      } else {
+        this._addSelectedItem(item);
+      }
+
+      this._setItemsToConfirm(this._selectedItems);
+
+      // Emit onSelect event after setting items to confirm so they could be used
+      // inside the event.
+      this._emitOnSelect(item, !isItemSelected);
+    } else {
+      if (this.hasConfirmButton || this.footerTemplate) {
+        // Don't close select page and keep track on items to confirm.
+        // When footer template is used it's up to developer to close the page.
+        this._selectedItems = [];
+
+        if (isItemSelected) {
+          this._deleteSelectedItem(item);
+        } else {
+          this._addSelectedItem(item);
+        }
+
+        this._setItemsToConfirm(this._selectedItems);
+
+        // Emit onSelect event after setting items to confirm so they could be used
+        // inside the event.
+        this._emitOnSelect(item, !isItemSelected);
+      } else {
+        if (!isItemSelected) {
+          this._selectedItems = [];
+          this._addSelectedItem(item);
+
+          // Emit onSelect before onChange.
+          this._emitOnSelect(item, true);
+
+          if (this._shouldStoreItemValue) {
+            this._doSelect(this._getItemValue(item));
+          } else {
+            this._doSelect(item);
+          }
+        }
+
+        this._close();
+      }
+    }
+  }
+
+  _confirm() {
+    this.confirm();
+    this._close();
+  }
+
+  private _areGroupsEmpty(groups) {
+    return groups.length === 0 || groups.every(group => {
+      return !group.items || group.items.length === 0;
+    });
+  }
+
   private _countFooterButtons() {
     let footerButtonsCount = 0;
 
@@ -995,7 +1111,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       footerButtonsCount++;
     }
 
-    if (this.isMultiple || this._hasOkButton) {
+    if (this.isMultiple || this._hasConfirmButton) {
       footerButtonsCount++;
     }
 
@@ -1004,12 +1120,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     }
 
     this._footerButtonsCount = footerButtonsCount;
-  }
-
-  private _areGroupsEmpty(groups) {
-    return groups.length === 0 || groups.every(group => {
-      return !group.items || group.items.length === 0;
-    });
   }
 
   private _setItems(items: any[]) {
@@ -1430,6 +1540,64 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     this._itemsToConfirm = [];
     this.propagateOnChange(this.value);
     this._setIonItemValidityClasses();
+  }
+
+  /**
+   * Confirms selected items by updading value.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  confirm() {
+    if (this.isMultiple) {
+      this._doSelect(this._selectedItems);
+    } else if (this.hasConfirmButton || this.footerTemplate) {
+      this._doSelect(this._selectedItems[0] || null);
+    }
+  }
+
+  /**
+   * Selects or deselects all or specific items.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#toggleitems).
+   *
+   * @param isSelect Determines whether to select or deselect items.
+   * @param [items] Items to toggle. If items are not set all items will be toggled.
+   * @memberof IonicSelectableComponent
+   */
+  toggleItems(isSelect: boolean, items?: any[]) {
+    if (isSelect) {
+      const hasItems = items && items.length;
+      let itemsToToggle = this._groups.reduce((allItems, group) => {
+        return allItems.concat(group.items);
+      }, []);
+
+      // Don't allow to select all items in single mode.
+      if (!this.isMultiple && !hasItems) {
+        itemsToToggle = [];
+      }
+
+      // Toggle specific items.
+      if (hasItems) {
+        itemsToToggle = itemsToToggle.filter(itemToToggle => {
+          return items.find(item => {
+            return this._getItemValue(itemToToggle) === this._getItemValue(item);
+          }) !== undefined;
+        });
+
+        // Take the first item for single mode.
+        if (!this.isMultiple) {
+          itemsToToggle.splice(0, 1);
+        }
+      }
+
+      itemsToToggle.forEach(item => {
+        this._addSelectedItem(item);
+      });
+    } else {
+      this._selectedItems = [];
+    }
+
+    this._setItemsToConfirm(this._selectedItems);
   }
 
   /**
