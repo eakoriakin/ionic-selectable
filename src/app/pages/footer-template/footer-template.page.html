@@ -20,11 +20,9 @@
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
-      itemTextField="name" footerValueField="country.id"
-      footerTextField="country.name" [items]="ports" [canSearch]="false"
-      [isMultiple]="true" [canAddItem]="true" [canSaveItem]="true"
-      [canClear]="true" (onSaveItem)="onSavePort($event)"
-      groupValueField="country.id" groupTextField="country.name">
+      itemTextField="name" [items]="ports" [isMultiple]="true"
+      [canAddItem]="true" [canSaveItem]="true" [canClear]="true"
+      (onSaveItem)="onSavePort($event)">
       <ng-template ionicSelectableAddItemTemplate let-port="item"
         let-isAdd="isAdd">
         <form [formGroup]="portForm">
