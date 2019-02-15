@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-    selector: '[ionicSelectableCloseButtonTemplate]',
+  selector: '[ionicSelectableCloseButtonTemplate]',
 })
 export class IonicSelectableCloseButtonTemplateDirective { }

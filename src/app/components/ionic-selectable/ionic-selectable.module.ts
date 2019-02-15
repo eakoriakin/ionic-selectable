@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
+import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
@@ -17,6 +18,7 @@ import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-
 import { IonicSelectableComponent } from './ionic-selectable.component';
 export { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 export { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
+export { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 export { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 export { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 export { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
@@ -41,7 +43,8 @@ const components = [IonicSelectableComponent, IonicSelectablePageComponent],
     IonicSelectableGroupRightTemplateDirective,
     IonicSelectableCloseButtonTemplateDirective,
     IonicSelectableSearchFailTemplateDirective,
-    IonicSelectableAddItemTemplateDirective
+    IonicSelectableAddItemTemplateDirective,
+    IonicSelectableFooterTemplateDirective
   ];
 
 @NgModule({

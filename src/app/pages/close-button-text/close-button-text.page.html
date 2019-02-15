@@ -8,7 +8,9 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'closebuttontext' | wikiUrl}}">GitHub</a>
+    <a href="{{'closebuttontext' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
@@ -17,8 +19,8 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      [items]="ports" closeButtonText="Close">
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" closeButtonText="Close">
     </ionic-selectable>
   </ion-item>
 </ion-content>

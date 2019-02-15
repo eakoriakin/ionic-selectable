@@ -1,22 +1,21 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CloseButtonTemplatePage } from './close-button-template.page';
+import { FooterTemplatePage } from './footer-template.page';
 
-
-describe('CloseButtonTemplatePage', () => {
-  let component: CloseButtonTemplatePage;
-  let fixture: ComponentFixture<CloseButtonTemplatePage>;
+describe('FooterTemplatePage', () => {
+  let component: FooterTemplatePage;
+  let fixture: ComponentFixture<FooterTemplatePage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CloseButtonTemplatePage],
+      declarations: [FooterTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CloseButtonTemplatePage);
+    fixture = TestBed.createComponent(FooterTemplatePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

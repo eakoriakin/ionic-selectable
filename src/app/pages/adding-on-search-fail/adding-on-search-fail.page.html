@@ -8,7 +8,9 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'adding-item-when-search-fails' | wikiUrl}}">GitHub</a>
+    <a href="{{'adding-item-when-search-fails' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
@@ -19,7 +21,8 @@
     <ion-label>Port</ion-label>
     <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports" [canSearch]="true" [canClear]="true"
-      (onSearchFail)="onSearchFail($event)" (onSearchSuccess)="onSearchSuccess($event)">
+      (onSearchFail)="onSearchFail($event)"
+      (onSearchSuccess)="onSearchSuccess($event)">
       <ng-template ionicSelectableItemTemplate let-port="item">
         <ion-label>
           {{port.name}} ({{port.country.name}})
@@ -36,14 +39,14 @@
             </ion-item>
             <ion-item>
               <ion-label>Name</ion-label>
-              <ion-input type="text" formControlName="portName" autocorrect="off"
-                autocapitalize="none">
+              <ion-input type="text" formControlName="portName"
+                autocorrect="off" autocapitalize="none">
               </ion-input>
             </ion-item>
             <ion-item>
               <ion-label>Country</ion-label>
-              <ionic-selectable formControlName="portCountry" itemValueField="id"
-                itemTextField="name" [items]="countries">
+              <ionic-selectable formControlName="portCountry"
+                itemValueField="id" itemTextField="name" [items]="countries">
               </ionic-selectable>
             </ion-item>
           </ion-list>
@@ -52,12 +55,14 @@
           <ion-toolbar>
             <ion-row>
               <ion-col [size]="6">
-                <ion-button expand="full" (click)="portComponent.hideAddItemTemplate()">
+                <ion-button expand="full"
+                  (click)="portComponent.hideAddItemTemplate()">
                   Cancel
                 </ion-button>
               </ion-col>
               <ion-col [size]="6">
-                <ion-button expand="full" (click)="addPort()" [disabled]="!portForm.valid">
+                <ion-button expand="full" (click)="addPort()"
+                  [disabled]="!portForm.valid">
                   Add
                 </ion-button>
               </ion-col>

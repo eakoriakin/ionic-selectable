@@ -8,7 +8,9 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'formcontrol' | wikiUrl}}">GitHub</a>
+    <a href="{{'formcontrol' | wikiUrl}}">
+      GitHub
+    </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
@@ -23,8 +25,10 @@
       </ionic-selectable>
     </ion-item>
     <ion-item>
-      <ion-badge slot="end" color="danger" *ngIf="!form.valid">Invalid</ion-badge>
-      <ion-badge slot="end" color="secondary" *ngIf="form.valid">Valid</ion-badge>
+      <ion-badge slot="end" color="danger" *ngIf="!form.valid">Invalid
+      </ion-badge>
+      <ion-badge slot="end" color="secondary" *ngIf="form.valid">Valid
+      </ion-badge>
       <ion-button (click)="reset()" [disabled]="!form.valid">Clear</ion-button>
     </ion-item>
   </form>

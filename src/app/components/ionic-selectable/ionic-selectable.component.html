@@ -1,22 +1,28 @@
 <div class="ionic-selectable-inner">
   <div class="ionic-selectable-value">
     <div *ngIf="valueTemplate && _valueItems.length && isMultiple"
-      [ngTemplateOutlet]="valueTemplate" [ngTemplateOutletContext]="{ value: _valueItems }">
+      [ngTemplateOutlet]="valueTemplate"
+      [ngTemplateOutletContext]="{ value: _valueItems }">
     </div>
-    <div class="ionic-selectable-value-item" *ngIf="valueTemplate && _valueItems.length && !isMultiple">
-      <div [ngTemplateOutlet]="valueTemplate" [ngTemplateOutletContext]="{ value: _valueItems[0] }">
+    <div class="ionic-selectable-value-item"
+      *ngIf="valueTemplate && _valueItems.length && !isMultiple">
+      <div [ngTemplateOutlet]="valueTemplate"
+        [ngTemplateOutletContext]="{ value: _valueItems[0] }">
       </div>
     </div>
     <span *ngIf="!valueTemplate && _valueItems.length">
-      <div class="ionic-selectable-value-item" *ngFor="let valueItem of _valueItems">
+      <div class="ionic-selectable-value-item"
+        *ngFor="let valueItem of _valueItems">
         {{_formatValueItem(valueItem)}}
       </div>
     </span>
-    <div *ngIf="_hasPlaceholder && placeholderTemplate" class="ionic-selectable-value-item">
+    <div *ngIf="_hasPlaceholder && placeholderTemplate"
+      class="ionic-selectable-value-item">
       <div [ngTemplateOutlet]="placeholderTemplate">
       </div>
     </div>
-    <div class="ionic-selectable-value-item" *ngIf="_hasPlaceholder && !placeholderTemplate">
+    <div class="ionic-selectable-value-item"
+      *ngIf="_hasPlaceholder && !placeholderTemplate">
       {{placeholder}}
     </div>
     <!-- Fix icon allignment when there's no value or placeholder. -->
@@ -26,7 +32,7 @@
     <div class="ionic-selectable-icon-inner"></div>
   </div>
   <!-- Need to be type="button" otherwise click event triggers form ngSubmit. -->
-  <button class="ionic-selectable-cover" [disabled]="!isEnabled" (click)="_click()"
-    type="button">
+  <button class="ionic-selectable-cover" [disabled]="!isEnabled"
+    (click)="_click()" type="button">
   </button>
 </div>

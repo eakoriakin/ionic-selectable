@@ -14,15 +14,16 @@
   </ion-item>
   <ion-item>
     <ion-label>Country</ion-label>
-    <ionic-selectable #countryComponent [(ngModel)]="country" itemValueField="id"
-      itemTextField="name" [items]="countries" [canSearch]="true" (onChange)="countryChange($event)"
-      [canClear]="true">
+    <ionic-selectable #countryComponent [(ngModel)]="country"
+      itemValueField="id" itemTextField="name" [items]="countries"
+      [canSearch]="true" (onChange)="countryChange($event)" [canClear]="true">
     </ionic-selectable>
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      [items]="ports" [isEnabled]="countryComponent.value" [placeholder]="countryComponent.value ? '' : 'Select country first'">
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [isEnabled]="countryComponent.value"
+      [placeholder]="countryComponent.value ? '' : 'Select country first'">
     </ionic-selectable>
   </ion-item>
 </ion-content>

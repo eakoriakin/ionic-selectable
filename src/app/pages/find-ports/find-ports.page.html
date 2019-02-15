@@ -9,8 +9,9 @@
 <ion-content>
   <ion-item>
     <ion-label>Country</ion-label>
-    <ionic-selectable [(ngModel)]="country" itemValueField="id" itemTextField="name"
-      [items]="countries" [canSearch]="true" (onChange)="countryChange($event)">
+    <ionic-selectable [(ngModel)]="country" itemValueField="id"
+      itemTextField="name" [items]="countries" [canSearch]="true"
+      (onChange)="countryChange($event)">
       <ng-template ionicSelectableItemRightTemplate let-country="item">
         <img class="country-flag" [src]="country.flagUrl" />
       </ng-template>
@@ -24,8 +25,9 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      [items]="ports" [canSearch]="true" [canClear]="true" (onSearch)="searchPorts($event)">
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true" [canClear]="true"
+      (onSearch)="searchPorts($event)">
       <ng-template ionicSelectableItemRightTemplate let-port="item">
         <ion-badge color="light" *ngIf="port.timeZone">
           UTC{{portService.formatTimeZone(port.timeZone)}}

@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-    selector: '[ionicSelectablePlaceholderTemplate]',
+  selector: '[ionicSelectablePlaceholderTemplate]',
 })
 export class IonicSelectablePlaceholderTemplateDirective { }

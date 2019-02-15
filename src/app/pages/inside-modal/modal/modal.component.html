@@ -9,8 +9,9 @@
 <ion-content>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id" itemTextField="name"
-      [items]="ports" [canSearch]="true" (onSearch)="searchPorts($event)"
+    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports" [canSearch]="true"
+      (onSearch)="searchPorts($event)"
       searchPlaceholder="Type to search, e.g. &quot;s&quot;">
     </ionic-selectable>
   </ion-item>
