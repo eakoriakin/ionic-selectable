@@ -19,12 +19,81 @@
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
-    <ionic-selectable [(ngModel)]="port" itemValueField="id"
+    <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
       itemTextField="name" footerValueField="country.id"
-      footerTextField="country.name" [items]="ports" [canSearch]="true">
-      <!-- <ng-template ionicSelectableFooterTemplate>
-        footer
-      </ng-template> -->
+      footerTextField="country.name" [items]="ports" [canSearch]="false"
+      [isMultiple]="true" [canAddItem]="true" [canSaveItem]="true"
+      [canClear]="true" (onSaveItem)="onSavePort($event)"
+      groupValueField="country.id" groupTextField="country.name">
+      <ng-template ionicSelectableAddItemTemplate let-port="item"
+        let-isAdd="isAdd">
+        <form [formGroup]="portForm">
+          <ion-list>
+            <ion-item-divider>
+              {{isAdd ? 'Add' : 'Edit'}} Port
+            </ion-item-divider>
+            <ion-item>
+              <ion-label>Name</ion-label>
+              <ion-input type="text" formControlName="portName"
+                autocorrect="off" autocapitalize="none">
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Country</ion-label>
+              <ionic-selectable formControlName="portCountry"
+                itemValueField="id" itemTextField="name" [items]="countries">
+              </ionic-selectable>
+            </ion-item>
+          </ion-list>
+        </form>
+        <ion-footer>
+          <ion-toolbar>
+            <ion-row>
+              <ion-col [size]="6">
+                <ion-button expand="full"
+                  (click)="portComponent.hideAddItemTemplate()">
+                  Cancel
+                </ion-button>
+              </ion-col>
+              <ion-col [size]="6">
+                <ion-button expand="full"
+                  (click)="isAdd ? addPort() : savePort(port)"
+                  [disabled]="!portForm.valid">
+                  {{isAdd ? 'Add' : 'Save'}}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-toolbar>
+        </ion-footer>
+      </ng-template>
+      <ng-template ionicSelectableFooterTemplate>
+        <ion-toolbar>
+          <ion-row>
+            <ion-col *ngIf="portComponent.canClear">
+              <ion-button expand="full" (click)="clear()"
+                [disabled]="!portComponent.itemsToConfirm.length">
+                {{portComponent.clearButtonText}}
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="full" (click)="toggleItems()">
+                {{portComponent.itemsToConfirm.length ? 'Deselect' : 'Select'}}
+                All
+              </ion-button>
+            </ion-col>
+            <ion-col *ngIf="portComponent.canAddItem">
+              <ion-button expand="full" (click)="onAddPort()">
+                {{portComponent.addButtonText}}
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="full" (click)="confirm()">
+                {{portComponent.confirmButtonText}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-toolbar>
+      </ng-template>
     </ionic-selectable>
   </ion-item>
 </ion-content>

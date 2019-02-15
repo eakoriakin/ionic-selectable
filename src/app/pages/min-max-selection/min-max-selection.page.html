@@ -23,7 +23,7 @@
       <ionic-selectable #portComponent formControlName="ports"
         itemValueField="id" itemTextField="name" [items]="ports"
         [canClear]="true" [isMultiple]="true"
-        [isOkButtonEnabled]="portComponent.itemsToConfirm.length >= 1 && portComponent.itemsToConfirm.length <= 3">
+        [isConfirmButtonEnabled]="portComponent.itemsToConfirm.length >= 1 && portComponent.itemsToConfirm.length <= 3">
         <ng-template ionicSelectableMessageTemplate>
           Select between 1 to 3 items.
         </ng-template>

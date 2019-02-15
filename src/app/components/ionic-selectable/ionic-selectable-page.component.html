@@ -2,7 +2,7 @@
   <ion-toolbar
     [color]="selectComponent.headerColor ? selectComponent.headerColor : null">
     <ion-buttons slot="start">
-      <ion-button (click)="_close()">
+      <ion-button (click)="selectComponent._close()">
         <span *ngIf="selectComponent.closeButtonTemplate"
           [ngTemplateOutlet]="selectComponent.closeButtonTemplate">
         </span>
@@ -64,7 +64,8 @@
         </div>
       </ion-item-divider>
       <ion-item button="true" detail="false" *ngFor="let item of group.items"
-        (click)="_select(item)" class="ionic-selectable-item" [ngClass]="{
+        (click)="selectComponent._select(item)" class="ionic-selectable-item"
+        [ngClass]="{
           'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
           'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
         }" [disabled]="selectComponent._isItemDisabled(item)">
@@ -111,7 +112,7 @@
   </div>
   <ion-infinite-scroll *ngIf="!selectComponent.hasVirtualScroll"
     [disabled]="!selectComponent.hasInfiniteScroll"
-    (ionInfinite)="_getMoreItems($event)">
+    (ionInfinite)="selectComponent._getMoreItems($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
   <ion-virtual-scroll no-margin
@@ -124,7 +125,8 @@
       {{header}}
     </ion-item-divider>
     <ion-item button="true" detail="false" *virtualItem="let item"
-      (click)="_select(item)" class="ionic-selectable-item" [ngClass]="{
+      (click)="selectComponent._select(item)" class="ionic-selectable-item"
+      [ngClass]="{
         'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
         'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
       }" [disabled]="selectComponent._isItemDisabled(item)">
@@ -170,30 +172,32 @@
     </span>
   </div>
 </div>
-<ion-footer *ngIf="selectComponent._footerButtonsCount > 0"
+<ion-footer
+  *ngIf="selectComponent._footerButtonsCount > 0 || selectComponent.footerTemplate"
   [ngStyle]="{ 'visibility': selectComponent._isFooterVisible ? 'initial' : 'hidden' }">
-  <ion-toolbar>
+  <ion-toolbar *ngIf="!selectComponent.footerTemplate">
     <ion-row>
-      <ion-col *ngIf="selectComponent.canClear"
-        [size]="12 / selectComponent._footerButtonsCount">
-        <ion-button expand="full" (click)="_clear()"
+      <ion-col *ngIf="selectComponent.canClear">
+        <ion-button expand="full" (click)="selectComponent._clear()"
           [disabled]="!selectComponent._selectedItems.length">
           {{selectComponent.clearButtonText}}
         </ion-button>
       </ion-col>
-      <ion-col *ngIf="selectComponent.canAddItem"
-        [size]="12 / selectComponent._footerButtonsCount">
+      <ion-col *ngIf="selectComponent.canAddItem">
         <ion-button expand="full" (click)="selectComponent._addItemClick()">
           {{selectComponent.addButtonText}}
         </ion-button>
       </ion-col>
-      <ion-col *ngIf="selectComponent.isMultiple || selectComponent.hasOkButton"
-        [size]="12 / selectComponent._footerButtonsCount">
-        <ion-button expand="full" (click)="_ok()"
-          [disabled]="!selectComponent.isOkButtonEnabled">
-          {{selectComponent.okButtonText}}
+      <ion-col
+        *ngIf="selectComponent.isMultiple || selectComponent.hasConfirmButton">
+        <ion-button expand="full" (click)="selectComponent._confirm()"
+          [disabled]="!selectComponent.isConfirmButtonEnabled">
+          {{selectComponent.confirmButtonText}}
         </ion-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>
+  <div *ngIf="selectComponent.footerTemplate"
+    [ngTemplateOutlet]="selectComponent.footerTemplate">
+  </div>
 </ion-footer>

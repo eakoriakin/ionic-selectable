@@ -66,7 +66,7 @@ export class IonicSelectablePageComponent implements AfterViewInit {
       }
     }
 
-    this._setItemsToConfirm(this.selectComponent._selectedItems);
+    this.selectComponent._setItemsToConfirm(this.selectComponent._selectedItems);
   }
 
   ngAfterViewInit() {
@@ -78,103 +78,5 @@ export class IonicSelectablePageComponent implements AfterViewInit {
         this._searchbarComponent.setFocus();
       }, 1000);
     }
-  }
-
-  private _setItemsToConfirm(items: any[]) {
-    // Return a copy of original array, so it couldn't be changed from outside.
-    this.selectComponent._itemsToConfirm = [].concat(items);
-  }
-
-  _getMoreItems() {
-    this.selectComponent.onInfiniteScroll.emit({
-      component: this.selectComponent,
-      text: this.selectComponent._searchText
-    });
-  }
-
-  _select(item: any) {
-    const isItemSelected = this.selectComponent._isItemSelected(item);
-
-    if (this.selectComponent.isMultiple) {
-      if (isItemSelected) {
-        this.selectComponent._deleteSelectedItem(item);
-      } else {
-        this.selectComponent._addSelectedItem(item);
-      }
-
-      this._setItemsToConfirm(this.selectComponent._selectedItems);
-
-      // Emit onSelect event after setting items to confirm so they could be used
-      // inside the event.
-      this.selectComponent._emitOnSelect(item, !isItemSelected);
-    } else {
-      if (this.selectComponent.hasOkButton) {
-        this.selectComponent._selectedItems = [];
-
-        if (isItemSelected) {
-          this.selectComponent._deleteSelectedItem(item);
-        } else {
-          this.selectComponent._addSelectedItem(item);
-        }
-
-        this._setItemsToConfirm(this.selectComponent._selectedItems);
-
-        // Emit onSelect event after setting items to confirm so they could be used
-        // inside the event.
-        this.selectComponent._emitOnSelect(item, !isItemSelected);
-      } else {
-        if (!isItemSelected) {
-          this.selectComponent._selectedItems = [];
-          this.selectComponent._addSelectedItem(item);
-
-          // Emit onSelect before onChange.
-          this.selectComponent._emitOnSelect(item, true);
-
-          if (this.selectComponent._shouldStoreItemValue) {
-            this.selectComponent._select(this.selectComponent._getItemValue(item));
-          } else {
-            this.selectComponent._select(item);
-          }
-        }
-
-        this._close();
-      }
-    }
-  }
-
-  _ok() {
-    if (this.selectComponent.isMultiple) {
-      this.selectComponent._select(this.selectComponent._selectedItems);
-    } else if (this.selectComponent.hasOkButton) {
-      this.selectComponent._select(this.selectComponent._selectedItems[0] || null);
-    }
-
-    this._close();
-  }
-
-  _close() {
-    this.selectComponent.close().then(() => {
-      this.selectComponent.onClose.emit({
-        component: this.selectComponent
-      });
-    });
-
-    if (!this.selectComponent._hasOnSearch()) {
-      this.selectComponent._searchText = '';
-      this.selectComponent._setHasSearchText();
-    }
-  }
-
-  _clear() {
-    const selectedItems = this.selectComponent._selectedItems;
-
-    this.selectComponent.clear();
-    this.selectComponent._emitValueChange();
-    this.selectComponent._emitOnClear(selectedItems);
-    this.selectComponent.close().then(() => {
-      this.selectComponent.onClose.emit({
-        component: this.selectComponent
-      });
-    });
   }
 }
