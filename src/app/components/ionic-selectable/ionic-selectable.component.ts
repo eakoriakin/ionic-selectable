@@ -7,6 +7,7 @@ import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
+import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
@@ -59,6 +60,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   private _addItemObservable: Subscription;
   private _deleteItemObservable: Subscription;
   private onItemsChange: EventEmitter<any> = new EventEmitter();
+  _label: string;
   get _shouldStoreItemValue(): boolean {
     return this.shouldStoreItemValue && this._hasObjects;
   }
@@ -72,7 +74,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _filteredGroups: any[] = [];
   _hasGroups: boolean;
   _isSearching: boolean;
-  _labelText: string;
   _hasPlaceholder: boolean;
   _infiniteScroll: InfiniteScroll;
   _isAddItemTemplateVisible = false;
@@ -80,6 +81,18 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _itemToAdd: any = null;
   _footerButtonsCount = 0;
   _hasFilteredItems = false;
+
+  /**
+   * Text of ion-label.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
+   *
+   * @readonly
+   * @default ''
+   * @memberof IonicSelectableComponent
+   */
+  get label(): string {
+    return this._label;
+  }
 
   /**
    * Text that the user has typed in Searchbar.
@@ -599,6 +612,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   addItemTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableFooterTemplateDirective, { read: TemplateRef })
   footerTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef })
+  headerTemplate: TemplateRef<any>;
 
   /**
    * A list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.
@@ -744,7 +759,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       return;
     }
 
-    this._labelText = this._getLabelText();
+    this._label = this._getLabelText();
     event.preventDefault();
     event.stopPropagation();
     this.open().then(() => {
@@ -838,11 +853,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     }
 
     return this.itemTextField ? item[this.itemTextField] : item.toString();
-  }
-
-  _getLabelText(): string {
-    let label = this.ionItem ? this.ionItem.getNativeElement().querySelector('ion-label') : null;
-    return label ? label.textContent : null;
   }
 
   _getItemValue(item: any): any {
@@ -1096,6 +1106,11 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _confirm() {
     this.confirm();
     this._close();
+  }
+
+  private _getLabelText(): string {
+    let label = this.ionItem ? this.ionItem.getNativeElement().querySelector('ion-label') : null;
+    return label ? label.textContent : null;
   }
 
   private _areGroupsEmpty(groups) {

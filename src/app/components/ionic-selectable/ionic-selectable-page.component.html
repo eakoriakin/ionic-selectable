@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar
+  <ion-navbar *ngIf="!selectComponent.headerTemplate"
     [color]="selectComponent.headerColor ? selectComponent.headerColor : null">
     <ion-title>
       <!-- Use span for titleTemplate to preserve Ionic ellipsis styles. -->
@@ -7,7 +7,7 @@
         [ngTemplateOutlet]="selectComponent.titleTemplate">
       </span>
       <span *ngIf="!selectComponent.titleTemplate">
-        {{selectComponent._labelText}}
+        {{selectComponent.label}}
       </span>
     </ion-title>
     <ion-buttons start>
@@ -25,6 +25,9 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <div *ngIf="selectComponent.headerTemplate"
+    [ngTemplateOutlet]="selectComponent.headerTemplate">
+  </div>
   <ion-toolbar
     *ngIf="selectComponent.canSearch || selectComponent.messageTemplate">
     <ion-searchbar *ngIf="selectComponent.canSearch" #searchbarComponent

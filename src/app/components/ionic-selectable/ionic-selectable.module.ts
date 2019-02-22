@@ -6,6 +6,7 @@ import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
+import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
@@ -20,6 +21,7 @@ export { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-
 export { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 export { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 export { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
+export { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 export { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 export { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 export { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
@@ -30,7 +32,7 @@ export { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-
 export { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
 export { IonicSelectableComponent } from './ionic-selectable.component';
 
-let components = [IonicSelectableComponent, IonicSelectablePageComponent],
+const components = [IonicSelectableComponent, IonicSelectablePageComponent],
   directives = [
     IonicSelectableValueTemplateDirective,
     IonicSelectableItemTemplateDirective,
@@ -43,7 +45,8 @@ let components = [IonicSelectableComponent, IonicSelectablePageComponent],
     IonicSelectableCloseButtonTemplateDirective,
     IonicSelectableSearchFailTemplateDirective,
     IonicSelectableAddItemTemplateDirective,
-    IonicSelectableFooterTemplateDirective
+    IonicSelectableFooterTemplateDirective,
+    IonicSelectableHeaderTemplateDirective
   ];
 
 @NgModule({
@@ -52,8 +55,14 @@ let components = [IonicSelectableComponent, IonicSelectablePageComponent],
     IonicPageModule.forChild(IonicSelectableComponent),
     IonicPageModule.forChild(IonicSelectablePageComponent)
   ],
-  declarations: [...components, ...directives],
-  exports: [...components, ...directives],
+  declarations: [
+    ...components,
+    ...directives
+  ],
+  exports: [
+    ...components,
+    ...directives
+  ],
   entryComponents: components
 })
 export class IonicSelectableModule { }
