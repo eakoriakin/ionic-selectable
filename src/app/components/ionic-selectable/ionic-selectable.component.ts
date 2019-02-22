@@ -70,7 +70,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
   private _isOnSearchEnabled = true;
   private _isEnabled = true;
-  private _isBackdropCloseEnabled = true;
+  private _shouldBackdropClose = true;
   private _isOpened = false;
   private _value: any = null;
   private _modal: HTMLIonModalElement;
@@ -218,17 +218,17 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   /**
    * Determines whether Modal should be closed when backdrop is clicked.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isbackdropcloseenabled).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
    *
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Input('isBackdropCloseEnabled')
-  get isBackdropCloseEnabled(): boolean {
-    return this._isBackdropCloseEnabled;
+  @Input('shouldBackdropClose')
+  get shouldBackdropClose(): boolean {
+    return this._shouldBackdropClose;
   }
-  set isBackdropCloseEnabled(isBackdropCloseEnabled: boolean) {
-    this._isBackdropCloseEnabled = !!isBackdropCloseEnabled;
+  set shouldBackdropClose(shouldBackdropClose: boolean) {
+    this._shouldBackdropClose = !!shouldBackdropClose;
   }
 
   /**
@@ -1469,7 +1469,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       self._modalController.create({
         component: IonicSelectableModalComponent,
         componentProps: { selectComponent: self },
-        backdropDismiss: self._isBackdropCloseEnabled
+        backdropDismiss: self._shouldBackdropClose
       }).then(modal => {
         self._modal = modal;
         modal.present().then(() => {
