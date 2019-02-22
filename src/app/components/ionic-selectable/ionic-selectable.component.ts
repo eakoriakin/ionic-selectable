@@ -47,7 +47,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
   private _isOnSearchEnabled = true;
   private _isEnabled = true;
-  private _isBackdropCloseEnabled = true;
+  private _shouldBackdropClose = true;
   private _isOpened = false;
   private _value: any = null;
   private _modal: Modal;
@@ -187,17 +187,17 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
 
   /**
    * Determines whether Modal should be closed when backdrop is clicked.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isbackdropcloseenabled).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
    *
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Input('isBackdropCloseEnabled')
-  get isBackdropCloseEnabled(): boolean {
-    return this._isBackdropCloseEnabled;
+  @Input('shouldBackdropClose')
+  get shouldBackdropClose(): boolean {
+    return this._shouldBackdropClose;
   }
-  set isBackdropCloseEnabled(isBackdropCloseEnabled: boolean) {
-    this._isBackdropCloseEnabled = !!isBackdropCloseEnabled;
+  set shouldBackdropClose(shouldBackdropClose: boolean) {
+    this._shouldBackdropClose = !!shouldBackdropClose;
   }
 
   /**
@@ -1487,7 +1487,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
         IonicSelectableModalComponent, {
           selectComponent: self
         }, {
-          enableBackdropDismiss: self._isBackdropCloseEnabled
+          enableBackdropDismiss: self._shouldBackdropClose
         });
       self._modal.present().then(() => {
         // Set focus after Modal has opened to avoid flickering of focus highlighting
