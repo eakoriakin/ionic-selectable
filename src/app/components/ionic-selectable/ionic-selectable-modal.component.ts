@@ -3,10 +3,10 @@ import { IonContent, IonInfiniteScroll, IonSearchbar, NavParams } from '@ionic/a
 import { IonicSelectableComponent } from './ionic-selectable.component';
 
 @Component({
-  selector: 'ionic-selectable-page',
-  templateUrl: './ionic-selectable-page.component.html'
+  selector: 'ionic-selectable-modal',
+  templateUrl: './ionic-selectable-modal.component.html'
 })
-export class IonicSelectablePageComponent implements AfterViewInit {
+export class IonicSelectableModalComponent implements AfterViewInit {
   @ViewChild(IonContent)
   _content: IonContent;
   _header: HTMLElement;
@@ -15,29 +15,29 @@ export class IonicSelectablePageComponent implements AfterViewInit {
   private _searchbarComponent: IonSearchbar;
   @ViewChild(IonInfiniteScroll)
   _infiniteScroll: IonInfiniteScroll;
-  @HostBinding('class.ionic-selectable-page')
+  @HostBinding('class.ionic-selectable-modal')
   private _cssClass = true;
-  @HostBinding('class.ionic-selectable-page-can-clear')
+  @HostBinding('class.ionic-selectable-modal-can-clear')
   private get _canClearCssClass(): boolean {
     return this.selectComponent.canClear;
   }
-  @HostBinding('class.ionic-selectable-page-is-multiple')
+  @HostBinding('class.ionic-selectable-modal-is-multiple')
   private get _isMultipleCssClass(): boolean {
     return this.selectComponent.isMultiple;
   }
-  @HostBinding('class.ionic-selectable-page-is-searching')
+  @HostBinding('class.ionic-selectable-modal-is-searching')
   private get _isSearchingCssClass(): boolean {
     return this.selectComponent._isSearching;
   }
-  @HostBinding('class.ionic-selectable-page-ios')
+  @HostBinding('class.ionic-selectable-modal-ios')
   private get _isIos(): boolean {
     return this.selectComponent._isIos;
   }
-  @HostBinding('class.ionic-selectable-page-md')
+  @HostBinding('class.ionic-selectable-modal-md')
   private _isMD(): boolean {
     return this.selectComponent._isMD;
   }
-  @HostBinding('class.ionic-selectable-page-is-add-item-template-visible')
+  @HostBinding('class.ionic-selectable-modal-is-add-item-template-visible')
   private get _isAddItemTemplateVisibleCssClass(): boolean {
     return this.selectComponent._isAddItemTemplateVisible;
   }
@@ -53,7 +53,7 @@ export class IonicSelectablePageComponent implements AfterViewInit {
     public _element: ElementRef,
   ) {
     this.selectComponent = this.navParams.get('selectComponent');
-    this.selectComponent._selectPageComponent = this;
+    this.selectComponent._modalComponent = this;
     this.selectComponent._selectedItems = [];
 
     if (!this.selectComponent._isNullOrWhiteSpace(this.selectComponent.value)) {

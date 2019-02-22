@@ -174,7 +174,7 @@ $item-padding-end-ios: 8px;
   }
 }
 
-.ionic-selectable-page {
+.ionic-selectable-modal {
   .ionic-selectable-group {
     ion-item-divider {
       padding-right: $item-padding-end;
@@ -199,7 +199,7 @@ $item-padding-end-ios: 8px;
       padding: 8px 12px;
     }
   }
-  &.ionic-selectable-page-can-clear.ionic-selectable-page-is-multiple {
+  &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
     .footer .col:first-child {
       padding-right: $padding / 2;
     }
@@ -207,12 +207,12 @@ $item-padding-end-ios: 8px;
       padding-left: $padding / 2;
     }
   }
-  &.ionic-selectable-page-is-searching {
+  &.ionic-selectable-modal-is-searching {
     .scroll-content {
       overflow-y: hidden;
     }
   }
-  &.ionic-selectable-page-is-add-item-template-visible {
+  &.ionic-selectable-modal-is-add-item-template-visible {
     // Hide scroll from list content.
     // Use immediate child selector as we don't want to apply the rule
     // to content inside add item template defined by user.

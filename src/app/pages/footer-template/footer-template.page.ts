@@ -39,7 +39,7 @@ export class FooterTemplatePage implements OnInit {
   toggleItems() {
     this.portComponent.toggleItems(this.portComponent.itemsToConfirm.length ? false : true);
 
-    // Confirm items and close Select page
+    // Confirm items and close Modal
     // without having the user to click Confirm button.
     // this.portComponent.confirm();
     // this.portComponent.close();
