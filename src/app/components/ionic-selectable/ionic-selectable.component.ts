@@ -60,7 +60,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   private _addItemObservable: Subscription;
   private _deleteItemObservable: Subscription;
   private onItemsChange: EventEmitter<any> = new EventEmitter();
-  _label: string;
+  _label: string = null;
   get _shouldStoreItemValue(): boolean {
     return this.shouldStoreItemValue && this._hasObjects;
   }
@@ -87,7 +87,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
    *
    * @readonly
-   * @default ''
+   * @default null
    * @memberof IonicSelectableComponent
    */
   get label(): string {
@@ -199,6 +199,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   set shouldBackdropClose(shouldBackdropClose: boolean) {
     this._shouldBackdropClose = !!shouldBackdropClose;
   }
+
+  /**
+   * Modal CSS class.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalCssClass: string = null;
 
   /**
    * Determines whether Modal is opened.
@@ -1487,7 +1497,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
         IonicSelectableModalComponent, {
           selectComponent: self
         }, {
-          enableBackdropDismiss: self._shouldBackdropClose
+          enableBackdropDismiss: self._shouldBackdropClose,
+          cssClass: self.modalCssClass
         });
       self._modal.present().then(() => {
         // Set focus after Modal has opened to avoid flickering of focus highlighting
