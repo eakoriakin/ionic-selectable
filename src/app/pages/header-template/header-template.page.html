@@ -20,10 +20,11 @@
   <ion-item>
     <ion-label>Port 2</ion-label>
     <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
-      itemTextField="name" [items]="ports" [canSearch]="true">
+      itemTextField="name" [items]="ports" [canSearch]="true"
+      closeButtonSlot="end">
       <ng-template ionicSelectableHeaderTemplate>
         <ion-toolbar>
-          <ion-buttons slot="start">
+          <ion-buttons [slot]="portComponent.closeButtonSlot">
             <ion-button (click)="portComponent.close()">
               {{portComponent.closeButtonText}}
             </ion-button>

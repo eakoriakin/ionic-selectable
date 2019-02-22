@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar *ngIf="!selectComponent.headerTemplate"
     [color]="selectComponent.headerColor ? selectComponent.headerColor : null">
-    <ion-buttons slot="start">
+    <ion-buttons [slot]="selectComponent.closeButtonSlot">
       <ion-button (click)="selectComponent._close()">
         <span *ngIf="selectComponent.closeButtonTemplate"
           [ngTemplateOutlet]="selectComponent.closeButtonTemplate">

@@ -508,6 +508,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   groupColor: string = null;
 
   /**
+   * Close button slot.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
+   *
+   * @default 'start'
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  closeButtonSlot = 'start';
+
+  /**
    * Fires when item/s has been selected and Select page closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onchange).
    *
