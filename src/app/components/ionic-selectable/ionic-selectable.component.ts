@@ -2,6 +2,7 @@
 import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonItem, ModalController, Platform } from '@ionic/angular';
+import { AnimationBuilder, ModalOptions } from '@ionic/core';
 import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
@@ -240,6 +241,26 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   @Input()
   modalCssClass: string = null;
+
+  /**
+   * Modal enter animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalEnterAnimation: AnimationBuilder = null;
+
+  /**
+   * Modal leave animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalLeaveAnimation: AnimationBuilder = null;
 
   /**
    * Determines whether Modal is opened.
@@ -1476,12 +1497,25 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       self._filterItems();
       self._isOpened = true;
 
-      self._modalController.create({
+      const modalOptions: ModalOptions = {
         component: IonicSelectableModalComponent,
         componentProps: { selectComponent: self },
-        backdropDismiss: self._shouldBackdropClose,
-        cssClass: self.modalCssClass
-      }).then(modal => {
+        backdropDismiss: self._shouldBackdropClose
+      };
+
+      if (self.modalCssClass) {
+        modalOptions.cssClass = self.modalCssClass;
+      }
+
+      if (self.modalEnterAnimation) {
+        modalOptions.enterAnimation = self.modalEnterAnimation;
+      }
+
+      if (self.modalLeaveAnimation) {
+        modalOptions.leaveAnimation = self.modalLeaveAnimation;
+      }
+
+      self._modalController.create(modalOptions).then(modal => {
         self._modal = modal;
         modal.present().then(() => {
           // Set focus after Modal has opened to avoid flickering of focus highlighting
