@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PipesModule } from '../../pipes';
-import { ItemRightTemplatePage } from './item-right-template';
+import { ItemEndTemplatePage } from './item-end-template';
 
 @NgModule({
   declarations: [
-    ItemRightTemplatePage
+    ItemEndTemplatePage
   ],
   imports: [
-    IonicPageModule.forChild(ItemRightTemplatePage),
+    IonicPageModule.forChild(ItemEndTemplatePage),
     IonicSelectableModule,
     PipesModule
   ]
 })
-export class ItemRightTemplatePageModule { }
+export class ItemEndTemplatePageModule { }

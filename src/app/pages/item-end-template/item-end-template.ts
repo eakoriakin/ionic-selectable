@@ -7,10 +7,10 @@ import { Port } from '../../types';
   defaultHistory: ['HomePage']
 })
 @Component({
-  selector: 'page-item-right-template',
-  templateUrl: 'item-right-template.html'
+  selector: 'page-item-end-template',
+  templateUrl: 'item-end-template.html'
 })
-export class ItemRightTemplatePage {
+export class ItemEndTemplatePage {
   ports: Port[];
   port: Port;
 

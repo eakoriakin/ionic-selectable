@@ -87,8 +87,8 @@
         <span *ngIf="!selectComponent.itemTemplate">
           {{selectComponent._formatItem(item)}}
         </span>
-        <div *ngIf="selectComponent.itemRightTemplate" item-right>
-          <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+        <div *ngIf="selectComponent.itemEndTemplate" item-right>
+          <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </div>
         </div>
@@ -149,8 +149,8 @@
       <span *ngIf="!selectComponent.itemTemplate">
         {{selectComponent._formatItem(item)}}
       </span>
-      <div *ngIf="selectComponent.itemRightTemplate" item-right>
-        <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+      <div *ngIf="selectComponent.itemEndTemplate" item-right>
+        <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
           [ngTemplateOutletContext]="{ item: item }">
         </div>
       </div>
