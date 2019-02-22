@@ -50,7 +50,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 npm install ionic-selectable@3.3.0 --save
 
 // Ionic 4
-npm install ionic-selectable@4.3.0 --save
+npm install ionic-selectable@4.4.0 --save
 ```
 
 2. Import it.  

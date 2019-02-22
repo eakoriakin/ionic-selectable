@@ -108,6 +108,9 @@ const routes: Routes = [{
   path: 'footer-template',
   loadChildren: './pages/footer-template/footer-template.module#FooterTemplatePageModule'
 }, {
+  path: 'header-template',
+  loadChildren: './pages/header-template/header-template.module#HeaderTemplatePageModule'
+}, {
   path: 'find-ports',
   loadChildren: './pages/find-ports/find-ports.module#FindPortsPageModule'
 }, {

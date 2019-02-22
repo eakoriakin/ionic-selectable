@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar
+  <ion-toolbar *ngIf="!selectComponent.headerTemplate"
     [color]="selectComponent.headerColor ? selectComponent.headerColor : null">
     <ion-buttons slot="start">
       <ion-button (click)="selectComponent._close()">
@@ -17,10 +17,13 @@
         [ngTemplateOutlet]="selectComponent.titleTemplate">
       </span>
       <span *ngIf="!selectComponent.titleTemplate">
-        {{selectComponent._labelText}}
+        {{selectComponent.label}}
       </span>
     </ion-title>
   </ion-toolbar>
+  <div *ngIf="selectComponent.headerTemplate"
+    [ngTemplateOutlet]="selectComponent.headerTemplate">
+  </div>
   <ion-toolbar
     *ngIf="selectComponent.canSearch || selectComponent.messageTemplate">
     <ion-searchbar *ngIf="selectComponent.canSearch" #searchbarComponent

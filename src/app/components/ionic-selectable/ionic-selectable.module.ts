@@ -7,6 +7,7 @@ import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
+import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
@@ -21,6 +22,7 @@ export { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-
 export { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
 export { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 export { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
+export { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 export { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 export { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 export { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
@@ -44,7 +46,8 @@ const components = [IonicSelectableComponent, IonicSelectablePageComponent],
     IonicSelectableCloseButtonTemplateDirective,
     IonicSelectableSearchFailTemplateDirective,
     IonicSelectableAddItemTemplateDirective,
-    IonicSelectableFooterTemplateDirective
+    IonicSelectableFooterTemplateDirective,
+    IonicSelectableHeaderTemplateDirective
   ];
 
 @NgModule({
