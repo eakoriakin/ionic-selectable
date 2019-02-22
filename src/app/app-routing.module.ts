@@ -90,8 +90,8 @@ const routes: Routes = [{
   path: 'item-template',
   loadChildren: './pages/item-template/item-template.module#ItemTemplatePageModule'
 }, {
-  path: 'item-right-template',
-  loadChildren: './pages/item-right-template/item-right-template.module#ItemRightTemplatePageModule'
+  path: 'item-end-template',
+  loadChildren: './pages/item-end-template/item-end-template.module#ItemEndTemplatePageModule'
 }, {
   path: 'grouping-virtual-scroll',
   loadChildren: './pages/grouping-virtual-scroll/grouping-virtual-scroll.module#GroupingVirtualScrollPageModule'

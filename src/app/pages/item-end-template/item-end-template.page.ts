@@ -3,11 +3,11 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 
 @Component({
-  selector: 'item-right-template',
-  templateUrl: './item-right-template.page.html',
-  styleUrls: ['./item-right-template.page.scss'],
+  selector: 'item-end-template',
+  templateUrl: './item-end-template.page.html',
+  styleUrls: ['./item-end-template.page.scss'],
 })
-export class ItemRightTemplatePage implements OnInit {
+export class ItemEndTemplatePage implements OnInit {
   ports: Port[];
   port: Port;
 

@@ -12,7 +12,7 @@
     <ionic-selectable [(ngModel)]="country" itemValueField="id"
       itemTextField="name" [items]="countries" [canSearch]="true"
       (onChange)="countryChange($event)">
-      <ng-template ionicSelectableItemRightTemplate let-country="item">
+      <ng-template ionicSelectableItemEndTemplate let-country="item">
         <img class="country-flag" [src]="country.flagUrl" />
       </ng-template>
       <ng-template ionicSelectableValueTemplate let-country="value">
@@ -28,7 +28,7 @@
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports" [canSearch]="true" [canClear]="true"
       (onSearch)="searchPorts($event)">
-      <ng-template ionicSelectableItemRightTemplate let-port="item">
+      <ng-template ionicSelectableItemEndTemplate let-port="item">
         <ion-badge color="light" *ngIf="port.timeZone">
           UTC{{portService.formatTimeZone(port.timeZone)}}
         </ion-badge>

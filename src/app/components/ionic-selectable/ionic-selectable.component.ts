@@ -9,7 +9,7 @@ import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-foote
 import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
-import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
+import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
 import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
@@ -716,8 +716,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   valueTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef })
   itemTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableItemRightTemplateDirective, { read: TemplateRef })
-  itemRightTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableItemEndTemplateDirective, { read: TemplateRef })
+  itemEndTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableTitleTemplateDirective, { read: TemplateRef })
   titleTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectablePlaceholderTemplateDirective, { read: TemplateRef })

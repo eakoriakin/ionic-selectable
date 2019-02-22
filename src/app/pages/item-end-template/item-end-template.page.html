@@ -8,20 +8,20 @@
 </ion-header>
 <ion-content>
   <ion-item lines="full">
-    <a href="{{'item-right-template' | wikiUrl}}">
+    <a href="{{'item-end-template' | wikiUrl}}">
       GitHub
     </a>
   </ion-item>
   <ion-item lines="full">
     <ion-label text-wrap>
-      Setting item right template.
+      Setting item end template.
     </ion-label>
   </ion-item>
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports">
-      <ng-template ionicSelectableItemRightTemplate let-port="item">
+      <ng-template ionicSelectableItemEndTemplate let-port="item">
         <img class="country-flag" [src]="port.country.flagUrl" />
       </ng-template>
     </ionic-selectable>

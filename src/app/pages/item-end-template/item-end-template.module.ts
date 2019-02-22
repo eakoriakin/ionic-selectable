@@ -5,11 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PipesModule } from '../../pipes';
-import { ItemRightTemplatePage } from './item-right-template.page';
+import { ItemEndTemplatePage } from './item-end-template.page';
 
 const routes: Routes = [{
   path: '',
-  component: ItemRightTemplatePage
+  component: ItemEndTemplatePage
 }];
 
 @NgModule({
@@ -22,7 +22,7 @@ const routes: Routes = [{
     RouterModule.forChild(routes)
   ],
   declarations: [
-    ItemRightTemplatePage
+    ItemEndTemplatePage
   ]
 })
-export class ItemRightTemplatePageModule { }
+export class ItemEndTemplatePageModule { }

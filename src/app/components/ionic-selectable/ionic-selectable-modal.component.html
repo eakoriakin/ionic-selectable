@@ -86,8 +86,8 @@
         <ion-label *ngIf="!selectComponent.itemTemplate">
           {{selectComponent._formatItem(item)}}
         </ion-label>
-        <div *ngIf="selectComponent.itemRightTemplate" slot="end">
-          <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+        <div *ngIf="selectComponent.itemEndTemplate" slot="end">
+          <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
             [ngTemplateOutletContext]="{ item: item }">
           </div>
         </div>
@@ -147,8 +147,8 @@
       <ion-label *ngIf="!selectComponent.itemTemplate">
         {{selectComponent._formatItem(item)}}
       </ion-label>
-      <div *ngIf="selectComponent.itemRightTemplate" slot="end">
-        <div [ngTemplateOutlet]="selectComponent.itemRightTemplate"
+      <div *ngIf="selectComponent.itemEndTemplate" slot="end">
+        <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
           [ngTemplateOutletContext]="{ item: item }">
         </div>
       </div>
