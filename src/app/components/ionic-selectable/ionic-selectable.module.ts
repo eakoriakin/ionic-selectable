@@ -10,7 +10,7 @@ import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-heade
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
-import { IonicSelectablePageComponent } from './ionic-selectable-page.component';
+import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
 import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-placeholder-template.directive';
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
@@ -25,14 +25,14 @@ export { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-heade
 export { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 export { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 export { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
-export { IonicSelectablePageComponent } from './ionic-selectable-page.component';
+export { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
 export { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-placeholder-template.directive';
 export { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 export { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 export { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
 export { IonicSelectableComponent } from './ionic-selectable.component';
 
-const components = [IonicSelectableComponent, IonicSelectablePageComponent],
+const components = [IonicSelectableComponent, IonicSelectableModalComponent],
   directives = [
     IonicSelectableValueTemplateDirective,
     IonicSelectableItemTemplateDirective,
@@ -53,7 +53,7 @@ const components = [IonicSelectableComponent, IonicSelectablePageComponent],
   imports: [
     CommonModule,
     IonicPageModule.forChild(IonicSelectableComponent),
-    IonicPageModule.forChild(IonicSelectablePageComponent)
+    IonicPageModule.forChild(IonicSelectableModalComponent)
   ],
   declarations: [
     ...components,

@@ -11,7 +11,7 @@ import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-heade
 import { IonicSelectableItemRightTemplateDirective } from './ionic-selectable-item-right-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
-import { IonicSelectablePageComponent } from './ionic-selectable-page.component';
+import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
 import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-placeholder-template.directive';
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
@@ -70,7 +70,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _groups: any[] = [];
   _itemsToConfirm: any[] = [];
   _selectedItems: any[] = [];
-  _selectPageComponent: IonicSelectablePageComponent;
+  _modalComponent: IonicSelectableModalComponent;
   _filteredGroups: any[] = [];
   _hasGroups: boolean;
   _isSearching: boolean;
@@ -186,7 +186,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Determines whether Select page should be closed when backdrop is clicked.
+   * Determines whether Modal should be closed when backdrop is clicked.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isbackdropcloseenabled).
    *
    * @default true
@@ -201,7 +201,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Determines whether Select page is opened.
+   * Determines whether Modal is opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
    *
    * @default false
@@ -476,7 +476,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   closeButtonText = 'Cancel';
 
   /**
-   * Determines whether Searchbar should receive focus when Select page is opened.
+   * Determines whether Searchbar should receive focus when Modal is opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#focussearchbar).
    *
    * @default false
@@ -506,7 +506,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   groupColor: string = null;
 
   /**
-   * Fires when item/s has been selected and Select page closed.
+   * Fires when item/s has been selected and Modal closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onchange).
    *
    * @memberof IonicSelectableComponent
@@ -553,7 +553,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   onInfiniteScroll: EventEmitter<{ component: IonicSelectableComponent, text: string }> = new EventEmitter();
 
   /**
-   * Fires when Select page has been opened.
+   * Fires when Modal has been opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
    *
    * @memberof IonicSelectableComponent
@@ -562,7 +562,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   onOpen: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
 
   /**
-   * Fires when Select page has been closed.
+   * Fires when Modal has been closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
    *
    * @memberof IonicSelectableComponent
@@ -998,9 +998,9 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
 
   _close() {
     // Focused input interferes with the animation.
-    // Blur it first, wait a bit and then close the page.
-    if (this._selectPageComponent._searchbarComponent) {
-      this._selectPageComponent._searchbarComponent._fireBlur();
+    // Blur it first, wait a bit and then close Modal.
+    if (this._modalComponent._searchbarComponent) {
+      this._modalComponent._searchbarComponent._fireBlur();
     }
 
     setTimeout(() => {
@@ -1068,8 +1068,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       this._emitOnSelect(item, !isItemSelected);
     } else {
       if (this.hasConfirmButton || this.footerTemplate) {
-        // Don't close select page and keep track on items to confirm.
-        // When footer template is used it's up to developer to close the page.
+        // Don't close Modal and keep track on items to confirm.
+        // When footer template is used it's up to developer to close Modal.
         this._selectedItems = [];
 
         if (isItemSelected) {
@@ -1465,10 +1465,10 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Opens Select page.
+   * Opens Modal.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#open).
    *
-   * @returns Promise that resolves when Select page has been opened.
+   * @returns Promise that resolves when Modal has been opened.
    * @memberof IonicSelectableComponent
    */
   open(): Promise<any> {
@@ -1484,14 +1484,14 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
 
       self._isOpened = true;
       self._modal = self._modalController.create(
-        IonicSelectablePageComponent, {
+        IonicSelectableModalComponent, {
           selectComponent: self
         }, {
           enableBackdropDismiss: self._isBackdropCloseEnabled
         });
       self._modal.present().then(() => {
-        // Set focus after page has opened to avoid flickering of focus highlighting
-        // before page opening.
+        // Set focus after Modal has opened to avoid flickering of focus highlighting
+        // before Modal opening.
         self._setIonItemHasFocus(true);
         resolve();
       });
@@ -1513,10 +1513,10 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Closes Select page.
+   * Closes Modal.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
    *
-   * @returns Promise that resolves when Select page has been closed.
+   * @returns Promise that resolves when Modal has been closed.
    * @memberof IonicSelectableComponent
    */
   close(): Promise<any> {
@@ -1532,7 +1532,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       self._setIonItemValidityClasses();
 
       // Delete old instance of infinite scroll, to avoid "Cannot read property 'enableEvents' of null"
-      // error from it when page is opened next time.
+      // error from it when Modal is opened next time.
       self._infiniteScroll = null;
       self._isOpened = false;
       self._itemToAdd = null;
@@ -1616,7 +1616,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   }
 
   /**
-   * Scrolls to the top of Select page content.
+   * Scrolls to the top of Modal content.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltotop).
    *
    * @returns Promise that resolves when scroll has been completed.
@@ -1631,14 +1631,14 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
         return;
       }
 
-      self._selectPageComponent._content.scrollToTop().then(() => {
+      self._modalComponent._content.scrollToTop().then(() => {
         resolve();
       });
     });
   }
 
   /**
-   * Scrolls to the bottom of Select page content.
+   * Scrolls to the bottom of Modal content.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltobottom).
    *
    * @returns Promise that resolves when scroll has been completed.
@@ -1653,7 +1653,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
         return;
       }
 
-      self._selectPageComponent._content.scrollToBottom().then(() => {
+      self._modalComponent._content.scrollToBottom().then(() => {
         resolve();
       });
     });
