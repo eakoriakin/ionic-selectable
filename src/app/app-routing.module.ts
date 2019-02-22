@@ -102,8 +102,8 @@ const routes: Routes = [{
   path: 'group-template',
   loadChildren: './pages/group-template/group-template.module#GroupTemplatePageModule'
 }, {
-  path: 'group-right-template',
-  loadChildren: './pages/group-right-template/group-right-template.module#GroupRightTemplatePageModule'
+  path: 'group-end-template',
+  loadChildren: './pages/group-end-template/group-end-template.module#GroupEndTemplatePageModule'
 }, {
   path: 'footer-template',
   loadChildren: './pages/footer-template/footer-template.module#FooterTemplatePageModule'

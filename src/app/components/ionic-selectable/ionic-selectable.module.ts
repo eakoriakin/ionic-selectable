@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
-import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
+import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-group-end-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
@@ -20,7 +20,7 @@ import { IonicSelectableComponent } from './ionic-selectable.component';
 export { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 export { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
 export { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
-export { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
+export { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-group-end-template.directive';
 export { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 export { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 export { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
@@ -42,7 +42,7 @@ const components = [IonicSelectableComponent, IonicSelectableModalComponent],
     IonicSelectablePlaceholderTemplateDirective,
     IonicSelectableMessageTemplateDirective,
     IonicSelectableGroupTemplateDirective,
-    IonicSelectableGroupRightTemplateDirective,
+    IonicSelectableGroupEndTemplateDirective,
     IonicSelectableCloseButtonTemplateDirective,
     IonicSelectableSearchFailTemplateDirective,
     IonicSelectableAddItemTemplateDirective,

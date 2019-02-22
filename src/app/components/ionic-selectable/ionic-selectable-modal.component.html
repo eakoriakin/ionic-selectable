@@ -60,8 +60,8 @@
         <ion-label *ngIf="!selectComponent.groupTemplate">
           {{group.text}}
         </ion-label>
-        <div *ngIf="selectComponent.groupRightTemplate" slot="end">
-          <div [ngTemplateOutlet]="selectComponent.groupRightTemplate"
+        <div *ngIf="selectComponent.groupEndTemplate" slot="end">
+          <div [ngTemplateOutlet]="selectComponent.groupEndTemplate"
             [ngTemplateOutletContext]="{ group: group }">
           </div>
         </div>

@@ -3,11 +3,11 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 
 @Component({
-  selector: 'group-right-template',
-  templateUrl: './group-right-template.page.html',
-  styleUrls: ['./group-right-template.page.scss'],
+  selector: 'group-end-template',
+  templateUrl: './group-end-template.page.html',
+  styleUrls: ['./group-end-template.page.scss'],
 })
-export class GroupRightTemplatePage implements OnInit {
+export class GroupEndTemplatePage implements OnInit {
   ports: Port[];
   port: Port;
 

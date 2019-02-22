@@ -1,21 +1,21 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GroupRightTemplatePage } from './group-right-template.page';
+import { GroupEndTemplatePage } from './group-end-template.page';
 
-describe('GroupRightTemplatePage', () => {
-  let component: GroupRightTemplatePage;
-  let fixture: ComponentFixture<GroupRightTemplatePage>;
+describe('GroupEndTemplatePage', () => {
+  let component: GroupEndTemplatePage;
+  let fixture: ComponentFixture<GroupEndTemplatePage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupRightTemplatePage],
+      declarations: [GroupEndTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GroupRightTemplatePage);
+    fixture = TestBed.createComponent(GroupEndTemplatePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

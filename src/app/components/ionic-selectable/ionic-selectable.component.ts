@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
-import { IonicSelectableGroupRightTemplateDirective } from './ionic-selectable-group-right-template.directive';
+import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-group-end-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
@@ -726,8 +726,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   messageTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableGroupTemplateDirective, { read: TemplateRef })
   groupTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableGroupRightTemplateDirective, { read: TemplateRef })
-  groupRightTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableGroupEndTemplateDirective, { read: TemplateRef })
+  groupEndTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableCloseButtonTemplateDirective, { read: TemplateRef })
   closeButtonTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableSearchFailTemplateDirective, { read: TemplateRef })
