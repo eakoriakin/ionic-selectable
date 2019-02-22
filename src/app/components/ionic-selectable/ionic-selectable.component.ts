@@ -87,7 +87,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   private _ionLabelElement: any;
   private _hasIonLabel = false;
   private _ionLabelPosition: 'fixed' | 'stacked' | 'floating' | 'default' | null = null;
-  private _label = '';
+  private _label: string = null;
   private get _hasInfiniteScroll(): boolean {
     return this.isEnabled && this._modalComponent &&
       this._modalComponent._infiniteScroll ? true : false;
@@ -117,7 +117,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
    *
    * @readonly
-   * @default ''
+   * @default null
    * @memberof IonicSelectableComponent
    */
   get label(): string {
@@ -230,6 +230,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   set shouldBackdropClose(shouldBackdropClose: boolean) {
     this._shouldBackdropClose = !!shouldBackdropClose;
   }
+
+  /**
+   * Modal CSS class.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalCssClass: string = null;
 
   /**
    * Determines whether Modal is opened.
@@ -1469,7 +1479,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       self._modalController.create({
         component: IonicSelectableModalComponent,
         componentProps: { selectComponent: self },
-        backdropDismiss: self._shouldBackdropClose
+        backdropDismiss: self._shouldBackdropClose,
+        cssClass: self.modalCssClass
       }).then(modal => {
         self._modal = modal;
         modal.present().then(() => {
