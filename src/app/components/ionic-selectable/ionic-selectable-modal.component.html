@@ -62,8 +62,8 @@
         <span *ngIf="!selectComponent.groupTemplate">
           {{group.text}}
         </span>
-        <div *ngIf="selectComponent.groupRightTemplate" item-right>
-          <div [ngTemplateOutlet]="selectComponent.groupRightTemplate"
+        <div *ngIf="selectComponent.groupEndTemplate" item-right>
+          <div [ngTemplateOutlet]="selectComponent.groupEndTemplate"
             [ngTemplateOutletContext]="{ group: group }">
           </div>
         </div>

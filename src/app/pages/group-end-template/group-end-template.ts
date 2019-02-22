@@ -7,10 +7,10 @@ import { Port } from '../../types';
   defaultHistory: ['HomePage']
 })
 @Component({
-  selector: 'page-group-right-template',
-  templateUrl: 'group-right-template.html'
+  selector: 'page-group-end-template',
+  templateUrl: 'group-end-template.html'
 })
-export class GroupRightTemplatePage {
+export class GroupEndTemplatePage {
   ports: Port[];
   port: Port;
 
