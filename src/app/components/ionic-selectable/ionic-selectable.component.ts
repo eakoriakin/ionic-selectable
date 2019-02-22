@@ -1,6 +1,6 @@
 import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, IterableDiffer, IterableDiffers, OnDestroy, OnInit, Optional, Output, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Form, InfiniteScroll, Item, Modal, ModalController, Platform } from 'ionic-angular';
+import { Form, InfiniteScroll, Item, Modal, ModalController, ModalOptions, Platform } from 'ionic-angular';
 import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
@@ -209,6 +209,26 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
    */
   @Input()
   modalCssClass: string = null;
+
+  /**
+   * Modal enter animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalEnterAnimation: string = null;
+
+  /**
+   * Modal leave animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  modalLeaveAnimation: string = null;
 
   /**
    * Determines whether Modal is opened.
@@ -1491,15 +1511,28 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
       }
 
       self._filterItems();
-
       self._isOpened = true;
+
+      const modalOptions: ModalOptions = {
+        enableBackdropDismiss: self._shouldBackdropClose
+      };
+
+      if (self.modalCssClass) {
+        modalOptions.cssClass = self.modalCssClass;
+      }
+
+      if (self.modalEnterAnimation) {
+        modalOptions.enterAnimation = self.modalEnterAnimation;
+      }
+
+      if (self.modalLeaveAnimation) {
+        modalOptions.leaveAnimation = self.modalLeaveAnimation;
+      }
+
       self._modal = self._modalController.create(
         IonicSelectableModalComponent, {
           selectComponent: self
-        }, {
-          enableBackdropDismiss: self._shouldBackdropClose,
-          cssClass: self.modalCssClass
-        });
+        }, modalOptions);
       self._modal.present().then(() => {
         // Set focus after Modal has opened to avoid flickering of focus highlighting
         // before Modal opening.
