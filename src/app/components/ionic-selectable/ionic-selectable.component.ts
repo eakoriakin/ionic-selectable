@@ -11,6 +11,7 @@ import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-gro
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
+import { IonicSelectableItemIconTemplateDirective } from './ionic-selectable-item-icon-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
 import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
@@ -519,7 +520,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   shouldFocusSearchbar = false;
 
   /**
-   * Header color. [Ionic colors](https://ionicframework.com/docs/theming/theming-your-app/) are supported.
+   * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
    *
    * @default null
@@ -529,7 +530,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   headerColor: string = null;
 
   /**
-   * Group color. [Ionic colors](https://ionicframework.com/docs/theming/theming-your-app/) are supported.
+   * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
    *
    * @default null
@@ -539,7 +540,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   groupColor: string = null;
 
   /**
-   * Close button slot.
+   * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
    *
    * @default 'start'
@@ -547,6 +548,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   @Input()
   closeButtonSlot = 'start';
+
+  /**
+   * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemiconslot).
+   *
+   * @default 'start'
+   * @memberof IonicSelectableComponent
+   */
+  @Input()
+  itemIconSlot = 'start';
 
   /**
    * Fires when item/s has been selected and Modal closed.
@@ -770,6 +781,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   _addItemTemplateFooterHeight: string;
   @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef })
   headerTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef })
+  itemIconTemplate: TemplateRef<any>;
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/).

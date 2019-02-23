@@ -93,6 +93,9 @@ const routes: Routes = [{
   path: 'item-end-template',
   loadChildren: './pages/item-end-template/item-end-template.module#ItemEndTemplatePageModule'
 }, {
+  path: 'item-icon-template',
+  loadChildren: './pages/item-icon-template/item-icon-template.module#ItemIconTemplatePageModule'
+}, {
   path: 'grouping-virtual-scroll',
   loadChildren: './pages/grouping-virtual-scroll/grouping-virtual-scroll.module#GroupingVirtualScrollPageModule'
 }, {

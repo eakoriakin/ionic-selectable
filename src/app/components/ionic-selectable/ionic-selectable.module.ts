@@ -9,6 +9,7 @@ import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-gro
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
+import { IonicSelectableItemIconTemplateDirective } from './ionic-selectable-item-icon-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
 import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
@@ -24,6 +25,7 @@ export { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-gro
 export { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 export { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 export { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
+export { IonicSelectableItemIconTemplateDirective } from './ionic-selectable-item-icon-template.directive';
 export { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 export { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
 export { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
@@ -47,7 +49,8 @@ const components = [IonicSelectableComponent, IonicSelectableModalComponent],
     IonicSelectableSearchFailTemplateDirective,
     IonicSelectableAddItemTemplateDirective,
     IonicSelectableFooterTemplateDirective,
-    IonicSelectableHeaderTemplateDirective
+    IonicSelectableHeaderTemplateDirective,
+    IonicSelectableItemIconTemplateDirective
   ];
 
 @NgModule({

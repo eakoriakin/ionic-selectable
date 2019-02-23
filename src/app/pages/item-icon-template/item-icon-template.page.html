@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Templates</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <a href="{{'item-icon-template' | wikiUrl}}">
+      GitHub
+    </a>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label text-wrap>
+      Setting item icon template.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port</ion-label>
+    <ionic-selectable #portComponent [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" [items]="ports">
+      <ng-template ionicSelectableItemIconTemplate let-port="item"
+        let-isPortSelected="isItemSelected">
+        <ion-icon [slot]="portComponent.itemIconSlot"
+          [name]="isPortSelected ? 'checkmark-circle' : 'radio-button-off'"
+          [color]="isPortSelected ? 'primary' : null">
+        </ion-icon>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>
