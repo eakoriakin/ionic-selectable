@@ -103,6 +103,10 @@ $content-padding: 16px;
     &-button {
       width: 25px;
     }
+    &-icon-template[item-left] {
+      /*Correct item icon template position.*/
+      margin: 0 0 0 1px;
+    }
   }
   &-ios {
     &.ionic-selectable-has-placeholder {

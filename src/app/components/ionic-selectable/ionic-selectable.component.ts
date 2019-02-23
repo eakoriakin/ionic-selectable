@@ -9,6 +9,7 @@ import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-gro
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
+import { IonicSelectableItemIconTemplateDirective } from './ionic-selectable-item-icon-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
 import { IonicSelectableMessageTemplateDirective } from './ionic-selectable-message-template.directive';
 import { IonicSelectableModalComponent } from './ionic-selectable-modal.component';
@@ -516,7 +517,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   focusSearchbar = false;
 
   /**
-   * Header color. [Ionic colors](https://ionicframework.com/docs/theming/theming-your-app/) are supported.
+   * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
    *
    * @default null
@@ -526,7 +527,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   headerColor: string = null;
 
   /**
-   * Group color. [Ionic colors](https://ionicframework.com/docs/theming/theming-your-app/) are supported.
+   * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
    *
    * @default null
@@ -644,6 +645,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   footerTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef })
   headerTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef })
+  itemIconTemplate: TemplateRef<any>;
 
   /**
    * A list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.

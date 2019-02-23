@@ -74,11 +74,6 @@
           'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
           'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
         }" [disabled]="selectComponent._isItemDisabled(item)">
-        <ion-icon
-          [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
-          [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
-          item-left>
-        </ion-icon>
         <!-- Use span for itemTemplate to preserve Ionic ellipsis styles. -->
         <span *ngIf="selectComponent.itemTemplate"
           [ngTemplateOutlet]="selectComponent.itemTemplate"
@@ -92,6 +87,16 @@
             [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
           </div>
         </div>
+        <span *ngIf="selectComponent.itemIconTemplate" item-left
+          class="ionic-selectable-item-icon-template"
+          [ngTemplateOutlet]="selectComponent.itemIconTemplate"
+          [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
+        </span>
+        <ion-icon *ngIf="!selectComponent.itemIconTemplate"
+          [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
+          [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
+          item-left>
+        </ion-icon>
         <button *ngIf="selectComponent.canSaveItem"
           class="ionic-selectable-item-button" ion-button icon-only item-end
           outline (click)="selectComponent._saveItem($event, item)">
@@ -136,11 +141,6 @@
         'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
         'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
       }" [disabled]="selectComponent._isItemDisabled(item)">
-      <ion-icon
-        [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
-        [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
-        item-left>
-      </ion-icon>
       <!-- Use span for itemTemplate to preserve Ionic ellipsis styles. -->
       <span *ngIf="selectComponent.itemTemplate"
         [ngTemplateOutlet]="selectComponent.itemTemplate"
@@ -154,6 +154,16 @@
           [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
         </div>
       </div>
+      <span *ngIf="selectComponent.itemIconTemplate" item-left
+        class="ionic-selectable-item-icon-template"
+        [ngTemplateOutlet]="selectComponent.itemIconTemplate"
+        [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
+      </span>
+      <ion-icon *ngIf="!selectComponent.itemIconTemplate"
+        [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
+        [color]="selectComponent._isItemSelected(item) ? 'primary' : 'daek'"
+        item-left>
+      </ion-icon>
       <button *ngIf="selectComponent.canSaveItem"
         class="ionic-selectable-item-button" ion-button icon-only item-end
         outline (click)="selectComponent._saveItem($event, item)">
