@@ -80,7 +80,7 @@
         <!-- Need span for text ellipsis. -->
         <span *ngIf="selectComponent.itemTemplate"
           [ngTemplateOutlet]="selectComponent.itemTemplate"
-          [ngTemplateOutletContext]="{ item: item }">
+          [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
         </span>
         <!-- Need ion-label for text ellipsis. -->
         <ion-label *ngIf="!selectComponent.itemTemplate">
@@ -88,7 +88,7 @@
         </ion-label>
         <div *ngIf="selectComponent.itemEndTemplate" slot="end">
           <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
-            [ngTemplateOutletContext]="{ item: item }">
+            [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
           </div>
         </div>
         <ion-button *ngIf="selectComponent.canSaveItem"
@@ -141,7 +141,7 @@
       <!-- Need span for text ellipsis. -->
       <span *ngIf="selectComponent.itemTemplate"
         [ngTemplateOutlet]="selectComponent.itemTemplate"
-        [ngTemplateOutletContext]="{ item: item }">
+        [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
       </span>
       <!-- Need ion-label for text ellipsis. -->
       <ion-label *ngIf="!selectComponent.itemTemplate">
@@ -149,7 +149,7 @@
       </ion-label>
       <div *ngIf="selectComponent.itemEndTemplate" slot="end">
         <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
-          [ngTemplateOutletContext]="{ item: item }">
+          [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
         </div>
       </div>
       <ion-button *ngIf="selectComponent.canSaveItem"
