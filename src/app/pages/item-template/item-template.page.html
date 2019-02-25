@@ -21,7 +21,8 @@
     <ion-label>Port</ion-label>
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports">
-      <ng-template ionicSelectableItemTemplate let-port="item">
+      <ng-template ionicSelectableItemTemplate let-port="item"
+        let-isPortSelected="isItemSelected">
         <ion-label>
           {{port.name}} ({{port.country.name}})
         </ion-label>
