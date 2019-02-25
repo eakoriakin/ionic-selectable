@@ -84,7 +84,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   _hasFilteredItems = false;
 
   /**
-   * Text of ion-label.
+   * Text of [Ionic Label](https://ionicframework.com/docs/api/label).
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
    *
    * @readonly
