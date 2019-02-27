@@ -18,7 +18,7 @@
     <ion-label>Port</ion-label>
     <ionic-selectable item-content [(ngModel)]="port" itemValueField="id"
       itemTextField="name" groupValueField="country.id"
-      groupTextField="country.name" [items]="ports" [canSearch]="true">
+      groupTextField="country.name" [items]="ports">
       <ng-template ionicSelectableGroupTemplate let-group="group">
         {{group.text}}
       </ng-template>
