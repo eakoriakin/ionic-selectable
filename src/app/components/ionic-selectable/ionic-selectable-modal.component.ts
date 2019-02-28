@@ -12,36 +12,36 @@ export class IonicSelectableModalComponent implements AfterViewInit {
   _header: HTMLElement;
   selectComponent: IonicSelectableComponent;
   @ViewChild('searchbarComponent')
-  private _searchbarComponent: IonSearchbar;
+  _searchbarComponent: IonSearchbar;
   @ViewChild(IonInfiniteScroll)
   _infiniteScroll: IonInfiniteScroll;
   @HostBinding('class.ionic-selectable-modal')
-  private _cssClass = true;
+  _cssClass = true;
   @HostBinding('class.ionic-selectable-modal-can-clear')
-  private get _canClearCssClass(): boolean {
+  get _canClearCssClass(): boolean {
     return this.selectComponent.canClear;
   }
   @HostBinding('class.ionic-selectable-modal-is-multiple')
-  private get _isMultipleCssClass(): boolean {
+  get _isMultipleCssClass(): boolean {
     return this.selectComponent.isMultiple;
   }
   @HostBinding('class.ionic-selectable-modal-is-searching')
-  private get _isSearchingCssClass(): boolean {
+  get _isSearchingCssClass(): boolean {
     return this.selectComponent._isSearching;
   }
   @HostBinding('class.ionic-selectable-modal-ios')
-  private get _isIos(): boolean {
+  get _isIos(): boolean {
     return this.selectComponent._isIos;
   }
   @HostBinding('class.ionic-selectable-modal-md')
-  private _isMD(): boolean {
+  _isMD(): boolean {
     return this.selectComponent._isMD;
   }
   @HostBinding('class.ionic-selectable-modal-is-add-item-template-visible')
-  private get _isAddItemTemplateVisibleCssClass(): boolean {
+  get _isAddItemTemplateVisibleCssClass(): boolean {
     return this.selectComponent._isAddItemTemplateVisible;
   }
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     // ion-footer inside the template might change its height when
     // device orientation changes.
