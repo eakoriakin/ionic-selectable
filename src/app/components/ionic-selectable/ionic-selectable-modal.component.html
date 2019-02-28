@@ -119,7 +119,7 @@
   </div>
   <ion-infinite-scroll *ngIf="!selectComponent.hasVirtualScroll"
     [disabled]="!selectComponent.hasInfiniteScroll"
-    (ionInfinite)="selectComponent._getMoreItems($event)">
+    (ionInfinite)="selectComponent._getMoreItems()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
   <ion-virtual-scroll no-margin
