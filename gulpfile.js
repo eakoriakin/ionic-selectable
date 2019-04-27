@@ -1,13 +1,14 @@
-let gulp = require('gulp'),
-  childProcess = require('child_process'),
-  _ = require('lodash'),
+const gulp = require('gulp'),
   uglify = require('gulp-uglify-es').default,
   rename = require('gulp-rename'),
   jsonEditor = require('gulp-json-editor'),
   fs = require('fs'),
-  sass = require('gulp-sass');
-
-let packageJson = JSON.parse(fs.readFileSync('./package.json')),
+  sass = require('gulp-sass'),
+  path = require('path'),
+  ngPackagr = require('ng-packagr'),
+  ngPackagePath = path.normalize(path.join(__dirname, './ng-package.json')),
+  tsConfigPath = path.normalize(path.join(__dirname, './tsconfig.dist.json')),
+  packageConfig = JSON.parse(fs.readFileSync('./package.json')),
   paths = {
     gulp: 'node_modules/gulp/bin/gulp.js',
     ngPackagr: 'node_modules/ng-packagr/cli/main.js',
@@ -15,50 +16,37 @@ let packageJson = JSON.parse(fs.readFileSync('./package.json')),
       root: 'images/'
     },
     src: {
-      css: `src/app/components/${packageJson.name}/${packageJson.name}.component.scss`
+      css: `src/app/components/${packageConfig.name}/${packageConfig.name}.component.scss`
     },
     dist: {
       root: 'dist/',
       package: 'dist/package.json',
       bundles: {
         root: 'dist/bundles/',
-        file: `dist/bundles/${packageJson.name}.umd.js`,
-        mapFile: `dist/bundles/${packageJson.name}.umd.js.map`,
-        minFile: `${packageJson.name}.umd.min.js`
+        file: `dist/bundles/${packageConfig.name}.umd.js`,
+        mapFile: `dist/bundles/${packageConfig.name}.umd.js.map`,
+        minFile: `${packageConfig.name}.umd.min.js`
       },
       esm5: {
         root: 'dist/esm5/',
-        file: `dist/esm5/${packageJson.name}.js`,
-        minFile: `${packageJson.name}.min.js`
+        file: `dist/esm5/${packageConfig.name}.js`,
+        minFile: `${packageConfig.name}.min.js`
       },
       esm2015: {
         root: 'dist/esm2015/',
-        file: `dist/esm2015/${packageJson.name}.js`,
-        minFile: `${packageJson.name}.min.js`
+        file: `dist/esm2015/${packageConfig.name}.js`,
+        minFile: `${packageConfig.name}.min.js`
       }
     }
   };
 
-function executeCommand(command, parameters) {
-  if (command === 'gulp') {
-    command = paths.gulp;
-  } else if (command === 'ng-packagr') {
-    command = paths.ngPackagr;
-  }
-
-  var _parameters = _.cloneDeep(parameters);
-  _parameters.unshift(command);
-
-  childProcess.spawnSync('node', _parameters, { stdio: 'inherit' });
-}
-
-function copyCss() {
+async function copyCss() {
   return Promise.all([
     new Promise(function (resolve, reject) {
       // Copy original SCSS file to "module" folder from package.json.
       // That's where Ionic will be looking for it.
       fs.createReadStream(paths.src.css).pipe(
-        fs.createWriteStream(`${paths.dist.esm5.root}${packageJson.name}.component.scss`)
+        fs.createWriteStream(`${paths.dist.esm5.root}${packageConfig.name}.component.scss`)
           .on('error', reject)
           .on('close', resolve)
       );
@@ -70,7 +58,7 @@ function copyCss() {
         .pipe(sass({
           outputStyle: 'compressed'
         }))
-        .pipe(rename(`${packageJson.name}.component.min.css`))
+        .pipe(rename(`${packageConfig.name}.component.min.css`))
         .pipe(gulp.dest(paths.dist.esm5.root))
         .on('error', reject)
         .on('end', resolve);
@@ -78,7 +66,7 @@ function copyCss() {
   ]);
 }
 
-function copyImages() {
+async function copyImages() {
   return new Promise(function (resolve, reject) {
     gulp.src(`${paths.images.root}**/*`)
       .pipe(gulp.dest(`${paths.dist.root}${paths.images.root}`))
@@ -87,7 +75,7 @@ function copyImages() {
   });
 }
 
-function minifyJS() {
+async function minifyJS() {
   // Minify files.
   return Promise.all([
     new Promise(function (resolve, reject) {
@@ -117,7 +105,7 @@ function minifyJS() {
   });
 }
 
-function modifyPackageJson() {
+async function modifyPackageJson() {
   return new Promise(function (resolve, reject) {
     gulp.src(paths.dist.package)
       .pipe(jsonEditor(function (json) {
@@ -135,19 +123,21 @@ function modifyPackageJson() {
   });
 }
 
-gulp.task('build', function () {
-  executeCommand('ng-packagr', ['-p', 'ng-package.json']);
-
-  minifyJS().then(function () {
-    modifyPackageJson().then(function () {
-      copyCss().then(function () {
-        copyImages().then(function () {
-          // Remove archive created by ng-packagr.
-          fs.unlinkSync('dist.tgz');
-        });
-      });
+async function build() {
+  await ngPackagr
+    .ngPackagr()
+    .forProject(ngPackagePath)
+    .withTsConfig(tsConfigPath)
+    .build()
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
     });
-  });
-});
+  await minifyJS();
+  await modifyPackageJson();
+  await copyCss();
+  await copyImages();
+}
 
+gulp.task('build', build);
 gulp.task('default', ['build']);

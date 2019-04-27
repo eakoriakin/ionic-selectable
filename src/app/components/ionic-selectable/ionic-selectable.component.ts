@@ -33,41 +33,41 @@ import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-
 })
 export class IonicSelectableComponent implements ControlValueAccessor, OnInit, DoCheck {
   @HostBinding('class.ionic-selectable')
-  private _cssClass = true;
+  _cssClass = true;
   @HostBinding('class.ionic-selectable-ios')
   _isIos: boolean;
   @HostBinding('class.ionic-selectable-md')
   _isMD: boolean;
   @HostBinding('class.ionic-selectable-is-multiple')
-  private get _isMultipleCssClass(): boolean {
+  get _isMultipleCssClass(): boolean {
     return this.isMultiple;
   }
   @HostBinding('class.ionic-selectable-has-value')
-  private get _hasValueCssClass(): boolean {
+  get _hasValueCssClass(): boolean {
     return this.hasValue();
   }
   @HostBinding('class.ionic-selectable-has-placeholder')
-  private get _hasPlaceholderCssClass(): boolean {
+  get _hasPlaceholderCssClass(): boolean {
     return this._hasPlaceholder;
   }
   @HostBinding('class.ionic-selectable-has-label')
-  private get _hasIonLabelCssClass(): boolean {
+  get _hasIonLabelCssClass(): boolean {
     return this._hasIonLabel;
   }
   @HostBinding('class.ionic-selectable-label-default')
-  private get _hasDefaultIonLabelCssClass(): boolean {
+  get _hasDefaultIonLabelCssClass(): boolean {
     return this._ionLabelPosition === 'default';
   }
   @HostBinding('class.ionic-selectable-label-fixed')
-  private get _hasFixedIonLabelCssClass(): boolean {
+  get _hasFixedIonLabelCssClass(): boolean {
     return this._ionLabelPosition === 'fixed';
   }
   @HostBinding('class.ionic-selectable-label-stacked')
-  private get _hasStackedIonLabelCssClass(): boolean {
+  get _hasStackedIonLabelCssClass(): boolean {
     return this._ionLabelPosition === 'stacked';
   }
   @HostBinding('class.ionic-selectable-label-floating')
-  private get _hasFloatingIonLabelCssClass(): boolean {
+  get _hasFloatingIonLabelCssClass(): boolean {
     return this._ionLabelPosition === 'floating';
   }
   private _isOnSearchEnabled = true;
@@ -905,6 +905,19 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     return this.itemTextField ? item[this.itemTextField] : item.toString();
   }
 
+  _formatValueItem(item: any): string {
+    if (this._shouldStoreItemValue) {
+      // Get item text from the list as we store it's value only.
+      const selectedItem = this.items.find(_item => {
+        return _item[this.itemValueField] === item;
+      });
+
+      return this._formatItem(selectedItem);
+    } else {
+      return this._formatItem(item);
+    }
+  }
+
   _getItemValue(item: any): any {
     if (!this._hasObjects) {
       return item;
@@ -1233,19 +1246,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     this._groups = groups;
     this._filteredGroups = this._groups;
     this._hasFilteredItems = !this._areGroupsEmpty(this._filteredGroups);
-  }
-
-  private _formatValueItem(item: any): string {
-    if (this._shouldStoreItemValue) {
-      // Get item text from the list as we store it's value only.
-      const selectedItem = this.items.find(_item => {
-        return _item[this.itemValueField] === item;
-      });
-
-      return this._formatItem(selectedItem);
-    } else {
-      return this._formatItem(item);
-    }
   }
 
   private _getPropertyValue(object: any, property: string): any {
