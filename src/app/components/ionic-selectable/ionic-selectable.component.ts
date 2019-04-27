@@ -29,21 +29,21 @@ import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-
 })
 export class IonicSelectableComponent implements ControlValueAccessor, OnInit, OnDestroy, DoCheck {
   @HostBinding('class.ionic-selectable')
-  private _cssClass = true;
+  _cssClass = true;
   @HostBinding('class.ionic-selectable-ios')
   _isIos: boolean;
   @HostBinding('class.ionic-selectable-md')
   _isMD: boolean;
   @HostBinding('class.ionic-selectable-is-multiple')
-  private get _isMultipleCssClass(): boolean {
+  get _isMultipleCssClass(): boolean {
     return this.isMultiple;
   }
   @HostBinding('class.ionic-selectable-has-value')
-  private get _hasValueCssClass(): boolean {
+  get _hasValueCssClass(): boolean {
     return this.hasValue();
   }
   @HostBinding('class.ionic-selectable-has-placeholder')
-  private get _hasPlaceholderCssClass(): boolean {
+  get _hasPlaceholderCssClass(): boolean {
     return this._hasPlaceholder;
   }
   private _isOnSearchEnabled = true;
@@ -888,6 +888,19 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     return this.itemTextField ? item[this.itemTextField] : item.toString();
   }
 
+  _formatValueItem(item: any): string {
+    if (this._shouldStoreItemValue) {
+      // Get item text from the list as we store it's value only.
+      let selectedItem = this.items.find(_item => {
+        return _item[this.itemValueField] === item;
+      });
+
+      return this._formatItem(selectedItem);
+    } else {
+      return this._formatItem(item);
+    }
+  }
+
   _getItemValue(item: any): any {
     if (!this._hasObjects) {
       return item;
@@ -1202,19 +1215,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     this._groups = groups;
     this._filteredGroups = this._groups;
     this._hasFilteredItems = !this._areGroupsEmpty(this._filteredGroups);
-  }
-
-  private _formatValueItem(item: any): string {
-    if (this._shouldStoreItemValue) {
-      // Get item text from the list as we store it's value only.
-      let selectedItem = this.items.find(_item => {
-        return _item[this.itemValueField] === item;
-      });
-
-      return this._formatItem(selectedItem);
-    } else {
-      return this._formatItem(item);
-    }
   }
 
   private _getPropertyValue(object: any, property: string): any {
