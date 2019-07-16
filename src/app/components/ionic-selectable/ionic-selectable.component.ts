@@ -962,6 +962,16 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
     }
   }
 
+  _finishSearch(event) {
+    // Only used to control the searchbar
+    // Search is already done after a given debounce time, no need to search again when the user presses the native devices search-button
+
+    if (event && event.target && event.type == 'search') {
+      // We'll blur the searchbar, so that the device is closing the keyboard automatically
+      event.target.blur();
+    } 
+  }
+
   _isItemDisabled(item: any): boolean {
     if (!this.disabledItems) {
       return;

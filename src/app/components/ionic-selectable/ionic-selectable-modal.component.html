@@ -33,6 +33,7 @@
     <ion-searchbar *ngIf="selectComponent.canSearch" #searchbarComponent
       [(ngModel)]="selectComponent._searchText"
       (ionInput)="selectComponent._filterItems()"
+      (search)="selectComponent._finishSearch($event)"
       [placeholder]="selectComponent.searchPlaceholder"
       [debounce]="selectComponent.searchDebounce">
     </ion-searchbar>
