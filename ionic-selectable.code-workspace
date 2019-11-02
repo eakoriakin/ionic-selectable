@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.wordWrap": "on",
     "editor.detectIndentation": false,
     "search.exclude": {
