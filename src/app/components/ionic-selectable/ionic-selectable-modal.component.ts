@@ -7,13 +7,13 @@ import { IonicSelectableComponent } from './ionic-selectable.component';
   templateUrl: './ionic-selectable-modal.component.html'
 })
 export class IonicSelectableModalComponent implements AfterViewInit {
-  @ViewChild(IonContent)
+  @ViewChild(IonContent, {static: false})
   _content: IonContent;
   _header: HTMLElement;
   selectComponent: IonicSelectableComponent;
-  @ViewChild('searchbarComponent')
+  @ViewChild('searchbarComponent', {static: false})
   _searchbarComponent: IonSearchbar;
-  @ViewChild(IonInfiniteScroll)
+  @ViewChild(IonInfiniteScroll, {static: false})
   _infiniteScroll: IonInfiniteScroll;
   @HostBinding('class.ionic-selectable-modal')
   _cssClass = true;

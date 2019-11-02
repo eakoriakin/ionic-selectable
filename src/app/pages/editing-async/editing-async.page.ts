@@ -18,7 +18,7 @@ export class EditingAsyncPage implements OnInit {
   portNameControl: FormControl;
   portCountryControl: FormControl;
   portsSubscription: Subscription;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  @ViewChild('portComponent', {static: false}) portComponent: IonicSelectableComponent;
 
   constructor(
     private portService: PortService,
