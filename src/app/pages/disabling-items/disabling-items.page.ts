@@ -9,8 +9,8 @@ import { Port } from '../../types';
   styleUrls: ['./disabling-items.page.scss'],
 })
 export class DisablingItemsPage implements OnInit {
-  @ViewChild('loadingPortsComponent', {static: false}) loadingPortsComponent: IonicSelectableComponent;
-  @ViewChild('dischargingPortsComponent', {static: false}) dischargingPortsComponent: IonicSelectableComponent;
+  @ViewChild('loadingPortsComponent', { static: false }) loadingPortsComponent: IonicSelectableComponent;
+  @ViewChild('dischargingPortsComponent', { static: false }) dischargingPortsComponent: IonicSelectableComponent;
   ports: Port[];
   loadingPorts: Port[] = [];
   dischargingPorts: Port[] = [];
