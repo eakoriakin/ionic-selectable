@@ -11,7 +11,7 @@ import { Port } from '../../types';
 export class ScrollToTopPage implements OnInit {
   ports: Port[];
   port: Port;
-  @ViewChild('portComponent', {static: false}) portComponent: IonicSelectableComponent;
+  @ViewChild('portComponent', { static: false }) portComponent: IonicSelectableComponent;
 
   constructor(
     private portService: PortService

@@ -13,7 +13,7 @@ export class FooterTemplatePage implements OnInit {
   ports: Port[];
   countries: Country[];
   port: Port;
-  @ViewChild('portComponent', {static: false}) portComponent: IonicSelectableComponent;
+  @ViewChild('portComponent', { static: false }) portComponent: IonicSelectableComponent;
   portForm: FormGroup;
   portNameControl: FormControl;
   portCountryControl: FormControl;
