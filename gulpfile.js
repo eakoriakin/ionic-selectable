@@ -140,4 +140,4 @@ async function build() {
 }
 
 gulp.task('build', build);
-gulp.task('default', ['build']);
+gulp.task('default', gulp.parallel('build'));
