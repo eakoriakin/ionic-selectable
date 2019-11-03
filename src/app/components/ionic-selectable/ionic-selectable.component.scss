@@ -119,7 +119,7 @@ $item-padding-end-ios: 8px;
     background-color: #ffffff;
     &-inner {
       overflow-y: auto;
-      >ion-footer {
+      > ion-footer {
         bottom: 0;
         position: absolute;
       }
@@ -216,8 +216,14 @@ $item-padding-end-ios: 8px;
     // Hide scroll from list content.
     // Use immediate child selector as we don't want to apply the rule
     // to content inside add item template defined by user.
-    >.content>.scroll-content {
+    > .content > .scroll-content {
       overflow-y: hidden;
+    }
+  }
+
+  ion-header {
+    [ng-reflect-ng-template-outlet] {
+      padding-top: var(--ion-safe-area-top, 0);
     }
   }
 }
