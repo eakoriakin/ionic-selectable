@@ -116,7 +116,7 @@
           }
         },
         "ionic-cordova-build": {
-          "builder": "@ionic/ng-toolkit:cordova-build",
+          "builder": "@ionic/angular-toolkit:cordova-build",
           "options": {
             "browserTarget": "app:build"
           },
@@ -127,7 +127,7 @@
           }
         },
         "ionic-cordova-serve": {
-          "builder": "@ionic/ng-toolkit:cordova-serve",
+          "builder": "@ionic/angular-toolkit:cordova-serve",
           "options": {
             "cordovaBuildTarget": "app:ionic-cordova-build",
             "devServerTarget": "app:serve"
@@ -165,13 +165,13 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ionic/schematics-angular"
+    "defaultCollection": "@ionic/angular-toolkit"
   },
   "schematics": {
-    "@ionic/schematics-angular:component": {
+    "@ionic/angular-toolkit:component": {
       "styleext": "scss"
     },
-    "@ionic/schematics-angular:page": {
+    "@ionic/angular-toolkit:page": {
       "styleext": "scss"
     }
   }

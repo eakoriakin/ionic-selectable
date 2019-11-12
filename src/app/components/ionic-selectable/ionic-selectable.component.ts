@@ -754,34 +754,34 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   @Output()
   onAddItem: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
 
-  @ContentChild(IonicSelectableValueTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableValueTemplateDirective, { read: TemplateRef, static: false })
   valueTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef, static: false })
   itemTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableItemEndTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableItemEndTemplateDirective, { read: TemplateRef, static: false })
   itemEndTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableTitleTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableTitleTemplateDirective, { read: TemplateRef, static: false })
   titleTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectablePlaceholderTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectablePlaceholderTemplateDirective, { read: TemplateRef, static: false })
   placeholderTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableMessageTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableMessageTemplateDirective, { read: TemplateRef, static: false })
   messageTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableGroupTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableGroupTemplateDirective, { read: TemplateRef, static: false })
   groupTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableGroupEndTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableGroupEndTemplateDirective, { read: TemplateRef, static: false })
   groupEndTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableCloseButtonTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableCloseButtonTemplateDirective, { read: TemplateRef, static: false })
   closeButtonTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableSearchFailTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableSearchFailTemplateDirective, { read: TemplateRef, static: false })
   searchFailTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableAddItemTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableAddItemTemplateDirective, { read: TemplateRef, static: false })
   addItemTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableFooterTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableFooterTemplateDirective, { read: TemplateRef, static: false })
   footerTemplate: TemplateRef<any>;
   _addItemTemplateFooterHeight: string;
-  @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef, static: false })
   headerTemplate: TemplateRef<any>;
-  @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef })
+  @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef, static: false })
   itemIconTemplate: TemplateRef<any>;
 
   /**
