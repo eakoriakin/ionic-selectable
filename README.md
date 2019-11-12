@@ -8,7 +8,7 @@
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki) | [Ask on LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/) | [Support development](https://gumroad.com/products/nkUr)
+[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
@@ -137,7 +137,6 @@ export class HomePage {
 5. Enjoy it 😉
 6. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
 Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
-7. Have a question? Ask me on [LinkendIn](https://www.linkedin.com/in/evgeniikoriakin/)!
 
 ## Development
 * `ionic serve` ([v3](../../tree/v3)) or `ng serve` ([v4](../../tree/master)) runs dev app containing test cases/demos.
