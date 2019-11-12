@@ -139,9 +139,7 @@ export class HomePage {
 Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 
 ## Development
-* `ionic serve` ([v3](../../tree/v3)) or `ng serve` ([v4](../../tree/master)) runs dev app containing test cases/demos.
-* `gulp` creates npm package.
-* `npm publish dist` publishes npm package.
+For contribution and delevopment please refer to [Contribution](../../wiki/Contribution).
 
 ## Share it
 If you find this component useful, please star the [repo](https://github.com/eakoriakin/ionic-selectable) to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
