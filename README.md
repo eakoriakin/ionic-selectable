@@ -4,6 +4,7 @@
 [dt-image]: https://img.shields.io/npm/dt/ionic-selectable.svg
 
 # Ionic Selectable
+
 [![npm][npm-image]][npm-url]
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
@@ -15,46 +16,49 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 ![iOS Demo](images/demo.gif)
 
 # Contents
-* [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Features](#features)
-* [Getting started](#getting-started)
-* [Supported Ionic versions](#supported-ionic-versions)
-* [FAQ](../../wiki#faq)
-* [Docs](../../wiki)
-* [Theming](../../wiki#theming)
+
+- [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Supported Ionic versions](#supported-ionic-versions)
+- [FAQ](../../wiki#faq)
+- [Docs](../../wiki)
+- [Theming](../../wiki#theming)
 
 ## Supported Ionic versions
 
-*	Ionic 3 (3.6.0 - 3.9.2)
-* Ionic 4 (>=4.0.0-beta.19)
+- Ionic 3 (3.6.0 - 3.9.2)
+- Ionic 4 (>=4.0.0)
 
 ## Features
-* [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Multiple selection](../../wiki#ismultiple)
-* [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-* [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
-* [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
-* [Forms](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html)
-* [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html)
-* [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html)
-* [Templates](../../wiki#templates)
-* [Grouping items](../..//wiki#grouping)
-* [Editing, adding and deleting items](../../wiki#editing)
-* [Disabling items](../../wiki#disableditems)
+
+- [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
+- [Multiple selection](../../wiki#ismultiple)
+- [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
+- [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
+- [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
+- [Forms](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html)
+- [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html)
+- [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html)
+- [Templates](../../wiki#templates)
+- [Grouping items](../..//wiki#grouping)
+- [Editing, adding and deleting items](../../wiki#editing)
+- [Disabling items](../../wiki#disableditems)
 
 ## Getting started
 
-1. Install it.  
+1. Install it.
+
 ```
 // Ionic 3
 npm install ionic-selectable@3.4.0 --save
 
 // Ionic 4
-npm install ionic-selectable@4.4.0 --save
+npm install ionic-selectable@4.5.0 --save
 ```
 
 2. Import it.  
-First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
+   First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
 
 ```
 import { IonicSelectableModule } from 'ionic-selectable';
@@ -88,6 +92,7 @@ export class HomePageModule { }
 ```
 
 3. Add it to template.
+
 ```
 <ion-item>
   <ion-label>Port</ion-label>
@@ -104,6 +109,7 @@ export class HomePageModule { }
 ```
 
 4. Configure it.
+
 ```
 import { IonicSelectableComponent } from 'ionic-selectable';
 
@@ -127,7 +133,7 @@ export class HomePage {
 
   portChange(event: {
     component: IonicSelectableComponent,
-    value: any 
+    value: any
   }) {
     console.log('port:', event.value);
   }
@@ -136,10 +142,12 @@ export class HomePage {
 
 5. Enjoy it 😉
 6. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
-Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
+   Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 
 ## Development
+
 For contribution and delevopment please refer to [Contribution](../../wiki/Contribution).
 
 ## Share it
+
 If you find this component useful, please star the [repo](https://github.com/eakoriakin/ionic-selectable) to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
