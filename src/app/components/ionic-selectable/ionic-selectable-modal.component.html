@@ -122,7 +122,7 @@
     (ionInfinite)="selectComponent._getMoreItems()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <ion-virtual-scroll no-margin
+  <ion-virtual-scroll class="ion-no-margin"
     *ngIf="selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems"
     [items]="selectComponent._filteredGroups[0].items"
     [headerFn]="selectComponent.virtualScrollHeaderFn"
