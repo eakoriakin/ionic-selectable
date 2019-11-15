@@ -222,7 +222,7 @@ $item-padding-end-ios: 8px;
   }
 
   ion-header {
-    [ng-reflect-ng-template-outlet] {
+    ion-toolbar:first-of-type {
       padding-top: var(--ion-safe-area-top, 0);
     }
   }
