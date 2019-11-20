@@ -1,5 +1,5 @@
 // tslint:disable-next-line:max-line-length
-import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer2, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonItem, ModalController, Platform } from '@ionic/angular';
 import { AnimationBuilder, ModalOptions } from '@ionic/core';
@@ -801,7 +801,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     @Optional() private ionItem: IonItem,
     private _iterableDiffers: IterableDiffers,
     private _element: ElementRef,
-    private _renderer: Renderer
+    private _renderer: Renderer2
   ) {
     if (!this.items || !this.items.length) {
       this.items = [];
@@ -1290,7 +1290,12 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       return;
     }
 
-    this._renderer.setElementClass(this._ionItemElement, cssClass, shouldAdd);
+    // Change to Renderer2
+    if (shouldAdd) {
+      this._renderer.addClass(this._ionItemElement, cssClass);
+    } else {
+      this._renderer.removeClass(this._ionItemElement, cssClass);
+    }
   }
 
   private _toggleAddItemTemplate(isVisible: boolean) {
