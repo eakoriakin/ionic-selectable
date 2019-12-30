@@ -1644,7 +1644,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
         // Take the first item for single mode.
         if (!this.isMultiple) {
-          itemsToToggle.splice(0, 1);
+          itemsToToggle.splice(1);
         }
       }
 
