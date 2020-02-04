@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import { sass } from '@stencil/sass';
 
 export const config: Config = {
   namespace: 'ionic-selectable',
@@ -14,5 +15,8 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null
     }
+  ],
+  plugins: [
+    sass()
   ]
 };
