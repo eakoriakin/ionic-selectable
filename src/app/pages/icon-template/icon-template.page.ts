@@ -11,6 +11,7 @@ import { Port } from '../../types';
 export class IconTemplatePage implements OnInit {
   ports: Port[];
   port: Port;
+  portCustom: Port;
 
   constructor(
     private portService: PortService

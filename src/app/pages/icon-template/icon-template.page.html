@@ -12,14 +12,29 @@
       Setting icon template.
     </ion-label>
   </ion-item>
+  <ion-item-group>
+    <ion-list-header color="light">Custom icon</ion-list-header>
+    <ion-item>
+      <ion-label>Port</ion-label>
+      <ionic-selectable [(ngModel)]="portCustom" itemValueField="id"
+        itemTextField="name" [items]="ports" [canSearch]="true"
+        (onChange)="portChange($event)">
+        <ng-template ionicSelectableIconTemplate>
+          <ion-icon name="add-circle"></ion-icon>
+        </ng-template>
+      </ionic-selectable>
+    </ion-item>
+</ion-item-group>
+<ion-item-group>
+  <ion-list-header color="light">No icon</ion-list-header>
   <ion-item>
     <ion-label>Port</ion-label>
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports" [canSearch]="true"
       (onChange)="portChange($event)">
       <ng-template ionicSelectableIconTemplate>
-        <ion-icon name="add-circle"></ion-icon>
       </ng-template>
     </ionic-selectable>
   </ion-item>
+</ion-item-group>
 </ion-content>
