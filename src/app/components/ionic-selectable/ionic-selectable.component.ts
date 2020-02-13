@@ -19,6 +19,7 @@ import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
+import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 
 @Component({
   selector: 'ionic-selectable',
@@ -783,6 +784,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   headerTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef, static: false })
   itemIconTemplate: TemplateRef<any>;
+  @ContentChild(IonicSelectableIconTemplateDirective, { read: TemplateRef, static: false })
+  iconTemplate: TemplateRef<any>;
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/).

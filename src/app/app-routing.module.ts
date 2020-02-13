@@ -87,6 +87,9 @@ const routes: Routes = [{
   path: 'message-template',
   loadChildren: './pages/message-template/message-template.module#MessageTemplatePageModule'
 }, {
+  path: 'icon-template',
+  loadChildren: './pages/icon-template/icon-template.module#IconTemplatePageModule'
+}, {
   path: 'item-template',
   loadChildren: './pages/item-template/item-template.module#ItemTemplatePageModule'
 }, {
