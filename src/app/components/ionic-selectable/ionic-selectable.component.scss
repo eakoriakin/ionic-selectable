@@ -98,6 +98,10 @@ $content-padding: 16px;
       border-left: 5px solid transparent;
       pointer-events: none;
     }
+    &-template {
+      align-self: center;
+      margin-left: 5px;
+    }
   }
   &-item {
     &-button {

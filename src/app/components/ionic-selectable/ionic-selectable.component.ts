@@ -17,6 +17,7 @@ import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
+import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 
 @Component({
   selector: 'ionic-selectable',
@@ -647,7 +648,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, O
   headerTemplate: TemplateRef<any>;
   @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef })
   itemIconTemplate: TemplateRef<any>;
-
+  @ContentChild(IonicSelectableIconTemplateDirective, { read: TemplateRef })
+  iconTemplate: TemplateRef<any>;
   /**
    * A list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.
    * After the user has clicked Confirm button items to confirm are cleared.

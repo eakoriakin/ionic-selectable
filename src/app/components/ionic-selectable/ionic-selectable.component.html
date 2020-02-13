@@ -25,7 +25,10 @@
     {{placeholder}}
   </div>
 </div>
-<div class="ionic-selectable-icon">
+<div *ngIf="iconTemplate" class="ionic-selectable-icon-template">
+  <div [ngTemplateOutlet]="iconTemplate"></div>
+</div>
+<div *ngIf="!iconTemplate" class="ionic-selectable-icon">
   <div class="ionic-selectable-icon-inner"></div>
 </div>
 <button aria-haspopup="true" ion-button="item-cover" class="item-cover"
