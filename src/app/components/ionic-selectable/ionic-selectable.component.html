@@ -28,7 +28,10 @@
     <!-- Fix icon allignment when there's no value or placeholder. -->
     <span *ngIf="!_valueItems.length && !_hasPlaceholder">&nbsp;</span>
   </div>
-  <div class="ionic-selectable-icon">
+  <div *ngIf="iconTemplate" class="ionic-selectable-icon-template">
+      <div [ngTemplateOutlet]="iconTemplate"></div>
+  </div>
+  <div *ngIf="!iconTemplate" class="ionic-selectable-icon">
     <div class="ionic-selectable-icon-inner"></div>
   </div>
   <!-- Need to be type="button" otherwise click event triggers form ngSubmit. -->

@@ -17,6 +17,7 @@ import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
+import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 import { IonicSelectableComponent } from './ionic-selectable.component';
 export { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 export { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
@@ -33,6 +34,7 @@ export { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-
 export { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 export { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 export { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
+export { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 export { IonicSelectableComponent } from './ionic-selectable.component';
 
 const components = [IonicSelectableComponent, IonicSelectableModalComponent],
@@ -50,7 +52,8 @@ const components = [IonicSelectableComponent, IonicSelectableModalComponent],
     IonicSelectableAddItemTemplateDirective,
     IonicSelectableFooterTemplateDirective,
     IonicSelectableHeaderTemplateDirective,
-    IonicSelectableItemIconTemplateDirective
+    IonicSelectableItemIconTemplateDirective,
+    IonicSelectableIconTemplateDirective
   ];
 
 @NgModule({

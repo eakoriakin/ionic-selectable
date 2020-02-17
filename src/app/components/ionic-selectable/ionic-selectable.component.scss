@@ -61,6 +61,10 @@ $item-padding-end-ios: 8px;
       pointer-events: none;
       color: var(--icon-color, $icon-color);
     }
+    &-template {
+      align-self: center;
+      margin-left: 5px;
+    }
   }
   &-ios {
     .ionic-selectable-value {
