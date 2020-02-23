@@ -4,29 +4,16 @@ import {
   h,
   Host,
   ComponentInterface,
-  State,
   Element,
-  FunctionalComponent,
   Event,
   EventEmitter,
   Watch,
   Method
 } from '@stencil/core';
 import '@ionic/core';
-import {
-  CssClassMap,
-  getMode,
-  modalController,
-  StyleEventDetail,
-  SelectCompareFn,
-  OverlaySelect,
-  AnimationBuilder
-} from '@ionic/core';
+import { CssClassMap, getMode, modalController, StyleEventDetail, SelectCompareFn, OverlaySelect } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
-
-export interface IonicSelectableChangeEventDetail {
-  value: any | any[] | undefined | null;
-}
+import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
 @Component({
   tag: 'ionic-selectable',
   styleUrls: {
@@ -36,59 +23,97 @@ export interface IonicSelectableChangeEventDetail {
   shadow: true
 })
 export class IonicSelectableComponent implements ComponentInterface {
-  private inputId = `ionic-selectable-${selectIds++}`;
-  private overlay?: OverlaySelect;
-  private didInit = false;
-  private buttonEl?: HTMLButtonElement;
+  private id = `ionic-selectable-${nextId++}`;
+  private isInited = false;
+  private buttonElement?: HTMLButtonElement;
   private mutationO?: MutationObserver;
   private valueItems: any[] = [];
 
-  @Element() private el!: HTMLIonicSelectableElement;
-
-  @State() public isExpanded = false;
+  @Element() private element!: HTMLIonicSelectableElement;
 
   /**
-   * If `true`, the user cannot interact with the select.
+   * Determines whether Modal is opened.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
+   *
+   * @default false
+   * @readonly
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public isOpened = false;
+
+  /**
+   * Determines whether the component is disabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
    */
   @Prop() public isDisabled = false;
 
-   /**
-   * The text to display when the select is empty.
+  /**
+   * A placeholder.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
    */
-  @Prop() placeholder?: string | null;
+  @Prop() public placeholder?: string | null;
 
   /**
-   * The text to display on the cancel button.
+   * Close button text.
+   * The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
+   *
+   * @default 'Cancel'
+   * @memberof IonicSelectableComponent
    */
-  @Prop() public cancelText = 'Cancel';
+  @Prop() public closeButtonText = 'Cancel';
 
   /**
-   * The text to display on the ok button.
+   * Confirm button text.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
+   *
+   * @default 'OK'
+   * @memberof IonicSelectableComponent
    */
-  @Prop() public okText = 'OK';
+  @Prop() public confirmButtonText = 'OK';
 
   /**
    * The name of the control, which is submitted with the form data.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
    */
-  @Prop() public name: string = this.inputId;
+  @Prop() public name: string = this.id;
 
   /**
-   * The text to display instead of the selected option's value.
+   * Determines whether multiple items can be selected.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
    */
   @Prop() public selectedText?: string | null;
 
   /**
-   * If `true`, the select can accept multiple values.
+   * Determines whether multiple items can be selected.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
    */
   @Prop() public isMultiple = false;
 
   /**
-   * A property name or function used to compare object values
-   */
-  @Prop() public compareWith?: string | SelectCompareFn | null;
-
-  /**
    * the value of the select.
+   */
+  /**
+   * The value of the component.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
    */
   @Prop({ mutable: true }) public value?: any | null;
 
@@ -124,24 +149,36 @@ export class IonicSelectableComponent implements ComponentInterface {
   public itemTextField: string = null;
 
   /**
-   * Emitted when the value has changed.
+   * Fires when item/s has been selected and Modal closed.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+   *
+   * @memberof IonicSelectableComponent
    */
-  @Event() public changed!: EventEmitter<IonicSelectableChangeEventDetail>;
+  @Event() public changed!: EventEmitter<IIonicSelectableEvent>;
 
   /**
-   * Emitted when the selection is cancelled.
+   * Fires when Modal has been closed.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
+   *
+   * @memberof IonicSelectableComponent
    */
-  @Event() public canceled!: EventEmitter<void>;
+  @Event() public closed: EventEmitter<IIonicSelectableEvent>;
 
   /**
-   * Emitted when the select has focus.
+   * Fires when has focus
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onFocused).
+   *
+   * @memberof IonicSelectableComponent
    */
-  @Event() public focused!: EventEmitter<void>;
+  @Event() public focused!: EventEmitter<IIonicSelectableEvent>;
 
   /**
-   * Emitted when the select loses focus.
+   * Fires when loses focus.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
+   *
+   * @memberof IonicSelectableComponent
    */
-  @Event() public blurred!: EventEmitter<void>;
+  @Event() public blurred!: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Emitted when the styles change.
@@ -158,7 +195,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('value')
   private valueChanged() {
     this.emitStyle();
-    if (this.didInit) {
+    if (this.isInited) {
       this.changed.emit({
         value: this.value
       });
@@ -177,7 +214,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   componentDidLoad() {
-    this.didInit = true;
+    this.isInited = true;
   }
 
   /**
@@ -225,7 +262,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       'has-placeholder': this.placeholder != null,
       'has-value': await this.hasValue(),
       'interactive-disabled': this.isDisabled,
-      'ionic-selectable-disabled': this.isDisabled
+      'ionic-selectable-is-disabled': this.isDisabled
     });
   }
 
@@ -246,19 +283,19 @@ export class IonicSelectableComponent implements ComponentInterface {
   };
 
   public render(): void {
-    const { placeholder, name, isDisabled, isExpanded, el } = this;
+    const { placeholder, name, isDisabled, isOpened, element } = this;
     const mode = getMode();
     // Add ripple efect
-    addRippleEffectElement(el);
+    addRippleEffectElement(element);
 
     // Add class ion-activatable
-    const item = findItem(el);
+    const item = findItem(element);
     if (item && mode === 'md') {
       item.classList.add('ion-activatable');
     }
 
-    const labelId = this.inputId + '-lbl';
-    const label = findItemLabel(el);
+    const labelId = this.id + '-lbl';
+    const label = findItemLabel(element);
     if (label) {
       label.id = labelId;
     }
@@ -269,7 +306,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       addPlaceholderClass = true;
     }
 
-    renderHiddenInput(true, el, name, this.parseValue(), isDisabled);
+    renderHiddenInput(true, element, name, this.parseValue(), isDisabled);
 
     const selectTextClasses: CssClassMap = {
       'ionic-selectable-text': true,
@@ -282,12 +319,12 @@ export class IonicSelectableComponent implements ComponentInterface {
         role="combobox"
         aria-haspopup="dialog"
         aria-disabled={isDisabled ? 'true' : null}
-        aria-expanded={`${isExpanded}`}
+        aria-expanded={`${isOpened}`}
         aria-labelledby={labelId}
         class={{
           [mode]: true,
-          'in-item': hostContext('ion-item', el),
-          'ionic-selectable-disabled': isDisabled
+          'in-item': hostContext('ion-item', element),
+          'ionic-selectable-is-disabled': isDisabled
         }}
       >
         <div class={selectTextClasses} part="text">
@@ -301,10 +338,10 @@ export class IonicSelectableComponent implements ComponentInterface {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           disabled={isDisabled}
-          ref={(btnEl) => (this.buttonEl = btnEl)}
+          ref={(buttonElement) => (this.buttonElement = buttonElement)}
         />
       </Host>
     );
   }
 }
-let selectIds = 0;
+let nextId = 0;

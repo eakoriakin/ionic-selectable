@@ -2,10 +2,10 @@ export function format(first: string, middle: string, last: string): string {
   return (first || '') + (middle ? ` ${middle}` : '') + (last ? ` ${last}` : '');
 }
 
-export const findItemLabel = (componentEl: HTMLElement) => {
-  const itemEl = componentEl.closest('ion-item');
-  if (itemEl) {
-    return itemEl.querySelector('ion-label');
+export const findItemLabel = (componentElement: HTMLElement) => {
+  const itemElement = componentElement.closest('ion-item');
+  if (itemElement) {
+    return itemElement.querySelector('ion-label');
   }
   return null;
 };
@@ -15,18 +15,17 @@ export const findItem = (componentEl: HTMLElement) => {
   return itemEl;
 };
 
-export const addRippleEffectElement = (componentEl: HTMLElement) => {
-  const itemEl = componentEl.closest('ion-item');
-  const itemNative = itemEl.shadowRoot.querySelector('div.item-native');
+export const addRippleEffectElement = (componentElement: HTMLElement) => {
+  const itemElement = componentElement.closest('ion-item');
+  const itemNative = itemElement.shadowRoot.querySelector('div.item-native');
   if (itemNative) {
     const ionRipple = itemNative.ownerDocument!.createElement('ion-ripple-effect');
     itemNative.appendChild(ionRipple);
   }
-  console.log(itemNative);
 };
 
-export const hostContext = (selector: string, el: HTMLElement): boolean => {
-  return el.closest(selector) !== null;
+export const hostContext = (selector: string, element: HTMLElement): boolean => {
+  return element.closest(selector) !== null;
 };
 
 export const renderHiddenInput = (
@@ -50,6 +49,6 @@ export const renderHiddenInput = (
   }
 };
 
-export const hasShadowDom = (el: HTMLElement) => {
-  return !!el.shadowRoot && !!(el as any).attachShadow;
+export const hasShadowDom = (element: HTMLElement) => {
+  return !!element.shadowRoot && !!(element as any).attachShadow;
 };

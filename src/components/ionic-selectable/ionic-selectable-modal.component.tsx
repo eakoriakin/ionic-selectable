@@ -11,11 +11,11 @@ import { IonicSelectableComponent } from './ionic-selectable.component';
   shadow: true
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
-  parentEl: IonicSelectableComponent;
+  selectableComponent: IonicSelectableComponent;
 
   connectedCallback() {
     const modalElement = document.querySelector('ion-modal');
-    this.parentEl = modalElement.componentProps.parent;
+    this.selectableComponent = modalElement.componentProps.parent;
   }
 
   public render(): void {
@@ -25,7 +25,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           <ion-toolbar>
             <ion-buttons>
               <ion-button>
-                <span>{this.parentEl.cancelText}</span>
+                <span>{this.selectableComponent.closeButtonText}</span>
               </ion-button>
             </ion-buttons>
             <ion-title>

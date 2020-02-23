@@ -8,23 +8,26 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  SelectCompareFn,
+  IIonicSelectableEvent,
+} from './components/ionic-selectable/ionic-selectable.interfaces.component';
+import {
   StyleEventDetail,
 } from '@ionic/core';
-import {
-  IonicSelectableChangeEventDetail,
-} from './components/ionic-selectable/ionic-selectable.component';
 
 export namespace Components {
   interface IonicSelectable {
     /**
-    * The text to display on the cancel button.
+    * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
+    * @default 'Cancel'
+    * @memberof IonicSelectableComponent
     */
-    'cancelText': string;
+    'closeButtonText': string;
     /**
-    * A property name or function used to compare object values
+    * Confirm button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
+    * @default 'OK'
+    * @memberof IonicSelectableComponent
     */
-    'compareWith'?: string | SelectCompareFn | null;
+    'confirmButtonText': string;
     /**
     * Determines whether any item has been selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
     * @returns A boolean determining whether any item has been selected.
@@ -32,13 +35,24 @@ export namespace Components {
     */
     'hasValue': () => Promise<boolean>;
     /**
-    * If `true`, the user cannot interact with the select.
+    * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'isDisabled': boolean;
     /**
-    * If `true`, the select can accept multiple values.
+    * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'isMultiple': boolean;
+    /**
+    * Determines whether Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
+    * @default false
+    * @readonly
+    * @memberof IonicSelectableComponent
+    */
+    'isOpened': boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default false
@@ -58,23 +72,27 @@ export namespace Components {
     */
     'items': any[];
     /**
-    * The name of the control, which is submitted with the form data.
+    * The name of the control, which is submitted with the form data. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'name': string;
     /**
-    * The text to display on the ok button.
-    */
-    'okText': string;
-    /**
-    * The text to display when the select is empty.
+    * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'placeholder'?: string | null;
     /**
-    * The text to display instead of the selected option's value.
+    * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'selectedText'?: string | null;
     /**
-    * the value of the select.
+    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
   }
@@ -104,21 +122,36 @@ declare global {
 declare namespace LocalJSX {
   interface IonicSelectable {
     /**
-    * The text to display on the cancel button.
+    * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
+    * @default 'Cancel'
+    * @memberof IonicSelectableComponent
     */
-    'cancelText'?: string;
+    'closeButtonText'?: string;
     /**
-    * A property name or function used to compare object values
+    * Confirm button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
+    * @default 'OK'
+    * @memberof IonicSelectableComponent
     */
-    'compareWith'?: string | SelectCompareFn | null;
+    'confirmButtonText'?: string;
     /**
-    * If `true`, the user cannot interact with the select.
+    * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'isDisabled'?: boolean;
     /**
-    * If `true`, the select can accept multiple values.
+    * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'isMultiple'?: boolean;
+    /**
+    * Determines whether Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
+    * @default false
+    * @readonly
+    * @memberof IonicSelectableComponent
+    */
+    'isOpened'?: boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default false
@@ -138,39 +171,47 @@ declare namespace LocalJSX {
     */
     'items'?: any[];
     /**
-    * The name of the control, which is submitted with the form data.
+    * The name of the control, which is submitted with the form data. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'name'?: string;
     /**
-    * The text to display on the ok button.
+    * Fires when loses focus. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
+    * @memberof IonicSelectableComponent
     */
-    'okText'?: string;
+    'onBlurred'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
-    * Emitted when the select loses focus.
+    * Fires when item/s has been selected and Modal closed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+    * @memberof IonicSelectableComponent
     */
-    'onBlurred'?: (event: CustomEvent<void>) => void;
+    'onChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
-    * Emitted when the selection is cancelled.
+    * Fires when Modal has been closed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
+    * @memberof IonicSelectableComponent
     */
-    'onCanceled'?: (event: CustomEvent<void>) => void;
+    'onClosed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
-    * Emitted when the value has changed.
+    * Fires when has focus See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onFocused).
+    * @memberof IonicSelectableComponent
     */
-    'onChanged'?: (event: CustomEvent<IonicSelectableChangeEventDetail>) => void;
+    'onFocused'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
-    * Emitted when the select has focus.
-    */
-    'onFocused'?: (event: CustomEvent<void>) => void;
-    /**
-    * The text to display when the select is empty.
+    * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'placeholder'?: string | null;
     /**
-    * The text to display instead of the selected option's value.
+    * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
+    * @default null
+    * @memberof IonicSelectableComponent
     */
     'selectedText'?: string | null;
     /**
-    * the value of the select.
+    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * @default false
+    * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
   }
