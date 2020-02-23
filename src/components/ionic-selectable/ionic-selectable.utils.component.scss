@@ -1,0 +1,153 @@
+@mixin input-cover() {
+  @include position(0, null, null, 0);
+  @include margin(0);
+
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  appearance: none;
+  outline: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+// Add position for all directions
+// @param {string} $top
+// @param {string} $end
+// @param {string} $bottom
+// @param {string} $start
+// ----------------------------------------------------------
+@mixin position($top: null, $end: null, $bottom: null, $start: null) {
+  @include position-horizontal($start, $end);
+  top: $top;
+  bottom: $bottom;
+}
+
+// Add margin for all directions
+// @param {string} $top
+// @param {string} $end
+// @param {string} $bottom
+// @param {string} $start
+// ----------------------------------------------------------
+@mixin margin($top, $end: $top, $bottom: $top, $start: $end) {
+  @include property(margin, $top, $end, $bottom, $start);
+}
+
+// Add position horizontal
+// @param {string} $start - amount to position start
+// @param {string} $end - amount to left: 0; end
+// ----------------------------------------------------------
+@mixin position-horizontal($start: null, $end: null) {
+  @if $start == $end {
+    @include multi-dir() {
+      left: $start;
+      right: $end;
+    }
+  } @else {
+    @include ltr() {
+      left: $start;
+      right: $end;
+    }
+    @include rtl() {
+      left: unset;
+      right: unset;
+
+      left: $end;
+      right: $start;
+    }
+  }
+}
+
+// Text Direction - ltr / rtl
+//
+// CSS defaults to use the ltr css, and adds [dir=rtl] selectors
+// to override ltr defaults.
+// ----------------------------------------------------------
+
+@mixin multi-dir() {
+  @content;
+
+  // $root: #{&};
+  // @at-root [dir] {
+  //   #{$root} {
+  //     @content;
+  //   }
+  // }
+}
+
+@mixin rtl() {
+  $root: #{&};
+
+  //@at-root #{add-root-selector($root, "[dir=rtl]")} {
+    @content;
+  //}
+}
+
+@mixin ltr() {
+  @content;
+}
+
+// Add property for all directions
+// @param {string} $prop
+// @param {string} $top
+// @param {string} $end
+// @param {string} $bottom
+// @param {string} $start
+// @param {boolean} $content include content or use default
+// ----------------------------------------------------------
+@mixin property($prop, $top, $end: $top, $bottom: $top, $start: $end) {
+  @include property-horizontal($prop, $start, $end);
+  #{$prop}-top: $top;
+  #{$prop}-bottom: $bottom;
+}
+
+// Add property horizontal
+// @param {string} $start
+// @param {string} $end
+// ----------------------------------------------------------
+@mixin property-horizontal($prop, $start, $end: $start) {
+  @if $start == 0 and $end == 0 {
+    #{$prop}-left: $start;
+    #{$prop}-right: $end;
+
+  } @else {
+    #{$prop}-left: $start;
+    #{$prop}-right: $end;
+
+    @at-root {
+      @supports ((margin-inline-start: 0) or (-webkit-margin-start: 0)) {
+        & {
+          @if $start != null {
+            #{$prop}-left: unset;
+          }
+          @if $end != null {
+            #{$prop}-right: unset;
+          }
+
+          -webkit-#{$prop}-start: $start;
+          #{$prop}-inline-start: $start;
+          -webkit-#{$prop}-end: $end;
+          #{$prop}-inline-end: $end;
+        }
+      }
+    }
+  }
+}
+
+// Add padding for all directions
+// @param {string} $top
+// @param {string} $end
+// @param {string} $bottom
+// @param {string} $start
+// ----------------------------------------------------------
+@mixin padding($top, $end: $top, $bottom: $top, $start: $end) {
+  @include property(padding, $top, $end, $bottom, $start);
+}

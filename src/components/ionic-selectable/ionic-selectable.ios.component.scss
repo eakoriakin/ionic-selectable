@@ -1,0 +1,17 @@
+@import "./ionic-selectable.component";
+@import "./ionic-selectable.ios.vars.component";
+
+// iOS ionic-sectable
+// --------------------------------------------------
+
+:host {
+  --padding-top: #{$ionic-selectable-ios-padding-top};
+  --padding-end: #{$ionic-selectable-ios-padding-end};
+  --padding-bottom: #{$ionic-selectable-ios-padding-bottom};
+  --padding-start: #{$ionic-selectable-ios-padding-start};
+}
+
+.ionic-selectable-icon {
+  width: 12px;
+  height: 18px;
+}

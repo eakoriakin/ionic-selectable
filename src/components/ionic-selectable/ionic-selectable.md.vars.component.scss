@@ -1,0 +1,23 @@
+// Material Design ionic-selectable
+// --------------------------------------------------
+
+/// @prop - Padding top of the select
+$ionic-selectable-md-padding-top: var(--item-md-padding-top) !default;
+
+/// @prop - Padding end of the select
+$ionic-selectable-md-padding-end: 0 !default;
+
+/// @prop - Padding bottom of the select
+$ionic-selectable-md-padding-bottom: var(--item-md-padding-bottom) !default;
+
+/// @prop - Padding start of the select
+$ionic-selectable-md-padding-start: var(--item-md-padding-start) !default;
+
+/// @prop - Color of the select icon
+$ionic-selectable-md-icon-color: var(--text-color-step-600) !default;
+
+/// @prop - Color of the select placeholder
+$ionic-selectable-md-placeholder-color: var(--select-md-icon-color) !default;
+
+/// @prop - Text Color of the selected item
+$ionic-selectable-md-text-color: var(--text-color) !default;

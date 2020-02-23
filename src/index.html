@@ -8,6 +8,23 @@
     <script nomodule src="/build/ionic-selectable.js"></script>
   </head>
   <body>
-    <ionic-selectable first="Stencil" last="'Don't call me a framework' JS"></ionic-selectable>
+    <ion-item>
+      <ion-label>Selectable</ion-label>
+      <ionic-selectable placeholder="hola"></ionic-selectable>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hair Color</ion-label>
+      <ion-select value="pepe" ok-text="Okay" cancel-text="Dismiss">
+        <ion-select-option value="brown">Brown</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <script>
+      var el= document.querySelector('ionic-selectable');
+      console.log(el);
+      el.renderIcon = () =>{ return "<div>" };
+    </script>
   </body>
 </html>

@@ -49,13 +49,13 @@
     "prettier": "prettier src/**/*.tsx src/**/*.scss --write"
   },
   "devDependencies": {
-    "@stencil/core": "1.8.4",
-    "@stencil/sass": "^1.1.1",
+    "@stencil/core": "1.8.9",
+    "@stencil/sass": "1.1.1",
     "prettier": "1.16.4",
     "tslint": "5.11.0",
     "tslint-config-prettier": "1.18.0"
   },
   "dependencies": {
-    "@ionic/core": "^5.0.0-rc.2"
+    "@ionic/core": "5.0.1"
   }
 }

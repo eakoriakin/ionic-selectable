@@ -1,0 +1,23 @@
+// iOS ionic-selectable
+// --------------------------------------------------
+
+/// @prop - Padding top of the ionic-selectable
+$ionic-selectable-ios-padding-top:            var(--item-ios-padding-top) !default;
+
+/// @prop - Padding end of the ionic-selectable
+$ionic-selectable-ios-padding-end:            var(--item-ios-padding-end / 2) !default;
+
+/// @prop - Padding bottom of the ionic-selectable
+$ionic-selectable-ios-padding-bottom:         var(--item-ios-padding-bottom) !default;
+
+/// @prop - Padding start of the ionic-selectable
+$ionic-selectable-ios-padding-start:          var(--item-ios-padding-start) !default;
+
+/// @prop - Color of the ionic-selectable icon
+$ionic-selectable-ios-icon-color:             var(--text-color-step-650) !default;
+
+/// @prop - Color of the ionic-selectable placeholder
+$ionic-selectable-ios-placeholder-color:      var(--ionic-selectable-ios-icon-color) !default;
+
+/// @prop - Text Color of the ionic-selectableed item
+$ionic-selectable-ios-text-color:             var(--text-color) !default;
