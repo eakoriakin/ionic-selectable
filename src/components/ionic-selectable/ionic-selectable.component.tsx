@@ -50,7 +50,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * If `true`, the user cannot interact with the select.
    */
-  @Prop() public disabled = false;
+  @Prop() public isDisabled = false;
 
    /**
    * The text to display when the select is empty.
@@ -80,7 +80,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * If `true`, the select can accept multiple values.
    */
-  @Prop() public multiple = false;
+  @Prop() public isMultiple = false;
 
   /**
    * A property name or function used to compare object values
@@ -126,22 +126,22 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Emitted when the value has changed.
    */
-  @Event() public ionChange!: EventEmitter<IonicSelectableChangeEventDetail>;
+  @Event() public changed!: EventEmitter<IonicSelectableChangeEventDetail>;
 
   /**
    * Emitted when the selection is cancelled.
    */
-  @Event() public ionCancel!: EventEmitter<void>;
+  @Event() public canceled!: EventEmitter<void>;
 
   /**
    * Emitted when the select has focus.
    */
-  @Event() public ionFocus!: EventEmitter<void>;
+  @Event() public focused!: EventEmitter<void>;
 
   /**
    * Emitted when the select loses focus.
    */
-  @Event() public ionBlur!: EventEmitter<void>;
+  @Event() public blurred!: EventEmitter<void>;
 
   /**
    * Emitted when the styles change.
@@ -159,19 +159,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   private valueChanged() {
     this.emitStyle();
     if (this.didInit) {
-      this.ionChange.emit({
+      this.changed.emit({
         value: this.value
       });
     }
   }
 
   async connectedCallback() {
-    //this.updateOverlayOptions();
     this.emitStyle();
-
-    /*     this.mutationO = watchForOptions<HTMLIonSelectOptionElement>(this.el, 'ion-select-option', async () => {
-      this.updateOverlayOptions();
-    }); */
   }
 
   disconnectedCallback() {
@@ -224,14 +219,13 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private async emitStyle() {
-    console.log('emitStyle');
     this.ionStyle.emit({
       interactive: true,
       'ionic-selectable': true,
       'has-placeholder': this.placeholder != null,
       'has-value': await this.hasValue(),
-      'interactive-disabled': this.disabled,
-      'ionic-selectable-disabled': this.disabled
+      'interactive-disabled': this.isDisabled,
+      'ionic-selectable-disabled': this.isDisabled
     });
   }
 
@@ -244,15 +238,15 @@ export class IonicSelectableComponent implements ComponentInterface {
   };
 
   private onFocus = () => {
-    this.ionFocus.emit();
+    this.focused.emit();
   };
 
   private onBlur = () => {
-    this.ionBlur.emit();
+    this.blurred.emit();
   };
 
   public render(): void {
-    const { placeholder, name, disabled, isExpanded, value, el } = this;
+    const { placeholder, name, isDisabled, isExpanded, el } = this;
     const mode = getMode();
     // Add ripple efect
     addRippleEffectElement(el);
@@ -275,7 +269,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       addPlaceholderClass = true;
     }
 
-    renderHiddenInput(true, el, name, this.parseValue(), disabled);
+    renderHiddenInput(true, el, name, this.parseValue(), isDisabled);
 
     const selectTextClasses: CssClassMap = {
       'ionic-selectable-text': true,
@@ -287,13 +281,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         onClick={this.onClick}
         role="combobox"
         aria-haspopup="dialog"
-        aria-disabled={disabled ? 'true' : null}
+        aria-disabled={isDisabled ? 'true' : null}
         aria-expanded={`${isExpanded}`}
         aria-labelledby={labelId}
         class={{
           [mode]: true,
           'in-item': hostContext('ion-item', el),
-          'ionic-selectable-disabled': disabled
+          'ionic-selectable-disabled': isDisabled
         }}
       >
         <div class={selectTextClasses} part="text">
@@ -306,7 +300,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           type="button"
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          disabled={disabled}
+          disabled={isDisabled}
           ref={(btnEl) => (this.buttonEl = btnEl)}
         />
       </Host>

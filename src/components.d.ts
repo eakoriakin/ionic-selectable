@@ -26,15 +26,19 @@ export namespace Components {
     */
     'compareWith'?: string | SelectCompareFn | null;
     /**
-    * If `true`, the user cannot interact with the select.
-    */
-    'disabled': boolean;
-    /**
     * Determines whether any item has been selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
     * @returns A boolean determining whether any item has been selected.
     * @memberof IonicSelectableComponent
     */
     'hasValue': () => Promise<boolean>;
+    /**
+    * If `true`, the user cannot interact with the select.
+    */
+    'isDisabled': boolean;
+    /**
+    * If `true`, the select can accept multiple values.
+    */
+    'isMultiple': boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default false
@@ -53,10 +57,6 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'items': any[];
-    /**
-    * If `true`, the select can accept multiple values.
-    */
-    'multiple': boolean;
     /**
     * The name of the control, which is submitted with the form data.
     */
@@ -114,7 +114,11 @@ declare namespace LocalJSX {
     /**
     * If `true`, the user cannot interact with the select.
     */
-    'disabled'?: boolean;
+    'isDisabled'?: boolean;
+    /**
+    * If `true`, the select can accept multiple values.
+    */
+    'isMultiple'?: boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default false
@@ -134,10 +138,6 @@ declare namespace LocalJSX {
     */
     'items'?: any[];
     /**
-    * If `true`, the select can accept multiple values.
-    */
-    'multiple'?: boolean;
-    /**
     * The name of the control, which is submitted with the form data.
     */
     'name'?: string;
@@ -148,19 +148,19 @@ declare namespace LocalJSX {
     /**
     * Emitted when the select loses focus.
     */
-    'onIonBlur'?: (event: CustomEvent<void>) => void;
+    'onBlurred'?: (event: CustomEvent<void>) => void;
     /**
     * Emitted when the selection is cancelled.
     */
-    'onIonCancel'?: (event: CustomEvent<void>) => void;
+    'onCanceled'?: (event: CustomEvent<void>) => void;
     /**
     * Emitted when the value has changed.
     */
-    'onIonChange'?: (event: CustomEvent<IonicSelectableChangeEventDetail>) => void;
+    'onChanged'?: (event: CustomEvent<IonicSelectableChangeEventDetail>) => void;
     /**
     * Emitted when the select has focus.
     */
-    'onIonFocus'?: (event: CustomEvent<void>) => void;
+    'onFocused'?: (event: CustomEvent<void>) => void;
     /**
     * The text to display when the select is empty.
     */
