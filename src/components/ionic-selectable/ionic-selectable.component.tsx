@@ -266,7 +266,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     });
   }
 
-  private onClick = async (ev: UIEvent) => {
+  private onClick = async (event: UIEvent) => {
     const modal = await modalController.create({
       component: 'ionic-selectable-modal',
       componentProps: { parent: this }
