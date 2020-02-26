@@ -52,3 +52,18 @@ export const renderHiddenInput = (
 export const hasShadowDom = (element: HTMLElement) => {
   return !!element.shadowRoot && !!(element as any).attachShadow;
 };
+
+export const generateText = (value: any | any[], prop: string) => {
+  console.log(prop);
+  if (value === undefined) {
+    return '';
+  }
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => (prop ? v[prop] : v.toString()))
+      .filter((opt) => opt !== null)
+      .join(', ');
+  } else {
+    return prop ? value[prop] : value.toString();
+  }
+};

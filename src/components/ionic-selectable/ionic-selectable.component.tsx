@@ -12,7 +12,7 @@ import {
 } from '@stencil/core';
 import '@ionic/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, SelectCompareFn, OverlaySelect } from '@ionic/core';
-import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
+import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput, generateText } from '../../utils/utils';
 import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
 @Component({
   tag: 'ionic-selectable',
@@ -30,6 +30,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   private valueItems: any[] = [];
 
   @Element() private element!: HTMLIonicSelectableElement;
+  private selectableModalComponent!: HTMLIonicSelectableModalElement;
 
   /**
    * Determines whether Modal is opened.
@@ -124,7 +125,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default []
    * @memberof IonicSelectableComponent
    */
-  @Prop() public items: any[] = [];
+  @Prop({ mutable: true }) public items: any[] = [];
 
   /**
    * Item property to use as a unique identifier, e.g, `'id'`.
@@ -134,19 +135,17 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop()
-  public itemValueField: string = null;
+  @Prop() public itemValueField: string = null;
 
   /**
    * Item property to display, e.g, `'name'`.
    * **Note**: `items` should be an object array.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
    *
-   * @default false
+   * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop()
-  public itemTextField: string = null;
+  @Prop() public itemTextField: string = null;
 
   /**
    * Fires when item/s has been selected and Modal closed.
@@ -234,25 +233,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (selectedText != null && selectedText !== '') {
       return selectedText;
     }
-    return this.generateText(this.itemTextField);
-  }
-
-  private generateText(prop: string) {
-    if (this.value === undefined) {
-      return '';
-    }
-    if (Array.isArray(this.value)) {
-      return this.value
-        .map((v) => (prop ? v[prop] : v.toString()))
-        .filter((opt) => opt !== null)
-        .join(', ');
-    } else {
-      return prop ? this.value[prop] : this.value.toString();
-    }
+    return generateText(this.value, this.itemTextField);
   }
 
   private parseValue() {
-    return this.generateText(this.itemValueField);
+    return generateText(this.value, this.itemValueField);
+  }
+
+  public closeModal() {
   }
 
   private async emitStyle() {
@@ -283,21 +271,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   };
 
   public render(): void {
-    const { placeholder, name, isDisabled, isOpened, element } = this;
+    const { placeholder, name, isDisabled, isOpened, isMultiple, element } = this;
     const mode = getMode();
     // Add ripple efect
-    addRippleEffectElement(element);
+    if (mode === 'md') {
+      addRippleEffectElement(element);
+    }
 
-    // Add class ion-activatable
     const item = findItem(element);
-    if (item && mode === 'md') {
+    if (item) {
       item.classList.add('ion-activatable');
     }
 
     const labelId = this.id + '-lbl';
+    let labelPosition = 'item-label-default';
     const label = findItemLabel(element);
     if (label) {
       label.id = labelId;
+      labelPosition = `item-label-${label.getAttribute('position') ? label.getAttribute('position') : 'default'}`;
     }
     let addPlaceholderClass = false;
     let selectText = this.getText();
@@ -324,6 +315,8 @@ export class IonicSelectableComponent implements ComponentInterface {
         class={{
           [mode]: true,
           'in-item': hostContext('ion-item', element),
+          [labelPosition]: true,
+          'item-multiple-inputs': isMultiple,
           'ionic-selectable-is-disabled': isDisabled
         }}
       >

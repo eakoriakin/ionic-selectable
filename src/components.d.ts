@@ -55,7 +55,7 @@ export namespace Components {
     'isOpened': boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
-    * @default false
+    * @default null
     * @memberof IonicSelectableComponent
     */
     'itemTextField': string;
@@ -154,7 +154,7 @@ declare namespace LocalJSX {
     'isOpened'?: boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
-    * @default false
+    * @default null
     * @memberof IonicSelectableComponent
     */
     'itemTextField'?: string;

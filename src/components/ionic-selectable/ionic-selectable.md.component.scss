@@ -11,6 +11,13 @@
   --padding-start: #{$ionic-selectable-md-padding-start};
 }
 
+:host(.item-label-stacked),
+:host(.item-label-floating) {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --padding-start: 0;
+}
+
 .ionic-selectable-icon {
   width: 19px;
   height: 19px;

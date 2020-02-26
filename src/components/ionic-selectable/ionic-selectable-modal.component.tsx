@@ -1,21 +1,27 @@
-import { Component, h, Host, ComponentInterface } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Element } from '@stencil/core';
 import '@ionic/core';
-import { IonicSelectableComponent } from './ionic-selectable.component';
+import { generateText } from '../../utils/utils';
 
+/**
+ * @internal
+ */
 @Component({
   tag: 'ionic-selectable-modal',
   styleUrls: {
     ios: 'ionic-selectable.ios.component.scss',
     md: 'ionic-selectable.md.component.scss'
-  },
-  shadow: true
+  }
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
-  selectableComponent: IonicSelectableComponent;
+  @Element() element: HTMLIonModalElement;
+  selectableComponent: HTMLIonicSelectableElement;
 
   connectedCallback() {
     const modalElement = document.querySelector('ion-modal');
     this.selectableComponent = modalElement.componentProps.parent;
+  }
+
+  private dismiss() {
   }
 
   public render(): void {
@@ -34,7 +40,13 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             </ion-title>
           </ion-toolbar>
         </ion-header>
-        <ion-content />
+        <ion-content>
+          <ion-list>
+          {this.selectableComponent.items.map((item) => {
+           return (<ion-item>{generateText(item, this.selectableComponent.itemTextField)}</ion-item>);
+        })}
+          </ion-list>
+        </ion-content>
       </Host>
     );
   }

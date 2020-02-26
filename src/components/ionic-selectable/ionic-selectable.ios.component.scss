@@ -1,5 +1,5 @@
-@import "./ionic-selectable.component";
-@import "./ionic-selectable.ios.vars.component";
+@import './ionic-selectable.component';
+@import './ionic-selectable.ios.vars.component';
 
 // iOS ionic-sectable
 // --------------------------------------------------
@@ -9,6 +9,13 @@
   --padding-end: #{$ionic-selectable-ios-padding-end};
   --padding-bottom: #{$ionic-selectable-ios-padding-bottom};
   --padding-start: #{$ionic-selectable-ios-padding-start};
+}
+
+:host(.item-label-stacked),
+:host(.item-label-floating) {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --padding-start: 0;
 }
 
 .ionic-selectable-icon {

@@ -9,22 +9,20 @@
   </head>
   <body>
     <ion-item>
-      <ion-label>Selectable</ion-label>
-      <ionic-selectable placeholder="hola"></ionic-selectable>
+      <ion-label position="fixed">Gender</ion-label>
+      <ionic-selectable item-text-field="text" placeholder="Select One"></ionic-selectable>
     </ion-item>
     <ion-item>
-      <ion-label>Hair Color</ion-label>
-      <ion-select value="pepe" ok-text="Okay" cancel-text="Dismiss">
-        <ion-select-option value="brown">Brown</ion-select-option>
-        <ion-select-option value="blonde">Blonde</ion-select-option>
-        <ion-select-option value="black">Black</ion-select-option>
-        <ion-select-option value="red">Red</ion-select-option>
+      <ion-label position="fixed">Gender</ion-label>
+      <ion-select placeholder="Select One">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
       </ion-select>
     </ion-item>
     <script>
       var el= document.querySelector('ionic-selectable');
+      el.items =[{id: 1, text: "one"}];
       console.log(el);
-      el.renderIcon = () =>{ return "<div>" };
     </script>
   </body>
 </html>
