@@ -54,7 +54,6 @@ export const hasShadowDom = (element: HTMLElement) => {
 };
 
 export const generateText = (value: any | any[], prop: string) => {
-  console.log(prop);
   if (value === undefined) {
     return '';
   }

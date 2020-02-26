@@ -89,7 +89,6 @@
   @at-root #{add-root-selector($root, "[dir=rtl]")} {
     @content;
   }
-
 }
 
 @mixin ltr() {
@@ -118,7 +117,6 @@
   @if $start == 0 and $end == 0 {
     #{$prop}-left: $start;
     #{$prop}-right: $end;
-
   } @else {
     #{$prop}-left: $start;
     #{$prop}-right: $end;
@@ -159,11 +157,12 @@
 // String Replace Function
 // --------------------------------------------------------------------------------
 
-@function str-replace($string, $search, $replace: "") {
+@function str-replace($string, $search, $replace: '') {
   $index: str-index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
   }
 
   @return $string;
@@ -171,7 +170,6 @@
 
 // String Split Function
 // --------------------------------------------------------------------------------
-
 
 @function str-split($string, $separator) {
   // empty array/list
@@ -195,7 +193,6 @@
   @return $split-arr;
 }
 
-
 // String Extract Function
 // --------------------------------------------------------------------------------
 
@@ -214,7 +211,6 @@
   @return null;
 }
 
-
 // String Contains Function
 // --------------------------------------------------------------------------------
 
@@ -226,16 +222,14 @@
   @return false;
 }
 
-
 // URL Encode Function
 // --------------------------------------------------------------------------------
 
 @function url-encode($val) {
-  $spaces: str-replace($val, " ", "%20");
-  $encoded: str-replace($spaces, "#", "%23");
+  $spaces: str-replace($val, ' ', '%20');
+  $encoded: str-replace($spaces, '#', '%23');
   @return $encoded;
 }
-
 
 // Add Root Selector
 // --------------------------------------------------------------------------------
@@ -259,30 +253,30 @@
 // --------------------------------------------------------------------------------
 
 @function add-root-selector($root, $addHostSelector) {
-  $selectors: str-split($root, ",");
+  $selectors: str-split($root, ',');
 
   $list: ();
 
   @each $selector in $selectors {
     // If the selector contains :host( it means it is targeting a class on the host
     // element so we need to change how we target it
-    @if str-contains($selector, ":host(") {
-      $shadow-element: str-replace($selector, ":host(", ":host-context(#{$addHostSelector}):host(");
+    @if str-contains($selector, ':host(') {
+      $shadow-element: str-replace($selector, ':host(', ':host-context(#{$addHostSelector}):host(');
       $list: append($list, $shadow-element, comma);
 
       $new-element: ();
-      $elements: str-split($selector, " ");
+      $elements: str-split($selector, ' ');
 
       @each $element in $elements {
-        @if str-contains($element, ":host(") {
+        @if str-contains($element, ':host(') {
           $scoped-element: $element;
 
-          @if str-contains($element, "))") {
-            $scoped-element: str-replace($scoped-element, "))", ")");
+          @if str-contains($element, '))') {
+            $scoped-element: str-replace($scoped-element, '))', ')');
           } @else {
-            $scoped-element: str-replace($scoped-element, ")", "");
+            $scoped-element: str-replace($scoped-element, ')', '');
           }
-          $scoped-element: str-replace($scoped-element, ":host(", ":host-context(#{$addHostSelector})");
+          $scoped-element: str-replace($scoped-element, ':host(', ':host-context(#{$addHostSelector})');
 
           $new-element: append($new-element, $scoped-element, space);
         } @else {
@@ -291,15 +285,15 @@
       }
 
       $list: append($list, $new-element, comma);
-    // If the selector contains :host it means it is targeting just the host
-    // element so we can change it to look for host-context
-    } @else if str-contains($selector, ":host") {
-      $list: append($list, ":host-context(#{$addHostSelector})", comma);
-    // If the selector does not contain host at all it is either a shadow
-    // or normal element so append both the dir check and host-context
+      // If the selector contains :host it means it is targeting just the host
+      // element so we can change it to look for host-context
+    } @else if str-contains($selector, ':host') {
+      $list: append($list, ':host-context(#{$addHostSelector})', comma);
+      // If the selector does not contain host at all it is either a shadow
+      // or normal element so append both the dir check and host-context
     } @else {
-      $list: append($list, "#{$addHostSelector} #{$selector}", comma);
-      $list: append($list, ":host-context(#{$addHostSelector}) #{$selector}", comma);
+      $list: append($list, '#{$addHostSelector} #{$selector}', comma);
+      $list: append($list, ':host-context(#{$addHostSelector}) #{$selector}', comma);
     }
   }
 
