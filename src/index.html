@@ -10,11 +10,7 @@
   <body>
     <ion-item>
       <ion-label>Ports</ion-label>
-      <ionic-selectable id="sel0" item-text-field="text" placeholder="Select One"></ionic-selectable>
-    </ion-item>
-    <ion-item>
-      <ion-label>Gender</ion-label>
-      <ionic-selectable id="sel1" item-text-field="text" placeholder="Select"></ionic-selectable>
+      <ionic-selectable id="sel0" item-value-field="id" item-text-field="port" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
     </ion-item>
     <ion-item>
       <ion-label>Hair Color</ion-label>
@@ -27,10 +23,7 @@
     </ion-item>
     <script>
       var el = document.getElementById('sel0');
-      el.items = [{ id: 1, text: 'one' }];
-      var gender = document.getElementById('sel1');
-      gender.items = [{ id: 1, text: 'male' }];
-      console.log(gender);
+      el.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 1, port: 'Valencia', country: { country: "Spain"} }];
     </script>
   </body>
 </html>

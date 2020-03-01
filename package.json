@@ -56,6 +56,6 @@
     "tslint-config-prettier": "1.18.0"
   },
   "dependencies": {
-    "@ionic/core": "5.0.1"
+    "@ionic/core": "5.0.4"
   }
 }

@@ -8,19 +8,11 @@ import {
   Event,
   EventEmitter,
   Watch,
-  Method,
-  State
+  Method
 } from '@stencil/core';
 import '@ionic/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
-import {
-  hostContext,
-  addRippleEffectElement,
-  findItem,
-  findItemLabel,
-  renderHiddenInput,
-  generateText
-} from '../../utils/utils';
+import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
 
 /**
@@ -49,6 +41,12 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Element() private element!: HTMLIonicSelectableElement;
   private modalComponent!: HTMLIonModalElement;
   private selectableModalComponent!: HTMLIonicSelectableModalElement;
+
+  private groups: Array<{value: string, text: string, items: any[]}> = [];
+  public filteredGroups: Array<{value: string, text: string, items: any[]}> = [];
+  public hasFilteredItems = false;
+  public hasObjects = false;
+  public hasGroups = false;
 
   /**
    * Determines whether Modal is opened.
@@ -202,12 +200,71 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public modalLeaveAnimation: AnimationBuilder = null;
 
   /**
+   * Text of [Ionic Label](https://ionicframework.com/docs/api/label).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
+   *
+   * @readonly
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public titleText: string = null;
+
+  /**
+   *
+   * Group property to use as a unique identifier to group items, e.g. `'country.id'`.
+   * **Note**: `items` should be an object array.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupvaluefield).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public groupValueField: string = null;
+
+  /**
+   * Group property to display, e.g. `'country.name'`.
+   * **Note**: `items` should be an object array.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public groupTextField: string = null;
+
+  /**
+   * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled.
+   * **Note**: Infinite scroll cannot be used together with virtual scroll.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public hasInfiniteScroll = false;
+
+  /**
+   * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled.
+   * **Note**: Virtual scroll cannot be used together with infinite scroll.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public hasVirtualScroll = false;
+
+  /**
    * Fires when item/s has been selected and Modal closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
    *
    * @memberof IonicSelectableComponent
    */
   @Event() public changed!: EventEmitter<IIonicSelectableEvent>;
+
+  /**
+   * Fires when Modal has been opened.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public opened: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when Modal has been closed.
@@ -239,19 +296,9 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
-  public async connectedCallback(): Promise<void> {
-    this.emitStyle();
-  }
-
-  public disconnectedCallback(): void {
-    if (this.mutationO) {
-      this.mutationO.disconnect();
-      this.mutationO = undefined;
-    }
-  }
-
-  public componentDidLoad(): void {
-    this.isInited = true;
+  @Watch('items')
+  public itemsChanged(newValue: [], oldValue: []): void {
+    this.setItems(newValue);
   }
 
   @Watch('disabled')
@@ -270,6 +317,28 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
   }
 
+  public async connectedCallback(): Promise<void> {
+    this.emitStyle();
+  }
+
+  public disconnectedCallback(): void {
+    if (this.mutationO) {
+      this.mutationO.disconnect();
+      this.mutationO = undefined;
+    }
+  }
+
+  public componentDidLoad(): void {
+    this.hasObjects = !this.isNullOrWhiteSpace(this.itemValueField);
+    // Grouping is supported for objects only.
+    // Ionic VirtualScroll has it's own implementation of grouping.
+    this.hasGroups = Boolean(
+      this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll
+    );
+    this.setItems(this.items);
+    this.isInited = true;
+  }
+
   /**
    * Determines whether any item has been selected.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
@@ -279,7 +348,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Method()
   public async hasValue(): Promise<boolean> {
-    return Promise.resolve(this.getText() !== '');
+    return Promise.resolve(this.parseValue() !== '');
   }
 
   /**
@@ -292,6 +361,11 @@ export class IonicSelectableComponent implements ComponentInterface {
   public async open(): Promise<void> {
     if (this.isDisabled || this.isOpened) {
       return Promise.reject('IonicSelectable is disabled or already opened.');
+    }
+
+    const label = findItemLabel(this.element);
+    if (label && !this.titleText) {
+      this.titleText = label.textContent;
     }
 
     const modalOptions: ModalOptions = {
@@ -317,8 +391,9 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.selectableModalComponent = this.modalComponent.querySelector('ionic-selectable-modal');
     // Pending - self._filterItems();
     this.isOpened = true;
+    this.setFocus();
     this.whatchModalEvents();
-
+    this.opened.emit({ component: this.element });
     return Promise.resolve();
   }
 
@@ -334,11 +409,70 @@ export class IonicSelectableComponent implements ComponentInterface {
       return Promise.reject('IonicSelectable is disabled or already closed.');
     }
 
-    this.isOpened = false;
-    // Pending - self._itemToAdd = null;
     await this.modalComponent.dismiss();
+    // Pending - self._itemToAdd = null;
     // Pending - self.hideAddItemTemplate();
+    /*
+    if (!this._hasOnSearch()) {
+      this._searchText = '';
+      this._setHasSearchText();
+    }*/
+
+    this.closed.emit({ component: this.element });
+
     return Promise.resolve();
+  }
+
+  private setItems(items: any[]) {
+    // It's important to have an empty starting group with empty items (groups[0].items),
+    // because we bind to it when using VirtualScroll.
+    // See https://github.com/eakoriakin/ionic-selectable/issues/70.
+    let groups: any[] = [
+      {
+        items: items || []
+      }
+    ];
+    if (items && items.length) {
+      if (this.hasGroups) {
+        groups = [];
+
+        items.forEach((item) => {
+          const groupValue = this.generateText(item, this.groupValueField || this.groupTextField),
+            group = groups.find((_group) => _group.value === groupValue);
+
+          if (group) {
+            group.items.push(item);
+          } else {
+            groups.push({
+              value: groupValue,
+              text: this.generateText(item, this.groupTextField),
+              items: [item]
+            });
+          }
+        });
+      }
+    }
+    this.groups = groups;
+    this.filteredGroups = this.groups;
+    this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
+  }
+
+  private isNullOrWhiteSpace(value: any): boolean {
+    if (value === null || value === undefined) {
+      return true;
+    }
+
+    // Convert value to string in case if it's not.
+    return value.toString().replace(/\s/g, '').length < 1;
+  }
+
+  private areGroupsEmpty(groups: any[]) {
+    return (
+      groups.length === 0 ||
+      groups.every((group) => {
+        return !group.items || group.items.length === 0;
+      })
+    );
   }
 
   private getText(): string {
@@ -346,11 +480,35 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (selectedText != null && selectedText !== '') {
       return selectedText;
     }
-    return generateText(this.value, this.itemTextField);
+    return this.generateText(this.value, this.itemTextField);
   }
 
   private parseValue(): any {
-    return generateText(this.value, this.itemValueField);
+    return this.generateText(this.value, this.itemValueField);
+  }
+
+  public generateText(value: any | any[], property: string): string {
+    if (value === undefined) {
+      return '';
+    }
+    if (Array.isArray(value)) {
+      return value
+        .map((val) =>
+          property
+            ? property.split('.').reduce((v, prop) => {
+                return v ? v[prop] : null;
+              }, val)
+            : value.toString()
+        )
+        .filter((opt) => opt !== null)
+        .join(', ');
+    } else {
+      return property
+        ? property.split('.').reduce((v, prop) => {
+            return v ? v[prop] : null;
+          }, value)
+        : value.toString();
+    }
   }
 
   private async emitStyle(): Promise<void> {
@@ -371,17 +529,18 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private onClick = async (event: UIEvent): Promise<void> => {
+    this.setFocus();
     this.open();
   };
 
   private whatchModalEvents(): void {
     this.modalComponent.addEventListener('selectableModalDismiss', (event) => {
       this.close();
-      console.log('close');
     });
 
     this.modalComponent.onDidDismiss().then((event) => {
       this.isOpened = false;
+      this.setFocus();
       // Pending - self._itemsToConfirm = [];
 
       // Closed by clicking on backdrop outside modal.

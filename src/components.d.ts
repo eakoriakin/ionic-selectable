@@ -30,11 +30,35 @@ export namespace Components {
     */
     'confirmButtonText': string;
     /**
+    * Group property to display, e.g. `'country.name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupTextField': string;
+    /**
+    * Group property to use as a unique identifier to group items, e.g. `'country.id'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupvaluefield).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupValueField': string;
+    /**
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasInfiniteScroll': boolean;
+    /**
     * Determines whether any item has been selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
     * @returns A boolean determining whether any item has been selected.
     * @memberof IonicSelectableComponent
     */
     'hasValue': () => Promise<boolean>;
+    /**
+    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled. **Note**: Virtual scroll cannot be used together with infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasVirtualScroll': boolean;
     /**
     * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
     * @default false
@@ -119,6 +143,13 @@ export namespace Components {
     */
     'shouldBackdropClose': boolean;
     /**
+    * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
+    * @readonly
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'titleText': string;
+    /**
     * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
     * @default false
     * @memberof IonicSelectableComponent
@@ -162,6 +193,30 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'confirmButtonText'?: string;
+    /**
+    * Group property to display, e.g. `'country.name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupTextField'?: string;
+    /**
+    * Group property to use as a unique identifier to group items, e.g. `'country.id'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupvaluefield).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupValueField'?: string;
+    /**
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasInfiniteScroll'?: boolean;
+    /**
+    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled. **Note**: Virtual scroll cannot be used together with infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasVirtualScroll'?: boolean;
     /**
     * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
     * @default false
@@ -248,6 +303,11 @@ declare namespace LocalJSX {
     */
     'onFocused'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
+    * Fires when Modal has been opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
+    * @memberof IonicSelectableComponent
+    */
+    'onOpened'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
     * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
     * @default null
     * @memberof IonicSelectableComponent
@@ -265,6 +325,13 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'shouldBackdropClose'?: boolean;
+    /**
+    * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
+    * @readonly
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'titleText'?: string;
     /**
     * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
     * @default false
