@@ -8,12 +8,29 @@ import {
   Event,
   EventEmitter,
   Watch,
-  Method
+  Method,
+  State
 } from '@stencil/core';
 import '@ionic/core';
-import { CssClassMap, getMode, modalController, StyleEventDetail, SelectCompareFn, OverlaySelect } from '@ionic/core';
-import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput, generateText } from '../../utils/utils';
+import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
+import {
+  hostContext,
+  addRippleEffectElement,
+  findItem,
+  findItemLabel,
+  renderHiddenInput,
+  generateText
+} from '../../utils/utils';
 import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
+
+/**
+ * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.
+ *
+ * @part placeholder - The text displayed in the select when there is no value.
+ * @part text - The displayed value of the select.
+ * @part icon - The select icon container.
+ * @part icon-inner - The select icon.
+ */
 @Component({
   tag: 'ionic-selectable',
   styleUrls: {
@@ -30,6 +47,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   private valueItems: any[] = [];
 
   @Element() private element!: HTMLIonicSelectableElement;
+  private modalComponent!: HTMLIonModalElement;
   private selectableModalComponent!: HTMLIonicSelectableModalElement;
 
   /**
@@ -111,7 +129,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   /**
    * The value of the component.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -146,6 +164,42 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public itemTextField: string = null;
+
+  /**
+   * Determines whether Modal should be closed when backdrop is clicked.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
+   *
+   * @default true
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public shouldBackdropClose: boolean;
+
+  /**
+   * Modal CSS class.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public modalCssClass: string = null;
+
+  /**
+   * Modal enter animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public modalEnterAnimation: AnimationBuilder = null;
+
+  /**
+   * Modal leave animation.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public modalLeaveAnimation: AnimationBuilder = null;
 
   /**
    * Fires when item/s has been selected and Modal closed.
@@ -185,35 +239,35 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
-  @Watch('disabled')
-  @Watch('placeholder')
-  private disabledChanged() {
+  public async connectedCallback(): Promise<void> {
     this.emitStyle();
   }
 
-  @Watch('value')
-  private valueChanged() {
-    this.emitStyle();
-    if (this.isInited) {
-      this.changed.emit({
-        value: this.value
-      });
-    }
-  }
-
-  async connectedCallback() {
-    this.emitStyle();
-  }
-
-  disconnectedCallback() {
+  public disconnectedCallback(): void {
     if (this.mutationO) {
       this.mutationO.disconnect();
       this.mutationO = undefined;
     }
   }
 
-  componentDidLoad() {
+  public componentDidLoad(): void {
     this.isInited = true;
+  }
+
+  @Watch('disabled')
+  @Watch('placeholder')
+  public disabledChanged(): void {
+    this.emitStyle();
+  }
+
+  @Watch('value')
+  public valueChanged(): void {
+    this.emitStyle();
+    if (this.isInited) {
+      this.changed.emit({
+        value: this.value
+      });
+    }
   }
 
   /**
@@ -228,6 +282,65 @@ export class IonicSelectableComponent implements ComponentInterface {
     return Promise.resolve(this.getText() !== '');
   }
 
+  /**
+   * Opens Modal.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#open).
+   *
+   * @returns Promise that resolves when Modal has been opened.
+   * @memberof IonicSelectableComponent
+   */
+  public async open(): Promise<void> {
+    if (this.isDisabled || this.isOpened) {
+      return Promise.reject('IonicSelectable is disabled or already opened.');
+    }
+
+    const modalOptions: ModalOptions = {
+      component: 'ionic-selectable-modal',
+      componentProps: { selectableComponent: this },
+      backdropDismiss: this.shouldBackdropClose
+    };
+
+    if (this.modalCssClass) {
+      modalOptions.cssClass = this.modalCssClass;
+    }
+
+    if (this.modalEnterAnimation) {
+      modalOptions.enterAnimation = this.modalEnterAnimation;
+    }
+
+    if (this.modalLeaveAnimation) {
+      modalOptions.leaveAnimation = this.modalLeaveAnimation;
+    }
+
+    this.modalComponent = await modalController.create(modalOptions);
+    await this.modalComponent.present();
+    this.selectableModalComponent = this.modalComponent.querySelector('ionic-selectable-modal');
+    // Pending - self._filterItems();
+    this.isOpened = true;
+    this.whatchModalEvents();
+
+    return Promise.resolve();
+  }
+
+  /**
+   * Closes Modal.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
+   *
+   * @returns Promise that resolves when Modal has been closed.
+   * @memberof IonicSelectableComponent
+   */
+  public async close(): Promise<void> {
+    if (this.isDisabled || !this.isOpened) {
+      return Promise.reject('IonicSelectable is disabled or already closed.');
+    }
+
+    this.isOpened = false;
+    // Pending - self._itemToAdd = null;
+    await this.modalComponent.dismiss();
+    // Pending - self.hideAddItemTemplate();
+    return Promise.resolve();
+  }
+
   private getText(): string {
     const selectedText = this.selectedText;
     if (selectedText != null && selectedText !== '') {
@@ -236,14 +349,11 @@ export class IonicSelectableComponent implements ComponentInterface {
     return generateText(this.value, this.itemTextField);
   }
 
-  private parseValue() {
+  private parseValue(): any {
     return generateText(this.value, this.itemValueField);
   }
 
-  public closeModal() {
-  }
-
-  private async emitStyle() {
+  private async emitStyle(): Promise<void> {
     this.ionStyle.emit({
       interactive: true,
       'ionic-selectable': true,
@@ -254,19 +364,40 @@ export class IonicSelectableComponent implements ComponentInterface {
     });
   }
 
-  private onClick = async (event: UIEvent) => {
-    const modal = await modalController.create({
-      component: 'ionic-selectable-modal',
-      componentProps: { parent: this }
-    });
-    await modal.present();
+  private setFocus(): void {
+    if (this.buttonElement) {
+      this.buttonElement.focus();
+    }
+  }
+
+  private onClick = async (event: UIEvent): Promise<void> => {
+    this.open();
   };
 
-  private onFocus = () => {
+  private whatchModalEvents(): void {
+    this.modalComponent.addEventListener('selectableModalDismiss', (event) => {
+      this.close();
+      console.log('close');
+    });
+
+    this.modalComponent.onDidDismiss().then((event) => {
+      this.isOpened = false;
+      // Pending - self._itemsToConfirm = [];
+
+      // Closed by clicking on backdrop outside modal.
+      if (event.role === 'backdrop') {
+        this.closed.emit({
+          component: this.element
+        });
+      }
+    });
+  }
+
+  private onFocus = (): void => {
     this.focused.emit();
   };
 
-  private onBlur = () => {
+  private onBlur = (): void => {
     this.blurred.emit();
   };
 
@@ -281,6 +412,11 @@ export class IonicSelectableComponent implements ComponentInterface {
     const item = findItem(element);
     if (item) {
       item.classList.add('ion-activatable');
+      if (isOpened) {
+        item.classList.add('item-has-focus');
+      } else {
+        item.classList.remove('item-has-focus');
+      }
     }
 
     const labelId = this.id + '-lbl';
@@ -304,6 +440,8 @@ export class IonicSelectableComponent implements ComponentInterface {
       'ionic-selectable-placeholder': addPlaceholderClass
     };
 
+    const textPart = addPlaceholderClass ? 'placeholder' : 'text';
+
     return (
       <Host
         onClick={this.onClick}
@@ -320,11 +458,11 @@ export class IonicSelectableComponent implements ComponentInterface {
           'ionic-selectable-is-disabled': isDisabled
         }}
       >
-        <div class={selectTextClasses} part="text">
+        <div class={selectTextClasses} part={textPart}>
           {selectText}
         </div>
         <div class="ionic-selectable-icon" role="presentation" part="icon">
-          <div class="ionic-selectable-icon-inner" />
+          <div class="ionic-selectable-icon-inner" part="icon-inner" />
         </div>
         <button
           type="button"
