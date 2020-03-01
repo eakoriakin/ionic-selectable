@@ -21,6 +21,8 @@
   display: flex;
   position: relative;
 
+  align-items: center;
+
   font-family: var(--font-family, inherit);
 
   overflow: hidden;
@@ -46,7 +48,8 @@
   position: relative;
 }
 
-:host(.item-label-stacked), :host(.item-label-floating) {
+:host(.item-label-stacked),
+:host(.item-label-floating) {
   --padding-start: 0;
 
   align-self: stretch;
@@ -65,6 +68,7 @@ button {
     color: var(--placeholder-color);
     opacity: var(--placeholder-opacity);
   }
+
   &-text {
     flex: 1;
     min-width: 16px;
@@ -75,6 +79,8 @@ button {
   }
   &-icon {
     position: relative;
+    opacity: 0.33;
+
     &-inner {
       @include position(50%, null, null, 5px);
       @include margin(-3px, null, null, null);
@@ -89,8 +95,6 @@ button {
       border-left: 5px solid transparent;
 
       color: currentColor;
-
-      opacity: 0.33;
 
       pointer-events: none;
     }

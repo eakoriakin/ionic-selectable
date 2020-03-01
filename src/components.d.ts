@@ -8,11 +8,12 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  IIonicSelectableEvent,
-} from './components/ionic-selectable/ionic-selectable.interfaces.component';
-import {
+  AnimationBuilder,
   StyleEventDetail,
 } from '@ionic/core';
+import {
+  IIonicSelectableEvent,
+} from './components/ionic-selectable/ionic-selectable.interfaces.component';
 
 export namespace Components {
   interface IonicSelectable {
@@ -72,6 +73,28 @@ export namespace Components {
     */
     'items': any[];
     /**
+    * Modal CSS class. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalCssClass': string;
+    /**
+    * Modal enter animation. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalEnterAnimation': AnimationBuilder;
+    /**
+    * Modal leave animation. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalLeaveAnimation': AnimationBuilder;
+    /**
+    * The mode determines which platform styles to use.
+    */
+    'mode'?: "ios" | "md";
+    /**
     * The name of the control, which is submitted with the form data. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
     * @default null
     * @memberof IonicSelectableComponent
@@ -90,7 +113,13 @@ export namespace Components {
     */
     'selectedText'?: string | null;
     /**
-    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * Determines whether Modal should be closed when backdrop is clicked. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
+    * @default true
+    * @memberof IonicSelectableComponent
+    */
+    'shouldBackdropClose': boolean;
+    /**
+    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
     * @default false
     * @memberof IonicSelectableComponent
     */
@@ -171,6 +200,28 @@ declare namespace LocalJSX {
     */
     'items'?: any[];
     /**
+    * Modal CSS class. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalCssClass'?: string;
+    /**
+    * Modal enter animation. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalEnterAnimation'?: AnimationBuilder;
+    /**
+    * Modal leave animation. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'modalLeaveAnimation'?: AnimationBuilder;
+    /**
+    * The mode determines which platform styles to use.
+    */
+    'mode'?: "ios" | "md";
+    /**
     * The name of the control, which is submitted with the form data. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
     * @default null
     * @memberof IonicSelectableComponent
@@ -209,13 +260,21 @@ declare namespace LocalJSX {
     */
     'selectedText'?: string | null;
     /**
-    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+    * Determines whether Modal should be closed when backdrop is clicked. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
+    * @default true
+    * @memberof IonicSelectableComponent
+    */
+    'shouldBackdropClose'?: boolean;
+    /**
+    * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
     * @default false
     * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
   }
-  interface IonicSelectableModal {}
+  interface IonicSelectableModal {
+    'onSelectableModalDismiss'?: (event: CustomEvent<void>) => void;
+  }
 
   interface IntrinsicElements {
     'ionic-selectable': IonicSelectable;

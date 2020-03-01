@@ -1,5 +1,4 @@
-import { Component, h, Host, ComponentInterface, Element } from '@stencil/core';
-import '@ionic/core';
+import { Component, h, Host, ComponentInterface, Element, Event, EventEmitter } from '@stencil/core';
 import { generateText } from '../../utils/utils';
 
 /**
@@ -13,16 +12,19 @@ import { generateText } from '../../utils/utils';
   }
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
-  @Element() element: HTMLIonModalElement;
-  selectableComponent: HTMLIonicSelectableElement;
+  @Element() private element: HTMLIonModalElement;
+  private selectableComponent: HTMLIonicSelectableElement;
 
-  connectedCallback() {
+  @Event() public selectableModalDismiss!: EventEmitter<void>;
+
+  public connectedCallback(): void {
     const modalElement = document.querySelector('ion-modal');
-    this.selectableComponent = modalElement.componentProps.parent;
+    this.selectableComponent = modalElement.componentProps.selectableComponent;
   }
 
-  private dismiss() {
-  }
+  private dismiss = (): void => {
+    this.selectableModalDismiss.emit();
+  };
 
   public render(): void {
     return (
@@ -30,7 +32,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         <ion-header>
           <ion-toolbar>
             <ion-buttons>
-              <ion-button>
+              <ion-button onClick={this.dismiss}>
                 <span>{this.selectableComponent.closeButtonText}</span>
               </ion-button>
             </ion-buttons>
@@ -42,9 +44,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         </ion-header>
         <ion-content>
           <ion-list>
-          {this.selectableComponent.items.map((item) => {
-           return (<ion-item>{generateText(item, this.selectableComponent.itemTextField)}</ion-item>);
-        })}
+            {this.selectableComponent.items.map((item) => {
+              return <ion-item>{generateText(item, this.selectableComponent.itemTextField)}</ion-item>;
+            })}
           </ion-list>
         </ion-content>
       </Host>

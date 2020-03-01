@@ -9,20 +9,28 @@
   </head>
   <body>
     <ion-item>
-      <ion-label>Gender</ion-label>
-      <ionic-selectable item-text-field="text" placeholder="Select One"></ionic-selectable>
+      <ion-label>Ports</ion-label>
+      <ionic-selectable id="sel0" item-text-field="text" placeholder="Select One"></ionic-selectable>
     </ion-item>
     <ion-item>
       <ion-label>Gender</ion-label>
-      <ion-select placeholder="Select One">
-        <ion-select-option value="f">Female</ion-select-option>
-        <ion-select-option value="m">Male</ion-select-option>
+      <ionic-selectable id="sel1" item-text-field="text" placeholder="Select"></ionic-selectable>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hair Color</ion-label>
+      <ion-select ok-text="Okay" cancel-text="Dismiss">
+        <ion-select-option value="brown">Brown</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
       </ion-select>
     </ion-item>
     <script>
-      var el= document.querySelector('ionic-selectable');
-      el.items =[{id: 1, text: "one"}];
-      console.log(el);
+      var el = document.getElementById('sel0');
+      el.items = [{ id: 1, text: 'one' }];
+      var gender = document.getElementById('sel1');
+      gender.items = [{ id: 1, text: 'male' }];
+      console.log(gender);
     </script>
   </body>
 </html>
