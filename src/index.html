@@ -26,6 +26,8 @@
       el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       // el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       //el0.value = [1];
+      sel0.addEventListener('changed', event => { console.log(event) });
+      sel0.addEventListener('closed', event => { console.log(event) });
       var el1 = document.getElementById('sel1');
       el1.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 2, port: 'Valencia', country: { country: "Spain"} }];
       el1.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };

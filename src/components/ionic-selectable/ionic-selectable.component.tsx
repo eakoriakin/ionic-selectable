@@ -135,13 +135,13 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop({ mutable: true }) public value?: any | null = null;
 
   /**
-   * Is set to true, the value of the component will be extracted from the itemValueField of the objects.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
+   * Is set to true, the value will be extracted from the itemValueField of the objects.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
    *
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public isValuePrimitive?: boolean = false;
+  @Prop() public shouldStoreItemValue?: boolean = false;
 
   /**
    * A list of items.
@@ -316,11 +316,11 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
-  @Watch('isValuePrimitive')
-  public isValuePrimitiveChanged(value: boolean): void {
+  @Watch('shouldStoreItemValue')
+  public shouldStoreItemValueChanged(value: boolean): void {
     if (!value && !this.hasObjects) {
       throw new Error(
-        `If items contains primitive elements, isValuePrimitive must be null or true: ${this.element.id}`
+        `If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`
       );
     }
   }
@@ -475,6 +475,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     return Promise.resolve();
   }
 
+  public closeModal = async (): Promise<void> => {
+    await this.close();
+  }
+
   public selectItem(item: any) {
     const isItemSelected = this.isItemSelected(item);
     if (this.isMultiple) {
@@ -543,10 +547,10 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
       this.valueItems = [];
       (value as []).forEach((val) => {
-        if (this.isValuePrimitive && typeof val === 'object') {
-          throw new Error(`If isValuePrimitive is set to true, value must be primitive: ${this.element.id}`);
-        } else if (!this.isValuePrimitive && typeof val !== 'object') {
-          throw new Error(`If isValuePrimitive is set to false, value must be object: ${this.element.id}`);
+        if (this.shouldStoreItemValue && typeof val === 'object') {
+          throw new Error(`If shouldStoreItemValue is set to true, value must be primitive: ${this.element.id}`);
+        } else if (!this.shouldStoreItemValue && typeof val !== 'object') {
+          throw new Error(`If shouldStoreItemValue is set to false, value must be object: ${this.element.id}`);
         }
         const key = typeof val === 'object' ? val[this.itemValueField] : val;
         this.valueItems.push(
@@ -558,6 +562,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       if (!this.isMultiple) {
         this.valueItems = (this.valueItems as []).pop();
       }
+      this.changed.emit({component: this.element, value: this.valueItems});
     }
   }
 
@@ -574,12 +579,12 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // If items contains primitive elements, isValuePrimitive is set to true
     if (!this.hasObjects) {
-      this.isValuePrimitive = true;
+      this.shouldStoreItemValue = true;
     }
 
     this.itemValueFieldChanged(this.itemValueField);
     this.itemTextFieldChanged(this.itemTextField);
-    this.isValuePrimitiveChanged(this.isValuePrimitive);
+    this.shouldStoreItemValueChanged(this.shouldStoreItemValue);
 
     // Grouping is supported for objects only.
     // Ionic VirtualScroll has it's own implementation of grouping.

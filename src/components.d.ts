@@ -85,12 +85,6 @@ export namespace Components {
     */
     'isOpened': boolean;
     /**
-    * Is set to true, the value of the component will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
-    * @default false
-    * @memberof IonicSelectableComponent
-    */
-    'isValuePrimitive'?: boolean;
-    /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
     * @memberof IonicSelectableComponent
@@ -154,6 +148,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'shouldBackdropClose': boolean;
+    /**
+    * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldStoreItemValue'?: boolean;
     /**
     * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
     * @readonly
@@ -255,12 +255,6 @@ declare namespace LocalJSX {
     */
     'isOpened'?: boolean;
     /**
-    * Is set to true, the value of the component will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
-    * @default false
-    * @memberof IonicSelectableComponent
-    */
-    'isValuePrimitive'?: boolean;
-    /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
     * @memberof IonicSelectableComponent
@@ -349,6 +343,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'shouldBackdropClose'?: boolean;
+    /**
+    * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldStoreItemValue'?: boolean;
     /**
     * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
     * @readonly

@@ -23,10 +23,6 @@ export class IonicSelectableModalComponent implements ComponentInterface {
     this.selectableComponent = modalElement.componentProps.selectableComponent;
   }
 
-  private dismiss = (): void => {
-    this.selectableModalDismiss.emit();
-  };
-
   public render(): void {
     return (
       <Host>
@@ -34,7 +30,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           <ion-toolbar>
             <ion-title slot="start">{this.selectableComponent.titleText}</ion-title>
             <ion-buttons slot="end">
-              <ion-button onClick={this.dismiss}>{this.selectableComponent.closeButtonText}</ion-button>
+              <ion-button onClick={this.selectableComponent.closeModal}>
+                {this.selectableComponent.closeButtonText}
+              </ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
