@@ -10,11 +10,11 @@
   <body>
     <ion-item>
       <ion-label>Ports</ion-label>
-      <ionic-selectable id="sel0" is-value-primitive="false" is-multiple="false" item-value-field="id" item-text-field="port"  placeholder="Select One" group-text-field="country.country"></ionic-selectable>
+      <ionic-selectable id="sel0" should-store-item-value="false" is-multiple="false" item-value-field="id" item-text-field="port"  placeholder="Select One" group-text-field="country.country"></ionic-selectable>
     </ion-item>
      <ion-item>
       <ion-label>Ports</ion-label>
-      <ionic-selectable id="sel1" item-value-field="id" item-text-field="port" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
+      <ionic-selectable id="sel1" is-multiple="true" should-store-item-value="true"  item-value-field="id" item-text-field="port" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
     </ion-item>
     <ion-item>
       <ion-label>Ports</ion-label>
@@ -26,11 +26,12 @@
       el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       // el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       //el0.value = [1];
-      sel0.addEventListener('changed', event => { console.log(event) });
-      sel0.addEventListener('closed', event => { console.log(event) });
+      el0.addEventListener('changed', event => { console.log(event) });
+      el0.addEventListener('closed', event => { console.log(event) });
       var el1 = document.getElementById('sel1');
       el1.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 2, port: 'Valencia', country: { country: "Spain"} }];
-      el1.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
+      el1.value = [1];
+      el1.addEventListener('selected', event => { console.log(event) });
       var el2 = document.getElementById('sel2');
       el2.items = [1, 2, 3];
       el2.value = [1,2];

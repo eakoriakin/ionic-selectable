@@ -279,6 +279,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Event() public changed!: EventEmitter<IIonicSelectableEvent>;
 
   /**
+   * Fires when an item has been selected or unselected.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public selected: EventEmitter<IIonicSelectableEvent>;
+
+  /**
    * Fires when Modal has been opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
    *
@@ -477,28 +485,30 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   public closeModal = async (): Promise<void> => {
     await this.close();
-  }
+  };
 
   public selectItem(item: any) {
-    const isItemSelected = this.isItemSelected(item);
     if (this.isMultiple) {
+      const isItemSelected = this.isItemSelected(item);
+      console.log(isItemSelected);
       if (isItemSelected) {
-        // this._deleteSelectedItem(item);
+        this.deleteSelectedItem(item);
       } else {
-        // this._addSelectedItem(item);
+        this.addSelectedItem(item);
       }
 
       // this._setItemsToConfirm(this._selectedItems);
 
       // Emit onSelect event after setting items to confirm so they could be used inside the event.
-      //this._emitOnSelect(item, !isItemSelected);
+      this.emitOnSelected(item, !isItemSelected);
     } else {
+      const isItemValue = this.isItemValue(item);
       if (this.hasConfirmButton /* || this.footerTemplate*/) {
         // Don't close Modal and keep track on items to confirm.
         // When footer template is used it's up to developer to close Modal.
         this.selectedItems = [];
 
-        if (isItemSelected) {
+        if (isItemValue) {
           //this._deleteSelectedItem(item);
         } else {
           //this._addSelectedItem(item);
@@ -510,18 +520,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         // inside the event.
         //this._emitOnSelect(item, !isItemSelected);
       } else {
-        if (!isItemSelected) {
+        if (!isItemValue) {
           this.selectedItems = [];
           //this._addSelectedItem(item);
 
           // Emit onSelect before onChange.
           //this._emitOnSelect(item, true);
 
-          //if (this._shouldStoreItemValue) {
-          //  this._doSelect(this._getItemValue(item));
-          //} else {
-          //  this._doSelect(item);
-          //}
           this.setValue(item);
         }
 
@@ -554,15 +559,18 @@ export class IonicSelectableComponent implements ComponentInterface {
         }
         const key = typeof val === 'object' ? val[this.itemValueField] : val;
         this.valueItems.push(
-          this.hasObjects
-            ? this.items.find((item) => item[this.itemValueField] === key)
-            : this.items.find((item) => item === key)
+          this.getItemValue(
+            this.hasObjects
+              ? this.items.find((item) => item[this.itemValueField] === key)
+              : this.items.find((item) => item === key)
+          )
         );
       });
       if (!this.isMultiple) {
         this.valueItems = (this.valueItems as []).pop();
       }
-      this.changed.emit({component: this.element, value: this.valueItems});
+      this.selectedItems = this.valueItems;
+      this.emitOnChanged();
     }
   }
 
@@ -626,8 +634,54 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
   }
 
-  private isItemSelected(item: any): boolean {
+  public isItemSelected(item: any): boolean {
+    return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
+  }
+
+  private isItemValue(item: any): boolean {
     return this.generateText([this.valueItems], item, this.itemValueField) !== '';
+  }
+
+  private addSelectedItem(item: any) {
+    this.selectedItems.push(this.getItemValue(item));
+    this.selectableModalComponent.selectedItems = [...this.selectedItems];
+  }
+
+  private deleteSelectedItem(item: any) {
+    let itemToDeleteIndex;
+
+    this.selectedItems.forEach((selectedItem, itemIndex) => {
+      if (
+        this.generateText(this.selectedItems, item, this.itemValueField) ===
+        this.generateText(this.selectedItems, selectedItem, this.itemValueField)
+      ) {
+        itemToDeleteIndex = itemIndex;
+      }
+    });
+    this.selectedItems.splice(itemToDeleteIndex, 1);
+    this.selectableModalComponent.selectedItems = [...this.selectedItems];
+  }
+
+  private getItemValue(item: any): any {
+    if (!this.hasObjects) {
+      return item;
+    }
+    return this.shouldStoreItemValue ? item[this.itemValueField] : item;
+  }
+
+  private emitOnSelected(item: any, isSelected: boolean) {
+    this.selected.emit({
+      component: this.element,
+      value: item,
+      isSelected: isSelected
+    });
+  }
+
+  private emitOnChanged() {
+    this.changed.emit({
+      component: this.element,
+      value: this.valueItems
+    });
   }
 
   private isNullOrWhiteSpace(value: any): boolean {
@@ -661,18 +715,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private parseValue(): any {
-    return this.generateText(this.items, this.valueItems, this.itemValueField);
+    return JSON.stringify(this.valueItems);
   }
 
   private generateText(items: any[], value: any | any[], property: string): string {
     if (value === undefined) {
       return '';
     }
+    let hasObjects = false;
+    items.forEach((item) => {
+      if (typeof item === 'object') {
+        hasObjects = true;
+      }
+    });
     if (Array.isArray(value)) {
       return value
         .map((val) => {
           const key = typeof val === 'object' ? val[this.itemValueField] : val;
-          if (this.hasObjects) {
+          if (hasObjects) {
             const findItem = items.find((item) => item[this.itemValueField] === key);
             if (findItem) {
               return property
@@ -692,7 +752,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         .join(', ');
     } else {
       const key = typeof value === 'object' ? value[this.itemValueField] : value;
-      if (this.hasObjects) {
+      if (hasObjects) {
         const findItem = items.find((item) => item[this.itemValueField] === key);
         if (findItem) {
           return property
@@ -733,10 +793,6 @@ export class IonicSelectableComponent implements ComponentInterface {
   };
 
   private whatchModalEvents(): void {
-    this.modalComponent.addEventListener('selectableModalDismiss', (event) => {
-      this.close();
-    });
-
     this.modalComponent.onDidDismiss().then((event) => {
       this.isOpened = false;
       this.setFocus();

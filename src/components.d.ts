@@ -168,7 +168,9 @@ export namespace Components {
     */
     'value'?: any | null;
   }
-  interface IonicSelectableModal {}
+  interface IonicSelectableModal {
+    'selectedItems': any | any[];
+  }
 }
 
 declare global {
@@ -326,6 +328,11 @@ declare namespace LocalJSX {
     */
     'onOpened'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
+    * Fires when an item has been selected or unselected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
+    * @memberof IonicSelectableComponent
+    */
+    'onSelected'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
     * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
     * @default null
     * @memberof IonicSelectableComponent
@@ -364,7 +371,7 @@ declare namespace LocalJSX {
     'value'?: any | null;
   }
   interface IonicSelectableModal {
-    'onSelectableModalDismiss'?: (event: CustomEvent<void>) => void;
+    'selectedItems'?: any | any[];
   }
 
   interface IntrinsicElements {

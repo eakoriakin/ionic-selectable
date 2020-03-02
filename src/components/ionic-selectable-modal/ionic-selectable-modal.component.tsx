@@ -1,4 +1,4 @@
-import { Component, h, Host, ComponentInterface, Element, Event, EventEmitter } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Element, Prop } from '@stencil/core';
 import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.component';
 
 /**
@@ -16,7 +16,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   @Element() private element: HTMLIonModalElement;
   private selectableComponent: IonicSelectableComponent;
 
-  @Event() public selectableModalDismiss!: EventEmitter<void>;
+  @Prop() public selectedItems: any | any[] = [];
 
   public connectedCallback(): void {
     const modalElement = document.querySelector('ion-modal');
@@ -51,7 +51,14 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                     {group.items.map((item) => {
                       return (
                         <ion-item button={true} onClick={() => this.selectableComponent.selectItem(item)}>
-                          {this.selectableComponent.getItemText(item)}
+                          <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
+                          <ion-icon
+                            name={
+                              this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'
+                            }
+                            size="small"
+                            slot="end"
+                          />
                         </ion-item>
                       );
                     })}
