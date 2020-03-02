@@ -50,7 +50,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   @State() private selectedItems: any | any[] = [];
   @State() private valueItems: any | any[] = [];
-
+  @State() private itemsToConfirm: any[] = [];
   /**
    * Determines whether Modal is opened.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
@@ -272,6 +272,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when item/s has been selected and Modal closed.
+   * if isMultiple is set to true 'value' is an array else is a object
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
    *
    * @memberof IonicSelectableComponent
@@ -408,7 +409,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Method()
   public async hasValue(): Promise<boolean> {
-    return Promise.resolve(this.parseValue() !== '');
+    return this.parseValue() !== '';
   }
 
   /**
@@ -418,6 +419,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @returns Promise that resolves when Modal has been opened.
    * @memberof IonicSelectableComponent
    */
+  @Method()
   public async open(): Promise<void> {
     if (this.isDisabled || this.isOpened) {
       return Promise.reject(`IonicSelectable is disabled or already opened: ${this.element.id}`);
@@ -453,7 +455,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.isOpened = true;
     this.setFocus();
     this.whatchModalEvents();
-    this.opened.emit({ component: this.element });
+    this.emitOnOpened();
     return Promise.resolve();
   }
 
@@ -464,6 +466,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @returns Promise that resolves when Modal has been closed.
    * @memberof IonicSelectableComponent
    */
+  @Method()
   public async close(): Promise<void> {
     if (this.isDisabled || !this.isOpened) {
       return Promise.reject(`IonicSelectable is disabled or already closed: ${this.element.id}`);
@@ -478,26 +481,42 @@ export class IonicSelectableComponent implements ComponentInterface {
       this._setHasSearchText();
     }*/
 
-    this.closed.emit({ component: this.element });
+    this.emitOnClosed();
 
     return Promise.resolve();
+  }
+
+  /**
+   * Return a list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.
+   * After the user has clicked Confirm button items to confirm are cleared.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
+   *
+   * @returns a promise whit de list of items that are selected and awaiting confirmation by user
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async getItemsToConfirm(): Promise<any[]> {
+    return this.itemsToConfirm;
   }
 
   public closeModal = async (): Promise<void> => {
     await this.close();
   };
 
+  public isItemSelected = (item: any): boolean => {
+    return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
+  };
+
   public selectItem(item: any) {
+    const isItemSelected = this.isItemSelected(item);
     if (this.isMultiple) {
-      const isItemSelected = this.isItemSelected(item);
-      console.log(isItemSelected);
       if (isItemSelected) {
         this.deleteSelectedItem(item);
       } else {
         this.addSelectedItem(item);
       }
 
-      // this._setItemsToConfirm(this._selectedItems);
+      this.itemsToConfirm = [...this.selectedItems];
 
       // Emit onSelect event after setting items to confirm so they could be used inside the event.
       this.emitOnSelected(item, !isItemSelected);
@@ -509,23 +528,22 @@ export class IonicSelectableComponent implements ComponentInterface {
         this.selectedItems = [];
 
         if (isItemValue) {
-          //this._deleteSelectedItem(item);
+          this.deleteSelectedItem(item);
         } else {
-          //this._addSelectedItem(item);
+          this.addSelectedItem(item);
         }
 
-        //this._setItemsToConfirm(this._selectedItems);
+        this.itemsToConfirm = [...this.selectedItems];
 
-        // Emit onSelect event after setting items to confirm so they could be used
-        // inside the event.
-        //this._emitOnSelect(item, !isItemSelected);
+        // Emit onSelect event after setting items to confirm so they could be used inside the event.
+        this.emitOnSelected(item, !isItemSelected);
       } else {
         if (!isItemValue) {
           this.selectedItems = [];
-          //this._addSelectedItem(item);
+          this.addSelectedItem(item);
 
           // Emit onSelect before onChange.
-          //this._emitOnSelect(item, true);
+          this.emitOnSelected(item, true);
 
           this.setValue(item);
         }
@@ -568,8 +586,10 @@ export class IonicSelectableComponent implements ComponentInterface {
       });
       if (!this.isMultiple) {
         this.valueItems = (this.valueItems as []).pop();
+        this.selectedItems = [this.valueItems];
+      } else {
+        this.selectedItems = [...this.valueItems];
       }
-      this.selectedItems = this.valueItems;
       this.emitOnChanged();
     }
   }
@@ -634,17 +654,13 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
   }
 
-  public isItemSelected(item: any): boolean {
-    return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
-  }
-
   private isItemValue(item: any): boolean {
     return this.generateText([this.valueItems], item, this.itemValueField) !== '';
   }
 
-  private addSelectedItem(item: any) {
+  private addSelectedItem(item: any): void {
     this.selectedItems.push(this.getItemValue(item));
-    this.selectableModalComponent.selectedItems = [...this.selectedItems];
+    this.selectableModalComponent.update();
   }
 
   private deleteSelectedItem(item: any) {
@@ -659,7 +675,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
     });
     this.selectedItems.splice(itemToDeleteIndex, 1);
-    this.selectableModalComponent.selectedItems = [...this.selectedItems];
+    this.selectableModalComponent.update();
   }
 
   private getItemValue(item: any): any {
@@ -682,6 +698,14 @@ export class IonicSelectableComponent implements ComponentInterface {
       component: this.element,
       value: this.valueItems
     });
+  }
+
+  private emitOnOpened() {
+    this.opened.emit({ component: this.element });
+  }
+
+  private emitOnClosed() {
+    this.closed.emit({ component: this.element });
   }
 
   private isNullOrWhiteSpace(value: any): boolean {

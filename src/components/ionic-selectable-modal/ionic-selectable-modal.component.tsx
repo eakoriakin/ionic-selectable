@@ -1,4 +1,4 @@
-import { Component, h, Host, ComponentInterface, Element, Prop } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Element, Prop, Method, State } from '@stencil/core';
 import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.component';
 
 /**
@@ -16,7 +16,12 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   @Element() private element: HTMLIonModalElement;
   private selectableComponent: IonicSelectableComponent;
 
-  @Prop() public selectedItems: any | any[] = [];
+  @State() private toggleUpdate: boolean = false;
+
+  @Method()
+  public update(): void {
+    this.toggleUpdate = !this.toggleUpdate;
+  }
 
   public connectedCallback(): void {
     const modalElement = document.querySelector('ion-modal');

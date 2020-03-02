@@ -9,6 +9,7 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   AnimationBuilder,
+  ModalOptions,
   StyleEventDetail,
 } from '@ionic/core';
 import {
@@ -17,6 +18,12 @@ import {
 
 export namespace Components {
   interface IonicSelectable {
+    /**
+    * Closes Modal. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
+    * @returns Promise that resolves when Modal has been closed.
+    * @memberof IonicSelectableComponent
+    */
+    'close': () => Promise<void>;
     /**
     * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
     * @default 'Cancel'
@@ -29,6 +36,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'confirmButtonText': string;
+    /**
+    * Return a list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button. After the user has clicked Confirm button items to confirm are cleared. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
+    * @returns a promise whit de list of items that are selected and awaiting confirmation by user
+    * @memberof IonicSelectableComponent
+    */
+    'getItemsToConfirm': () => Promise<any[]>;
     /**
     * Group property to display, e.g. `'country.name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
     * @default null
@@ -131,6 +144,12 @@ export namespace Components {
     */
     'name': string;
     /**
+    * Opens Modal. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#open).
+    * @returns Promise that resolves when Modal has been opened.
+    * @memberof IonicSelectableComponent
+    */
+    'open': () => Promise<void>;
+    /**
     * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
     * @default null
     * @memberof IonicSelectableComponent
@@ -169,7 +188,7 @@ export namespace Components {
     'value'?: any | null;
   }
   interface IonicSelectableModal {
-    'selectedItems': any | any[];
+    'update': () => Promise<void>;
   }
 }
 
@@ -308,7 +327,7 @@ declare namespace LocalJSX {
     */
     'onBlurred'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
-    * Fires when item/s has been selected and Modal closed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+    * Fires when item/s has been selected and Modal closed. if isMultiple is set to true 'value' is an array else is a object See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
     * @memberof IonicSelectableComponent
     */
     'onChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
@@ -370,9 +389,7 @@ declare namespace LocalJSX {
     */
     'value'?: any | null;
   }
-  interface IonicSelectableModal {
-    'selectedItems'?: any | any[];
-  }
+  interface IonicSelectableModal {}
 
   interface IntrinsicElements {
     'ionic-selectable': IonicSelectable;
