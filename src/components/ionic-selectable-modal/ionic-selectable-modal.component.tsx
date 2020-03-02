@@ -52,8 +52,8 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                     )}
                     {group.items.map((item) => {
                       return (
-                        <ion-item>
-                          {this.selectableComponent.generateText(item, this.selectableComponent.itemTextField)}
+                        <ion-item button={true} onClick={() => this.selectableComponent.selectItem(item)}>
+                          {this.selectableComponent.getItemText(item)}
                         </ion-item>
                       );
                     })}

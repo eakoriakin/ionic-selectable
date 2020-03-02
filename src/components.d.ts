@@ -42,6 +42,12 @@ export namespace Components {
     */
     'groupValueField': string;
     /**
+    * Determines whether Confirm button is visible for single selection. By default Confirm button is visible only for multiple selection. **Note**: It is always true for multiple selection and cannot be changed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasconfirmbutton).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasConfirmButton': boolean;
+    /**
     * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
@@ -78,6 +84,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'isOpened': boolean;
+    /**
+    * Is set to true, the value of the component will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'isValuePrimitive'?: boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
@@ -151,7 +163,7 @@ export namespace Components {
     'titleText': string;
     /**
     * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
-    * @default false
+    * @default null
     * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
@@ -206,6 +218,12 @@ declare namespace LocalJSX {
     */
     'groupValueField'?: string;
     /**
+    * Determines whether Confirm button is visible for single selection. By default Confirm button is visible only for multiple selection. **Note**: It is always true for multiple selection and cannot be changed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasconfirmbutton).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'hasConfirmButton'?: boolean;
+    /**
     * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
@@ -236,6 +254,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'isOpened'?: boolean;
+    /**
+    * Is set to true, the value of the component will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'isValuePrimitive'?: boolean;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
@@ -334,7 +358,7 @@ declare namespace LocalJSX {
     'titleText'?: string;
     /**
     * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
-    * @default false
+    * @default null
     * @memberof IonicSelectableComponent
     */
     'value'?: any | null;

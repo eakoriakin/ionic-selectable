@@ -8,7 +8,8 @@ import {
   Event,
   EventEmitter,
   Watch,
-  Method
+  Method,
+  State
 } from '@stencil/core';
 import '@ionic/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
@@ -32,21 +33,23 @@ import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
   shadow: true
 })
 export class IonicSelectableComponent implements ComponentInterface {
-  private id = `ionic-selectable-${nextId++}`;
+  @Element() private element!: HTMLIonicSelectableElement;
+  private id = this.element.id ? this.element.id : `ionic-selectable-${nextId++}`;
   private isInited = false;
   private buttonElement?: HTMLButtonElement;
   private mutationO?: MutationObserver;
-  private valueItems: any[] = [];
 
-  @Element() private element!: HTMLIonicSelectableElement;
   private modalComponent!: HTMLIonModalElement;
   private selectableModalComponent!: HTMLIonicSelectableModalElement;
 
-  private groups: Array<{value: string, text: string, items: any[]}> = [];
-  public filteredGroups: Array<{value: string, text: string, items: any[]}> = [];
+  private groups: Array<{ value: string; text: string; items: any[] }> = [];
+  public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
   public hasFilteredItems = false;
   public hasObjects = false;
   public hasGroups = false;
+
+  @State() private selectedItems: any | any[] = [];
+  @State() private valueItems: any | any[] = [];
 
   /**
    * Determines whether Modal is opened.
@@ -123,16 +126,22 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public isMultiple = false;
 
   /**
-   * the value of the select.
-   */
-  /**
    * The value of the component.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop({ mutable: true }) public value?: any | null = null;
+
+  /**
+   * Is set to true, the value of the component will be extracted from the itemValueField of the objects.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
    *
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop({ mutable: true }) public value?: any | null;
+  @Prop() public isValuePrimitive?: boolean = false;
 
   /**
    * A list of items.
@@ -251,6 +260,17 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public hasVirtualScroll = false;
 
   /**
+   * Determines whether Confirm button is visible for single selection.
+   * By default Confirm button is visible only for multiple selection.
+   * **Note**: It is always true for multiple selection and cannot be changed.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasconfirmbutton).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public hasConfirmButton: boolean = false;
+
+  /**
    * Fires when item/s has been selected and Modal closed.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
    *
@@ -296,9 +316,45 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
+  @Watch('isValuePrimitive')
+  public isValuePrimitiveChanged(value: boolean): void {
+    if (!value && !this.hasObjects) {
+      throw new Error(
+        `If items contains primitive elements, isValuePrimitive must be null or true: ${this.element.id}`
+      );
+    }
+  }
+
+  @Watch('itemValueField')
+  public itemValueFieldChanged(value: string): void {
+    if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
+      throw new Error(
+        `If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`
+      );
+    } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
+      throw new Error(`If items contains primitive elements, itemValueField must be null: ${this.element.id}`);
+    }
+  }
+
+  @Watch('itemTextField')
+  public itemTextFieldChanged(value: string): void {
+    if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
+      throw new Error(
+        `If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`
+      );
+    } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
+      throw new Error(`If items contains primitive elements, itemTextField must be null: ${this.element.id}`);
+    }
+  }
+
   @Watch('items')
-  public itemsChanged(newValue: [], oldValue: []): void {
-    this.setItems(newValue);
+  public itemsChanged(value: []): void {
+    this.setItems(value);
+  }
+
+  @Watch('hasConfirmButton')
+  public hasConfirmButtonChanged(value: boolean): void {
+    // Pending - this._countFooterButtons();
   }
 
   @Watch('disabled')
@@ -308,7 +364,8 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('value')
-  public valueChanged(): void {
+  public valueChanged(newValue: any | any[]): void {
+    this.setValue(newValue);
     this.emitStyle();
     if (this.isInited) {
       this.changed.emit({
@@ -328,14 +385,9 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
   }
 
-  public componentDidLoad(): void {
-    this.hasObjects = !this.isNullOrWhiteSpace(this.itemValueField);
-    // Grouping is supported for objects only.
-    // Ionic VirtualScroll has it's own implementation of grouping.
-    this.hasGroups = Boolean(
-      this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll
-    );
+  public componentWillLoad(): void {
     this.setItems(this.items);
+    this.setValue(this.value);
     this.isInited = true;
   }
 
@@ -360,7 +412,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   public async open(): Promise<void> {
     if (this.isDisabled || this.isOpened) {
-      return Promise.reject('IonicSelectable is disabled or already opened.');
+      return Promise.reject(`IonicSelectable is disabled or already opened: ${this.element.id}`);
     }
 
     const label = findItemLabel(this.element);
@@ -406,7 +458,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   public async close(): Promise<void> {
     if (this.isDisabled || !this.isOpened) {
-      return Promise.reject('IonicSelectable is disabled or already closed.');
+      return Promise.reject(`IonicSelectable is disabled or already closed: ${this.element.id}`);
     }
 
     await this.modalComponent.dismiss();
@@ -423,10 +475,122 @@ export class IonicSelectableComponent implements ComponentInterface {
     return Promise.resolve();
   }
 
-  private setItems(items: any[]) {
-    // It's important to have an empty starting group with empty items (groups[0].items),
-    // because we bind to it when using VirtualScroll.
-    // See https://github.com/eakoriakin/ionic-selectable/issues/70.
+  public selectItem(item: any) {
+    const isItemSelected = this.isItemSelected(item);
+    if (this.isMultiple) {
+      if (isItemSelected) {
+        // this._deleteSelectedItem(item);
+      } else {
+        // this._addSelectedItem(item);
+      }
+
+      // this._setItemsToConfirm(this._selectedItems);
+
+      // Emit onSelect event after setting items to confirm so they could be used inside the event.
+      //this._emitOnSelect(item, !isItemSelected);
+    } else {
+      if (this.hasConfirmButton /* || this.footerTemplate*/) {
+        // Don't close Modal and keep track on items to confirm.
+        // When footer template is used it's up to developer to close Modal.
+        this.selectedItems = [];
+
+        if (isItemSelected) {
+          //this._deleteSelectedItem(item);
+        } else {
+          //this._addSelectedItem(item);
+        }
+
+        //this._setItemsToConfirm(this._selectedItems);
+
+        // Emit onSelect event after setting items to confirm so they could be used
+        // inside the event.
+        //this._emitOnSelect(item, !isItemSelected);
+      } else {
+        if (!isItemSelected) {
+          this.selectedItems = [];
+          //this._addSelectedItem(item);
+
+          // Emit onSelect before onChange.
+          //this._emitOnSelect(item, true);
+
+          //if (this._shouldStoreItemValue) {
+          //  this._doSelect(this._getItemValue(item));
+          //} else {
+          //  this._doSelect(item);
+          //}
+          this.setValue(item);
+        }
+
+        this.close();
+      }
+    }
+  }
+
+  private setValue(value: any | any[]): void {
+    if (value) {
+      // If type is string convert to object
+      value = typeof value === 'string' ? JSON.parse((value as string).replace(/\'/gi, '"')) : value;
+      const isArray = Array.isArray(value);
+      if (!isArray) {
+        value = [value];
+      }
+
+      if (this.isMultiple && !isArray) {
+        throw new Error(`If isMultiple is set to true, value must be array: ${this.element.id}`);
+      }
+      if (!this.isMultiple && isArray) {
+        throw new Error(`If isMultiple is set to false, value must be object: ${this.element.id}`);
+      }
+      this.valueItems = [];
+      (value as []).forEach((val) => {
+        if (this.isValuePrimitive && typeof val === 'object') {
+          throw new Error(`If isValuePrimitive is set to true, value must be primitive: ${this.element.id}`);
+        } else if (!this.isValuePrimitive && typeof val !== 'object') {
+          throw new Error(`If isValuePrimitive is set to false, value must be object: ${this.element.id}`);
+        }
+        const key = typeof val === 'object' ? val[this.itemValueField] : val;
+        this.valueItems.push(
+          this.hasObjects
+            ? this.items.find((item) => item[this.itemValueField] === key)
+            : this.items.find((item) => item === key)
+        );
+      });
+      if (!this.isMultiple) {
+        this.valueItems = (this.valueItems as []).pop();
+      }
+    }
+  }
+
+  private setItems(items: any[]): void {
+    if (!Array.isArray(items)) {
+      throw new Error(`items must be array: ${this.element.id}`);
+    }
+
+    this.items.forEach((item) => {
+      if (typeof item === 'object') {
+        this.hasObjects = true;
+      }
+    });
+
+    // If items contains primitive elements, isValuePrimitive is set to true
+    if (!this.hasObjects) {
+      this.isValuePrimitive = true;
+    }
+
+    this.itemValueFieldChanged(this.itemValueField);
+    this.itemTextFieldChanged(this.itemTextField);
+    this.isValuePrimitiveChanged(this.isValuePrimitive);
+
+    // Grouping is supported for objects only.
+    // Ionic VirtualScroll has it's own implementation of grouping.
+    this.hasGroups = Boolean(
+      this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll
+    );
+
+    /* It's important to have an empty starting group with empty items (groups[0].items),
+     * because we bind to it when using VirtualScroll.
+     * See https://github.com/eakoriakin/ionic-selectable/issues/70.
+     */
     let groups: any[] = [
       {
         items: items || []
@@ -437,15 +601,15 @@ export class IonicSelectableComponent implements ComponentInterface {
         groups = [];
 
         items.forEach((item) => {
-          const groupValue = this.generateText(item, this.groupValueField || this.groupTextField),
-            group = groups.find((_group) => _group.value === groupValue);
+          const groupValue = this.generateText(this.items, item, this.groupValueField || this.groupTextField);
+          const group = groups.find((_group) => _group.value === groupValue);
 
           if (group) {
             group.items.push(item);
           } else {
             groups.push({
               value: groupValue,
-              text: this.generateText(item, this.groupTextField),
+              text: this.generateText(this.items, item, this.groupTextField),
               items: [item]
             });
           }
@@ -457,6 +621,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
   }
 
+  private isItemSelected(item: any): boolean {
+    return this.generateText([this.valueItems], item, this.itemValueField) !== '';
+  }
+
   private isNullOrWhiteSpace(value: any): boolean {
     if (value === null || value === undefined) {
       return true;
@@ -466,7 +634,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     return value.toString().replace(/\s/g, '').length < 1;
   }
 
-  private areGroupsEmpty(groups: any[]) {
+  private areGroupsEmpty(groups: any[]): boolean {
     return (
       groups.length === 0 ||
       groups.every((group) => {
@@ -480,34 +648,60 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (selectedText != null && selectedText !== '') {
       return selectedText;
     }
-    return this.generateText(this.value, this.itemTextField);
+    return this.generateText(this.items, this.valueItems, this.itemTextField);
+  }
+
+  public getItemText(item: any): string {
+    return this.generateText(this.items, item, this.itemTextField);
   }
 
   private parseValue(): any {
-    return this.generateText(this.value, this.itemValueField);
+    return this.generateText(this.items, this.valueItems, this.itemValueField);
   }
 
-  public generateText(value: any | any[], property: string): string {
+  private generateText(items: any[], value: any | any[], property: string): string {
     if (value === undefined) {
       return '';
     }
     if (Array.isArray(value)) {
       return value
-        .map((val) =>
-          property
-            ? property.split('.').reduce((v, prop) => {
-                return v ? v[prop] : null;
-              }, val)
-            : value.toString()
-        )
+        .map((val) => {
+          const key = typeof val === 'object' ? val[this.itemValueField] : val;
+          if (this.hasObjects) {
+            const findItem = items.find((item) => item[this.itemValueField] === key);
+            if (findItem) {
+              return property
+                ? property.split('.').reduce((v, prop) => {
+                    return v ? v[prop] : null;
+                  }, findItem)
+                : val.toString();
+            } else {
+              return '';
+            }
+          } else {
+            const findItem = items.find((item) => item === key);
+            return findItem ? findItem.toString() : '';
+          }
+        })
         .filter((opt) => opt !== null)
         .join(', ');
     } else {
-      return property
-        ? property.split('.').reduce((v, prop) => {
-            return v ? v[prop] : null;
-          }, value)
-        : value.toString();
+      const key = typeof value === 'object' ? value[this.itemValueField] : value;
+      if (this.hasObjects) {
+        const findItem = items.find((item) => item[this.itemValueField] === key);
+        if (findItem) {
+          return property
+            ? property.split('.').reduce((v, prop) => {
+                return v ? v[prop] : null;
+              }, findItem)
+            : value.toString();
+        } else {
+          return '';
+        }
+      } else {
+        const findItem = items.find((item) => item === key);
+        return findItem ? findItem.toString() : '';
+      }
     }
   }
 
@@ -603,6 +797,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     return (
       <Host
+        id={this.id}
         onClick={this.onClick}
         role="combobox"
         aria-haspopup="dialog"

@@ -10,20 +10,29 @@
   <body>
     <ion-item>
       <ion-label>Ports</ion-label>
-      <ionic-selectable id="sel0" item-value-field="id" item-text-field="port" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
+      <ionic-selectable id="sel0" is-value-primitive="false" is-multiple="false" item-value-field="id" item-text-field="port"  placeholder="Select One" group-text-field="country.country"></ionic-selectable>
+    </ion-item>
+     <ion-item>
+      <ion-label>Ports</ion-label>
+      <ionic-selectable id="sel1" item-value-field="id" item-text-field="port" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
     </ion-item>
     <ion-item>
-      <ion-label>Hair Color</ion-label>
-      <ion-select ok-text="Okay" cancel-text="Dismiss">
-        <ion-select-option value="brown">Brown</ion-select-option>
-        <ion-select-option value="blonde">Blonde</ion-select-option>
-        <ion-select-option value="black">Black</ion-select-option>
-        <ion-select-option value="red">Red</ion-select-option>
-      </ion-select>
+      <ion-label>Ports</ion-label>
+      <ionic-selectable id="sel2" is-multiple="true" placeholder="Select One" group-text-field="country.country"></ionic-selectable>
     </ion-item>
     <script>
-      var el = document.getElementById('sel0');
-      el.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 1, port: 'Valencia', country: { country: "Spain"} }];
+      var el0 = document.getElementById('sel0');
+      el0.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 2, port: 'Valencia', country: { country: "Spain"} }];
+      el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
+      // el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
+      //el0.value = [1];
+      var el1 = document.getElementById('sel1');
+      el1.items = [{ id: 1, port: 'Salina Cruz', country: { country: "Mexico"} }, { id: 2, port: 'Valencia', country: { country: "Spain"} }];
+      el1.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
+      var el2 = document.getElementById('sel2');
+      el2.items = [1, 2, 3];
+      el2.value = [1,2];
+      //el2.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
     </script>
   </body>
 </html>
