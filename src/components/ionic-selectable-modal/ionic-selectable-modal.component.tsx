@@ -10,7 +10,7 @@ import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.c
     ios: 'ionic-selectable-modal.ios.component.scss',
     md: 'ionic-selectable-modal.md.component.scss'
   },
-  shadow: true
+  scoped: true
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
   @Element() private element: HTMLIonModalElement;
@@ -18,6 +18,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   @State() private toggleUpdate: boolean = false;
 
+  /**
+   * Rerender the component
+   */
   @Method()
   public update(): void {
     this.toggleUpdate = !this.toggleUpdate;
@@ -73,6 +76,26 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             </ion-list>
           )}
         </ion-content>
+        {this.selectableComponent.footerButtonsCount /* && selectComponent.footerTemplate */ && (
+          <ion-footer>
+            <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
+              <ion-row>
+                {this.selectableComponent.isMultiple ||
+                  (this.selectableComponent.hasConfirmButton && (
+                    <ion-col>
+                      <ion-button
+                        onClick={(): void => this.selectableComponent.confirmSelection()}
+                        disabled={!this.selectableComponent.isConfirmButtonEnabled}
+                        expand="full"
+                      >
+                        {this.selectableComponent.confirmButtonText}
+                      </ion-button>
+                    </ion-col>
+                  ))}
+              </ion-row>
+            </ion-toolbar>
+          </ion-footer>
+        )}
       </Host>
     );
   }

@@ -43,10 +43,12 @@ export class IonicSelectableComponent implements ComponentInterface {
   private selectableModalComponent!: HTMLIonicSelectableModalElement;
 
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
+
   public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
   public hasFilteredItems = false;
   public hasObjects = false;
   public hasGroups = false;
+  public footerButtonsCount = 0;
 
   @State() private selectedItems: any | any[] = [];
   @State() private valueItems: any | any[] = [];
@@ -271,6 +273,34 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public hasConfirmButton: boolean = false;
 
   /**
+   * Determines whether to allow adding items.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public canAddItem: boolean = false;
+
+   /**
+   * Determines whether to show Clear button.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  // Pending - @HostBinding('class.ionic-selectable-can-clear')
+  @Prop() public canClear: boolean = false;
+
+    /**
+   * Determines whether Confirm button is enabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
+   *
+   * @default true
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public isConfirmButtonEnabled: boolean = true;
+
+  /**
    * Fires when item/s has been selected and Modal closed.
    * if isMultiple is set to true 'value' is an array else is a object
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
@@ -361,12 +391,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.setItems(value);
   }
 
-  @Watch('hasConfirmButton')
-  public hasConfirmButtonChanged(value: boolean): void {
-    // Pending - this._countFooterButtons();
-  }
-
-  @Watch('disabled')
+  @Watch('isDisabled')
   @Watch('placeholder')
   public disabledChanged(): void {
     this.emitStyle();
@@ -383,6 +408,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
   }
 
+  @Watch('isMultiple')
+  @Watch('canClear')
+  @Watch('canAddItem')
+  @Watch('hasConfirmButton')
+  public isMultipleChanged(): void {
+    this.countFooterButtons();
+  }
+
   public async connectedCallback(): Promise<void> {
     this.emitStyle();
   }
@@ -397,6 +430,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   public componentWillLoad(): void {
     this.setItems(this.items);
     this.setValue(this.value);
+    this.countFooterButtons();
     this.isInited = true;
   }
 
@@ -499,9 +533,24 @@ export class IonicSelectableComponent implements ComponentInterface {
     return this.itemsToConfirm;
   }
 
-  public closeModal = async (): Promise<void> => {
+   /**
+   * Confirms selected items by updating value.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public confirm() {
+    if (this.isMultiple) {
+      this.setValue(this.selectedItems);
+    } else if (this.hasConfirmButton /* || this.footerTemplate */) {
+      this.setValue(this.selectedItems[0] || null);
+    }
+  }
+
+  public async closeModal(): Promise<void> {
     await this.close();
-  };
+  }
 
   public isItemSelected = (item: any): boolean => {
     return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
@@ -521,13 +570,12 @@ export class IonicSelectableComponent implements ComponentInterface {
       // Emit onSelect event after setting items to confirm so they could be used inside the event.
       this.emitOnSelected(item, !isItemSelected);
     } else {
-      const isItemValue = this.isItemValue(item);
       if (this.hasConfirmButton /* || this.footerTemplate*/) {
         // Don't close Modal and keep track on items to confirm.
         // When footer template is used it's up to developer to close Modal.
         this.selectedItems = [];
 
-        if (isItemValue) {
+        if (isItemSelected) {
           this.deleteSelectedItem(item);
         } else {
           this.addSelectedItem(item);
@@ -538,6 +586,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         // Emit onSelect event after setting items to confirm so they could be used inside the event.
         this.emitOnSelected(item, !isItemSelected);
       } else {
+        const isItemValue = this.isItemValue(item);
         if (!isItemValue) {
           this.selectedItems = [];
           this.addSelectedItem(item);
@@ -551,6 +600,11 @@ export class IonicSelectableComponent implements ComponentInterface {
         this.close();
       }
     }
+  }
+
+  public confirmSelection(): void {
+    this.confirm();
+    this.close();
   }
 
   private setValue(value: any | any[]): void {
@@ -717,6 +771,25 @@ export class IonicSelectableComponent implements ComponentInterface {
     return value.toString().replace(/\s/g, '').length < 1;
   }
 
+  private countFooterButtons(): void {
+    let footerButtonsCount = 0;
+
+    if (this.canClear) {
+      footerButtonsCount++;
+    }
+
+    if (this.isMultiple || this.hasConfirmButton) {
+      footerButtonsCount++;
+    }
+
+    if (this.canAddItem) {
+      footerButtonsCount++;
+    }
+
+    this.footerButtonsCount = footerButtonsCount;
+    this.selectableModalComponent?.update();
+  }
+
   private areGroupsEmpty(groups: any[]): boolean {
     return (
       groups.length === 0 ||
@@ -820,7 +893,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.modalComponent.onDidDismiss().then((event) => {
       this.isOpened = false;
       this.setFocus();
-      // Pending - self._itemsToConfirm = [];
+      this.itemsToConfirm = [];
 
       // Closed by clicking on backdrop outside modal.
       if (event.role === 'backdrop') {

@@ -51,11 +51,12 @@
   "devDependencies": {
     "@stencil/core": "1.8.11",
     "@stencil/sass": "1.1.1",
+    "@ionic/core": "5.0.4",
     "prettier": "1.16.4",
     "tslint": "5.11.0",
     "tslint-config-prettier": "1.18.0"
   },
-  "dependencies": {
-    "@ionic/core": "5.0.4"
+  "peerDependencies": {
+    "@ionic/core": "5.x"
   }
 }

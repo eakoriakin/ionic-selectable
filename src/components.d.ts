@@ -19,6 +19,18 @@ import {
 export namespace Components {
   interface IonicSelectable {
     /**
+    * Determines whether to allow adding items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canAddItem': boolean;
+    /**
+    * Determines whether to show Clear button. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canClear': boolean;
+    /**
     * Closes Modal. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
     * @returns Promise that resolves when Modal has been closed.
     * @memberof IonicSelectableComponent
@@ -30,6 +42,11 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'closeButtonText': string;
+    /**
+    * Confirms selected items by updating value. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
+    * @memberof IonicSelectableComponent
+    */
+    'confirm': () => Promise<void>;
     /**
     * Confirm button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
     * @default 'OK'
@@ -78,6 +95,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll': boolean;
+    /**
+    * Determines whether Confirm button is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
+    * @default true
+    * @memberof IonicSelectableComponent
+    */
+    'isConfirmButtonEnabled': boolean;
     /**
     * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
     * @default false
@@ -188,6 +211,9 @@ export namespace Components {
     'value'?: any | null;
   }
   interface IonicSelectableModal {
+    /**
+    * Rerender the component
+    */
     'update': () => Promise<void>;
   }
 }
@@ -214,6 +240,18 @@ declare global {
 
 declare namespace LocalJSX {
   interface IonicSelectable {
+    /**
+    * Determines whether to allow adding items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canAddItem'?: boolean;
+    /**
+    * Determines whether to show Clear button. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canClear'?: boolean;
     /**
     * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
     * @default 'Cancel'
@@ -256,6 +294,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll'?: boolean;
+    /**
+    * Determines whether Confirm button is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
+    * @default true
+    * @memberof IonicSelectableComponent
+    */
+    'isConfirmButtonEnabled'?: boolean;
     /**
     * Determines whether the component is disabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
     * @default false
