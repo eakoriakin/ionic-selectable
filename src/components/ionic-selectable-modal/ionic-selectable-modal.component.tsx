@@ -90,6 +90,16 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                     </ion-button>
                   </ion-col>
                 )}
+                {this.selectableComponent.canAddItem && (
+                  <ion-col>
+                    <ion-button
+                      onClick={(): void => this.selectableComponent.addItemClick()}
+                      expand="full"
+                    >
+                      {this.selectableComponent.addButtonText}
+                    </ion-button>
+                  </ion-col>
+                )}
                 {(this.selectableComponent.isMultiple ||
                   this.selectableComponent.hasConfirmButton ||
                   this.selectableComponent.canClear) && (

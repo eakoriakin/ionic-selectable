@@ -73,6 +73,7 @@
         { id: 2, port: 'Valencia', country: { country: 'Spain' } }
       ];
       el1.canClear = true;
+      el1.canAddItem = true;
       setTimeout(() => {
         el1.value=[2];
         console.log('value setTimeout: ', el1.value);
@@ -86,6 +87,9 @@
       el1.addEventListener('changed', (event) => {
         console.log(event);
         console.log(el1.value);
+      });
+      el1.addEventListener('addItem', (event) => {
+        console.log(event);
       });
       var el2 = document.getElementById('sel2');
       el2.items = [1, 2, 3];

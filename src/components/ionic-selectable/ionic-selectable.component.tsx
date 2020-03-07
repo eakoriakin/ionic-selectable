@@ -112,6 +112,15 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public clearButtonText = 'Clear';
 
   /**
+   * Add button text.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#addbuttontext).
+   *
+   * @default 'Add'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public addButtonText = 'Add';
+
+  /**
    * The name of the control, which is submitted with the form data.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
    *
@@ -310,6 +319,16 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public isConfirmButtonEnabled: boolean = true;
+
+  /**
+   * Fires when Add item button has been clicked.
+   * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item.
+   * **Note**: `canAddItem` has to be enabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public addItem: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when Clear button has been clicked.
@@ -589,6 +608,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.close();
   }
 
+  public addItemClick(): void {
+    if (true /* this._hasOnAddItem() */) {
+      this.emitAddItem();
+    } else {
+      // Pending - this.showAddItemTemplate();
+    }
+  }
+
   public isItemSelected = (item: any): boolean => {
     return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
   };
@@ -817,6 +844,10 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   private emitCleared(): void {
     this.cleared.emit({ component: this.element, value: this.selectedItems });
+  }
+
+  private emitAddItem(): void {
+    this.addItem.emit({ component: this.element });
   }
 
   private isNullOrWhiteSpace(value: any): boolean {

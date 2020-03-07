@@ -19,6 +19,12 @@ import {
 export namespace Components {
   interface IonicSelectable {
     /**
+    * Add button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#addbuttontext).
+    * @default 'Add'
+    * @memberof IonicSelectableComponent
+    */
+    'addButtonText': string;
+    /**
     * Determines whether to allow adding items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
     * @default false
     * @memberof IonicSelectableComponent
@@ -252,6 +258,12 @@ declare global {
 declare namespace LocalJSX {
   interface IonicSelectable {
     /**
+    * Add button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#addbuttontext).
+    * @default 'Add'
+    * @memberof IonicSelectableComponent
+    */
+    'addButtonText'?: string;
+    /**
     * Determines whether to allow adding items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
     * @default false
     * @memberof IonicSelectableComponent
@@ -382,6 +394,11 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'name'?: string;
+    /**
+    * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
+    * @memberof IonicSelectableComponent
+    */
+    'onAddItem'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when loses focus. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
     * @memberof IonicSelectableComponent
