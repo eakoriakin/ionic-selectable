@@ -31,6 +31,17 @@ export namespace Components {
     */
     'canClear': boolean;
     /**
+    * Clears value. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
+    * @memberof IonicSelectableComponent
+    */
+    'clear': () => Promise<void>;
+    /**
+    * Clear button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clearbuttontext).
+    * @default 'Clear'
+    * @memberof IonicSelectableComponent
+    */
+    'clearButtonText': string;
+    /**
     * Closes Modal. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
     * @returns Promise that resolves when Modal has been closed.
     * @memberof IonicSelectableComponent
@@ -253,6 +264,12 @@ declare namespace LocalJSX {
     */
     'canClear'?: boolean;
     /**
+    * Clear button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clearbuttontext).
+    * @default 'Clear'
+    * @memberof IonicSelectableComponent
+    */
+    'clearButtonText'?: string;
+    /**
     * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
     * @default 'Cancel'
     * @memberof IonicSelectableComponent
@@ -375,6 +392,11 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'onChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
+    * Fires when Clear button has been clicked. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclear).
+    * @memberof IonicSelectableComponent
+    */
+    'onCleared'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when Modal has been closed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
     * @memberof IonicSelectableComponent

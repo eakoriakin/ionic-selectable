@@ -1,10 +1,16 @@
 {
-  "extends": ["tslint-config-prettier"],
+  "extends": [
+    "tslint-config-prettier"
+  ],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "comment-format": [true, "check-space", "check-uppercase"],
+    "comment-format": [
+      true,
+      "check-space",
+      "check-uppercase"
+    ],
     "curly": true,
     "deprecation": {
       "severity": "warn"
@@ -12,26 +18,48 @@
     "eofline": true,
     "forin": true,
     "import-spacing": true,
-    "indent": [true, "spaces"],
+    "indent": [
+      true,
+      "spaces"
+    ],
     "interface-over-type-literal": true,
     "label-position": true,
-    "max-line-length": [true, 120],
+    "max-line-length": [
+      true,
+      120
+    ],
     "member-access": true,
     "member-ordering": [
       true,
       {
-        "order": ["static-field", "static-method", "instance-field", "instance-method"]
+        "order": [
+          "static-field",
+          "static-method",
+          "instance-field",
+          "instance-method"
+        ]
       }
     ],
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": false,
     "no-eval": true,
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
@@ -44,11 +72,24 @@
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
+    "one-line": [
+      true,
+      "check-open-brace",
+      "check-catch",
+      "check-else",
+      "check-whitespace"
+    ],
     "prefer-const": true,
     "radix": false,
-    "semicolon": [true, "always", "ignore-bound-class-methods"],
-    "triple-equals": [true, "allow-null-check"],
+    "semicolon": [
+      true,
+      "always",
+      "ignore-bound-class-methods"
+    ],
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
     "typedef-whitespace": [
       true,
       {
@@ -60,8 +101,18 @@
       }
     ],
     "unified-signatures": true,
-    "variable-name": [true, "allow-leading-underscore"],
-    "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
+    ],
     "typedef": [
       true,
       "call-signature",

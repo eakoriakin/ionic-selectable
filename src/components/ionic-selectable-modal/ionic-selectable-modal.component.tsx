@@ -1,4 +1,4 @@
-import { Component, h, Host, ComponentInterface, Element, Prop, Method, State } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Method, State } from '@stencil/core';
 import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.component';
 
 /**
@@ -13,7 +13,6 @@ import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.c
   scoped: true
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
-  @Element() private element: HTMLIonModalElement;
   private selectableComponent: IonicSelectableComponent;
 
   @State() private toggleUpdate: boolean = false;
@@ -22,7 +21,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
    * Rerender the component
    */
   @Method()
-  public update(): void {
+  public async update(): Promise<void> {
     this.toggleUpdate = !this.toggleUpdate;
   }
 
@@ -38,7 +37,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           <ion-toolbar>
             <ion-title slot="start">{this.selectableComponent.titleText}</ion-title>
             <ion-buttons slot="end">
-              <ion-button onClick={this.selectableComponent.closeModal}>
+              <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
                 {this.selectableComponent.closeButtonText}
               </ion-button>
             </ion-buttons>
@@ -58,7 +57,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                     )}
                     {group.items.map((item) => {
                       return (
-                        <ion-item button={true} onClick={() => this.selectableComponent.selectItem(item)}>
+                        <ion-item button={true} onClick={(): void => this.selectableComponent.selectItem(item)}>
                           <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
                           <ion-icon
                             name={
@@ -80,18 +79,30 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           <ion-footer>
             <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
               <ion-row>
-                {this.selectableComponent.isMultiple ||
-                  (this.selectableComponent.hasConfirmButton && (
-                    <ion-col>
-                      <ion-button
-                        onClick={(): void => this.selectableComponent.confirmSelection()}
-                        disabled={!this.selectableComponent.isConfirmButtonEnabled}
-                        expand="full"
-                      >
-                        {this.selectableComponent.confirmButtonText}
-                      </ion-button>
-                    </ion-col>
-                  ))}
+                {this.selectableComponent.canClear && (
+                  <ion-col>
+                    <ion-button
+                      onClick={(): void => this.selectableComponent.clearItems()}
+                      disabled={!(this.selectableComponent.selectedItems.length > 0)}
+                      expand="full"
+                    >
+                      {this.selectableComponent.clearButtonText}
+                    </ion-button>
+                  </ion-col>
+                )}
+                {(this.selectableComponent.isMultiple ||
+                  this.selectableComponent.hasConfirmButton ||
+                  this.selectableComponent.canClear) && (
+                  <ion-col>
+                    <ion-button
+                      onClick={(): void => this.selectableComponent.confirmSelection()}
+                      disabled={!this.selectableComponent.isConfirmButtonEnabled}
+                      expand="full"
+                    >
+                      {this.selectableComponent.confirmButtonText}
+                    </ion-button>
+                  </ion-col>
+                )}
               </ion-row>
             </ion-toolbar>
           </ion-footer>

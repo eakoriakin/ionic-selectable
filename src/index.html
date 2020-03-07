@@ -25,6 +25,7 @@
       <ion-label>Ports</ion-label>
       <ionic-selectable
         id="sel1"
+        value="[1]"
         is-multiple="true"
         should-store-item-value="true"
         item-value-field="id"
@@ -71,13 +72,30 @@
         { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } },
         { id: 2, port: 'Valencia', country: { country: 'Spain' } }
       ];
-      el1.value = [1];
+      el1.canClear = true;
+      setTimeout(() => {
+        el1.value=[2];
+        console.log('value setTimeout: ', el1.value);
+      }, 10000);
       el1.addEventListener('selected', (event) => {
         console.log(event);
+      });
+      el1.addEventListener('cleared', (event) => {
+        console.log(event);
+      });
+      el1.addEventListener('changed', (event) => {
+        console.log(event);
+        console.log(el1.value);
       });
       var el2 = document.getElementById('sel2');
       el2.items = [1, 2, 3];
       el2.value = [1, 2];
+      el2.addEventListener('changed', (event) => {
+        console.log(event);
+      });
+      el2.addEventListener('closed', (event) => {
+        console.log(event);
+      });
       //el2.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
     </script>
   </body>

@@ -42,6 +42,8 @@ export class IonicSelectableComponent implements ComponentInterface {
   private modalComponent!: HTMLIonModalElement;
   private selectableModalComponent!: HTMLIonicSelectableModalElement;
 
+  private isChangeInternal = false;
+
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
 
   public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
@@ -50,8 +52,8 @@ export class IonicSelectableComponent implements ComponentInterface {
   public hasGroups = false;
   public footerButtonsCount = 0;
 
-  @State() private selectedItems: any | any[] = [];
-  @State() private valueItems: any | any[] = [];
+  @State() public selectedItems: any[] = [];
+  @State() private valueItems: any[] = [];
   @State() private itemsToConfirm: any[] = [];
   /**
    * Determines whether Modal is opened.
@@ -99,6 +101,15 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public confirmButtonText = 'OK';
+
+  /**
+   * Clear button text.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clearbuttontext).
+   *
+   * @default 'Clear'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public clearButtonText = 'Clear';
 
   /**
    * The name of the control, which is submitted with the form data.
@@ -281,7 +292,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Prop() public canAddItem: boolean = false;
 
-   /**
+  /**
    * Determines whether to show Clear button.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
    *
@@ -291,7 +302,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   // Pending - @HostBinding('class.ionic-selectable-can-clear')
   @Prop() public canClear: boolean = false;
 
-    /**
+  /**
    * Determines whether Confirm button is enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
    *
@@ -299,6 +310,14 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public isConfirmButtonEnabled: boolean = true;
+
+  /**
+   * Fires when Clear button has been clicked.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclear).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public cleared: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when item/s has been selected and Modal closed.
@@ -399,13 +418,13 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   @Watch('value')
   public valueChanged(newValue: any | any[]): void {
-    this.setValue(newValue);
-    this.emitStyle();
-    if (this.isInited) {
-      this.changed.emit({
-        value: this.value
-      });
+    if (!this.isChangeInternal) {
+      this.emitStyle();
+      if (this.isInited) {
+        this.setValue(newValue, false);
+      }
     }
+    this.isChangeInternal = false;
   }
 
   @Watch('isMultiple')
@@ -489,7 +508,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.isOpened = true;
     this.setFocus();
     this.whatchModalEvents();
-    this.emitOnOpened();
+    this.emitOpened();
     return Promise.resolve();
   }
 
@@ -515,7 +534,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       this._setHasSearchText();
     }*/
 
-    this.emitOnClosed();
+    this.emitClosed();
 
     return Promise.resolve();
   }
@@ -533,14 +552,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     return this.itemsToConfirm;
   }
 
-   /**
+  /**
    * Confirms selected items by updating value.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
    *
    * @memberof IonicSelectableComponent
    */
   @Method()
-  public confirm() {
+  public async confirm(): Promise<void> {
     if (this.isMultiple) {
       this.setValue(this.selectedItems);
     } else if (this.hasConfirmButton /* || this.footerTemplate */) {
@@ -548,15 +567,33 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
   }
 
-  public async closeModal(): Promise<void> {
-    await this.close();
+  /**
+   * Clears value.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async clear(): Promise<void> {
+    this.clearItems();
+  }
+
+  public clearItems(): void {
+    this.emitCleared();
+    this.selectedItems = [];
+    this.itemsToConfirm = [];
+    this.selectableModalComponent.update();
+  }
+
+  public closeModal(): void {
+    this.close();
   }
 
   public isItemSelected = (item: any): boolean => {
     return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
   };
 
-  public selectItem(item: any) {
+  public selectItem(item: any): void {
     const isItemSelected = this.isItemSelected(item);
     if (this.isMultiple) {
       if (isItemSelected) {
@@ -568,7 +605,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       this.itemsToConfirm = [...this.selectedItems];
 
       // Emit onSelect event after setting items to confirm so they could be used inside the event.
-      this.emitOnSelected(item, !isItemSelected);
+      this.emitSelected(item, !isItemSelected);
     } else {
       if (this.hasConfirmButton /* || this.footerTemplate*/) {
         // Don't close Modal and keep track on items to confirm.
@@ -584,7 +621,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         this.itemsToConfirm = [...this.selectedItems];
 
         // Emit onSelect event after setting items to confirm so they could be used inside the event.
-        this.emitOnSelected(item, !isItemSelected);
+        this.emitSelected(item, !isItemSelected);
       } else {
         const isItemValue = this.isItemValue(item);
         if (!isItemValue) {
@@ -592,7 +629,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           this.addSelectedItem(item);
 
           // Emit onSelect before onChange.
-          this.emitOnSelected(item, true);
+          this.emitSelected(item, true);
 
           this.setValue(item);
         }
@@ -607,7 +644,8 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.close();
   }
 
-  private setValue(value: any | any[]): void {
+  private setValue(value: any | any[], isChangeInternal = true): void {
+    this.isChangeInternal = isChangeInternal;
     if (value) {
       // If type is string convert to object
       value = typeof value === 'string' ? JSON.parse((value as string).replace(/\'/gi, '"')) : value;
@@ -644,7 +682,22 @@ export class IonicSelectableComponent implements ComponentInterface {
       } else {
         this.selectedItems = [...this.valueItems];
       }
-      this.emitOnChanged();
+      if (this.isChangeInternal) {
+        this.value = this.valueItems;
+      }
+    } else {
+      this.valueItems = [];
+      this.selectedItems = [];
+      if (this.isChangeInternal) {
+        this.value = this.isMultiple ? [] : null;
+      }
+    }
+    this.itemsToConfirm = [];
+    if (this.isOpened) {
+      this.selectableModalComponent.update();
+    }
+    if (this.isInited) {
+      this.emitChanged();
     }
   }
 
@@ -739,7 +792,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     return this.shouldStoreItemValue ? item[this.itemValueField] : item;
   }
 
-  private emitOnSelected(item: any, isSelected: boolean) {
+  private emitSelected(item: any, isSelected: boolean): void {
     this.selected.emit({
       component: this.element,
       value: item,
@@ -747,19 +800,23 @@ export class IonicSelectableComponent implements ComponentInterface {
     });
   }
 
-  private emitOnChanged() {
+  private emitChanged(): void {
     this.changed.emit({
       component: this.element,
       value: this.valueItems
     });
   }
 
-  private emitOnOpened() {
+  private emitOpened(): void {
     this.opened.emit({ component: this.element });
   }
 
-  private emitOnClosed() {
+  private emitClosed(): void {
     this.closed.emit({ component: this.element });
+  }
+
+  private emitCleared(): void {
+    this.cleared.emit({ component: this.element, value: this.selectedItems });
   }
 
   private isNullOrWhiteSpace(value: any): boolean {
@@ -816,7 +873,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private generateText(items: any[], value: any | any[], property: string): string {
-    if (value === undefined) {
+    if (value === undefined || value === null) {
       return '';
     }
     let hasObjects = false;
@@ -878,17 +935,6 @@ export class IonicSelectableComponent implements ComponentInterface {
     });
   }
 
-  private setFocus(): void {
-    if (this.buttonElement) {
-      this.buttonElement.focus();
-    }
-  }
-
-  private onClick = async (event: UIEvent): Promise<void> => {
-    this.setFocus();
-    this.open();
-  };
-
   private whatchModalEvents(): void {
     this.modalComponent.onDidDismiss().then((event) => {
       this.isOpened = false;
@@ -903,6 +949,17 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
     });
   }
+
+  private setFocus(): void {
+    if (this.buttonElement) {
+      this.buttonElement.focus();
+    }
+  }
+
+  private onClick = async (): Promise<void> => {
+    this.setFocus();
+    this.open();
+  };
 
   private onFocus = (): void => {
     this.focused.emit();
