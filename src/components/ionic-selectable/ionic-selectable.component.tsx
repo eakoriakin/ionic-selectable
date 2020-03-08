@@ -11,7 +11,6 @@ import {
   Method,
   State
 } from '@stencil/core';
-import '@ionic/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
@@ -304,12 +303,116 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Determines whether to show Clear button.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
-   *
    * @default false
    * @memberof IonicSelectableComponent
    */
   // Pending - @HostBinding('class.ionic-selectable-can-clear')
   @Prop() public canClear: boolean = false;
+
+  /**
+   * Determines whether to show [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public canSearch = false;
+
+  /**
+   * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchdebounce).
+   *
+   * @default 250
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchDebounce: number = 250;
+
+  /**
+   * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
+   *
+   * @default 'Search'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchPlaceholder = 'Search';
+
+  /**
+   * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
+   *
+   * @default ''
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchText = '';
+
+  /**
+   * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   *
+   * @default false
+   * @readonly
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public hasSearchText: boolean;
+
+  /**
+   * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * Only applies to md mode. Defaults to "arrow-back-sharp".
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   *
+   * @default 'arrow-back-sharp'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchCancelButtonIcon: string = 'arrow-back-sharp';
+
+  /**
+   * Set the the cancel button text of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * Only applies to ios mode.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   *
+   * @default 'Cancel'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchCancelButtonText: string = 'Cancel';
+
+  /**
+   * Set the clear icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * Defaults to "close-circle" for ios and "close-sharp" for md.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchClearIcon: string = getMode() === 'ios' ? 'close-circle' : 'close-sharp';
+
+  /**
+   * A hint to the browser for which keyboard to display.
+   * Possible values: "none", "text", "tel", "url", "email", "numeric", "decimal", and "search".
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * @default 'none'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchInputmode: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search' = 'none';
+
+  /**
+   * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * Defaults to "search-outline" in ios mode and "search-sharp" in md mode.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * @default 'none'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchIcon: string = getMode() === 'ios' ? 'search-outline' : 'search-sharp';
+
+  /**
+   * Sets the behavior for the cancel button of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
+   * Defaults to "never".
+   * Setting to "focus" shows the cancel button on focus.
+   * Setting to "never" hides the cancel button.
+   * Setting to "always" shows the cancel button regardless of focus state.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * @default 'none'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchShowCancelButton: 'always' | 'focus' | 'never' = 'never';
 
   /**
    * Determines whether Confirm button is enabled.
@@ -321,8 +424,25 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public isConfirmButtonEnabled: boolean = true;
 
   /**
+   * Fires when no items have been found.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchfail).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public searchFailed: EventEmitter<IIonicSelectableEvent>;
+
+  /**
+   * Fires when some items have been found.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchsuccess).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public searchSuccessed: EventEmitter<IIonicSelectableEvent>;
+
+  /**
    * Fires when Add item button has been clicked.
-   * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item.
+   * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create
+   * a form to add item.
    * **Note**: `canAddItem` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
    *
@@ -446,6 +566,16 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.isChangeInternal = false;
   }
 
+  @Watch('searchText')
+  public searchTextChanged(newValue: string): void {
+    if (!this.isChangeInternal) {
+      if (this.isOpened) {
+        this.filterItems(newValue, false);
+      }
+    }
+    this.isChangeInternal = false;
+  }
+
   @Watch('isMultiple')
   @Watch('canClear')
   @Watch('canAddItem')
@@ -519,11 +649,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (this.modalLeaveAnimation) {
       modalOptions.leaveAnimation = this.modalLeaveAnimation;
     }
-
+    this.filterItems(this.searchText);
     this.modalComponent = await modalController.create(modalOptions);
     await this.modalComponent.present();
     this.selectableModalComponent = this.modalComponent.querySelector('ionic-selectable-modal');
-    // Pending - self._filterItems();
     this.isOpened = true;
     this.setFocus();
     this.whatchModalEvents();
@@ -614,6 +743,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     } else {
       // Pending - this.showAddItemTemplate();
     }
+  }
+
+  public onSearchbarValueChanged(event: CustomEvent): void {
+    this.filterItems(event.detail.value);
   }
 
   public isItemSelected = (item: any): boolean => {
@@ -788,6 +921,50 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
   }
 
+  private filterItems(searchText: string, isChangeInternal = true): void {
+    this.isChangeInternal = isChangeInternal;
+    this.setHasSearchText(searchText);
+
+    if (false /* this._hasOnSearch() */) {
+      // Delegate filtering to the event.
+      // Pending - this._emitSearch();
+    } else {
+      // Default filtering.
+      let groups = [];
+
+      if (this.searchText === '') {
+        groups = this.groups;
+      } else {
+        this.groups.forEach((group) => {
+          const items = group.items.filter((item) => {
+            const itemText = (this.itemTextField ? item[this.itemTextField] : item).toString().toLowerCase();
+            return itemText.indexOf(this.searchText.trim().toLowerCase()) !== -1;
+          });
+
+          if (items.length) {
+            groups.push({
+              value: group.value,
+              text: group.text,
+              items: items
+            });
+          }
+        });
+
+        // No items found.
+        if (!groups.length) {
+          groups.push({
+            items: []
+          });
+        }
+      }
+
+      this.filteredGroups = groups;
+      this.hasFilteredItems = !this.areGroupsEmpty(groups);
+      this.emitOnSearchSuccessOrFail(this.hasFilteredItems);
+      this.selectableModalComponent?.update();
+    }
+  }
+
   private isItemValue(item: any): boolean {
     return this.generateText([this.valueItems], item, this.itemValueField) !== '';
   }
@@ -850,6 +1027,19 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.addItem.emit({ component: this.element });
   }
 
+  private emitOnSearchSuccessOrFail(isSuccess: boolean): void {
+    const eventData: IIonicSelectableEvent = {
+      component: this.element,
+      value: this.searchText
+    };
+
+    if (isSuccess) {
+      this.searchSuccessed.emit(eventData);
+    } else {
+      this.searchFailed.emit(eventData);
+    }
+  }
+
   private isNullOrWhiteSpace(value: any): boolean {
     if (value === null || value === undefined) {
       return true;
@@ -857,6 +1047,15 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Convert value to string in case if it's not.
     return value.toString().replace(/\s/g, '').length < 1;
+  }
+
+  public setHasSearchText(searchText: string): void {
+    this.hasSearchText = !this.isNullOrWhiteSpace(searchText);
+    if (this.hasSearchText) {
+      this.searchText = searchText.trim();
+    } else {
+      this.searchText = '';
+    }
   }
 
   private countFooterButtons(): void {

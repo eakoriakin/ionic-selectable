@@ -37,6 +37,12 @@ export namespace Components {
     */
     'canClear': boolean;
     /**
+    * Determines whether to show [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canSearch': boolean;
+    /**
     * Clears value. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
     * @memberof IonicSelectableComponent
     */
@@ -100,6 +106,13 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'hasInfiniteScroll': boolean;
+    /**
+    * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default false
+    * @readonly
+    * @memberof IonicSelectableComponent
+    */
+    'hasSearchText': boolean;
     /**
     * Determines whether any item has been selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
     * @returns A boolean determining whether any item has been selected.
@@ -196,6 +209,59 @@ export namespace Components {
     */
     'placeholder'?: string | null;
     /**
+    * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Only applies to md mode. Defaults to "arrow-back-sharp". See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'arrow-back-sharp'
+    * @memberof IonicSelectableComponent
+    */
+    'searchCancelButtonIcon': string;
+    /**
+    * Set the the cancel button text of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Only applies to ios mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'Cancel'
+    * @memberof IonicSelectableComponent
+    */
+    'searchCancelButtonText': string;
+    /**
+    * Set the clear icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "close-circle" for ios and "close-sharp" for md. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @memberof IonicSelectableComponent
+    */
+    'searchClearIcon': string;
+    /**
+    * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchdebounce).
+    * @default 250
+    * @memberof IonicSelectableComponent
+    */
+    'searchDebounce': number;
+    /**
+    * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "search-outline" in ios mode and "search-sharp" in md mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchIcon': string;
+    /**
+    * A hint to the browser for which keyboard to display. Possible values: "none", "text", "tel", "url", "email", "numeric", "decimal", and "search". See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchInputmode': 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+    /**
+    * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
+    * @default 'Search'
+    * @memberof IonicSelectableComponent
+    */
+    'searchPlaceholder': string;
+    /**
+    * Sets the behavior for the cancel button of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "never". Setting to "focus" shows the cancel button on focus. Setting to "never" hides the cancel button. Setting to "always" shows the cancel button regardless of focus state. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchShowCancelButton': 'always' | 'focus' | 'never';
+    /**
+    * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
+    * @default ''
+    * @memberof IonicSelectableComponent
+    */
+    'searchText': string;
+    /**
     * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
     * @default null
     * @memberof IonicSelectableComponent
@@ -276,6 +342,12 @@ declare namespace LocalJSX {
     */
     'canClear'?: boolean;
     /**
+    * Determines whether to show [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'canSearch'?: boolean;
+    /**
     * Clear button text. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clearbuttontext).
     * @default 'Clear'
     * @memberof IonicSelectableComponent
@@ -317,6 +389,13 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'hasInfiniteScroll'?: boolean;
+    /**
+    * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default false
+    * @readonly
+    * @memberof IonicSelectableComponent
+    */
+    'hasSearchText'?: boolean;
     /**
     * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled. **Note**: Virtual scroll cannot be used together with infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
     * @default false
@@ -430,6 +509,16 @@ declare namespace LocalJSX {
     */
     'onOpened'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
+    * Fires when no items have been found. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchfail).
+    * @memberof IonicSelectableComponent
+    */
+    'onSearchFailed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
+    * Fires when some items have been found. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchsuccess).
+    * @memberof IonicSelectableComponent
+    */
+    'onSearchSuccessed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
     * Fires when an item has been selected or unselected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
     * @memberof IonicSelectableComponent
     */
@@ -440,6 +529,59 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'placeholder'?: string | null;
+    /**
+    * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Only applies to md mode. Defaults to "arrow-back-sharp". See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'arrow-back-sharp'
+    * @memberof IonicSelectableComponent
+    */
+    'searchCancelButtonIcon'?: string;
+    /**
+    * Set the the cancel button text of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Only applies to ios mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'Cancel'
+    * @memberof IonicSelectableComponent
+    */
+    'searchCancelButtonText'?: string;
+    /**
+    * Set the clear icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "close-circle" for ios and "close-sharp" for md. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @memberof IonicSelectableComponent
+    */
+    'searchClearIcon'?: string;
+    /**
+    * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchdebounce).
+    * @default 250
+    * @memberof IonicSelectableComponent
+    */
+    'searchDebounce'?: number;
+    /**
+    * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "search-outline" in ios mode and "search-sharp" in md mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchIcon'?: string;
+    /**
+    * A hint to the browser for which keyboard to display. Possible values: "none", "text", "tel", "url", "email", "numeric", "decimal", and "search". See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchInputmode'?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
+    /**
+    * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
+    * @default 'Search'
+    * @memberof IonicSelectableComponent
+    */
+    'searchPlaceholder'?: string;
+    /**
+    * Sets the behavior for the cancel button of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "never". Setting to "focus" shows the cancel button on focus. Setting to "never" hides the cancel button. Setting to "always" shows the cancel button regardless of focus state. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+    * @default 'none'
+    * @memberof IonicSelectableComponent
+    */
+    'searchShowCancelButton'?: 'always' | 'focus' | 'never';
+    /**
+    * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
+    * @default ''
+    * @memberof IonicSelectableComponent
+    */
+    'searchText'?: string;
     /**
     * Determines whether multiple items can be selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
     * @default null

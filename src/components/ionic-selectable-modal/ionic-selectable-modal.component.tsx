@@ -42,6 +42,22 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               </ion-button>
             </ion-buttons>
           </ion-toolbar>
+          {this.selectableComponent.canSearch /* || selectComponent.messageTemplate */ && (
+            <ion-toolbar>
+              <ion-searchbar
+                value={this.selectableComponent.searchText}
+                placeholder={this.selectableComponent.searchPlaceholder}
+                debounce={this.selectableComponent.searchDebounce}
+                cancelButtonIcon={this.selectableComponent.searchCancelButtonIcon}
+                cancelButtonText={this.selectableComponent.searchCancelButtonText}
+                clearIcon={this.selectableComponent.searchClearIcon}
+                inputmode={this.selectableComponent.searchInputmode}
+                searchIcon={this.selectableComponent.searchIcon}
+                showCancelButton={this.selectableComponent.searchShowCancelButton}
+                onIonChange={(event): void => this.selectableComponent.onSearchbarValueChanged(event)}
+              ></ion-searchbar>
+            </ion-toolbar>
+          )}
         </ion-header>
         <ion-content>
           {!this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
@@ -92,10 +108,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                 )}
                 {this.selectableComponent.canAddItem && (
                   <ion-col>
-                    <ion-button
-                      onClick={(): void => this.selectableComponent.addItemClick()}
-                      expand="full"
-                    >
+                    <ion-button onClick={(): void => this.selectableComponent.addItemClick()} expand="full">
                       {this.selectableComponent.addButtonText}
                     </ion-button>
                   </ion-col>

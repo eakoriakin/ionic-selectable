@@ -74,10 +74,7 @@
       ];
       el1.canClear = true;
       el1.canAddItem = true;
-      setTimeout(() => {
-        el1.value=[2];
-        console.log('value setTimeout: ', el1.value);
-      }, 10000);
+      el1.canSearch = true;
       el1.addEventListener('selected', (event) => {
         console.log(event);
       });
