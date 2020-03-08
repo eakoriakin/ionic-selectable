@@ -18,7 +18,7 @@ export class AddingOnSearchFailAsyncPage implements OnInit {
   portNameControl: FormControl;
   portCountryControl: FormControl;
   portsSubscription: Subscription;
-  @ViewChild('portComponent', { static: false }) portComponent: IonicSelectableComponent;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
 
   constructor(
     private portService: PortService,
