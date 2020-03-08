@@ -16,7 +16,7 @@ export class EditingPage implements OnInit {
   portForm: FormGroup;
   portNameControl: FormControl;
   portCountryControl: FormControl;
-  @ViewChild('portComponent', { static: false }) portComponent: IonicSelectableComponent;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
 
   constructor(
     private portService: PortService,
