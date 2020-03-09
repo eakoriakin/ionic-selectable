@@ -1,4 +1,4 @@
-import { Component, h, Host, ComponentInterface, Method, State } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Method, State, Prop, Element } from '@stencil/core';
 import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.component';
 
 /**
@@ -13,9 +13,12 @@ import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.c
   scoped: true
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
+  @Element() private element!: HTMLIonicSelectableModalElement;
   private selectableComponent: IonicSelectableComponent;
 
   @State() private toggleUpdate: boolean = false;
+
+  public infiniteScrollElement: HTMLIonInfiniteScrollElement;
 
   /**
    * Rerender the component
@@ -28,6 +31,11 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   public connectedCallback(): void {
     const modalElement = document.querySelector('ion-modal');
     this.selectableComponent = modalElement.componentProps.selectableComponent;
+    this.selectableComponent.selectableModalComponent = this;
+  }
+
+  public componentDidLoad(): void {
+    this.infiniteScrollElement = this.element.querySelector('ion-infinite-scroll');
   }
 
   public render(): void {
@@ -35,8 +43,8 @@ export class IonicSelectableModalComponent implements ComponentInterface {
       <Host>
         <ion-header>
           <ion-toolbar>
-            <ion-title slot="start">{this.selectableComponent.titleText}</ion-title>
-            <ion-buttons slot="end">
+            <ion-title>{this.selectableComponent.titleText}</ion-title>
+            <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
               <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
                 {this.selectableComponent.closeButtonText}
               </ion-button>
@@ -80,7 +88,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                               this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'
                             }
                             size="small"
-                            slot="end"
+                            slot={this.selectableComponent.itemIconSlot}
                           />
                         </ion-item>
                       );
@@ -90,6 +98,17 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               })}
             </ion-list>
           )}
+          {this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
+            <ion-virtual-scroll></ion-virtual-scroll>
+          )}
+        { this.selectableComponent.hasInfiniteScroll && (
+          <ion-infinite-scroll
+            threshold={this.selectableComponent.infiniteScrollThreshold}
+            onIonInfinite={(): void => this.selectableComponent.getMoreItems()}
+          >
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        )}
         </ion-content>
         {this.selectableComponent.footerButtonsCount /* && selectComponent.footerTemplate */ && (
           <ion-footer>

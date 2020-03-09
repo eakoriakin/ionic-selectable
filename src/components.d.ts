@@ -60,6 +60,12 @@ export namespace Components {
     */
     'close': () => Promise<void>;
     /**
+    * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
+    * @default 'start'
+    * @memberof IonicSelectableComponent
+    */
+    'closeButtonSlot': string;
+    /**
     * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
     * @default 'Cancel'
     * @memberof IonicSelectableComponent
@@ -76,6 +82,21 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'confirmButtonText': string;
+    /**
+    * Disables infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableinfinitescroll).
+    * @memberof IonicSelectableComponent
+    */
+    'disableInfiniteScroll': () => Promise<void>;
+    /**
+    * Enables infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#enableinfinitescroll).
+    * @memberof IonicSelectableComponent
+    */
+    'enableInfiniteScroll': () => Promise<void>;
+    /**
+    * Ends infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endinfinitescroll).
+    * @memberof IonicSelectableComponent
+    */
+    'endInfiniteScroll': () => Promise<void>;
     /**
     * Return a list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button. After the user has clicked Confirm button items to confirm are cleared. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
     * @returns a promise whit de list of items that are selected and awaiting confirmation by user
@@ -101,7 +122,7 @@ export namespace Components {
     */
     'hasConfirmButton': boolean;
     /**
-    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
     */
@@ -120,11 +141,17 @@ export namespace Components {
     */
     'hasValue': () => Promise<boolean>;
     /**
-    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled. **Note**: Virtual scroll cannot be used together with infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
     * @default false
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll': boolean;
+    /**
+    * The threshold distance from the bottom of the content to call the infinite output event when scrolled. Use the value 100px when the scroll is within 100 pixels from the bottom of the page. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
+    * @default '100px'
+    * @memberof IonicSelectableComponent
+    */
+    'infiniteScrollThreshold': string;
     /**
     * Determines whether Confirm button is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
     * @default true
@@ -150,6 +177,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'isOpened': boolean;
+    /**
+    * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemiconslot).
+    * @default 'start'
+    * @memberof IonicSelectableComponent
+    */
+    'itemIconSlot': string;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
@@ -274,6 +307,12 @@ export namespace Components {
     */
     'shouldBackdropClose': boolean;
     /**
+    * Determines the search is delegate to event, and not handled internally. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldDelegateSearchToEvent': boolean;
+    /**
     * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
     * @default false
     * @memberof IonicSelectableComponent
@@ -354,6 +393,12 @@ declare namespace LocalJSX {
     */
     'clearButtonText'?: string;
     /**
+    * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
+    * @default 'start'
+    * @memberof IonicSelectableComponent
+    */
+    'closeButtonSlot'?: string;
+    /**
     * Close button text. The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
     * @default 'Cancel'
     * @memberof IonicSelectableComponent
@@ -384,7 +429,7 @@ declare namespace LocalJSX {
     */
     'hasConfirmButton'?: boolean;
     /**
-    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
     */
@@ -397,11 +442,17 @@ declare namespace LocalJSX {
     */
     'hasSearchText'?: boolean;
     /**
-    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled. **Note**: Virtual scroll cannot be used together with infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
     * @default false
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll'?: boolean;
+    /**
+    * The threshold distance from the bottom of the content to call the infinite output event when scrolled. Use the value 100px when the scroll is within 100 pixels from the bottom of the page. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
+    * @default '100px'
+    * @memberof IonicSelectableComponent
+    */
+    'infiniteScrollThreshold'?: string;
     /**
     * Determines whether Confirm button is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
     * @default true
@@ -427,6 +478,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'isOpened'?: boolean;
+    /**
+    * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemiconslot).
+    * @default 'start'
+    * @memberof IonicSelectableComponent
+    */
+    'itemIconSlot'?: string;
     /**
     * Item property to display, e.g, `'name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
     * @default null
@@ -504,10 +561,20 @@ declare namespace LocalJSX {
     */
     'onFocused'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
+    * Fires when the user has scrolled to the end of the list. **Note**: `hasInfiniteScroll` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#oninfinitescroll).
+    * @memberof IonicSelectableComponent
+    */
+    'onInfiniteScroll'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
     * Fires when Modal has been opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
     * @memberof IonicSelectableComponent
     */
     'onOpened'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
+    * Fires when the user is typing in Searchbar. **Note**: `canSearch` and `shouldDelegateSearchToEvent` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearch).
+    * @memberof IonicSelectableComponent
+    */
+    'onSearch'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when no items have been found. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchfail).
     * @memberof IonicSelectableComponent
@@ -594,6 +661,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'shouldBackdropClose'?: boolean;
+    /**
+    * Determines the search is delegate to event, and not handled internally. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldDelegateSearchToEvent'?: boolean;
     /**
     * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
     * @default false

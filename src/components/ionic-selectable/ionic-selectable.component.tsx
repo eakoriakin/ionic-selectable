@@ -14,6 +14,7 @@ import {
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
+import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.
@@ -36,14 +37,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   private id = this.element.id ? this.element.id : `ionic-selectable-${nextId++}`;
   private isInited = false;
   private buttonElement?: HTMLButtonElement;
-  private mutationO?: MutationObserver;
 
-  private modalComponent!: HTMLIonModalElement;
-  private selectableModalComponent!: HTMLIonicSelectableModalElement;
+  private modalElement!: HTMLIonModalElement;
 
   private isChangeInternal = false;
 
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
+
+  public  selectableModalComponent!: IonicSelectableModalComponent;
 
   public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
   public hasFilteredItems = false;
@@ -91,6 +92,24 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public closeButtonText = 'Cancel';
+
+  /**
+   * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
+   *
+   * @default 'start'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public closeButtonSlot = 'start';
+
+  /**
+   * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemiconslot).
+   *
+   * @default 'start'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public itemIconSlot = 'start';
 
   /**
    * Confirm button text.
@@ -261,7 +280,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public groupTextField: string = null;
 
   /**
-   * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/components/infinite-scroll/InfiniteScroll/) is enabled.
+   * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled.
    * **Note**: Infinite scroll cannot be used together with virtual scroll.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
    *
@@ -271,8 +290,17 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public hasInfiniteScroll = false;
 
   /**
-   * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) is enabled.
-   * **Note**: Virtual scroll cannot be used together with infinite scroll.
+   * The threshold distance from the bottom of the content to call the infinite output event when scrolled.
+   * Use the value 100px when the scroll is within 100 pixels from the bottom of the page.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
+   *
+   * @default '100px'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public infiniteScrollThreshold = '100px';
+
+  /**
+   * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
    *
    * @default false
@@ -317,6 +345,15 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public canSearch = false;
+
+  /**
+   * Determines the search is delegate to event, and not handled internally.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public shouldDelegateSearchToEvent = false;
 
   /**
    * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke.
@@ -422,6 +459,24 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Prop() public isConfirmButtonEnabled: boolean = true;
+
+  /**
+   * Fires when the user has scrolled to the end of the list.
+   * **Note**: `hasInfiniteScroll` has to be enabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#oninfinitescroll).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public infiniteScroll: EventEmitter<IIonicSelectableEvent>;
+
+  /**
+   * Fires when the user is typing in Searchbar.
+   * **Note**: `canSearch` and `shouldDelegateSearchToEvent` has to be enabled.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearch).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public search: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when no items have been found.
@@ -588,13 +643,6 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.emitStyle();
   }
 
-  public disconnectedCallback(): void {
-    if (this.mutationO) {
-      this.mutationO.disconnect();
-      this.mutationO = undefined;
-    }
-  }
-
   public componentWillLoad(): void {
     this.setItems(this.items);
     this.setValue(this.value);
@@ -650,9 +698,8 @@ export class IonicSelectableComponent implements ComponentInterface {
       modalOptions.leaveAnimation = this.modalLeaveAnimation;
     }
     this.filterItems(this.searchText);
-    this.modalComponent = await modalController.create(modalOptions);
-    await this.modalComponent.present();
-    this.selectableModalComponent = this.modalComponent.querySelector('ionic-selectable-modal');
+    this.modalElement = await modalController.create(modalOptions);
+    await this.modalElement.present();
     this.isOpened = true;
     this.setFocus();
     this.whatchModalEvents();
@@ -673,14 +720,13 @@ export class IonicSelectableComponent implements ComponentInterface {
       return Promise.reject(`IonicSelectable is disabled or already closed: ${this.element.id}`);
     }
 
-    await this.modalComponent.dismiss();
+    await this.modalElement.dismiss();
     // Pending - self._itemToAdd = null;
     // Pending - self.hideAddItemTemplate();
-    /*
-    if (!this._hasOnSearch()) {
-      this._searchText = '';
-      this._setHasSearchText();
-    }*/
+
+    if (!this.shouldDelegateSearchToEvent) {
+      this.setHasSearchText('');
+    }
 
     this.emitClosed();
 
@@ -726,11 +772,56 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.clearItems();
   }
 
+  /**
+   * Enables infinite scroll.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#enableinfinitescroll).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async enableInfiniteScroll(): Promise<void> {
+    if (!this.hasInfiniteScroll) {
+      return;
+    }
+
+    this.selectableModalComponent.infiniteScrollElement.disabled = false;
+  }
+
+  /**
+   * Disables infinite scroll.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableinfinitescroll).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async disableInfiniteScroll(): Promise<void> {
+    if (!this.hasInfiniteScroll) {
+      return;
+    }
+
+    this.selectableModalComponent.infiniteScrollElement.disabled = true;
+  }
+
+  /**
+   * Ends infinite scroll.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endinfinitescroll).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async endInfiniteScroll(): Promise<void> {
+    if (!this.hasInfiniteScroll) {
+      return;
+    }
+    this.selectableModalComponent.infiniteScrollElement.complete();
+    this.setItems(this.items);
+  }
+
   public clearItems(): void {
     this.emitCleared();
     this.selectedItems = [];
     this.itemsToConfirm = [];
-    this.selectableModalComponent.update();
+    this.selectableModalComponent?.update();
   }
 
   public closeModal(): void {
@@ -804,6 +895,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.close();
   }
 
+  public getMoreItems(): void {
+    this.emitIonInfinite();
+  }
+
   private setValue(value: any | any[], isChangeInternal = true): void {
     this.isChangeInternal = isChangeInternal;
     if (value) {
@@ -854,7 +949,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
     this.itemsToConfirm = [];
     if (this.isOpened) {
-      this.selectableModalComponent.update();
+      this.selectableModalComponent?.update();
     }
     if (this.isInited) {
       this.emitChanged();
@@ -919,15 +1014,15 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.groups = groups;
     this.filteredGroups = this.groups;
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
+    this.selectableModalComponent?.update();
   }
 
   private filterItems(searchText: string, isChangeInternal = true): void {
     this.isChangeInternal = isChangeInternal;
     this.setHasSearchText(searchText);
-
-    if (false /* this._hasOnSearch() */) {
+    if (this.shouldDelegateSearchToEvent) {
       // Delegate filtering to the event.
-      // Pending - this._emitSearch();
+      this.emitSearch();
     } else {
       // Default filtering.
       let groups = [];
@@ -971,7 +1066,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   private addSelectedItem(item: any): void {
     this.selectedItems.push(this.getItemValue(item));
-    this.selectableModalComponent.update();
+    this.selectableModalComponent?.update();
   }
 
   private deleteSelectedItem(item: any) {
@@ -986,7 +1081,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
     });
     this.selectedItems.splice(itemToDeleteIndex, 1);
-    this.selectableModalComponent.update();
+    this.selectableModalComponent?.update();
   }
 
   private getItemValue(item: any): any {
@@ -1025,6 +1120,20 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   private emitAddItem(): void {
     this.addItem.emit({ component: this.element });
+  }
+
+  private emitSearch(): void {
+    this.search.emit({
+      component: this.element,
+      value: this.searchText
+    });
+  }
+
+  private emitIonInfinite(): void {
+    this.infiniteScroll.emit({
+      component: this.element,
+      value: this.searchText
+    });
   }
 
   private emitOnSearchSuccessOrFail(isSuccess: boolean): void {
@@ -1166,7 +1275,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private whatchModalEvents(): void {
-    this.modalComponent.onDidDismiss().then((event) => {
+    this.modalElement.onDidDismiss().then((event) => {
       this.isOpened = false;
       this.setFocus();
       this.itemsToConfirm = [];
