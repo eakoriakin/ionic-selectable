@@ -98,12 +98,12 @@
         <ion-button *ngIf="selectComponent.canSaveItem"
           class="ionic-selectable-item-button" slot="end" fill="outline"
           (click)="selectComponent._saveItem($event, item)">
-          <ion-icon slot="icon-only" name="md-create"></ion-icon>
+          <ion-icon slot="icon-only" ios="create" md="create-sharp"></ion-icon>
         </ion-button>
         <ion-button *ngIf="selectComponent.canDeleteItem"
           class="ionic-selectable-item-button" slot="end" fill="outline"
           (click)="selectComponent._deleteItemClick($event, item)">
-          <ion-icon slot="icon-only" name="md-trash"></ion-icon>
+          <ion-icon slot="icon-only" ios="trash" md="trash-sharp"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-item-group>
