@@ -858,6 +858,10 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
     this.selectableModalComponent.infiniteScrollElement.complete();
+    if (this.hasVirtualScroll) {
+      // Rerender Virtual Scroll List After Adding New Data
+      this.selectableModalComponent.virtualScrollElement.checkEnd();
+    }
     this.setItems(this.items);
   }
 
