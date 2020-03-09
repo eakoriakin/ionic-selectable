@@ -20,6 +20,8 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   public infiniteScrollElement: HTMLIonInfiniteScrollElement;
 
+  public virtualScrollElement: HTMLIonVirtualScrollElement;
+
   /**
    * Rerender the component
    */
@@ -36,6 +38,29 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   public componentDidLoad(): void {
     this.infiniteScrollElement = this.element.querySelector('ion-infinite-scroll');
+    this.virtualScrollElement = this.element.querySelector('ion-virtual-scroll');
+  }
+
+  private renderItem(item: any): any {
+    return (
+      <ion-item button={true} onClick={(): void => this.selectableComponent.selectItem(item)}>
+        <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
+        <ion-icon
+          name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
+          size="small"
+          slot={this.selectableComponent.itemIconSlot}
+        />
+      </ion-item>
+    );
+  }
+
+  private renderHeader(header: any): any {
+    return (
+      <ion-item-divider color={this.selectableComponent.headerColor}>
+        {/* Need ion-label for text ellipsis. */}
+        <ion-label>{header}</ion-label>
+      </ion-item-divider>
+    );
   }
 
   public render(): void {
@@ -74,41 +99,35 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                 return (
                   <ion-item-group>
                     {this.selectableComponent.hasGroups && (
-                      <ion-item-divider>
+                      <ion-item-divider color={this.selectableComponent.groupColor}>
                         {/* Need ion-label for text ellipsis. */}
                         <ion-label>{group.text}</ion-label>
                       </ion-item-divider>
                     )}
-                    {group.items.map((item) => {
-                      return (
-                        <ion-item button={true} onClick={(): void => this.selectableComponent.selectItem(item)}>
-                          <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
-                          <ion-icon
-                            name={
-                              this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'
-                            }
-                            size="small"
-                            slot={this.selectableComponent.itemIconSlot}
-                          />
-                        </ion-item>
-                      );
-                    })}
+                    {group.items.map((item) => this.renderItem(item))}
                   </ion-item-group>
                 );
               })}
             </ion-list>
           )}
           {this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
-            <ion-virtual-scroll></ion-virtual-scroll>
+            <ion-virtual-scroll
+              items={this.selectableComponent.filteredGroups[0].items}
+              approxHeaderHeight={this.selectableComponent.virtualScrollApproxHeaderHeight}
+              approxItemHeight={this.selectableComponent.virtualScrollApproxItemHeight}
+              renderItem={(item): void => this.renderItem(item)}
+              renderHeader={(header): void => this.renderHeader(header)}
+              headerFn={this.selectableComponent.virtualScrollHeaderFn}
+            ></ion-virtual-scroll>
           )}
-        { this.selectableComponent.hasInfiniteScroll && (
-          <ion-infinite-scroll
-            threshold={this.selectableComponent.infiniteScrollThreshold}
-            onIonInfinite={(): void => this.selectableComponent.getMoreItems()}
-          >
-            <ion-infinite-scroll-content></ion-infinite-scroll-content>
-          </ion-infinite-scroll>
-        )}
+          {this.selectableComponent.hasInfiniteScroll && (
+            <ion-infinite-scroll
+              threshold={this.selectableComponent.infiniteScrollThreshold}
+              onIonInfinite={(): void => this.selectableComponent.getMoreItems()}
+            >
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+          )}
         </ion-content>
         {this.selectableComponent.footerButtonsCount /* && selectComponent.footerTemplate */ && (
           <ion-footer>

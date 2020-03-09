@@ -104,6 +104,12 @@ export namespace Components {
     */
     'getItemsToConfirm': () => Promise<any[]>;
     /**
+    * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupColor': string;
+    /**
     * Group property to display, e.g. `'country.name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
     * @default null
     * @memberof IonicSelectableComponent
@@ -146,6 +152,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll': boolean;
+    /**
+    * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'headerColor': string;
     /**
     * The threshold distance from the bottom of the content to call the infinite output event when scrolled. Use the value 100px when the scroll is within 100 pixels from the bottom of the page. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
     * @default '100px'
@@ -331,6 +343,23 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
+    /**
+    * See Ionic VirtualScroll [approxHeaderHeight](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @default 30
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollApproxHeaderHeight': number;
+    /**
+    * See Ionic VirtualScroll [approxItemHeight](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @default 45
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollApproxItemHeight': number;
+    /**
+    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollHeaderFn': () => any;
   }
   interface IonicSelectableModal {
     /**
@@ -411,6 +440,12 @@ declare namespace LocalJSX {
     */
     'confirmButtonText'?: string;
     /**
+    * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'groupColor'?: string;
+    /**
     * Group property to display, e.g. `'country.name'`. **Note**: `items` should be an object array. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
     * @default null
     * @memberof IonicSelectableComponent
@@ -447,6 +482,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'hasVirtualScroll'?: boolean;
+    /**
+    * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
+    * @default null
+    * @memberof IonicSelectableComponent
+    */
+    'headerColor'?: string;
     /**
     * The threshold distance from the bottom of the content to call the infinite output event when scrolled. Use the value 100px when the scroll is within 100 pixels from the bottom of the page. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
     * @default '100px'
@@ -686,6 +727,23 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'value'?: any | null;
+    /**
+    * See Ionic VirtualScroll [approxHeaderHeight](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @default 30
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollApproxHeaderHeight'?: number;
+    /**
+    * See Ionic VirtualScroll [approxItemHeight](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @default 45
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollApproxItemHeight'?: number;
+    /**
+    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+    * @memberof IonicSelectableComponent
+    */
+    'virtualScrollHeaderFn'?: () => any;
   }
   interface IonicSelectableModal {}
 

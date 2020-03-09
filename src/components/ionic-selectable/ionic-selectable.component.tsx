@@ -44,7 +44,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
 
-  public  selectableModalComponent!: IonicSelectableModalComponent;
+  public selectableModalComponent!: IonicSelectableModalComponent;
 
   public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
   public hasFilteredItems = false;
@@ -309,6 +309,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public hasVirtualScroll = false;
 
   /**
+   * See Ionic VirtualScroll [approxHeaderHeight](https://ionicframework.com/docs/api/virtual-scroll).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   *
+   * @default 30
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public virtualScrollApproxHeaderHeight = 30;
+
+  /**
+   * See Ionic VirtualScroll [approxItemHeight](https://ionicframework.com/docs/api/virtual-scroll).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   *
+   * @default 45
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public virtualScrollApproxItemHeight = 45;
+
+  /**
    * Determines whether Confirm button is visible for single selection.
    * By default Confirm button is visible only for multiple selection.
    * **Note**: It is always true for multiple selection and cannot be changed.
@@ -461,6 +479,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public isConfirmButtonEnabled: boolean = true;
 
   /**
+   * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public headerColor: string = null;
+
+  /**
+   * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
+   *
+   * @default null
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public groupColor: string = null;
+
+  /**
    * Fires when the user has scrolled to the end of the list.
    * **Note**: `hasInfiniteScroll` has to be enabled.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#oninfinitescroll).
@@ -567,6 +603,14 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @internal
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
+
+  /**
+   * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public virtualScrollHeaderFn = () => null;
 
   @Watch('shouldStoreItemValue')
   public shouldStoreItemValueChanged(value: boolean): void {

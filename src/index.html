@@ -72,11 +72,22 @@
       for (let index = 1; index < 10; index++) {
         items.push({ id: index, port: 'Salina Cruz' + index, country: { country: 'Mexico' } });
       }
+      var limit = items.length + 10;
+      for (let index = items.length; index < limit; index++) {
+        items.push({ id: index, port: 'Valencia' + index, country: { country: 'Spain' } });
+      }
       el1.items = items;
       el1.canClear = true;
       el1.canAddItem = true;
       el1.canSearch = true;
-      el1.hasInfiniteScroll = true;
+      el1.hasInfiniteScroll = false;
+      el1.hasVirtualScroll = true;
+      el1.virtualScrollHeaderFn = function (record, recordIndex, records) {
+        if (recordIndex % 5 === 0) {
+          return 'Header ' + recordIndex;
+        }
+        return null;
+      }
       el1.addEventListener('selected', (event) => {
         console.log(event);
       });
@@ -95,7 +106,7 @@
       });
       el1.addEventListener('infiniteScroll', (event) => {
         console.log(event);
-        var limit =items.length + 15 ;
+        var limit = items.length + 15;
         for (let index = items.length; index < limit; index++) {
           items.push({ id: index, port: 'Valencia' + index, country: { country: 'Spain' } });
         }
