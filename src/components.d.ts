@@ -88,6 +88,12 @@ export namespace Components {
     */
     'disableInfiniteScroll': () => Promise<void>;
     /**
+    * A list of items to disable. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableditems).
+    * @default []
+    * @memberof IonicSelectableComponent
+    */
+    'disabledItems': any[];
+    /**
     * Enables infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#enableinfinitescroll).
     * @memberof IonicSelectableComponent
     */
@@ -128,7 +134,7 @@ export namespace Components {
     */
     'hasConfirmButton': boolean;
     /**
-    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
     */
@@ -440,6 +446,12 @@ declare namespace LocalJSX {
     */
     'confirmButtonText'?: string;
     /**
+    * A list of items to disable. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableditems).
+    * @default []
+    * @memberof IonicSelectableComponent
+    */
+    'disabledItems'?: any[];
+    /**
     * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
     * @default null
     * @memberof IonicSelectableComponent
@@ -464,7 +476,7 @@ declare namespace LocalJSX {
     */
     'hasConfirmButton'?: boolean;
     /**
-    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. **Note**: Infinite scroll cannot be used together with virtual scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
     * @default false
     * @memberof IonicSelectableComponent
     */

@@ -193,6 +193,15 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop({ mutable: true }) public items: any[] = [];
 
   /**
+   * A list of items to disable.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableditems).
+   *
+   * @default []
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public disabledItems: any[] = [];
+
+  /**
    * Item property to use as a unique identifier, e.g, `'id'`.
    * **Note**: `items` should be an object array.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemvaluefield).
@@ -281,7 +290,6 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled.
-   * **Note**: Infinite scroll cannot be used together with virtual scroll.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
    *
    * @default false
@@ -888,9 +896,19 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.filterItems(event.detail.value);
   }
 
-  public isItemSelected = (item: any): boolean => {
+  public isItemSelected(item: any): boolean {
     return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
-  };
+  }
+
+  public isItemDisabled(item: any): boolean {
+    if (!this.disabledItems) {
+      return;
+    }
+
+    return this.disabledItems.some((_item) => {
+      return this.getItemValue(_item) === this.getItemValue(item);
+    });
+  }
 
   public selectItem(item: any): void {
     const isItemSelected = this.isItemSelected(item);
@@ -1252,7 +1270,10 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public getItemText(item: any): string {
-    return this.generateText(this.items, item, this.itemTextField);
+    if (!this.hasObjects) {
+      return item;
+    }
+    return this.shouldStoreItemValue ? item[this.itemTextField] : item;
   }
 
   private parseValue(): any {

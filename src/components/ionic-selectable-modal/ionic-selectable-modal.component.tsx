@@ -1,4 +1,4 @@
-import { Component, h, Host, ComponentInterface, Method, State, Prop, Element } from '@stencil/core';
+import { Component, h, Host, ComponentInterface, Method, State, Element } from '@stencil/core';
 import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.component';
 
 /**
@@ -43,7 +43,11 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   private renderItem(item: any): any {
     return (
-      <ion-item button={true} onClick={(): void => this.selectableComponent.selectItem(item)}>
+      <ion-item
+        button={true}
+        onClick={(): void => this.selectableComponent.selectItem(item)}
+        disabled={this.selectableComponent.isItemDisabled(item)}
+      >
         <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
         <ion-icon
           name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}

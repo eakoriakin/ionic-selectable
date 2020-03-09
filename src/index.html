@@ -82,6 +82,7 @@
       el1.canSearch = true;
       el1.hasInfiniteScroll = true;
       el1.hasVirtualScroll = true;
+      el1.disabledItems = [{ id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } }]
       el1.virtualScrollHeaderFn = function (record, recordIndex, records) {
         if (recordIndex % 5 === 0) {
           return 'Header ' + recordIndex;
