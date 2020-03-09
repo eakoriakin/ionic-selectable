@@ -51,6 +51,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   public hasObjects = false;
   public hasGroups = false;
   public footerButtonsCount = 0;
+  public isSearching: boolean = false;
 
   @State() public selectedItems: any[] = [];
   @State() private valueItems: any[] = [];
@@ -695,7 +696,9 @@ export class IonicSelectableComponent implements ComponentInterface {
   protected searchTextChanged(newValue: string): void {
     if (!this.isChangeInternal) {
       if (this.isOpened) {
+        this.startSearch();
         this.filterItems(newValue, false);
+        this.endSearch();
       }
     }
     this.isChangeInternal = false;
@@ -928,6 +931,74 @@ export class IonicSelectableComponent implements ComponentInterface {
     return Promise.resolve();
   }
 
+    /**
+   * Starts search process by showing Loading spinner.
+   * Use it together with `onSearch` event to indicate search start.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#startsearch).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async startSearch(): Promise<void> {
+    if (this.isDisabled) {
+      return;
+    }
+
+    this.showLoading();
+  }
+
+  /**
+   * Ends search process by hiding Loading spinner and refreshing items.
+   * Use it together with `onSearch` event to indicate search end.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endsearch).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async endSearch(): Promise<void> {
+    if (this.isDisabled) {
+      return;
+    }
+
+    this.hideLoading();
+
+    // Refresh items manually.
+    // Pending - this.setItems(this.items);
+    this.emitOnSearchSuccessOrFail(this.hasFilteredItems);
+  }
+
+    /**
+   * Shows Loading spinner.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showloading).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async showLoading(): Promise<void>  {
+    if (this.isDisabled) {
+      return;
+    }
+
+    this.isSearching = true;
+    this.selectableModalComponent?.update();
+  }
+
+  /**
+   * Hides Loading spinner.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideloading).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async hideLoading(): Promise<void>  {
+    if (this.isDisabled) {
+      return;
+    }
+
+    this.isSearching = false;
+    this.selectableModalComponent?.update();
+  }
+
   public clearItems(): void {
     this.emitCleared();
     this.selectedItems = [];
@@ -948,7 +1019,9 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public onSearchbarValueChanged(event: CustomEvent): void {
+    this.startSearch();
     this.filterItems(event.detail.value);
+    this.endSearch();
   }
 
   public isItemSelected(item: any): boolean {

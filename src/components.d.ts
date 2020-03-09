@@ -104,6 +104,11 @@ export namespace Components {
     */
     'endInfiniteScroll': () => Promise<void>;
     /**
+    * Ends search process by hiding Loading spinner and refreshing items. Use it together with `onSearch` event to indicate search end. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endsearch).
+    * @memberof IonicSelectableComponent
+    */
+    'endSearch': () => Promise<void>;
+    /**
     * Return a list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button. After the user has clicked Confirm button items to confirm are cleared. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
     * @returns a promise whit de list of items that are selected and awaiting confirmation by user
     * @memberof IonicSelectableComponent
@@ -164,6 +169,11 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'headerColor': string;
+    /**
+    * Hides Loading spinner. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideloading).
+    * @memberof IonicSelectableComponent
+    */
+    'hideLoading': () => Promise<void>;
     /**
     * The threshold distance from the bottom of the content to call the infinite output event when scrolled. Use the value 100px when the scroll is within 100 pixels from the bottom of the page. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
     * @default '100px'
@@ -360,6 +370,16 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'shouldStoreItemValue'?: boolean;
+    /**
+    * Shows Loading spinner. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showloading).
+    * @memberof IonicSelectableComponent
+    */
+    'showLoading': () => Promise<void>;
+    /**
+    * Starts search process by showing Loading spinner. Use it together with `onSearch` event to indicate search start. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#startsearch).
+    * @memberof IonicSelectableComponent
+    */
+    'startSearch': () => Promise<void>;
     /**
     * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
     * @readonly

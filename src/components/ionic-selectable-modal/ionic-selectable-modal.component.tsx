@@ -106,6 +106,12 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           )}
         </ion-header>
         <ion-content>
+          {this.selectableComponent.isSearching && (
+            <div class="ionic-selectable-spinner">
+              <div class="ionic-selectable-spinner-background"></div>
+              <ion-spinner></ion-spinner>
+            </div>
+          )}
           {!this.selectableComponent.hasFilteredItems && (
             <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
           )}
