@@ -409,6 +409,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public searchText = '';
 
   /**
+   * Text to display when no items have been found during search.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchfailtext).
+   *
+   * @default 'No items found.'
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public searchFailText = 'No items found.';
+
+  /**
+   * Determines whether Searchbar should receive focus when Modal is opened.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldfocussearchbar).
+   *
+   * @default false
+   * @memberof IonicSelectableComponent
+   */
+  @Prop() public shouldFocusSearchbar = false;
+
+  /**
    * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar).
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
    *
@@ -621,7 +639,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public virtualScrollHeaderFn = () => null;
 
   @Watch('shouldStoreItemValue')
-  public shouldStoreItemValueChanged(value: boolean): void {
+  protected shouldStoreItemValueChanged(value: boolean): void {
     if (!value && !this.hasObjects) {
       throw new Error(
         `If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`
@@ -630,7 +648,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('itemValueField')
-  public itemValueFieldChanged(value: string): void {
+  protected itemValueFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
       throw new Error(
         `If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`
@@ -641,7 +659,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('itemTextField')
-  public itemTextFieldChanged(value: string): void {
+  protected itemTextFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
       throw new Error(
         `If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`
@@ -652,18 +670,18 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('items')
-  public itemsChanged(value: []): void {
+  protected itemsChanged(value: []): void {
     this.setItems(value);
   }
 
   @Watch('isDisabled')
   @Watch('placeholder')
-  public disabledChanged(): void {
+  protected disabledChanged(): void {
     this.emitStyle();
   }
 
   @Watch('value')
-  public valueChanged(newValue: any | any[]): void {
+  protected valueChanged(newValue: any | any[]): void {
     if (!this.isChangeInternal) {
       this.emitStyle();
       if (this.isInited) {
@@ -674,7 +692,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('searchText')
-  public searchTextChanged(newValue: string): void {
+  protected searchTextChanged(newValue: string): void {
     if (!this.isChangeInternal) {
       if (this.isOpened) {
         this.filterItems(newValue, false);
@@ -687,8 +705,13 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('canClear')
   @Watch('canAddItem')
   @Watch('hasConfirmButton')
-  public isMultipleChanged(): void {
+  protected isMultipleChanged(): void {
     this.countFooterButtons();
+  }
+
+  @Watch('disabledItems')
+  protected disabledItemsChanged(): void {
+    this.selectableModalComponent?.update();
   }
 
   public async connectedCallback(): Promise<void> {
@@ -871,6 +894,38 @@ export class IonicSelectableComponent implements ComponentInterface {
       this.selectableModalComponent.virtualScrollElement.checkEnd();
     }
     this.setItems(this.items);
+  }
+
+  /**
+   * Scrolls to the top of Modal content.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltotop).
+   *
+   * @returns Promise that resolves when scroll has been completed.
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async scrollToTop(): Promise<any> {
+    if (!this.isOpened) {
+      return Promise.reject(`IonicSelectable content cannot be scrolled: ${this.element.id}`);
+    }
+    await this.selectableModalComponent.contentElement.scrollToTop();
+    return Promise.resolve();
+  }
+
+  /**
+   * Scrolls to the bottom of Modal content.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltobottom).
+   *
+   * @returns Promise that resolves when scroll has been completed.
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async scrollToBottom(): Promise<any> {
+    if (!this.isOpened) {
+      return Promise.reject(`IonicSelectable content cannot be scrolled: ${this.element.id}`);
+    }
+    await this.selectableModalComponent.contentElement.scrollToBottom();
+    return Promise.resolve();
   }
 
   public clearItems(): void {

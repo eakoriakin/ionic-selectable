@@ -260,6 +260,18 @@ export namespace Components {
     */
     'placeholder'?: string | null;
     /**
+    * Scrolls to the bottom of Modal content. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltobottom).
+    * @returns Promise that resolves when scroll has been completed.
+    * @memberof IonicSelectableComponent
+    */
+    'scrollToBottom': () => Promise<any>;
+    /**
+    * Scrolls to the top of Modal content. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltotop).
+    * @returns Promise that resolves when scroll has been completed.
+    * @memberof IonicSelectableComponent
+    */
+    'scrollToTop': () => Promise<any>;
+    /**
     * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar). Only applies to md mode. Defaults to "arrow-back-sharp". See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
     * @default 'arrow-back-sharp'
     * @memberof IonicSelectableComponent
@@ -282,6 +294,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'searchDebounce': number;
+    /**
+    * Text to display when no items have been found during search. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchfailtext).
+    * @default 'No items found.'
+    * @memberof IonicSelectableComponent
+    */
+    'searchFailText': string;
     /**
     * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "search-outline" in ios mode and "search-sharp" in md mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
     * @default 'none'
@@ -330,6 +348,12 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'shouldDelegateSearchToEvent': boolean;
+    /**
+    * Determines whether Searchbar should receive focus when Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldfocussearchbar).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldFocusSearchbar': boolean;
     /**
     * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
     * @default false
@@ -673,6 +697,12 @@ declare namespace LocalJSX {
     */
     'searchDebounce'?: number;
     /**
+    * Text to display when no items have been found during search. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchfailtext).
+    * @default 'No items found.'
+    * @memberof IonicSelectableComponent
+    */
+    'searchFailText'?: string;
+    /**
     * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar). Defaults to "search-outline" in ios mode and "search-sharp" in md mode. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
     * @default 'none'
     * @memberof IonicSelectableComponent
@@ -720,6 +750,12 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'shouldDelegateSearchToEvent'?: boolean;
+    /**
+    * Determines whether Searchbar should receive focus when Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldfocussearchbar).
+    * @default false
+    * @memberof IonicSelectableComponent
+    */
+    'shouldFocusSearchbar'?: boolean;
     /**
     * Is set to true, the value will be extracted from the itemValueField of the objects. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
     * @default false

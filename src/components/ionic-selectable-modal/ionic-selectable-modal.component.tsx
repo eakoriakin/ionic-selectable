@@ -19,8 +19,8 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   @State() private toggleUpdate: boolean = false;
 
   public infiniteScrollElement: HTMLIonInfiniteScrollElement;
-
   public virtualScrollElement: HTMLIonVirtualScrollElement;
+  public contentElement: HTMLIonContentElement;
 
   /**
    * Rerender the component
@@ -39,6 +39,15 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   public componentDidLoad(): void {
     this.infiniteScrollElement = this.element.querySelector('ion-infinite-scroll');
     this.virtualScrollElement = this.element.querySelector('ion-virtual-scroll');
+    this.contentElement = this.element.querySelector('ion-content');
+    if (this.selectableComponent.shouldFocusSearchbar) {
+      const searchBarElement = this.element.querySelector('ion-searchbar');
+      searchBarElement.setFocus();
+      // Focus after a delay because focus doesn't work without it.
+      setTimeout(() => {
+        searchBarElement.setFocus();
+      }, 1000);
+    }
   }
 
   private renderItem(item: any): any {
@@ -97,6 +106,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           )}
         </ion-header>
         <ion-content>
+          {!this.selectableComponent.hasFilteredItems && (
+            <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
+          )}
           {!this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
             <ion-list>
               {this.selectableComponent.filteredGroups.map((group) => {
