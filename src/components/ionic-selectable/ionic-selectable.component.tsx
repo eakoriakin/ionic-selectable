@@ -566,7 +566,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public addItem: EventEmitter<IIonicSelectableEvent>;
+  @Event() public addItemEvent: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when Clear button has been clicked.
@@ -584,6 +584,15 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Event() public changed!: EventEmitter<IIonicSelectableEvent>;
+
+  /**
+   * Fires when items has changed.
+   * if isMultiple is set to true 'value' is an array else is a object
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Event() public itemsChanged!: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when an item has been selected or unselected.
@@ -640,7 +649,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Prop() public virtualScrollHeaderFn = () => null;
 
   @Watch('shouldStoreItemValue')
-  protected shouldStoreItemValueChanged(value: boolean): void {
+  protected onShouldStoreItemValueChanged(value: boolean): void {
     if (!value && !this.hasObjects) {
       throw new Error(
         `If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`
@@ -649,7 +658,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('itemValueField')
-  protected itemValueFieldChanged(value: string): void {
+  protected onItemValueFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
       throw new Error(
         `If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`
@@ -660,7 +669,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('itemTextField')
-  protected itemTextFieldChanged(value: string): void {
+  protected onItemTextFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
       throw new Error(
         `If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`
@@ -671,18 +680,18 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('items')
-  protected itemsChanged(value: []): void {
+  protected onItemsChanged(value: []): void {
     this.setItems(value);
   }
 
   @Watch('isDisabled')
   @Watch('placeholder')
-  protected disabledChanged(): void {
+  protected onDisabledChanged(): void {
     this.emitStyle();
   }
 
   @Watch('value')
-  protected valueChanged(newValue: any | any[]): void {
+  protected onValueChanged(newValue: any | any[]): void {
     if (!this.isChangeInternal) {
       this.emitStyle();
       if (this.isInited) {
@@ -693,7 +702,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   @Watch('searchText')
-  protected searchTextChanged(newValue: string): void {
+  protected onSearchTextChanged(newValue: string): void {
     if (!this.isChangeInternal) {
       if (this.isOpened) {
         this.startSearch();
@@ -708,12 +717,12 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('canClear')
   @Watch('canAddItem')
   @Watch('hasConfirmButton')
-  protected isMultipleChanged(): void {
+  protected onIsMultipleChanged(): void {
     this.countFooterButtons();
   }
 
   @Watch('disabledItems')
-  protected disabledItemsChanged(): void {
+  protected onDisabledItemsChanged(): void {
     this.selectableModalComponent?.update();
   }
 
@@ -892,10 +901,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
     this.selectableModalComponent.infiniteScrollElement.complete();
-    if (this.hasVirtualScroll) {
-      // Rerender Virtual Scroll List After Adding New Data
-      this.selectableModalComponent.virtualScrollElement.checkEnd();
-    }
     this.setItems(this.items);
   }
 
@@ -931,7 +936,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     return Promise.resolve();
   }
 
-    /**
+  /**
    * Starts search process by showing Loading spinner.
    * Use it together with `onSearch` event to indicate search start.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#startsearch).
@@ -967,14 +972,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.emitOnSearchSuccessOrFail(this.hasFilteredItems);
   }
 
-    /**
+  /**
    * Shows Loading spinner.
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showloading).
    *
    * @memberof IonicSelectableComponent
    */
   @Method()
-  public async showLoading(): Promise<void>  {
+  public async showLoading(): Promise<void> {
     if (this.isDisabled) {
       return;
     }
@@ -990,13 +995,144 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Method()
-  public async hideLoading(): Promise<void>  {
+  public async hideLoading(): Promise<void> {
     if (this.isDisabled) {
       return;
     }
 
     this.isSearching = false;
     this.selectableModalComponent?.update();
+  }
+
+  /**
+   * Adds item.
+   * **Note**: If you want an item to be added to the original array as well use two-way data binding syntax on `[(items)]` field.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#additem).
+   *
+   * @param item Item to add.
+   * @returns Promise that resolves when item has been added.
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async addItem(item: any): Promise<any> {
+    // Adding item triggers onItemsChange.
+    // Return a promise that resolves when onItemsChange finishes.
+    // We need a promise or user could do something after item has been added,
+    // e.g. use search() method to find the added item.
+    this.items.push(item);
+    this.setItems(this.items);
+
+    return Promise.resolve();
+  }
+
+  /**
+   * Deletes item.
+   * **Note**: If you want an item to be deleted from the original array as well use two-way data binding syntax on `[(items)]` field.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#deleteitem).
+   *
+   * @param item Item to delete.
+   * @returns Promise that resolves when item has been deleted.
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async deleteItem(item: any): Promise<any> {
+    let hasValueChanged = false;
+
+    // Remove deleted item from selected items.
+    if (this.selectedItems) {
+      this.selectedItems = this.selectedItems.filter(
+        (_item) => this.getItemValue(this.selectedItems, item) !== this.getItemValue(this.selectedItems, _item)
+      );
+    }
+
+    // Remove deleted item from value.
+    if (this.value) {
+      if (this.isMultiple) {
+        const values = this.value.filter((value) => {
+          return value.id !== item.id;
+        });
+
+        if (values.length !== this.value.length) {
+          this.value = values;
+          hasValueChanged = true;
+        }
+      } else {
+        if (item === this.value) {
+          this.value = null;
+          hasValueChanged = true;
+        }
+      }
+    }
+
+    if (hasValueChanged) {
+      this.emitChanged();
+    }
+
+    // Remove deleted item from list.
+    const items = this.items.filter((_item) => {
+      return _item.id !== item.id;
+    });
+
+    // Refresh items on parent component.
+    // Pending - this.itemsChange.emit(items);
+
+    // Refresh list.
+    this.setItems(items);
+
+    return Promise.resolve();
+  }
+
+  /**
+   * Selects or deselects all or specific items.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#toggleitems).
+   *
+   * @param isSelect Determines whether to select or deselect items.
+   * @param [items] Items to toggle. If items are not set all items will be toggled.
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async toggleItems(isSelect: boolean, items?: any[]) {
+    if (isSelect) {
+      const hasItems = items && items.length;
+      let itemsToToggle = this.groups.reduce((allItems, group) => {
+        return allItems.concat(group.items);
+      }, []);
+
+      // Don't allow to select all items in single mode.
+      if (!this.isMultiple && !hasItems) {
+        itemsToToggle = [];
+      }
+
+      // Toggle specific items.
+      if (hasItems) {
+        itemsToToggle = itemsToToggle.filter(itemToToggle => {
+          return items.find(item => {
+            return this.getItemValue(itemsToToggle, itemToToggle) === this.getItemValue(items, item);
+          }) !== undefined;
+        });
+
+        // Take the first item for single mode.
+        if (!this.isMultiple) {
+          itemsToToggle.splice(0, 1);
+        }
+      }
+
+      itemsToToggle.forEach(item => {
+        this.addSelectedItem(item);
+      });
+    } else {
+      const hasItems = items && items.length;
+      if(hasItems){
+        items.forEach(item => {
+          this.deleteSelectedItem(item);
+        });
+      } else {
+        this.selectedItems = [];
+      }
+      this.selectableModalComponent?.update();
+    }
+
+    this.itemsToConfirm = [...this.selectedItems];
   }
 
   public clearItems(): void {
@@ -1033,9 +1169,9 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
 
-    return this.disabledItems.some((_item) => {
-      return this.getItemValue(_item) === this.getItemValue(item);
-    });
+    return this.disabledItems.some(
+      (_item) => this.getItemValue(this.disabledItems, item) == this.getItemValue(this.disabledItems, _item)
+    );
   }
 
   public selectItem(item: any): void {
@@ -1118,7 +1254,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         }
         const key = typeof val === 'object' ? val[this.itemValueField] : val;
         this.valueItems.push(
-          this.getItemValue(
+          this.getItem(
             this.hasObjects
               ? this.items.find((item) => item[this.itemValueField] === key)
               : this.items.find((item) => item === key)
@@ -1166,9 +1302,9 @@ export class IonicSelectableComponent implements ComponentInterface {
       this.shouldStoreItemValue = true;
     }
 
-    this.itemValueFieldChanged(this.itemValueField);
-    this.itemTextFieldChanged(this.itemTextField);
-    this.shouldStoreItemValueChanged(this.shouldStoreItemValue);
+    this.onItemValueFieldChanged(this.itemValueField);
+    this.onItemTextFieldChanged(this.itemTextField);
+    this.onShouldStoreItemValueChanged(this.shouldStoreItemValue);
 
     // Grouping is supported for objects only.
     // Ionic VirtualScroll has it's own implementation of grouping.
@@ -1208,7 +1344,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.groups = groups;
     this.filteredGroups = this.groups;
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
+    if (this.hasVirtualScroll) {
+      // Rerender Virtual Scroll List After Adding New Data
+      this.selectableModalComponent?.virtualScrollElement.checkEnd();
+    }
     this.selectableModalComponent?.update();
+    if (this.isInited) {
+      this.emitItemsChanged();
+    }
   }
 
   private filterItems(searchText: string, isChangeInternal = true): void {
@@ -1259,7 +1402,10 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private addSelectedItem(item: any): void {
-    this.selectedItems.push(this.getItemValue(item));
+    const exist = this.selectedItems.find((_item) => this.getItemValue(this.selectedItems, item) === this.getItemValue(this.selectedItems, _item));
+    if(!exist){
+      this.selectedItems.push(this.getItem(item));
+    }
     this.selectableModalComponent?.update();
   }
 
@@ -1267,10 +1413,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     let itemToDeleteIndex;
 
     this.selectedItems.forEach((selectedItem, itemIndex) => {
-      if (
-        this.generateText(this.selectedItems, item, this.itemValueField) ===
-        this.generateText(this.selectedItems, selectedItem, this.itemValueField)
-      ) {
+      if (this.getItemValue(this.selectedItems, item) === this.getItemValue(this.selectedItems, selectedItem)) {
         itemToDeleteIndex = itemIndex;
       }
     });
@@ -1278,11 +1421,15 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.selectableModalComponent?.update();
   }
 
-  private getItemValue(item: any): any {
+  private getItem(item: any): any {
     if (!this.hasObjects) {
       return item;
     }
     return this.shouldStoreItemValue ? item[this.itemValueField] : item;
+  }
+
+  private getItemValue(items: any, item: any): any {
+    return this.generateText(items, item, this.itemValueField);
   }
 
   private emitSelected(item: any, isSelected: boolean): void {
@@ -1313,7 +1460,11 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private emitAddItem(): void {
-    this.addItem.emit({ component: this.element });
+    this.addItemEvent.emit({ component: this.element });
+  }
+
+  private emitItemsChanged(): void {
+    this.itemsChanged.emit({ component: this.element, value: this.items });
   }
 
   private emitSearch(): void {
@@ -1401,7 +1552,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (!this.hasObjects) {
       return item;
     }
-    return this.shouldStoreItemValue ? item[this.itemTextField] : item;
+    return item[this.itemTextField];
   }
 
   private parseValue(): any {

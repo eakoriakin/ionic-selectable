@@ -69,13 +69,21 @@
       });
       var el1 = document.getElementById('sel1');
       var items = [];
-      for (let index = 1; index < 10; index++) {
+      for (let index = 1; index < 2; index++) {
         items.push({ id: index, port: 'Salina Cruz' + index, country: { country: 'Mexico' } });
       }
-      var limit = items.length + 10;
-      for (let index = items.length; index < limit; index++) {
+      var limit = items.length + 3;
+      for (let index = items.length + 1; index < limit; index++) {
         items.push({ id: index, port: 'Valencia' + index, country: { country: 'Spain' } });
       }
+      setTimeout(() => {
+        console.log('sd');
+        el1.toggleItems(true, [{ id: 1 }, {id: 2}]);
+      }, 4000);
+      setTimeout(() => {
+        console.log('sd');
+        el1.toggleItems(false, [{ id: 1 }]);
+      }, 6000);
       el1.items = items;
       el1.canClear = false;
       el1.canAddItem = true;
@@ -83,12 +91,6 @@
       el1.hasInfiniteScroll = true;
       el1.hasVirtualScroll = true;
       el1.disabledItems = [{ id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } }]
-      el1.virtualScrollHeaderFn = function (record, recordIndex, records) {
-        if (recordIndex % 5 === 0) {
-          return 'Header ' + recordIndex;
-        }
-        return null;
-      }
       el1.addEventListener('selected', (event) => {
         console.log(event);
       });
@@ -104,15 +106,6 @@
       });
       el1.addEventListener('search', (event) => {
         console.log(event);
-      });
-      el1.addEventListener('infiniteScroll', (event) => {
-        console.log(event);
-        var limit = items.length + 15;
-        for (let index = items.length; index < limit; index++) {
-          items.push({ id: index, port: 'Valencia' + index, country: { country: 'Spain' } });
-        }
-        el1.items = items;
-        el1.endInfiniteScroll();
       });
 
       var el2 = document.getElementById('sel2');

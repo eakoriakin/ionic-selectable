@@ -25,6 +25,13 @@ export namespace Components {
     */
     'addButtonText': string;
     /**
+    * Adds item. **Note**: If you want an item to be added to the original array as well use two-way data binding syntax on `[(items)]` field. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#additem).
+    * @param item Item to add.
+    * @returns Promise that resolves when item has been added.
+    * @memberof IonicSelectableComponent
+    */
+    'addItem': (item: any) => Promise<any>;
+    /**
     * Determines whether to allow adding items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
     * @default false
     * @memberof IonicSelectableComponent
@@ -82,6 +89,13 @@ export namespace Components {
     * @memberof IonicSelectableComponent
     */
     'confirmButtonText': string;
+    /**
+    * Deletes item. **Note**: If you want an item to be deleted from the original array as well use two-way data binding syntax on `[(items)]` field. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#deleteitem).
+    * @param item Item to delete.
+    * @returns Promise that resolves when item has been deleted.
+    * @memberof IonicSelectableComponent
+    */
+    'deleteItem': (item: any) => Promise<any>;
     /**
     * Disables infinite scroll. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableinfinitescroll).
     * @memberof IonicSelectableComponent
@@ -388,6 +402,13 @@ export namespace Components {
     */
     'titleText': string;
     /**
+    * Selects or deselects all or specific items. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#toggleitems).
+    * @param isSelect Determines whether to select or deselect items.
+    * @param items Items to toggle. If items are not set all items will be toggled.
+    * @memberof IonicSelectableComponent
+    */
+    'toggleItems': (isSelect: boolean, items?: any[]) => Promise<void>;
+    /**
     * The value of the component. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
     * @default null
     * @memberof IonicSelectableComponent
@@ -631,7 +652,7 @@ declare namespace LocalJSX {
     * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
     * @memberof IonicSelectableComponent
     */
-    'onAddItem'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onAddItemEvent'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when loses focus. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
     * @memberof IonicSelectableComponent
@@ -662,6 +683,11 @@ declare namespace LocalJSX {
     * @memberof IonicSelectableComponent
     */
     'onInfiniteScroll'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    /**
+    * Fires when items has changed. if isMultiple is set to true 'value' is an array else is a object See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+    * @memberof IonicSelectableComponent
+    */
+    'onItemsChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when Modal has been opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
     * @memberof IonicSelectableComponent
