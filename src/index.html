@@ -76,14 +76,6 @@
       for (let index = items.length + 1; index < limit; index++) {
         items.push({ id: index, port: 'Valencia' + index, country: { country: 'Spain' } });
       }
-      setTimeout(() => {
-        console.log('sd');
-        el1.toggleItems(true, [{ id: 1 }, {id: 2}]);
-      }, 4000);
-      setTimeout(() => {
-        console.log('sd');
-        el1.toggleItems(false, [{ id: 1 }]);
-      }, 6000);
       el1.items = items;
       el1.canClear = false;
       el1.canAddItem = true;

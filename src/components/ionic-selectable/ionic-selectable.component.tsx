@@ -1041,7 +1041,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     // Remove deleted item from selected items.
     if (this.selectedItems) {
       this.selectedItems = this.selectedItems.filter(
-        (_item) => this.getItemValue(this.selectedItems, item) !== this.getItemValue(this.selectedItems, _item)
+        (_item) => this.getItemValue(item) !== this.getStoredItemValue(_item)
       );
     }
 
@@ -1105,10 +1105,12 @@ export class IonicSelectableComponent implements ComponentInterface {
 
       // Toggle specific items.
       if (hasItems) {
-        itemsToToggle = itemsToToggle.filter(itemToToggle => {
-          return items.find(item => {
-            return this.getItemValue(itemsToToggle, itemToToggle) === this.getItemValue(items, item);
-          }) !== undefined;
+        itemsToToggle = itemsToToggle.filter((itemToToggle) => {
+          return (
+            items.find((item) => {
+              return this.getItemValue(itemToToggle) === this.getItemValue(item);
+            }) !== undefined
+          );
         });
 
         // Take the first item for single mode.
@@ -1117,13 +1119,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         }
       }
 
-      itemsToToggle.forEach(item => {
+      itemsToToggle.forEach((item) => {
         this.addSelectedItem(item);
       });
     } else {
       const hasItems = items && items.length;
-      if(hasItems){
-        items.forEach(item => {
+      if (hasItems) {
+        items.forEach((item) => {
           this.deleteSelectedItem(item);
         });
       } else {
@@ -1161,7 +1163,11 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public isItemSelected(item: any): boolean {
-    return this.generateText(this.selectedItems, item, this.itemValueField) !== '';
+    return (
+      this.selectedItems.find((selectedItem) => {
+        return this.getItemValue(item) === this.getStoredItemValue(selectedItem);
+      }) !== undefined
+    );
   }
 
   public isItemDisabled(item: any): boolean {
@@ -1169,9 +1175,9 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
 
-    return this.disabledItems.some(
-      (_item) => this.getItemValue(this.disabledItems, item) == this.getItemValue(this.disabledItems, _item)
-    );
+    return this.disabledItems.some((_item) => {
+      return this.getItemValue(_item) === this.getItemValue(item);
+    });
   }
 
   public selectItem(item: any): void {
@@ -1204,8 +1210,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         // Emit onSelect event after setting items to confirm so they could be used inside the event.
         this.emitSelected(item, !isItemSelected);
       } else {
-        const isItemValue = this.isItemValue(item);
-        if (!isItemValue) {
+        if (!isItemSelected) {
           this.selectedItems = [];
           this.addSelectedItem(item);
 
@@ -1252,14 +1257,10 @@ export class IonicSelectableComponent implements ComponentInterface {
         } else if (!this.shouldStoreItemValue && typeof val !== 'object') {
           throw new Error(`If shouldStoreItemValue is set to false, value must be object: ${this.element.id}`);
         }
-        const key = typeof val === 'object' ? val[this.itemValueField] : val;
-        this.valueItems.push(
-          this.getItem(
-            this.hasObjects
-              ? this.items.find((item) => item[this.itemValueField] === key)
-              : this.items.find((item) => item === key)
-          )
-        );
+        const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(val));
+        if (itemFind) {
+          this.valueItems.push(this.getItem(itemFind));
+        }
       });
       if (!this.isMultiple) {
         this.valueItems = (this.valueItems as []).pop();
@@ -1326,7 +1327,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         groups = [];
 
         items.forEach((item) => {
-          const groupValue = this.generateText(this.items, item, this.groupValueField || this.groupTextField);
+          const groupValue = this.getPropertyValue(item, this.groupValueField || this.groupTextField);
           const group = groups.find((_group) => _group.value === groupValue);
 
           if (group) {
@@ -1334,7 +1335,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           } else {
             groups.push({
               value: groupValue,
-              text: this.generateText(this.items, item, this.groupTextField),
+              text: this.getPropertyValue(item, this.groupTextField),
               items: [item]
             });
           }
@@ -1397,13 +1398,9 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
   }
 
-  private isItemValue(item: any): boolean {
-    return this.generateText([this.valueItems], item, this.itemValueField) !== '';
-  }
-
   private addSelectedItem(item: any): void {
-    const exist = this.selectedItems.find((_item) => this.getItemValue(this.selectedItems, item) === this.getItemValue(this.selectedItems, _item));
-    if(!exist){
+    const exist = this.selectedItems.find((_item) => this.getItemValue(item) === this.getStoredItemValue(_item));
+    if (!exist) {
       this.selectedItems.push(this.getItem(item));
     }
     this.selectableModalComponent?.update();
@@ -1413,7 +1410,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     let itemToDeleteIndex;
 
     this.selectedItems.forEach((selectedItem, itemIndex) => {
-      if (this.getItemValue(this.selectedItems, item) === this.getItemValue(this.selectedItems, selectedItem)) {
+      if (this.getItemValue(item) === this.getStoredItemValue(selectedItem)) {
         itemToDeleteIndex = itemIndex;
       }
     });
@@ -1428,8 +1425,20 @@ export class IonicSelectableComponent implements ComponentInterface {
     return this.shouldStoreItemValue ? item[this.itemValueField] : item;
   }
 
-  private getItemValue(items: any, item: any): any {
-    return this.generateText(items, item, this.itemValueField);
+  private getItemValue(item: any): any {
+    if (!this.hasObjects) {
+      return item;
+    }
+
+    return item[this.itemValueField];
+  }
+
+  private getStoredItemValue(item: any): any {
+    if (!this.hasObjects) {
+      return item;
+    }
+
+    return this.shouldStoreItemValue ? item : item[this.itemValueField];
   }
 
   private emitSelected(item: any, isSelected: boolean): void {
@@ -1540,75 +1549,48 @@ export class IonicSelectableComponent implements ComponentInterface {
     );
   }
 
-  private getText(): string {
-    const selectedText = this.selectedText;
-    if (selectedText != null && selectedText !== '') {
-      return selectedText;
-    }
-    return this.generateText(this.items, this.valueItems, this.itemTextField);
-  }
-
   public getItemText(item: any): string {
     if (!this.hasObjects) {
-      return item;
+      return item ?? '';
     }
-    return item[this.itemTextField];
+    return this.getPropertyValue(item, this.itemTextField);
+  }
+
+  private getPropertyValue(object: any, property: string): any {
+    if (!property) {
+      return '';
+    }
+
+    return property.split('.').reduce((_object, _property) => {
+      return _object ? _object[_property] : null;
+    }, object);
   }
 
   private parseValue(): any {
     return JSON.stringify(this.valueItems);
   }
 
-  private generateText(items: any[], value: any | any[], property: string): string {
-    if (value === undefined || value === null) {
-      return '';
-    }
-    let hasObjects = false;
-    items.forEach((item) => {
-      if (typeof item === 'object') {
-        hasObjects = true;
-      }
-    });
-    if (Array.isArray(value)) {
-      return value
-        .map((val) => {
-          const key = typeof val === 'object' ? val[this.itemValueField] : val;
-          if (hasObjects) {
-            const findItem = items.find((item) => item[this.itemValueField] === key);
-            if (findItem) {
-              return property
-                ? property.split('.').reduce((v, prop) => {
-                    return v ? v[prop] : null;
-                  }, findItem)
-                : val.toString();
-            } else {
-              return '';
-            }
-          } else {
-            const findItem = items.find((item) => item === key);
-            return findItem ? findItem.toString() : '';
-          }
+  private generateText(): string {
+    if (Array.isArray(this.valueItems)) {
+      return this.valueItems
+        .map((_item) => {
+          const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(_item));
+          return itemFind ? this.getItemText(itemFind) : '';
         })
         .filter((opt) => opt !== null)
         .join(', ');
     } else {
-      const key = typeof value === 'object' ? value[this.itemValueField] : value;
-      if (hasObjects) {
-        const findItem = items.find((item) => item[this.itemValueField] === key);
-        if (findItem) {
-          return property
-            ? property.split('.').reduce((v, prop) => {
-                return v ? v[prop] : null;
-              }, findItem)
-            : value.toString();
-        } else {
-          return '';
-        }
-      } else {
-        const findItem = items.find((item) => item === key);
-        return findItem ? findItem.toString() : '';
-      }
+      const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(this.valueItems));
+      return itemFind ? this.getItemText(itemFind) : '';
     }
+  }
+
+  private getText(): string {
+    const selectedText = this.selectedText;
+    if (selectedText != null && selectedText !== '') {
+      return selectedText;
+    }
+    return this.generateText();
   }
 
   private async emitStyle(): Promise<void> {
