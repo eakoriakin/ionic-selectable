@@ -1469,7 +1469,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private emitAddItem(): void {
-    this.afterAddItem.emit({ component: this.element });
+    this.beforeAddItem.emit({ component: this.element });
   }
 
   private emitItemsChanged(): void {
