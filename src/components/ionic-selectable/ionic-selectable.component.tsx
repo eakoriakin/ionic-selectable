@@ -566,7 +566,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public addItemEvent: EventEmitter<IIonicSelectableEvent>;
+  @Event() public beforeAddItem: EventEmitter<IIonicSelectableEvent>;
 
   /**
    * Fires when Clear button has been clicked.
@@ -1251,13 +1251,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         throw new Error(`If isMultiple is set to false, value must be object: ${this.element.id}`);
       }
       this.valueItems = [];
-      (value as []).forEach((val) => {
-        if (this.shouldStoreItemValue && typeof val === 'object') {
+      (value as []).forEach((_item) => {
+        if (this.shouldStoreItemValue && typeof _item === 'object') {
           throw new Error(`If shouldStoreItemValue is set to true, value must be primitive: ${this.element.id}`);
-        } else if (!this.shouldStoreItemValue && typeof val !== 'object') {
+        } else if (!this.shouldStoreItemValue && typeof _item !== 'object') {
           throw new Error(`If shouldStoreItemValue is set to false, value must be object: ${this.element.id}`);
         }
-        const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(val));
+        const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(_item));
         if (itemFind) {
           this.valueItems.push(this.getItem(itemFind));
         }
@@ -1469,7 +1469,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private emitAddItem(): void {
-    this.addItemEvent.emit({ component: this.element });
+    this.afterAddItem.emit({ component: this.element });
   }
 
   private emitItemsChanged(): void {

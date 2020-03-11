@@ -652,7 +652,7 @@ declare namespace LocalJSX {
     * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
     * @memberof IonicSelectableComponent
     */
-    'onAddItemEvent'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onBeforeAddItem'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
     /**
     * Fires when loses focus. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
     * @memberof IonicSelectableComponent

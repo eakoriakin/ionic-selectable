@@ -69,7 +69,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   private renderHeader(header: any): any {
     return (
-      <ion-item-divider color={this.selectableComponent.headerColor}>
+      <ion-item-divider color={this.selectableComponent.groupColor}>
         {/* Need ion-label for text ellipsis. */}
         <ion-label>{header}</ion-label>
       </ion-item-divider>
@@ -80,7 +80,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
     return (
       <Host>
         <ion-header>
-          <ion-toolbar>
+          <ion-toolbar color={this.selectableComponent.headerColor}>
             <ion-title>{this.selectableComponent.titleText}</ion-title>
             <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
               <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
