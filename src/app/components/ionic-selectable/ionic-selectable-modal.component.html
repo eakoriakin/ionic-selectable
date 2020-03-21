@@ -125,7 +125,7 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
   <ion-list no-margin
-    *ngIf="selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems"
+    *ngIf="selectComponent.hasVirtualScroll"
     [virtualScroll]="selectComponent._filteredGroups[0].items"
     [approxItemHeight]="selectComponent.virtualScrollApproxItemHeight"
     [approxItemWidth]="selectComponent.virtualScrollApproxItemWidth"
