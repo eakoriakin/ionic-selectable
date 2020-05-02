@@ -1,7 +1,7 @@
 {
   "name": "test-isc",
   "title": "Ionic Selectable",
-  "version": "5.0.0-alpha.2",
+  "version": "5.0.0-alpha.4",
   "description": "An Ionic component similar to Ionic Select, that allows to search items, including async search, group, add, edit, delete items, and much more.",
   "author": {
     "name": "Evgenii Koriakin",
@@ -46,7 +46,8 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "prettier": "prettier src/**/*.tsx src/**/*.scss --write"
+    "prettier": "prettier src/**/*.tsx src/**/*.scss --write",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@ionic/core": "5.0.4",
@@ -58,5 +59,9 @@
   },
   "peerDependencies": {
     "@ionic/core": "5.x"
-  }
+  },
+  "publishConfig": {
+    "directory": "/"
+  },
+  "gitHead": "39d44bffa584ab4dc77037336faf577a8512c00b"
 }
