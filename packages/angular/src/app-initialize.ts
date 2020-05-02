@@ -10,7 +10,7 @@ export const appInitialize = (doc: Document, zone: NgZone) => {
     const win: Window | undefined = doc.defaultView as any;
     if (win && typeof (window as any) !== 'undefined') {
       if (didInitialize) {
-        console.warn('Ionic Angular was already initialized. Make sure IonicModule.forRoot() is just called once.');
+        console.warn('IonicSelectable Angular was already initialized. Make sure IonicSelectableModule.forRoot() is just called once.');
       }
       didInitialize = true;
 
@@ -20,7 +20,6 @@ export const appInitialize = (doc: Document, zone: NgZone) => {
 
       return applyPolyfills().then(() => {
         return defineCustomElements(win, {
-          exclude: ['ion-tabs', 'ion-tab'],
           syncQueue: true,
           raf,
           jmp: (h: any) => zone.runOutsideAngular(h),
