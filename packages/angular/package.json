@@ -27,11 +27,10 @@
     "select",
     "selectable"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build.ng": "ng-packagr -p package.json",
+    "prepare": "npm run build.ng"
   },
   "dependencies": {
     "test-isc": "^5.0.0-alpha.4",
@@ -65,6 +64,10 @@
     "tslint-ionic-rules": "0.0.21",
     "typescript": "3.4.5",
     "zone.js": "^0.8.28"
+  },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
   },
   "ngPackage": {
     "lib": {

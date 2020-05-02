@@ -61,7 +61,8 @@
     "@ionic/core": "5.x"
   },
   "publishConfig": {
-    "directory": "/"
+    "directory": "/",
+    "access": "public"
   },
   "gitHead": "39d44bffa584ab4dc77037336faf577a8512c00b"
 }
