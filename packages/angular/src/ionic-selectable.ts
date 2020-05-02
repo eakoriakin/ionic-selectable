@@ -1,8 +1,6 @@
 import { EventEmitter, ChangeDetectorRef, ElementRef, NgZone, Component, ChangeDetectionStrategy } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from './proxies-utils';
 import { Components } from 'test-isc';
-import { IIonicSelectableEvent } from 'test-isc/dist/types/components/ionic-selectable/ionic-selectable.interfaces.component';
-export { IIonicSelectableEvent } from 'test-isc/dist/types/components/ionic-selectable/ionic-selectable.interfaces.component';
 export declare interface IonicSelectable extends Components.IonicSelectable {}
 @ProxyCmp({
   inputs: [
@@ -136,20 +134,20 @@ export declare interface IonicSelectable extends Components.IonicSelectable {}
   ],
 })
 export class IonicSelectable {
-  infiniteScroll!: EventEmitter<IIonicSelectableEvent>;
-  search!: EventEmitter<IIonicSelectableEvent>;
-  searchFailed!: EventEmitter<IIonicSelectableEvent>;
-  searchSuccessed!: EventEmitter<IIonicSelectableEvent>;
-  beforeAddItem!: EventEmitter<IIonicSelectableEvent>;
-  onChanged!: EventEmitter<IIonicSelectableEvent>;
-  cleared!: EventEmitter<IIonicSelectableEvent>;
-  changed!: EventEmitter<IIonicSelectableEvent>;
-  itemsChanged!: EventEmitter<IIonicSelectableEvent>;
-  selected!: EventEmitter<IIonicSelectableEvent>;
-  opened!: EventEmitter<IIonicSelectableEvent>;
-  closed!: EventEmitter<IIonicSelectableEvent>;
-  focused!: EventEmitter<IIonicSelectableEvent>;
-  blurred!: EventEmitter<IIonicSelectableEvent>;
+  infiniteScroll!: EventEmitter<CustomEvent>;
+  search!: EventEmitter<CustomEvent>;
+  searchFailed!: EventEmitter<CustomEvent>;
+  searchSuccessed!: EventEmitter<CustomEvent>;
+  beforeAddItem!: EventEmitter<CustomEvent>;
+  onChanged!: EventEmitter<CustomEvent>;
+  cleared!: EventEmitter<CustomEvent>;
+  changed!: EventEmitter<CustomEvent>;
+  itemsChanged!: EventEmitter<CustomEvent>;
+  selected!: EventEmitter<CustomEvent>;
+  opened!: EventEmitter<CustomEvent>;
+  closed!: EventEmitter<CustomEvent>;
+  focused!: EventEmitter<CustomEvent>;
+  blurred!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
