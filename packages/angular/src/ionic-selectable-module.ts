@@ -1,6 +1,6 @@
 
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IonicSelectable } from './ionic-selectable';
 
 @NgModule({
