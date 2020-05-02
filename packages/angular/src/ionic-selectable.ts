@@ -134,12 +134,11 @@ export declare interface IonicSelectable extends Components.IonicSelectable {}
   ],
 })
 export class IonicSelectable {
-  infiniteScroll!: EventEmitter<CustomEvent>;
-  search!: EventEmitter<CustomEvent>;
+  infiniteScrolled!: EventEmitter<CustomEvent>;
+  searching!: EventEmitter<CustomEvent>;
   searchFailed!: EventEmitter<CustomEvent>;
   searchSuccessed!: EventEmitter<CustomEvent>;
-  beforeAddItem!: EventEmitter<CustomEvent>;
-  onChanged!: EventEmitter<CustomEvent>;
+  itemAdding!: EventEmitter<CustomEvent>;
   cleared!: EventEmitter<CustomEvent>;
   changed!: EventEmitter<CustomEvent>;
   itemsChanged!: EventEmitter<CustomEvent>;
@@ -153,11 +152,11 @@ export class IonicSelectable {
     c.detach();
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, [
-      'infiniteScroll',
-      'search',
+      'infiniteScrolled',
+      'searching',
       'searchFailed',
       'searchSuccessed',
-      'beforeAddItem',
+      'itemAdding',
       'cleared',
       'changed',
       'itemsChanged',
