@@ -46,7 +46,8 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "prettier": "prettier src/**/*.tsx src/**/*.scss --write"
+    "prettier": "prettier src/**/*.tsx src/**/*.scss --write",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@ionic/core": "5.0.4",
@@ -61,5 +62,6 @@
   },
   "publishConfig": {
     "directory": "dist"
-  }
+  },
+  "gitHead": "c30741e8e3ff2488b5b883ff905d6344ef76a0f2"
 }

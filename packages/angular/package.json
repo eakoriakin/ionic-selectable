@@ -73,5 +73,6 @@
     "whitelistedNonPeerDependencies": [
       "test-isc"
     ]
-  }
+  },
+  "gitHead": "c30741e8e3ff2488b5b883ff905d6344ef76a0f2"
 }
