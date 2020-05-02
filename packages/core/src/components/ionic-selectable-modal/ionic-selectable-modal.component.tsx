@@ -151,7 +151,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             </ion-infinite-scroll>
           )}
         </ion-content>
-        {this.selectableComponent.footerButtonsCount /* && selectComponent.footerTemplate */ && (
+        {this.selectableComponent.footerButtonsCount > 0 /* && selectComponent.footerTemplate */ && (
           <ion-footer>
             <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
               <ion-row>
