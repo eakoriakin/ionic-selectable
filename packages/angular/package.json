@@ -1,6 +1,6 @@
 {
   "name": "test-isa",
-  "version": "5.0.0-alpha.19",
+  "version": "5.0.0-alpha.20",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -33,7 +33,7 @@
     "prepare": "npm run build.ng"
   },
   "dependencies": {
-    "test-isc": "^5.0.0-alpha.19",
+    "test-isc": "^5.0.0-alpha.20",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
