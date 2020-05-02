@@ -1,6 +1,8 @@
 import { EventEmitter, ChangeDetectorRef, ElementRef, NgZone, Component, ChangeDetectionStrategy } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from './proxies-utils';
 import { Components } from 'test-isc';
+import { IonicSelectableChangedEvent } from 'test-isc/dist/types/components/ionic-selectable/ionic-selectable.interfaces.component';
+export { IonicSelectableChangedEvent } from 'test-isc/dist/types/components/ionic-selectable/ionic-selectable.interfaces.component';
 export declare interface IonicSelectable extends Components.IonicSelectable {}
 @ProxyCmp({
   inputs: [
@@ -140,7 +142,7 @@ export class IonicSelectable {
   searchSuccessed!: EventEmitter<CustomEvent>;
   itemAdding!: EventEmitter<CustomEvent>;
   cleared!: EventEmitter<CustomEvent>;
-  changed!: EventEmitter<CustomEvent>;
+  changed!: EventEmitter<CustomEvent<IonicSelectableChangedEvent<any[]>>>;
   itemsChanged!: EventEmitter<CustomEvent>;
   selected!: EventEmitter<CustomEvent>;
   opened!: EventEmitter<CustomEvent>;
