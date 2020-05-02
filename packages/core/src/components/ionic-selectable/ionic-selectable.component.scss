@@ -1,0 +1,102 @@
+@import './ionic-selectable.vars.component';
+
+// ionic-selectable
+// --------------------------------------------------
+
+:host {
+  /**
+   * @prop --padding-top: Top padding
+   * @prop --padding-end: Right padding if direction is left-to-right, and left padding if direction is right-to-left
+   * @prop --padding-bottom: Bottom padding
+   * @prop --padding-start: Left padding if direction is left-to-right, and right padding if direction is right-to-left
+   *
+   * @prop --placeholder-color: Placeholder color
+   * @prop --placeholder-opacity: Placeholder opacity
+   */
+  --placeholder-color: currentColor;
+  --placeholder-opacity: 0.33;
+
+  @include padding(var(--padding-top), var(--padding-end), var(--padding-bottom), var(--padding-start));
+
+  display: flex;
+  position: relative;
+
+  align-items: center;
+
+  font-family: var(--font-family, inherit);
+
+  overflow: hidden;
+  z-index: var(--z-index-item-input);
+}
+
+:host(.in-item) {
+  position: static;
+
+  max-width: 45%;
+}
+
+:host(.ionic-selectable-is-disabled) {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+:host(.ion-focused) button {
+  border: 2px solid #5e9ed6;
+}
+
+:host(.item-multiple-inputs) {
+  position: relative;
+}
+
+:host(.item-label-stacked),
+:host(.item-label-floating) {
+  --padding-start: 0;
+
+  align-self: stretch;
+
+  width: 100%;
+
+  max-width: 100%;
+}
+
+button {
+  @include input-cover();
+}
+
+.ionic-selectable {
+  &-placeholder {
+    color: var(--placeholder-color);
+    opacity: var(--placeholder-opacity);
+  }
+
+  &-text {
+    flex: 1;
+    min-width: 16px;
+    font-size: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  &-icon {
+    position: relative;
+    opacity: 0.33;
+
+    &-inner {
+      @include position(50%, null, null, 5px);
+      @include margin(-3px, null, null, null);
+
+      position: absolute;
+
+      width: 0;
+      height: 0;
+
+      border-top: 5px solid;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+
+      color: currentColor;
+
+      pointer-events: none;
+    }
+  }
+}
