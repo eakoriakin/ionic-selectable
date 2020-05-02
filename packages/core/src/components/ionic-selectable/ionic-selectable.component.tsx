@@ -13,7 +13,21 @@ import {
 } from '@stencil/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
-import { IonicSelectableInfiniteScrolledEvent, IonicSelectableSearchingEvent, IonicSelectableSearchSuccessedEvent, IonicSelectableSearchFailedEvent, IonicSelectableSelectedEvent, IonicSelectableChangedEvent, IonicSelectableItemAddingEvent, IonicSelectableClearedEvent, IonicSelectableItemsChangedEvent, IonicSelectableOpenedEvent, IonicSelectableClosedEvent, IonicSelectableFocusedEvent, IonicSelectableBlurredEvent } from './ionic-selectable.interfaces.component';
+import {
+  IonicSelectableInfiniteScrolledEvent,
+  IonicSelectableSearchingEvent,
+  IonicSelectableSearchSuccessedEvent,
+  IonicSelectableSearchFailedEvent,
+  IonicSelectableSelectedEvent,
+  IonicSelectableChangedEvent,
+  IonicSelectableItemAddingEvent,
+  IonicSelectableClearedEvent,
+  IonicSelectableItemsChangedEvent,
+  IonicSelectableOpenedEvent,
+  IonicSelectableClosedEvent,
+  IonicSelectableFocusedEvent,
+  IonicSelectableBlurredEvent
+} from './ionic-selectable.interfaces.component';
 import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
 /**
@@ -1594,9 +1608,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
       // Closed by clicking on backdrop outside modal.
       if (event.role === 'backdrop') {
-        this.closed.emit({
-          component: this.element
-        });
+        this.emitClosed();
       }
     });
   }

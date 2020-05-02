@@ -13,7 +13,19 @@ import {
   StyleEventDetail,
 } from '@ionic/core';
 import {
-  IIonicSelectableEvent,
+  IonicSelectableBlurredEvent,
+  IonicSelectableChangedEvent,
+  IonicSelectableClearedEvent,
+  IonicSelectableClosedEvent,
+  IonicSelectableFocusedEvent,
+  IonicSelectableInfiniteScrolledEvent,
+  IonicSelectableItemAddingEvent,
+  IonicSelectableItemsChangedEvent,
+  IonicSelectableOpenedEvent,
+  IonicSelectableSearchFailedEvent,
+  IonicSelectableSearchingEvent,
+  IonicSelectableSearchSuccessedEvent,
+  IonicSelectableSelectedEvent,
 } from './components/ionic-selectable/ionic-selectable.interfaces.component';
 
 export namespace Components {
@@ -649,70 +661,70 @@ declare namespace LocalJSX {
     */
     'name'?: string;
     /**
-    * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
-    * @memberof IonicSelectableComponent
-    */
-    'onBeforeAddItem'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
-    /**
     * Fires when loses focus. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
     * @memberof IonicSelectableComponent
     */
-    'onBlurred'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onBlurred'?: (event: CustomEvent<IonicSelectableBlurredEvent<any[]>>) => void;
     /**
     * Fires when item/s has been selected and Modal closed. if isMultiple is set to true 'value' is an array else is a object See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
     * @memberof IonicSelectableComponent
     */
-    'onChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onChanged'?: (event: CustomEvent<IonicSelectableChangedEvent<any[]>>) => void;
     /**
     * Fires when Clear button has been clicked. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclear).
     * @memberof IonicSelectableComponent
     */
-    'onCleared'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onCleared'?: (event: CustomEvent<IonicSelectableClearedEvent<any[]>>) => void;
     /**
     * Fires when Modal has been closed. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
     * @memberof IonicSelectableComponent
     */
-    'onClosed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onClosed'?: (event: CustomEvent<IonicSelectableClosedEvent<any[]>>) => void;
     /**
     * Fires when has focus See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onFocused).
     * @memberof IonicSelectableComponent
     */
-    'onFocused'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onFocused'?: (event: CustomEvent<IonicSelectableFocusedEvent<any[]>>) => void;
     /**
     * Fires when the user has scrolled to the end of the list. **Note**: `hasInfiniteScroll` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#oninfinitescroll).
     * @memberof IonicSelectableComponent
     */
-    'onInfiniteScroll'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onInfiniteScrolled'?: (event: CustomEvent<IonicSelectableInfiniteScrolledEvent<string>>) => void;
+    /**
+    * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemAdding).
+    * @memberof IonicSelectableComponent
+    */
+    'onItemAdding'?: (event: CustomEvent<IonicSelectableItemAddingEvent<any[]>>) => void;
     /**
     * Fires when items has changed. if isMultiple is set to true 'value' is an array else is a object See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
     * @memberof IonicSelectableComponent
     */
-    'onItemsChanged'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onItemsChanged'?: (event: CustomEvent<IonicSelectableItemsChangedEvent<any[]>>) => void;
     /**
     * Fires when Modal has been opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
     * @memberof IonicSelectableComponent
     */
-    'onOpened'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
-    /**
-    * Fires when the user is typing in Searchbar. **Note**: `canSearch` and `shouldDelegateSearchToEvent` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearch).
-    * @memberof IonicSelectableComponent
-    */
-    'onSearch'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onOpened'?: (event: CustomEvent<IonicSelectableOpenedEvent<any[]>>) => void;
     /**
     * Fires when no items have been found. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchfail).
     * @memberof IonicSelectableComponent
     */
-    'onSearchFailed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onSearchFailed'?: (event: CustomEvent<IonicSelectableSearchFailedEvent<string>>) => void;
     /**
     * Fires when some items have been found. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchsuccess).
     * @memberof IonicSelectableComponent
     */
-    'onSearchSuccessed'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onSearchSuccessed'?: (event: CustomEvent<IonicSelectableSearchSuccessedEvent<string>>) => void;
+    /**
+    * Fires when the user is typing in Searchbar. **Note**: `canSearch` and `shouldDelegateSearchToEvent` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearch).
+    * @memberof IonicSelectableComponent
+    */
+    'onSearching'?: (event: CustomEvent<IonicSelectableSearchingEvent<string>>) => void;
     /**
     * Fires when an item has been selected or unselected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
     * @memberof IonicSelectableComponent
     */
-    'onSelected'?: (event: CustomEvent<IIonicSelectableEvent>) => void;
+    'onSelected'?: (event: CustomEvent<IonicSelectableSelectedEvent<any>>) => void;
     /**
     * A placeholder. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
     * @default null
