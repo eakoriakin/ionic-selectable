@@ -1,6 +1,6 @@
 {
   "name": "test-isa",
-  "version": "5.0.0-alpha.4",
+  "version": "5.0.0-alpha.9",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -27,14 +27,13 @@
     "select",
     "selectable"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build.ng": "ng-packagr -p package.json",
+    "prepare": "npm run build.ng"
   },
   "dependencies": {
-    "test-isc": "^5.0.0-alpha.4",
+    "test-isc": "^5.0.0-alpha.9",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
@@ -66,6 +65,10 @@
     "typescript": "3.4.5",
     "zone.js": "^0.8.28"
   },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
   "ngPackage": {
     "lib": {
       "entryFile": "src/index.ts"
@@ -74,5 +77,5 @@
       "test-isc"
     ]
   },
-  "gitHead": "39d44bffa584ab4dc77037336faf577a8512c00b"
+  "gitHead": "a030c376063d3143d5cf70ef6d834cb42f621b70"
 }
