@@ -5,7 +5,7 @@ import { ValueAccessor } from './value-accessor';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
-  selector: 'onic-selectable',
+  selector: 'ionic-selectable',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -33,7 +33,7 @@ export class ValueAccessor implements ControlValueAccessor {
     }
   }
 
-  @HostListener('ionBlur', ['$event.target'])
+  @HostListener('blurred', ['$event.target'])
   _handleBlurEvent(el: any) {
     if (el === this.el.nativeElement) {
       this.onTouched();
