@@ -1,0 +1,77 @@
+{
+  "name": "test-isa",
+  "version": "5.0.0-alpha.2",
+  "description": "Angular wrapper for @ionic-selectable/core",
+  "author": {
+    "name": "Evgenii Koriakin",
+    "url": "https://github.com/eakoriakin"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/eakoriakin/ionic-selectable",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eakoriakin/ionic-selectable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eakoriakin/ionic-selectable/issues"
+  },
+  "keywords": [
+    "ionic",
+    "ionic 2",
+    "ionic 3",
+    "ionic 4",
+    "ion-select",
+    "search",
+    "searchable",
+    "searchbar",
+    "select",
+    "selectable"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@ionic-selectable/core": "5.1.0",
+    "tslib": "^1.9.3"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=8.2.7",
+    "@angular/forms": ">=8.2.7",
+    "@angular/router": ">=8.2.7",
+    "rxjs": ">=6.2.0",
+    "zone.js": ">=0.8.26"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "8.3.17",
+    "@angular-devkit/schematics": "8.3.17",
+    "@angular/common": "8.2.13",
+    "@angular/compiler": "8.2.13",
+    "@angular/compiler-cli": "8.2.13",
+    "@angular/core": "8.2.13",
+    "@angular/forms": "8.2.13",
+    "@angular/router": "8.2.13",
+    "@types/node": "12.12.5",
+    "fs-extra": "^7.0.0",
+    "glob": "^7.1.4",
+    "ng-packagr": "5.7.1",
+    "rollup": "~1.17.0",
+    "rollup-plugin-node-resolve": "~5.2.0",
+    "rxjs": "^6.5.2",
+    "tsickle": "^0.34.0",
+    "tslint": "^5.12.1",
+    "tslint-ionic-rules": "0.0.21",
+    "typescript": "3.4.5",
+    "zone.js": "^0.8.28"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/index.ts"
+    },
+    "whitelistedNonPeerDependencies": [
+      "@ionic-selectable/core"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+@import './ionic-selectable.component';
+@import './ionic-selectable.md.vars.component';
+
+// Material Design ionic-selectable
+// --------------------------------------------------
+
+:host {
+  --padding-top: #{$ionic-selectable-md-padding-top};
+  --padding-end: #{$ionic-selectable-md-padding-end};
+  --padding-bottom: #{$ionic-selectable-md-padding-bottom};
+  --padding-start: #{$ionic-selectable-md-padding-start};
+}
+
+:host(.item-label-stacked),
+:host(.item-label-floating) {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --padding-start: 0;
+}
+
+.ionic-selectable-icon {
+  width: 19px;
+  height: 19px;
+}
