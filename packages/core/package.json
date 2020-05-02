@@ -58,5 +58,8 @@
   },
   "peerDependencies": {
     "@ionic/core": "5.x"
+  },
+  "publishConfig": {
+    "directory": "dist"
   }
 }
