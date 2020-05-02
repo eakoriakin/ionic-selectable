@@ -13,7 +13,21 @@ import {
 } from '@stencil/core';
 import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
-import { IIonicSelectableEvent } from './ionic-selectable.interfaces.component';
+import {
+  IonicSelectableInfiniteScrolledEvent,
+  IonicSelectableSearchingEvent,
+  IonicSelectableSearchSuccessedEvent,
+  IonicSelectableSearchFailedEvent,
+  IonicSelectableSelectedEvent,
+  IonicSelectableChangedEvent,
+  IonicSelectableItemAddingEvent,
+  IonicSelectableClearedEvent,
+  IonicSelectableItemsChangedEvent,
+  IonicSelectableOpenedEvent,
+  IonicSelectableClosedEvent,
+  IonicSelectableFocusedEvent,
+  IonicSelectableBlurredEvent
+} from './ionic-selectable.interfaces.component';
 import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
 /**
@@ -530,7 +544,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public infiniteScroll: EventEmitter<IIonicSelectableEvent>;
+  @Event() public infiniteScrolled: EventEmitter<IonicSelectableInfiniteScrolledEvent<string>>;
 
   /**
    * Fires when the user is typing in Searchbar.
@@ -539,7 +553,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public search: EventEmitter<IIonicSelectableEvent>;
+  @Event() public searching: EventEmitter<IonicSelectableSearchingEvent<string>>;
 
   /**
    * Fires when no items have been found.
@@ -547,7 +561,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public searchFailed: EventEmitter<IIonicSelectableEvent>;
+  @Event() public searchFailed: EventEmitter<IonicSelectableSearchFailedEvent<string>>;
 
   /**
    * Fires when some items have been found.
@@ -555,18 +569,18 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public searchSuccessed: EventEmitter<IIonicSelectableEvent>;
+  @Event() public searchSuccessed: EventEmitter<IonicSelectableSearchSuccessedEvent<string>>;
 
   /**
    * Fires when Add item button has been clicked.
    * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create
    * a form to add item.
    * **Note**: `canAddItem` has to be enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onadditem).
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemAdding).
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public beforeAddItem: EventEmitter<IIonicSelectableEvent>;
+  @Event() public itemAdding: EventEmitter<IonicSelectableItemAddingEvent<any[]>>;
 
   /**
    * Fires when Clear button has been clicked.
@@ -574,7 +588,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public cleared: EventEmitter<IIonicSelectableEvent>;
+  @Event() public cleared: EventEmitter<IonicSelectableClearedEvent<any[]>>;
 
   /**
    * Fires when item/s has been selected and Modal closed.
@@ -583,7 +597,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public changed!: EventEmitter<IIonicSelectableEvent>;
+  @Event() public changed!: EventEmitter<IonicSelectableChangedEvent<any[]>>;
 
   /**
    * Fires when items has changed.
@@ -592,7 +606,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public itemsChanged!: EventEmitter<IIonicSelectableEvent>;
+  @Event() public itemsChanged!: EventEmitter<IonicSelectableItemsChangedEvent<any[]>>;
 
   /**
    * Fires when an item has been selected or unselected.
@@ -600,7 +614,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public selected: EventEmitter<IIonicSelectableEvent>;
+  @Event() public selected: EventEmitter<IonicSelectableSelectedEvent<any>>;
 
   /**
    * Fires when Modal has been opened.
@@ -608,7 +622,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public opened: EventEmitter<IIonicSelectableEvent>;
+  @Event() public opened: EventEmitter<IonicSelectableOpenedEvent<any[]>>;
 
   /**
    * Fires when Modal has been closed.
@@ -616,7 +630,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public closed: EventEmitter<IIonicSelectableEvent>;
+  @Event() public closed: EventEmitter<IonicSelectableClosedEvent<any[]>>;
 
   /**
    * Fires when has focus
@@ -624,7 +638,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public focused!: EventEmitter<IIonicSelectableEvent>;
+  @Event() public focused!: EventEmitter<IonicSelectableFocusedEvent<any[]>>;
 
   /**
    * Fires when loses focus.
@@ -632,7 +646,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Event() public blurred!: EventEmitter<IIonicSelectableEvent>;
+  @Event() public blurred!: EventEmitter<IonicSelectableBlurredEvent<any[]>>;
 
   /**
    * Emitted when the styles change.
@@ -1442,34 +1456,27 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private emitSelected(item: any, isSelected: boolean): void {
-    this.selected.emit({
-      component: this.element,
-      value: item,
-      isSelected: isSelected
-    });
+    this.selected.emit(new IonicSelectableSelectedEvent(item, isSelected, this.element));
   }
 
   private emitChanged(): void {
-    this.changed.emit({
-      component: this.element,
-      value: this.valueItems
-    });
+    this.changed.emit(new IonicSelectableChangedEvent(this.valueItems, this.element));
   }
 
   private emitOpened(): void {
-    this.opened.emit({ component: this.element });
+    this.opened.emit(new IonicSelectableOpenedEvent(this.valueItems, this.element));
   }
 
   private emitClosed(): void {
-    this.closed.emit({ component: this.element });
+    this.closed.emit(new IonicSelectableClosedEvent(this.valueItems, this.element));
   }
 
   private emitCleared(): void {
-    this.cleared.emit({ component: this.element, value: this.selectedItems });
+    this.cleared.emit(new IonicSelectableClearedEvent(this.selectedItems, this.element));
   }
 
   private emitAddItem(): void {
-    this.beforeAddItem.emit({ component: this.element });
+    this.itemAdding.emit(new IonicSelectableItemAddingEvent(this.valueItems, this.element));
   }
 
   private emitItemsChanged(): void {
@@ -1477,29 +1484,18 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private emitSearch(): void {
-    this.search.emit({
-      component: this.element,
-      value: this.searchText
-    });
+    this.searching.emit(new IonicSelectableSearchingEvent(this.searchText, this.element));
   }
 
   private emitIonInfinite(): void {
-    this.infiniteScroll.emit({
-      component: this.element,
-      value: this.searchText
-    });
+    this.infiniteScrolled.emit(new IonicSelectableInfiniteScrolledEvent(this.searchText, this.element));
   }
 
   private emitOnSearchSuccessOrFail(isSuccess: boolean): void {
-    const eventData: IIonicSelectableEvent = {
-      component: this.element,
-      value: this.searchText
-    };
-
     if (isSuccess) {
-      this.searchSuccessed.emit(eventData);
+      this.searchSuccessed.emit(new IonicSelectableSearchSuccessedEvent(this.searchText, this.element));
     } else {
-      this.searchFailed.emit(eventData);
+      this.searchFailed.emit(new IonicSelectableSearchFailedEvent(this.searchText, this.element));
     }
   }
 
@@ -1612,9 +1608,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
       // Closed by clicking on backdrop outside modal.
       if (event.role === 'backdrop') {
-        this.closed.emit({
-          component: this.element
-        });
+        this.emitClosed();
       }
     });
   }

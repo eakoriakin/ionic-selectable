@@ -1,7 +1,7 @@
 {
   "name": "test-isc",
   "title": "Ionic Selectable",
-  "version": "5.0.0-alpha.18",
+  "version": "5.0.0-alpha.22",
   "description": "An Ionic component similar to Ionic Select, that allows to search items, including async search, group, add, edit, delete items, and much more.",
   "author": {
     "name": "Evgenii Koriakin",
@@ -64,5 +64,5 @@
     "directory": "/",
     "access": "public"
   },
-  "gitHead": "a030c376063d3143d5cf70ef6d834cb42f621b70"
+  "gitHead": "1a9094ee22e4fd4e70323b7f9c33e95c4158678b"
 }

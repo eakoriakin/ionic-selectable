@@ -1,17 +1,56 @@
-/**
- * IIonicSelectableEvent
- */
-export interface IIonicSelectableEvent {
+export abstract class IonicSelectableEvent<TItem> {
   /**
-   * The value of event.
+   * Value.
    */
-  value?: any | any[] | string | undefined | null;
+  public readonly value: TItem | TItem[] | string | undefined | null;
+
   /**
-   * The HTMLIonicSelectableElement element.
+   * Component.
    */
-  component?: HTMLIonicSelectableElement;
+  public readonly component: HTMLIonicSelectableElement;
+
+  public constructor(value: TItem | TItem[] | string | undefined | null, component: HTMLIonicSelectableElement) {
+    this.value = value;
+    this.component = component;
+  }
+}
+
+export class IonicSelectableInfiniteScrolledEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableSearchingEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableSearchFailedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableSearchSuccessedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableItemAddingEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableClearedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableChangedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableItemsChangedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableSelectedEvent<TItem> extends IonicSelectableEvent<TItem> {
   /**
    * If event is selected.
    */
-  isSelected?: boolean;
+  public readonly isSelected?: boolean;
+
+  public constructor(
+    value: TItem | TItem[] | string | undefined | null,
+    isSelected: boolean,
+    component: HTMLIonicSelectableElement
+  ) {
+    super(value, component);
+    this.isSelected = isSelected;
+  }
 }
+
+export class IonicSelectableClosedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableOpenedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableFocusedEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export class IonicSelectableBlurredEvent<TItem> extends IonicSelectableEvent<TItem> {}
