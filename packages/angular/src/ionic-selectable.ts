@@ -1,31 +1,124 @@
-import {
-  EventEmitter,
-  ChangeDetectorRef,
-  ElementRef,
-  NgZone,
-  Component,
-  ChangeDetectionStrategy,
-} from "@angular/core";
-import { proxyOutputs, ProxyCmp } from "./proxies-utils";
-import { Components } from "test-isc";
+import { EventEmitter, ChangeDetectorRef, ElementRef, NgZone, Component, ChangeDetectionStrategy } from '@angular/core';
+import { proxyOutputs, ProxyCmp } from './proxies-utils';
+import { Components } from 'test-isc';
 
 export declare interface IonicSelectable extends Components.IonicSelectable {}
-@ProxyCmp({ inputs: ["value", "items"], methods: ["open"] })
-@Component({
-  selector: "ionic-selectable",
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: "<ng-content></ng-content>",
+@ProxyCmp({
   inputs: [
-    "items",
-    "value",
+    'isOpened',
+    'isDisabled',
+    'placeholder',
+    'closeButtonText',
+    'closeButtonSlot',
+    'itemIconSlot',
+    'confirmButtonText',
+    'clearButtonText',
+    'addButtonText',
+    'name',
+    'selectedText',
+    'isMultiple',
+    'value',
+    'shouldStoreItemValue',
+    'items',
+    'disabledItems',
+    'itemValueField',
+    'itemTextField',
+    'shouldBackdropClose',
+    'modalCssClass',
+    'modalEnterAnimation',
+    'modalLeaveAnimation',
+    'titleText',
+    'groupValueField',
+    'groupTextField',
+    'hasInfiniteScroll',
+    'infiniteScrollThreshold',
+    'hasVirtualScroll',
+    'virtualScrollApproxHeaderHeight',
+    'virtualScrollApproxItemHeight',
+    'hasConfirmButton',
+    'canAddItem',
+    'canClear',
+    'canSearch',
+    'shouldDelegateSearchToEvent',
+    'searchDebounce',
+    'searchPlaceholder',
+    'searchText',
+    'shouldFocusSearchbar',
+    'hasSearchText',
+    'searchCancelButtonIcon',
+    'searchCancelButtonText',
+    'searchClearIcon',
+    'searchInputmode',
+    'searchIcon',
+    'searchShowCancelButton',
+    'isConfirmButtonEnabled',
+    'headerColor',
+    'groupColor',
+  ],
+  methods: ['open'],
+})
+@Component({
+  selector: 'ionic-selectable',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  inputs: [
+    'isOpened',
+    'isDisabled',
+    'placeholder',
+    'closeButtonText',
+    'closeButtonSlot',
+    'itemIconSlot',
+    'confirmButtonText',
+    'clearButtonText',
+    'addButtonText',
+    'name',
+    'selectedText',
+    'isMultiple',
+    'value',
+    'shouldStoreItemValue',
+    'items',
+    'disabledItems',
+    'itemValueField',
+    'itemTextField',
+    'shouldBackdropClose',
+    'modalCssClass',
+    'modalEnterAnimation',
+    'modalLeaveAnimation',
+    'titleText',
+    'groupValueField',
+    'groupTextField',
+    'hasInfiniteScroll',
+    'infiniteScrollThreshold',
+    'hasVirtualScroll',
+    'virtualScrollApproxHeaderHeight',
+    'virtualScrollApproxItemHeight',
+    'hasConfirmButton',
+    'canAddItem',
+    'canClear',
+    'canSearch',
+    'shouldDelegateSearchToEvent',
+    'searchDebounce',
+    'searchPlaceholder',
+    'searchText',
+    'shouldFocusSearchbar',
+    'hasSearchText',
+    'searchCancelButtonIcon',
+    'searchCancelButtonText',
+    'searchClearIcon',
+    'searchInputmode',
+    'searchIcon',
+    'searchShowCancelButton',
+    'isConfirmButtonEnabled',
+    'headerColor',
+    'groupColor',
   ],
 })
 export class IonicSelectable {
-  onChanged!: EventEmitter<CustomEvent>;
+  changed!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ["onChanged"]);
+    proxyOutputs(this, this.el, ['changed']);
   }
 }
