@@ -69,9 +69,6 @@
     "directory": "dist",
     "access": "public"
   },
-  "files": [
-    "dist/"
-  ],
   "ngPackage": {
     "lib": {
       "entryFile": "src/index.ts"
