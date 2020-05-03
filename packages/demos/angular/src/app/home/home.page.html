@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item>
+    <ion-label>Ports</ion-label>
+    <ionic-selectable
+      #ionicSelectable
+      id="sel1"
+      [items]="items"
+      itemValueField="id"
+      itemTextField="port"
+      hasConfirmButton="true"
+      (changed)="onChanged($event)"
+      [(ngModel)]="binding"
+    >
+    <div *ionicSelectableItemTemplate ="let port; let isItemSelected = isItemSelected;">{{isItemSelected}} - {{port.port}} ({{port.country.country}})</div>
+  </ionic-selectable>
+  </ion-item>
+  <ion-button (click)="open()">Open Ionic Selectable</ion-button>
+  {{binding | json}}
+</ion-content>

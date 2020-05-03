@@ -11,7 +11,7 @@ import {
   Method,
   State
 } from '@stencil/core';
-import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder } from '@ionic/core';
+import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder, HeaderFn } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import {
   IonicSelectableInfiniteScrolledEvent,
@@ -26,7 +26,9 @@ import {
   IonicSelectableOpenedEvent,
   IonicSelectableClosedEvent,
   IonicSelectableFocusedEvent,
-  IonicSelectableBlurredEvent
+  IonicSelectableBlurredEvent,
+  TemplateRenderFn,
+  HasTemplateRenderFn
 } from './ionic-selectable.interfaces.component';
 import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
@@ -654,13 +656,24 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
+
+  /**
+   * NOTE: only Vanilla JS API.
+   */
+  @Prop() templateRender?: TemplateRenderFn;
+
+  /**
+   * NOTE: only Vanilla JS API.
+   */
+  @Prop() hasTemplateRender?: HasTemplateRenderFn;
+
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll).
    * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
    *
    * @memberof IonicSelectableComponent
    */
-  @Prop() public virtualScrollHeaderFn = () => null;
+  @Prop() public virtualScrollHeaderFn: HeaderFn = () => null;
 
   @Watch('shouldStoreItemValue')
   protected onShouldStoreItemValueChanged(value: boolean): void {
