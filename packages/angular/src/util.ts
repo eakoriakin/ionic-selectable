@@ -10,3 +10,9 @@ export const raf = (h: any) => {
   }
   return setTimeout(h);
 };
+
+export interface TemplateContext {
+  $implicit?: any[] | any | string | undefined | null;
+  isItemSelected?: boolean | undefined | null;
+  isItemDisabled?: boolean | undefined | null;
+}

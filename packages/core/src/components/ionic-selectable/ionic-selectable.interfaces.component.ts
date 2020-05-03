@@ -54,3 +54,15 @@ export class IonicSelectableOpenedEvent<TItem> extends IonicSelectableEvent<TIte
 export class IonicSelectableFocusedEvent<TItem> extends IonicSelectableEvent<TItem> {}
 
 export class IonicSelectableBlurredEvent<TItem> extends IonicSelectableEvent<TItem> {}
+
+export type TemplateType = 'item' | 'header' | 'footer';
+export interface ITemplate {
+  type: TemplateType;
+  value?: any[] | any | string | undefined | null;
+  isItemSelected?: boolean | undefined | null;
+  isItemDisabled?: boolean | undefined | null;
+}
+
+export type TemplateRenderFn = (element: HTMLElement | undefined | null, template: ITemplate) => void;
+
+export type HasTemplateRenderFn = (type: TemplateType) => boolean;

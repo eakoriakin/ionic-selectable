@@ -51,8 +51,6 @@
     "@angular/compiler-cli": "8.2.13",
     "@angular/core": "8.2.13",
     "@angular/forms": "8.2.13",
-    "@angular/platform-browser": "8.2.13",
-    "@angular/platform-browser-dynamic": "8.2.13",
     "@angular/router": "8.2.13",
     "@types/node": "12.12.5",
     "fs-extra": "^7.0.0",

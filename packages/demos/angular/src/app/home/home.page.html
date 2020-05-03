@@ -21,10 +21,11 @@
       [items]="items"
       itemValueField="id"
       itemTextField="port"
+      hasConfirmButton="true"
       (changed)="onChanged($event)"
       [(ngModel)]="binding"
     >
-    <div *ionicSelectableItemTemplate>Hola</div>
+    <div *ionicSelectableItemTemplate ="let port; let isItemSelected = isItemSelected;">{{isItemSelected}} - {{port.port}} ({{port.country.country}})</div>
   </ionic-selectable>
   </ion-item>
   <ion-button (click)="open()">Open Ionic Selectable</ion-button>

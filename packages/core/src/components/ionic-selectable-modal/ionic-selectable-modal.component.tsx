@@ -8,9 +8,9 @@ import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.c
   tag: 'ionic-selectable-modal',
   styleUrls: {
     ios: 'ionic-selectable-modal.ios.component.scss',
-    md: 'ionic-selectable-modal.md.component.scss'
+    md: 'ionic-selectable-modal.md.component.scss',
   },
-  scoped: true
+  scoped: true,
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
   @Element() private element!: HTMLIonicSelectableModalElement;
@@ -57,7 +57,21 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         onClick={(): void => this.selectableComponent.selectItem(item)}
         disabled={this.selectableComponent.isItemDisabled(item)}
       >
-        <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
+        {(!this.selectableComponent.hasTemplateRender || !this.selectableComponent.hasTemplateRender('item')) && (
+          <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
+        )}
+        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('item') && (
+          <span
+            ref={(element) => {
+              this.selectableComponent.templateRender(element, {
+                type: 'item',
+                value: item,
+                isItemSelected: this.selectableComponent.isItemSelected(item),
+                isItemDisabled: this.selectableComponent.isItemDisabled(item),
+              });
+            }}
+          ></span>
+        )}
         <ion-icon
           name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
           size="small"

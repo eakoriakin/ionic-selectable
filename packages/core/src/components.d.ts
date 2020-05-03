@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AnimationBuilder, ModalOptions, StyleEventDetail, } from "@ionic/core";
-import { IonicSelectableBlurredEvent, IonicSelectableChangedEvent, IonicSelectableClearedEvent, IonicSelectableClosedEvent, IonicSelectableFocusedEvent, IonicSelectableInfiniteScrolledEvent, IonicSelectableItemAddingEvent, IonicSelectableItemsChangedEvent, IonicSelectableOpenedEvent, IonicSelectableSearchFailedEvent, IonicSelectableSearchingEvent, IonicSelectableSearchSuccessedEvent, IonicSelectableSelectedEvent, } from "./components/ionic-selectable/ionic-selectable.interfaces.component";
+import { AnimationBuilder, HeaderFn, ModalOptions, StyleEventDetail, } from "@ionic/core";
+import { HasTemplateRenderFn, IonicSelectableBlurredEvent, IonicSelectableChangedEvent, IonicSelectableClearedEvent, IonicSelectableClosedEvent, IonicSelectableFocusedEvent, IonicSelectableInfiniteScrolledEvent, IonicSelectableItemAddingEvent, IonicSelectableItemsChangedEvent, IonicSelectableOpenedEvent, IonicSelectableSearchFailedEvent, IonicSelectableSearchingEvent, IonicSelectableSearchSuccessedEvent, IonicSelectableSelectedEvent, TemplateRenderFn, } from "./components/ionic-selectable/ionic-selectable.interfaces.component";
 export namespace Components {
     interface IonicSelectable {
         /**
@@ -156,6 +156,10 @@ export namespace Components {
           * @memberof IonicSelectableComponent
          */
         "hasSearchText": boolean;
+        /**
+          * NOTE: only Vanilla JS API.
+         */
+        "hasTemplateRender"?: HasTemplateRenderFn;
         /**
           * Determines whether any item has been selected. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
           * @returns A boolean determining whether any item has been selected.
@@ -386,6 +390,10 @@ export namespace Components {
          */
         "startSearch": () => Promise<void>;
         /**
+          * NOTE: only Vanilla JS API.
+         */
+        "templateRender"?: TemplateRenderFn;
+        /**
           * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
           * @readonly
           * @default null
@@ -421,7 +429,7 @@ export namespace Components {
           * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
           * @memberof IonicSelectableComponent
          */
-        "virtualScrollHeaderFn": () => any;
+        "virtualScrollHeaderFn": HeaderFn;
     }
     interface IonicSelectableModal {
         /**
@@ -541,6 +549,10 @@ declare namespace LocalJSX {
           * @memberof IonicSelectableComponent
          */
         "hasSearchText"?: boolean;
+        /**
+          * NOTE: only Vanilla JS API.
+         */
+        "hasTemplateRender"?: HasTemplateRenderFn;
         /**
           * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
           * @default false
@@ -797,6 +809,10 @@ declare namespace LocalJSX {
          */
         "shouldStoreItemValue"?: boolean;
         /**
+          * NOTE: only Vanilla JS API.
+         */
+        "templateRender"?: TemplateRenderFn;
+        /**
           * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
           * @readonly
           * @default null
@@ -825,7 +841,7 @@ declare namespace LocalJSX {
           * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
           * @memberof IonicSelectableComponent
          */
-        "virtualScrollHeaderFn"?: () => any;
+        "virtualScrollHeaderFn"?: HeaderFn;
     }
     interface IonicSelectableModal {
     }
