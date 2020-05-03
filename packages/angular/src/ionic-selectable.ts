@@ -148,13 +148,14 @@ export class IonicSelectable {
   closed!: EventEmitter<CustomEvent>;
   focused!: EventEmitter<CustomEvent>;
   blurred!: EventEmitter<CustomEvent>;
-  protected el: HTMLElement;
+  protected el: HTMLIonicSelectableElement;
 
   @ContentChild(IonicSelectableItemTemplateDirective, { static: false }) IonicSelectableItemTemplateDirectiveTmp!: IonicSelectableItemTemplateDirective;
   
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;
+  constructor(elementRef: ElementRef, protected z: NgZone) {
+    //c.detach();
+    //this.el = r.nativeElement;
+    this.el = elementRef.nativeElement as HTMLIonicSelectableElement;
     proxyOutputs(this, this.el, [
       'infiniteScrolled',
       'searching',

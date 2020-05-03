@@ -23,7 +23,9 @@
       itemTextField="port"
       (changed)="onChanged($event)"
       [(ngModel)]="binding"
-    ></ionic-selectable>
+    >
+    <div *ionicSelectableItemTemplate>Hola</div>
+  </ionic-selectable>
   </ion-item>
   <ion-button (click)="open()">Open Ionic Selectable</ion-button>
   {{binding | json}}
