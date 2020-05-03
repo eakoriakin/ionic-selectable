@@ -66,9 +66,22 @@
     "zone.js": "^0.8.28"
   },
   "publishConfig": {
-    "directory": "dist",
+    "directory": "/",
     "access": "public"
   },
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/bundles/test-isa.umd.js",
+  "module": "dist/fesm5/test-isa.js",
+  "es2015": "dist/fesm2015/test-isa.js",
+  "esm5": "dist/esm5/test-isa.js",
+  "esm2015": "dist/esm2015/test-isa.js",
+  "fesm5": "dist/fesm5/test-isa.js",
+  "fesm2015": "dist/fesm2015/test-isa.js",
+  "typings": "dist/test-isa.d.ts",
+  "metadata": "dist/test-isa.metadata.json",
+  "sideEffects": false,
   "ngPackage": {
     "lib": {
       "entryFile": "src/index.ts"

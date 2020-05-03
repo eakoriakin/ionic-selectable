@@ -1,6 +1,7 @@
 {
   "packages": [
-    "packages/*"
+    "packages/*",
+    "packages/demos/*"
   ],
   "version": "5.0.0-alpha.22"
 }

@@ -1,6 +1,7 @@
-import { EventEmitter, ChangeDetectorRef, ElementRef, NgZone, Component, ChangeDetectionStrategy } from '@angular/core';
+import { EventEmitter, ChangeDetectorRef, ElementRef, NgZone, Component, ChangeDetectionStrategy, ContentChild } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from './proxies-utils';
 import { Components } from 'test-isc';
+import { IonicSelectableItemTemplateDirective } from './directives/ionic-selectable-item-template.directive';
 export declare interface IonicSelectable extends Components.IonicSelectable {}
 @ProxyCmp({
   inputs: [
@@ -148,6 +149,9 @@ export class IonicSelectable {
   focused!: EventEmitter<CustomEvent>;
   blurred!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
+
+  @ContentChild(IonicSelectableItemTemplateDirective, { static: false }) IonicSelectableItemTemplateDirectiveTmp!: IonicSelectableItemTemplateDirective;
+  
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
