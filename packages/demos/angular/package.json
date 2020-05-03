@@ -1,6 +1,6 @@
 {
   "name": "ionic-selectable-angular-demo",
-  "version": "5.0.0-alpha.27",
+  "version": "5.0.0-alpha.28",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -26,8 +26,8 @@
     "@ionic/angular": "^5.0.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.5.1",
-    "test-isa": "^5.0.0-alpha.27",
-    "test-isc": "^5.0.0-alpha.27",
+    "test-isa": "^5.0.0-alpha.28",
+    "test-isc": "^5.0.0-alpha.28",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
