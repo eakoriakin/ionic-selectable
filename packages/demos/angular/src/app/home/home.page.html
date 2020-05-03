@@ -13,8 +13,18 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-item>
+    <ion-label>Ports</ion-label>
+    <ionic-selectable
+      #ionicSelectable
+      id="sel1"
+      [items]="items"
+      itemValueField="id"
+      itemTextField="port"
+      (changed)="onChanged($event)"
+      [(ngModel)]="binding"
+    ></ionic-selectable>
+  </ion-item>
+  <ion-button (click)="open()">Open Ionic Selectable</ion-button>
+  {{binding | json}}
 </ion-content>
