@@ -211,6 +211,17 @@ Type: `Promise<boolean>`
 
 
 
+### `hideAddItemTemplate() => Promise<void>`
+
+Hides `ionicSelectableAddItemTemplate`.
+See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideadditemtemplate).
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `hideLoading() => Promise<void>`
 
 Hides Loading spinner.
@@ -252,6 +263,17 @@ See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documen
 #### Returns
 
 Type: `Promise<any>`
+
+
+
+### `showAddItemTemplate() => Promise<void>`
+
+Shows `ionicSelectableAddItemTemplate`.
+See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showadditemtemplate).
+
+#### Returns
+
+Type: `Promise<void>`
 
 
 

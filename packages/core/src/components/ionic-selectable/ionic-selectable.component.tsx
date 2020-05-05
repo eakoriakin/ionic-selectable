@@ -9,9 +9,17 @@ import {
   EventEmitter,
   Watch,
   Method,
-  State
+  State,
 } from '@stencil/core';
-import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder, HeaderFn } from '@ionic/core';
+import {
+  CssClassMap,
+  getMode,
+  modalController,
+  StyleEventDetail,
+  ModalOptions,
+  AnimationBuilder,
+  HeaderFn,
+} from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import {
   IonicSelectableInfiniteScrolledEvent,
@@ -28,7 +36,7 @@ import {
   IonicSelectableFocusedEvent,
   IonicSelectableBlurredEvent,
   TemplateRenderFn,
-  HasTemplateRenderFn
+  HasTemplateRenderFn,
 } from './ionic-selectable.interfaces.component';
 import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
@@ -44,20 +52,17 @@ import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-s
   tag: 'ionic-selectable',
   styleUrls: {
     ios: 'ionic-selectable.ios.component.scss',
-    md: 'ionic-selectable.md.component.scss'
+    md: 'ionic-selectable.md.component.scss',
   },
-  shadow: true
+  shadow: true,
 })
 export class IonicSelectableComponent implements ComponentInterface {
   @Element() private element!: HTMLIonicSelectableElement;
   private id = this.element.id ? this.element.id : `ionic-selectable-${nextId++}`;
   private isInited = false;
   private buttonElement?: HTMLButtonElement;
-
   private modalElement!: HTMLIonModalElement;
-
   private isChangeInternal = false;
-
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
 
   public selectableModalComponent!: IonicSelectableModalComponent;
@@ -67,7 +72,11 @@ export class IonicSelectableComponent implements ComponentInterface {
   public hasObjects = false;
   public hasGroups = false;
   public footerButtonsCount = 0;
-  public isSearching: boolean = false;
+  public isSearching = false;
+  public isAddItemTemplateVisible = false;
+  public isFooterVisible = true;
+  public addItemTemplateFooterHeight: string;
+  public itemToAdd: any = null;
 
   @State() public selectedItems: any[] = [];
   @State() private valueItems: any[] = [];
@@ -656,16 +665,15 @@ export class IonicSelectableComponent implements ComponentInterface {
    */
   @Event() public ionStyle!: EventEmitter<StyleEventDetail>;
 
+  /**
+   * NOTE: only Vanilla JS API.
+   */
+  @Prop() public templateRender?: TemplateRenderFn;
 
   /**
    * NOTE: only Vanilla JS API.
    */
-  @Prop() templateRender?: TemplateRenderFn;
-
-  /**
-   * NOTE: only Vanilla JS API.
-   */
-  @Prop() hasTemplateRender?: HasTemplateRenderFn;
+  @Prop() public hasTemplateRender?: HasTemplateRenderFn;
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll).
@@ -797,7 +805,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     const modalOptions: ModalOptions = {
       component: 'ionic-selectable-modal',
       componentProps: { selectableComponent: this },
-      backdropDismiss: this.shouldBackdropClose
+      backdropDismiss: this.shouldBackdropClose,
     };
 
     if (this.modalCssClass) {
@@ -835,8 +843,8 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
 
     await this.modalElement.dismiss();
-    // Pending - self._itemToAdd = null;
-    // Pending - self.hideAddItemTemplate();
+    this.itemToAdd = null;
+    this.hideAddItemTemplate();
 
     if (!this.shouldDelegateSearchToEvent) {
       this.setHasSearchText('');
@@ -996,7 +1004,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Refresh items manually.
     // Pending - this.setItems(this.items);
-    this.emitOnSearchSuccessOrFail(this.hasFilteredItems);
+    this.emitOnSearchSuccessedOrFailed(this.hasFilteredItems);
   }
 
   /**
@@ -1118,7 +1126,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   @Method()
-  public async toggleItems(isSelect: boolean, items?: any[]) {
+  public async toggleItems(isSelect: boolean, items?: any[]): Promise<void> {
     if (isSelect) {
       const hasItems = items && items.length;
       let itemsToToggle = this.groups.reduce((allItems, group) => {
@@ -1164,6 +1172,30 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.itemsToConfirm = [...this.selectedItems];
   }
 
+  /**
+   * Shows `ionicSelectableAddItemTemplate`.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showadditemtemplate).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async showAddItemTemplate(): Promise<void> {
+    this.toggleAddItemTemplate(true);
+  }
+
+  /**
+   * Hides `ionicSelectableAddItemTemplate`.
+   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideadditemtemplate).
+   *
+   * @memberof IonicSelectableComponent
+   */
+  @Method()
+  public async hideAddItemTemplate(): Promise<void> {
+    // Clean item to add as it's no longer needed once Add Item Modal has been closed.
+    this.itemToAdd = null;
+    this.toggleAddItemTemplate(false);
+  }
+
   public clearItems(): void {
     this.emitCleared();
     this.selectedItems = [];
@@ -1176,10 +1208,10 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public addItemClick(): void {
-    if (true /* this._hasOnAddItem() */) {
-      this.emitAddItem();
+    if (this.hasTemplateRender && this.hasTemplateRender('addItem')) {
+      this.showAddItemTemplate();
     } else {
-      // Pending - this.showAddItemTemplate();
+      this.emitItemAdding();
     }
   }
 
@@ -1258,7 +1290,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public getMoreItems(): void {
-    this.emitIonInfinite();
+    this.emitIonInfiniteScrolled();
   }
 
   private setValue(value: any | any[], isChangeInternal = true): void {
@@ -1346,8 +1378,8 @@ export class IonicSelectableComponent implements ComponentInterface {
      */
     let groups: any[] = [
       {
-        items: items || []
-      }
+        items: items || [],
+      },
     ];
     if (items && items.length) {
       if (this.hasGroups) {
@@ -1363,7 +1395,7 @@ export class IonicSelectableComponent implements ComponentInterface {
             groups.push({
               value: groupValue,
               text: this.getPropertyValue(item, this.groupTextField),
-              items: [item]
+              items: [item],
             });
           }
         });
@@ -1387,7 +1419,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.setHasSearchText(searchText);
     if (this.shouldDelegateSearchToEvent) {
       // Delegate filtering to the event.
-      this.emitSearch();
+      this.emitSearching();
     } else {
       // Default filtering.
       let groups = [];
@@ -1405,7 +1437,7 @@ export class IonicSelectableComponent implements ComponentInterface {
             groups.push({
               value: group.value,
               text: group.text,
-              items: items
+              items: items,
             });
           }
         });
@@ -1413,14 +1445,14 @@ export class IonicSelectableComponent implements ComponentInterface {
         // No items found.
         if (!groups.length) {
           groups.push({
-            items: []
+            items: [],
           });
         }
       }
 
       this.filteredGroups = groups;
       this.hasFilteredItems = !this.areGroupsEmpty(groups);
-      this.emitOnSearchSuccessOrFail(this.hasFilteredItems);
+      this.emitOnSearchSuccessedOrFailed(this.hasFilteredItems);
       this.selectableModalComponent?.update();
     }
   }
@@ -1468,6 +1500,19 @@ export class IonicSelectableComponent implements ComponentInterface {
     return this.shouldStoreItemValue ? item : item[this.itemValueField];
   }
 
+  private toggleAddItemTemplate(isVisible: boolean): void {
+    // It should be possible to show/hide the template regardless
+    // - canAddItem or canSaveItem parameters, so we could implement some
+    // - custom behavior. E.g. adding item when search fails using onSearchFail event.
+    if (this.hasTemplateRender && this.hasTemplateRender('addItem')) {
+      // To make SaveItemTemplate visible we just position it over list using CSS.
+      // We don't hide list with *ngIf or [hidden] to prevent its scroll position.
+      this.isAddItemTemplateVisible = isVisible;
+      this.isFooterVisible = !isVisible;
+      this.selectableModalComponent?.update();
+    }
+  }
+
   private emitSelected(item: any, isSelected: boolean): void {
     this.selected.emit(new IonicSelectableSelectedEvent(item, isSelected, this.element));
   }
@@ -1488,7 +1533,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.cleared.emit(new IonicSelectableClearedEvent(this.selectedItems, this.element));
   }
 
-  private emitAddItem(): void {
+  private emitItemAdding(): void {
     this.itemAdding.emit(new IonicSelectableItemAddingEvent(this.valueItems, this.element));
   }
 
@@ -1496,15 +1541,15 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.itemsChanged.emit({ component: this.element, value: this.items });
   }
 
-  private emitSearch(): void {
+  private emitSearching(): void {
     this.searching.emit(new IonicSelectableSearchingEvent(this.searchText, this.element));
   }
 
-  private emitIonInfinite(): void {
+  private emitIonInfiniteScrolled(): void {
     this.infiniteScrolled.emit(new IonicSelectableInfiniteScrolledEvent(this.searchText, this.element));
   }
 
-  private emitOnSearchSuccessOrFail(isSuccess: boolean): void {
+  private emitOnSearchSuccessedOrFailed(isSuccess: boolean): void {
     if (isSuccess) {
       this.searchSuccessed.emit(new IonicSelectableSearchSuccessedEvent(this.searchText, this.element));
     } else {
@@ -1609,7 +1654,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       'has-placeholder': this.placeholder != null,
       'has-value': await this.hasValue(),
       'interactive-disabled': this.isDisabled,
-      'ionic-selectable-is-disabled': this.isDisabled
+      'ionic-selectable-is-disabled': this.isDisabled,
     });
   }
 
@@ -1681,7 +1726,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     const selectTextClasses: CssClassMap = {
       'ionic-selectable-text': true,
-      'ionic-selectable-placeholder': addPlaceholderClass
+      'ionic-selectable-placeholder': addPlaceholderClass,
     };
 
     const textPart = addPlaceholderClass ? 'placeholder' : 'text';
@@ -1700,7 +1745,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           'in-item': hostContext('ion-item', element),
           [labelPosition]: true,
           'item-multiple-inputs': isMultiple,
-          'ionic-selectable-is-disabled': isDisabled
+          'ionic-selectable-is-disabled': isDisabled,
         }}
       >
         <div class={selectTextClasses} part={textPart}>

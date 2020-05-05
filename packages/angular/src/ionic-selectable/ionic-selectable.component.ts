@@ -1,6 +1,5 @@
 import {
   EventEmitter,
-  ChangeDetectorRef,
   ElementRef,
   NgZone,
   Component,
@@ -8,10 +7,11 @@ import {
   ContentChild,
   EmbeddedViewRef,
 } from '@angular/core';
-import { proxyOutputs, ProxyCmp } from './proxies-utils';
+import { proxyOutputs, ProxyCmp } from '../utils/proxies-utils';
 import { Components, ITemplate, TemplateType } from 'test-isc';
-import { IonicSelectableItemTemplateDirective } from './directives/ionic-selectable-item-template.directive';
-import { TemplateContext } from './util';
+import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
+import { TemplateContext } from '../utils/util';
+import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-selectable-add-item-template.directive';
 export declare interface IonicSelectable extends Components.IonicSelectable {}
 @ProxyCmp({
   inputs: [
@@ -85,6 +85,9 @@ export declare interface IonicSelectable extends Components.IonicSelectable {}
     'addItem',
     'deleteItem',
     'toggleItems',
+    'showAddItemTemplate',
+    'hideAddItemTemplate',
+    '',
   ],
 })
 @Component({
@@ -161,9 +164,13 @@ export class IonicSelectable {
 
   protected el: HTMLIonicSelectableElement;
   private refMap = new WeakMap<HTMLElement, EmbeddedViewRef<TemplateContext>>();
+  private refAddItem: EmbeddedViewRef<TemplateContext>;
+
+  @ContentChild(IonicSelectableAddItemTemplateDirective, { static: false })
+  ionicSelectableAddItemTemplateDirective!: IonicSelectableAddItemTemplateDirective;
 
   @ContentChild(IonicSelectableItemTemplateDirective, { static: false })
-  ionicSelectableItemTemplateDirectiveTmp!: IonicSelectableItemTemplateDirective;
+  ionicSelectableItemTemplateDirective!: IonicSelectableItemTemplateDirective;
 
   constructor(elementRef: ElementRef, protected z: NgZone) {
     this.el = elementRef.nativeElement as HTMLIonicSelectableElement;
@@ -186,42 +193,84 @@ export class IonicSelectable {
     ]);
   }
 
-  private render(element: HTMLElement, template: ITemplate): HTMLElement {
-    return this.z.run(() => {
-      let node: EmbeddedViewRef<TemplateContext>;
-      element.firstElementChild as HTMLElement;
-      if (!element.firstElementChild) {
-        node = this.ionicSelectableItemTemplateDirectiveTmp.viewContainer.createEmbeddedView(
-          this.ionicSelectableItemTemplateDirectiveTmp.templateRef,
-          {
-            $implicit: template.value,
-            isItemSelected: template.isItemSelected,
-            isItemDisabled: template.isItemDisabled,
-          }
-        );
-        const childElement = getElement(node);
-        element.appendChild(childElement);
-        this.refMap.set(childElement, node);
+  private render(element: HTMLElement, template: ITemplate) {
+    this.z.run(() => {
+      if (template.type === 'addItem') {
+        if (!element) {
+          this.refAddItem = null;
+          return;
+        }
+        if (!this.refAddItem) {
+          this.createEmbeddedView(element, template);
+        } else {
+          this.updateEmbeddedView(element, template);
+        }
       } else {
-        node = this.refMap.get(element.firstElementChild as HTMLElement)!;
-        const ctx = node.context;
-        ctx.$implicit = template.value;
-        ctx.isItemSelected = template.isItemSelected;
-        ctx.isItemDisabled = template.isItemDisabled;
+        if (!element.isConnected && element.firstElementChild) {
+          this.refMap.delete(element);
+          return;
+        }
+        if (!this.refMap.get(element)) {
+          this.createEmbeddedView(element, template);
+        } else {
+          this.updateEmbeddedView(element, template);
+        }
       }
-      // run sync change detections
-      node.detectChanges();
-      return element;
     });
+  }
+
+  private createEmbeddedView(element: HTMLElement, template: ITemplate) {
+    const node = this.ionicSelectableItemTemplateDirective.viewContainer.createEmbeddedView(
+      this.getComponent(template.type),
+      {
+        $implicit: template.value,
+        isItemSelected: template.isItemSelected,
+        isItemDisabled: template.isItemDisabled,
+        isAdd: template.isAdd,
+      }
+    );
+    const childElement = getElement(node);
+    element.appendChild(childElement);
+    if (template.type === 'addItem') {
+      childElement.classList.add('ion-page');
+      this.refAddItem = node;
+    } else {
+      this.refMap.set(element, node);
+    }
+    // run sync change detections
+    node.detectChanges();
+  }
+
+  private updateEmbeddedView(element: HTMLElement, template: ITemplate) {
+    const node = template.type === 'addItem' ? this.refAddItem : this.refMap.get(element)!;
+    const ctx = node.context;
+    ctx.$implicit = template.value;
+    ctx.isItemSelected = template.isItemSelected;
+    ctx.isItemDisabled = template.isItemDisabled;
+    ctx.isAdd = template.isAdd;
+    // run sync change detections
+    node.detectChanges();
   }
 
   private hasTemplate(type: TemplateType): boolean {
     switch (type) {
+      case 'addItem':
+        return !!this.ionicSelectableAddItemTemplateDirective;
       case 'item':
-        return !!this.ionicSelectableItemTemplateDirectiveTmp;
+        return !!this.ionicSelectableItemTemplateDirective;
       default:
         return false;
     }
+  }
+
+  private getComponent(type: TemplateType) {
+    switch (type) {
+      case 'addItem':
+        return this.ionicSelectableAddItemTemplateDirective.templateRef;
+      case 'item':
+        return this.ionicSelectableItemTemplateDirective.templateRef;
+    }
+    throw new Error(`template for ${type} was not provided`);
   }
 }
 
