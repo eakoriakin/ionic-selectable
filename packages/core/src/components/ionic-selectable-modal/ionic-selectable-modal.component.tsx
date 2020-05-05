@@ -13,15 +13,15 @@ import { IonicSelectableComponent } from '../ionic-selectable/ionic-selectable.c
   scoped: true,
 })
 export class IonicSelectableModalComponent implements ComponentInterface {
-  @Element() private element!: HTMLIonicSelectableModalElement;
+  @Element() public element!: HTMLIonicSelectableModalElement;
   private selectableComponent: IonicSelectableComponent;
+  private headerElement: HTMLIonHeaderElement;
 
   @State() private toggleUpdate: boolean = false;
 
   public infiniteScrollElement: HTMLIonInfiniteScrollElement;
   public virtualScrollElement: HTMLIonVirtualScrollElement;
   public contentElement: HTMLIonContentElement;
-
   /**
    * Rerender the component
    */
@@ -40,6 +40,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
     this.infiniteScrollElement = this.element.querySelector('ion-infinite-scroll');
     this.virtualScrollElement = this.element.querySelector('ion-virtual-scroll');
     this.contentElement = this.element.querySelector('ion-content');
+    this.headerElement = this.element.querySelector('ion-header');
     if (this.selectableComponent.shouldFocusSearchbar) {
       const searchBarElement = this.element.querySelector('ion-searchbar');
       searchBarElement.setFocus();
@@ -92,7 +93,11 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   public render(): void {
     return (
-      <Host>
+      <Host
+        class={{
+          'ionic-selectable-modal-is-add-item-template-visible ': this.selectableComponent.isAddItemTemplateVisible,
+        }}
+      >
         <ion-header>
           <ion-toolbar color={this.selectableComponent.headerColor}>
             <ion-title>{this.selectableComponent.titleText}</ion-title>
@@ -165,8 +170,21 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             </ion-infinite-scroll>
           )}
         </ion-content>
+        {this.selectableComponent.isAddItemTemplateVisible && (
+          <div
+            class="ionic-selectable-add-item-template"
+            style={{ top: this.headerElement.offsetHeight + 'px' }}
+            ref={(element) => {
+              this.selectableComponent.templateRender(element, {
+                type: 'addItem',
+                value: this.selectableComponent.itemToAdd,
+                isAdd: this.selectableComponent.itemToAdd == null,
+              });
+            }}
+          ></div>
+        )}
         {this.selectableComponent.footerButtonsCount > 0 /* && selectComponent.footerTemplate */ && (
-          <ion-footer>
+          <ion-footer style={{ visibility: this.selectableComponent.isFooterVisible ? 'initial' : 'hidden' }}>
             <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
               <ion-row>
                 {this.selectableComponent.canClear && (

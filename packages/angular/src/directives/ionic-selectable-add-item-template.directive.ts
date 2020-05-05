@@ -2,8 +2,8 @@ import { Directive, ViewContainerRef, TemplateRef } from '@angular/core';
 import { TemplateContext } from '../utils/util';
 
 @Directive({
-  selector: '[ionicSelectableItemTemplate]'
+  selector: '[ionicSelectableAddItemTemplate]'
 })
-export class IonicSelectableItemTemplateDirective {
+export class IonicSelectableAddItemTemplateDirective {
   constructor(public templateRef: TemplateRef<TemplateContext>, public viewContainer: ViewContainerRef) {}
  }

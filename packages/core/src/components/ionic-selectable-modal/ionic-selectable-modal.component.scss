@@ -2,28 +2,37 @@
 
 // ionic-selectable-modal
 // --------------------------------------------------
-.ionic-selectable-spinner {
-  position: fixed;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  &-background {
-    top: 0;
+.ionic-selectable {
+  &-add-item-template {
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    position: absolute;
-    background-color: #000000;
-    opacity: 0.05;
+    background-color: var(--ion-background-color, #ffffff);
   }
-  ion-spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 10;
-    margin-top: -14px;
-    margin-left: -14px;
+  &-spinner {
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    &-background {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      background-color: #000000;
+      opacity: 0.05;
+    }
+    ion-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+      margin-top: -14px;
+      margin-left: -14px;
+    }
   }
 }

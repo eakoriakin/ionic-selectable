@@ -21,12 +21,62 @@
       [items]="items"
       itemValueField="id"
       itemTextField="port"
-      hasConfirmButton="true"
+      [canAddItem]="true"
       (changed)="onChanged($event)"
       [(ngModel)]="binding"
     >
-    <div *ionicSelectableItemTemplate ="let port; let isItemSelected = isItemSelected;">{{isItemSelected}} - {{port.port}} ({{port.country.country}})</div>
-  </ionic-selectable>
+      <div
+        *ionicSelectableItemTemplate="let port; let isItemSelected = isItemSelected;"
+      >
+        {{isItemSelected}} - {{port.port}} ({{port.country.country}})
+      </div>
+      <div *ionicSelectableAddItemTemplate="let port; let isAdd = isAdd" class="hola">
+        <ion-content>
+          <ion-list>
+            <ion-item-divider>
+              {{isAdd ? 'Add' : 'Edit'}} Port
+            </ion-item-divider>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+        <ion-footer>
+          <ion-toolbar>
+            <ion-row>
+              <ion-col>
+                <ion-button expand="full" (click)="ionicSelectable.hideAddItemTemplate()">
+                  Cancelar
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button expand="full">
+                  {{isAdd ? 'Add' : 'Save'}}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-toolbar>
+        </ion-footer>
+      </div>
+    </ionic-selectable>
   </ion-item>
   <ion-button (click)="open()">Open Ionic Selectable</ion-button>
   {{binding | json}}

@@ -179,6 +179,11 @@ export namespace Components {
          */
         "headerColor": string;
         /**
+          * Hides `ionicSelectableAddItemTemplate`. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideadditemtemplate).
+          * @memberof IonicSelectableComponent
+         */
+        "hideAddItemTemplate": () => Promise<void>;
+        /**
           * Hides Loading spinner. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideloading).
           * @memberof IonicSelectableComponent
          */
@@ -379,6 +384,11 @@ export namespace Components {
           * @memberof IonicSelectableComponent
          */
         "shouldStoreItemValue"?: boolean;
+        /**
+          * Shows `ionicSelectableAddItemTemplate`. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showadditemtemplate).
+          * @memberof IonicSelectableComponent
+         */
+        "showAddItemTemplate": () => Promise<void>;
         /**
           * Shows Loading spinner. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showloading).
           * @memberof IonicSelectableComponent
