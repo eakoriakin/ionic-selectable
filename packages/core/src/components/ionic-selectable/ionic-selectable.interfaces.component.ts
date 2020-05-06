@@ -55,7 +55,21 @@ export class IonicSelectableFocusedEvent<TItem> extends IonicSelectableEvent<TIt
 
 export class IonicSelectableBlurredEvent<TItem> extends IonicSelectableEvent<TItem> {}
 
-export type TemplateType = 'addItem' | 'item';
+export type TemplateType =
+  | 'addItem'
+  | 'closeButton'
+  | 'footer'
+  | 'group'
+  | 'groupEnd'
+  | 'header'
+  | 'icon'
+  | 'item'
+  | 'itemEnd'
+  | 'itemIcon'
+  | 'message'
+  | 'searchFail'
+  | 'title'
+  | 'value';
 export interface ITemplate {
   type: TemplateType;
   value?: any[] | any | string | undefined | null;
