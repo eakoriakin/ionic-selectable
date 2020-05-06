@@ -30,30 +30,16 @@
       >
         {{isItemSelected}} - {{port.port}} ({{port.country.country}})
       </div>
+      <div *ionicSelectableCloseButtonTemplate>
+        Hola
+      </div>
+      <ion-toolbar *ionicSelectableFooterTemplate>Footer</ion-toolbar>
       <div *ionicSelectableAddItemTemplate="let port; let isAdd = isAdd" class="hola">
         <ion-content>
           <ion-list>
             <ion-item-divider>
               {{isAdd ? 'Add' : 'Edit'}} Port
             </ion-item-divider>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input></ion-input>
-            </ion-item>
             <ion-item>
               <ion-input></ion-input>
             </ion-item>

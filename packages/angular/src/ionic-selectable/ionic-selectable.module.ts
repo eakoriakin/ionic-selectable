@@ -6,6 +6,9 @@ import { appInitialize } from '../utils/app-initialize';
 import { IonicSelectableValueAccessor } from '../utils/ionic-selectable-value-accessor';
 import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
 import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-selectable-add-item-template.directive';
+import { IonicSelectableCloseButtonTemplateDirective } from '../directives/ionic-selectable-close-button-template.directive';
+import { IonicSelectableFooterTemplateDirective } from '../directives/ionic-selectable-footer-template.directive';
+import { IonicSelectableGroupEndTemplateDirective } from '../directives/ionic-selectable-group-end-template.directive';
 
 const DECLARATIONS = [
   //Component
@@ -14,7 +17,10 @@ const DECLARATIONS = [
   IonicSelectableValueAccessor,
   //Directives,
   IonicSelectableAddItemTemplateDirective,
-  IonicSelectableItemTemplateDirective
+  IonicSelectableItemTemplateDirective,
+  IonicSelectableCloseButtonTemplateDirective,
+  IonicSelectableFooterTemplateDirective,
+  IonicSelectableGroupEndTemplateDirective
 ];
 @NgModule({
     declarations: DECLARATIONS,

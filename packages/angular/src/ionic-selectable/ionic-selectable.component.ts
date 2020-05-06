@@ -6,12 +6,16 @@ import {
   ChangeDetectionStrategy,
   ContentChild,
   EmbeddedViewRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from '../utils/proxies-utils';
 import { Components, ITemplate, TemplateType } from 'test-isc';
 import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
 import { TemplateContext } from '../utils/util';
 import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-selectable-add-item-template.directive';
+import { IonicSelectableCloseButtonTemplateDirective } from '../directives/ionic-selectable-close-button-template.directive';
+import { IonicSelectableFooterTemplateDirective } from '../directives/ionic-selectable-footer-template.directive';
+import { IonicSelectableGroupEndTemplateDirective } from '../directives/ionic-selectable-group-end-template.directive';
 export declare interface IonicSelectable extends Components.IonicSelectable {}
 @ProxyCmp({
   inputs: [
@@ -169,11 +173,20 @@ export class IonicSelectable {
   @ContentChild(IonicSelectableAddItemTemplateDirective, { static: false })
   ionicSelectableAddItemTemplateDirective!: IonicSelectableAddItemTemplateDirective;
 
+  @ContentChild(IonicSelectableCloseButtonTemplateDirective, { static: false })
+  ionicSelectableCloseButtonTemplateDirective!: IonicSelectableCloseButtonTemplateDirective;
+
+  @ContentChild(IonicSelectableFooterTemplateDirective, { static: false })
+  ionicSelectableFooterTemplateDirective!: IonicSelectableFooterTemplateDirective;
+
+  @ContentChild(IonicSelectableGroupEndTemplateDirective, { static: false })
+  ionicSelectableGroupEndTemplateDirective!: IonicSelectableGroupEndTemplateDirective;
+
   @ContentChild(IonicSelectableItemTemplateDirective, { static: false })
   ionicSelectableItemTemplateDirective!: IonicSelectableItemTemplateDirective;
 
-  constructor(elementRef: ElementRef, protected z: NgZone) {
-    this.el = elementRef.nativeElement as HTMLIonicSelectableElement;
+  constructor(private elementRef: ElementRef, protected z: NgZone, private viewContainerRef: ViewContainerRef) {
+    this.el = this.elementRef.nativeElement as HTMLIonicSelectableElement;
     this.el.templateRender = this.render.bind(this);
     this.el.hasTemplateRender = this.hasTemplate.bind(this);
     proxyOutputs(this, this.el, [
@@ -220,15 +233,12 @@ export class IonicSelectable {
   }
 
   private createEmbeddedView(element: HTMLElement, template: ITemplate) {
-    const node = this.ionicSelectableItemTemplateDirective.viewContainer.createEmbeddedView(
-      this.getComponent(template.type),
-      {
-        $implicit: template.value,
-        isItemSelected: template.isItemSelected,
-        isItemDisabled: template.isItemDisabled,
-        isAdd: template.isAdd,
-      }
-    );
+    const node = this.viewContainerRef.createEmbeddedView(this.getComponent(template.type), {
+      $implicit: template.value,
+      isItemSelected: template.isItemSelected,
+      isItemDisabled: template.isItemDisabled,
+      isAdd: template.isAdd,
+    });
     const childElement = getElement(node);
     element.appendChild(childElement);
     if (template.type === 'addItem') {
@@ -256,6 +266,12 @@ export class IonicSelectable {
     switch (type) {
       case 'addItem':
         return !!this.ionicSelectableAddItemTemplateDirective;
+      case 'closeButton':
+        return !!this.ionicSelectableCloseButtonTemplateDirective;
+      case 'footer':
+        !!this.ionicSelectableFooterTemplateDirective;
+      case 'groupEnd':
+        !!this.ionicSelectableGroupEndTemplateDirective;
       case 'item':
         return !!this.ionicSelectableItemTemplateDirective;
       default:
@@ -267,10 +283,17 @@ export class IonicSelectable {
     switch (type) {
       case 'addItem':
         return this.ionicSelectableAddItemTemplateDirective.templateRef;
+      case 'closeButton':
+        return this.ionicSelectableCloseButtonTemplateDirective.templateRef;
+      case 'footer':
+        return this.ionicSelectableFooterTemplateDirective.templateRef;
+      case 'groupEnd':
+        return this.ionicSelectableGroupEndTemplateDirective.templateRef;
       case 'item':
         return this.ionicSelectableItemTemplateDirective.templateRef;
+      default:
+        throw new Error(`template for ${type} was not provided`);
     }
-    throw new Error(`template for ${type} was not provided`);
   }
 }
 

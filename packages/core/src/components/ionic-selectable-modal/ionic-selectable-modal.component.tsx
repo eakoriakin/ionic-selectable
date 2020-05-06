@@ -58,10 +58,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         onClick={(): void => this.selectableComponent.selectItem(item)}
         disabled={this.selectableComponent.isItemDisabled(item)}
       >
-        {(!this.selectableComponent.hasTemplateRender || !this.selectableComponent.hasTemplateRender('item')) && (
-          <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
-        )}
-        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('item') && (
+        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('item') ? (
           <span
             ref={(element) => {
               this.selectableComponent.templateRender(element, {
@@ -72,6 +69,8 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               });
             }}
           ></span>
+        ) : (
+          <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
         )}
         <ion-icon
           name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
@@ -103,7 +102,18 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             <ion-title>{this.selectableComponent.titleText}</ion-title>
             <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
               <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
-                {this.selectableComponent.closeButtonText}
+                {this.selectableComponent.hasTemplateRender &&
+                this.selectableComponent.hasTemplateRender('closeButton') ? (
+                  <span
+                    ref={(element) => {
+                      this.selectableComponent.templateRender(element, {
+                        type: 'closeButton',
+                      });
+                    }}
+                  ></span>
+                ) : (
+                  <span>{this.selectableComponent.closeButtonText}</span>
+                )}
               </ion-button>
             </ion-buttons>
           </ion-toolbar>
@@ -143,6 +153,18 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                       <ion-item-divider color={this.selectableComponent.groupColor}>
                         {/* Need ion-label for text ellipsis. */}
                         <ion-label>{group.text}</ion-label>
+                        {this.selectableComponent.hasTemplateRender &&
+                          this.selectableComponent.hasTemplateRender('groupEnd') && (
+                            <div
+                              ref={(element) => {
+                                this.selectableComponent.templateRender(element, {
+                                  type: 'groupEnd',
+                                  value: group,
+                                });
+                              }}
+                              slot="end"
+                            ></div>
+                          )}
                       </ion-item-divider>
                     )}
                     {group.items.map((item) => this.renderItem(item))}
@@ -183,43 +205,54 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             }}
           ></div>
         )}
-        {this.selectableComponent.footerButtonsCount > 0 /* && selectComponent.footerTemplate */ && (
+        {(this.selectableComponent.footerButtonsCount > 0 ||
+          (this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('footer'))) && (
           <ion-footer style={{ visibility: this.selectableComponent.isFooterVisible ? 'initial' : 'hidden' }}>
-            <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
-              <ion-row>
-                {this.selectableComponent.canClear && (
-                  <ion-col>
-                    <ion-button
-                      onClick={(): void => this.selectableComponent.clearItems()}
-                      disabled={!(this.selectableComponent.selectedItems.length > 0)}
-                      expand="full"
-                    >
-                      {this.selectableComponent.clearButtonText}
-                    </ion-button>
-                  </ion-col>
-                )}
-                {this.selectableComponent.canAddItem && (
-                  <ion-col>
-                    <ion-button onClick={(): void => this.selectableComponent.addItemClick()} expand="full">
-                      {this.selectableComponent.addButtonText}
-                    </ion-button>
-                  </ion-col>
-                )}
-                {(this.selectableComponent.isMultiple ||
-                  this.selectableComponent.hasConfirmButton ||
-                  this.selectableComponent.canClear) && (
-                  <ion-col>
-                    <ion-button
-                      onClick={(): void => this.selectableComponent.confirmSelection()}
-                      disabled={!this.selectableComponent.isConfirmButtonEnabled}
-                      expand="full"
-                    >
-                      {this.selectableComponent.confirmButtonText}
-                    </ion-button>
-                  </ion-col>
-                )}
-              </ion-row>
-            </ion-toolbar>
+            {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('footer') ? (
+              <div
+                ref={(element) => {
+                  this.selectableComponent.templateRender(element, {
+                    type: 'footer',
+                  });
+                }}
+              ></div>
+            ) : (
+              <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
+                <ion-row>
+                  {this.selectableComponent.canClear && (
+                    <ion-col>
+                      <ion-button
+                        onClick={(): void => this.selectableComponent.clearItems()}
+                        disabled={!(this.selectableComponent.selectedItems.length > 0)}
+                        expand="full"
+                      >
+                        {this.selectableComponent.clearButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                  {this.selectableComponent.canAddItem && (
+                    <ion-col>
+                      <ion-button onClick={(): void => this.selectableComponent.addItemClick()} expand="full">
+                        {this.selectableComponent.addButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                  {(this.selectableComponent.isMultiple ||
+                    this.selectableComponent.hasConfirmButton ||
+                    this.selectableComponent.canClear) && (
+                    <ion-col>
+                      <ion-button
+                        onClick={(): void => this.selectableComponent.confirmSelection()}
+                        disabled={!this.selectableComponent.isConfirmButtonEnabled}
+                        expand="full"
+                      >
+                        {this.selectableComponent.confirmButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                </ion-row>
+              </ion-toolbar>
+            )}
           </ion-footer>
         )}
       </Host>
