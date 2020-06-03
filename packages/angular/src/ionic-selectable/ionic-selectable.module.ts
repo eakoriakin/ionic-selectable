@@ -9,6 +9,16 @@ import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-sel
 import { IonicSelectableCloseButtonTemplateDirective } from '../directives/ionic-selectable-close-button-template.directive';
 import { IonicSelectableFooterTemplateDirective } from '../directives/ionic-selectable-footer-template.directive';
 import { IonicSelectableGroupEndTemplateDirective } from '../directives/ionic-selectable-group-end-template.directive';
+import { IonicSelectableGroupTemplateDirective } from '../directives/ionic-selectable-group-template.directive';
+import { IonicSelectableHeaderTemplateDirective } from '../directives/ionic-selectable-header-template.directive';
+import { IonicSelectableIconTemplateDirective } from '../directives/ionic-selectable-icon-template.directive';
+import { IonicSelectableItemEndTemplateDirective } from '../directives/ionic-selectable-item-end-template.directive';
+import { IonicSelectableItemIconTemplateDirective } from '../directives/ionic-selectable-item-icon-template.directive';
+import { IonicSelectableMessageTemplateDirective } from '../directives/ionic-selectable-message-template.directive';
+import { IonicSelectablePlaceholderTemplateDirective } from '../directives/ionic-selectable-placeholder-template.directive';
+import { IonicSelectableSearchFailTemplateDirective } from '../directives/ionic-selectable-search-fail-template.directive';
+import { IonicSelectableTitleTemplateDirective } from '../directives/ionic-selectable-title-template.directive';
+import { IonicSelectableValueTemplateDirective } from '../directives/ionic-selectable-value-template.directive';
 
 const DECLARATIONS = [
   //Component
@@ -17,10 +27,20 @@ const DECLARATIONS = [
   IonicSelectableValueAccessor,
   //Directives,
   IonicSelectableAddItemTemplateDirective,
-  IonicSelectableItemTemplateDirective,
   IonicSelectableCloseButtonTemplateDirective,
   IonicSelectableFooterTemplateDirective,
-  IonicSelectableGroupEndTemplateDirective
+  IonicSelectableGroupEndTemplateDirective,
+  IonicSelectableGroupTemplateDirective,
+  IonicSelectableHeaderTemplateDirective,
+  IonicSelectableIconTemplateDirective,
+  IonicSelectableItemEndTemplateDirective,
+  IonicSelectableItemIconTemplateDirective,
+  IonicSelectableItemTemplateDirective,
+  IonicSelectableMessageTemplateDirective,
+  IonicSelectablePlaceholderTemplateDirective,
+  IonicSelectableSearchFailTemplateDirective,
+  IonicSelectableTitleTemplateDirective,
+  IonicSelectableValueTemplateDirective
 ];
 @NgModule({
     declarations: DECLARATIONS,

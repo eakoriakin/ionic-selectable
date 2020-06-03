@@ -67,6 +67,7 @@ export type TemplateType =
   | 'itemEnd'
   | 'itemIcon'
   | 'message'
+  | 'placeholder'
   | 'searchFail'
   | 'title'
   | 'value';

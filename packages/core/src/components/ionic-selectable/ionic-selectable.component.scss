@@ -98,5 +98,10 @@ button {
 
       pointer-events: none;
     }
+
+    &-template {
+      align-self: center;
+      margin-left: 5px;
+    }
   }
 }

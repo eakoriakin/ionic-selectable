@@ -72,11 +72,37 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         ) : (
           <ion-label>{this.selectableComponent.getItemText(item)}</ion-label>
         )}
-        <ion-icon
-          name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
-          size="small"
-          slot={this.selectableComponent.itemIconSlot}
-        />
+        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('itemEnd') && (
+          <div
+            slot="end"
+            ref={(element) => {
+              this.selectableComponent.templateRender(element, {
+                type: 'itemEnd',
+                value: item,
+                isItemSelected: this.selectableComponent.isItemSelected(item),
+                isItemDisabled: this.selectableComponent.isItemDisabled(item),
+              });
+            }}
+          ></div>
+        )}
+        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('itemIcon') ? (
+          <span
+            ref={(element) => {
+              this.selectableComponent.templateRender(element, {
+                type: 'itemIcon',
+                value: item,
+                isItemSelected: this.selectableComponent.isItemSelected(item),
+                isItemDisabled: this.selectableComponent.isItemDisabled(item),
+              });
+            }}
+          ></span>
+        ) : (
+          <ion-icon
+            name={this.selectableComponent.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
+            size="small"
+            slot={this.selectableComponent.itemIconSlot}
+          ></ion-icon>
+        )}
       </ion-item>
     );
   }
@@ -98,41 +124,74 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         }}
       >
         <ion-header>
-          <ion-toolbar color={this.selectableComponent.headerColor}>
-            <ion-title>{this.selectableComponent.titleText}</ion-title>
-            <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
-              <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
-                {this.selectableComponent.hasTemplateRender &&
-                this.selectableComponent.hasTemplateRender('closeButton') ? (
+          {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('header') ? (
+            <div
+              ref={(element) => {
+                this.selectableComponent.templateRender(element, {
+                  type: 'header',
+                });
+              }}
+            ></div>
+          ) : (
+            <ion-toolbar color={this.selectableComponent.headerColor}>
+              <ion-title>
+                {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('title') ? (
                   <span
                     ref={(element) => {
                       this.selectableComponent.templateRender(element, {
-                        type: 'closeButton',
+                        type: 'title',
                       });
                     }}
                   ></span>
                 ) : (
-                  <span>{this.selectableComponent.closeButtonText}</span>
+                  <span>{this.selectableComponent.titleText}</span>
                 )}
-              </ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-          {this.selectableComponent.canSearch /* || selectComponent.messageTemplate */ && (
-            <ion-toolbar>
-              <ion-searchbar
-                value={this.selectableComponent.searchText}
-                placeholder={this.selectableComponent.searchPlaceholder}
-                debounce={this.selectableComponent.searchDebounce}
-                cancelButtonIcon={this.selectableComponent.searchCancelButtonIcon}
-                cancelButtonText={this.selectableComponent.searchCancelButtonText}
-                clearIcon={this.selectableComponent.searchClearIcon}
-                inputmode={this.selectableComponent.searchInputmode}
-                searchIcon={this.selectableComponent.searchIcon}
-                showCancelButton={this.selectableComponent.searchShowCancelButton}
-                onIonChange={(event): void => this.selectableComponent.onSearchbarValueChanged(event)}
-              ></ion-searchbar>
+              </ion-title>
+              <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
+                <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
+                  {this.selectableComponent.hasTemplateRender &&
+                  this.selectableComponent.hasTemplateRender('closeButton') ? (
+                    <span
+                      ref={(element) => {
+                        this.selectableComponent.templateRender(element, {
+                          type: 'closeButton',
+                        });
+                      }}
+                    ></span>
+                  ) : (
+                    <span>{this.selectableComponent.closeButtonText}</span>
+                  )}
+                </ion-button>
+              </ion-buttons>
             </ion-toolbar>
           )}
+          {this.selectableComponent.canSearch ||
+            (this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('message') && (
+              <ion-toolbar>
+                <ion-searchbar
+                  value={this.selectableComponent.searchText}
+                  placeholder={this.selectableComponent.searchPlaceholder}
+                  debounce={this.selectableComponent.searchDebounce}
+                  cancelButtonIcon={this.selectableComponent.searchCancelButtonIcon}
+                  cancelButtonText={this.selectableComponent.searchCancelButtonText}
+                  clearIcon={this.selectableComponent.searchClearIcon}
+                  inputmode={this.selectableComponent.searchInputmode}
+                  searchIcon={this.selectableComponent.searchIcon}
+                  showCancelButton={this.selectableComponent.searchShowCancelButton}
+                  onIonChange={(event): void => this.selectableComponent.onSearchbarValueChanged(event)}
+                ></ion-searchbar>
+                {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('message') && (
+                  <div
+                    class="ionic-selectable-message"
+                    ref={(element) => {
+                      this.selectableComponent.templateRender(element, {
+                        type: 'message',
+                      });
+                    }}
+                  ></div>
+                )}
+              </ion-toolbar>
+            ))}
         </ion-header>
         <ion-content>
           {this.selectableComponent.isSearching && (
@@ -141,9 +200,22 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               <ion-spinner></ion-spinner>
             </div>
           )}
-          {!this.selectableComponent.hasFilteredItems && (
-            <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
-          )}
+          {!this.selectableComponent.hasFilteredItems &&
+            this.selectableComponent.hasTemplateRender &&
+            this.selectableComponent.hasTemplateRender('searchFail') && (
+              <span
+                ref={(element) => {
+                  this.selectableComponent.templateRender(element, {
+                    type: 'searchFail',
+                  });
+                }}
+              ></span>
+            )}
+          {!this.selectableComponent.hasFilteredItems &&
+            (!this.selectableComponent.hasTemplateRender ||
+              !this.selectableComponent.hasTemplateRender('searchFail')) && (
+              <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
+            )}
           {!this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
             <ion-list>
               {this.selectableComponent.filteredGroups.map((group) => {
@@ -151,8 +223,18 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                   <ion-item-group>
                     {this.selectableComponent.hasGroups && (
                       <ion-item-divider color={this.selectableComponent.groupColor}>
-                        {/* Need ion-label for text ellipsis. */}
-                        <ion-label>{group.text}</ion-label>
+                        {this.selectableComponent.hasTemplateRender &&
+                        this.selectableComponent.hasTemplateRender('group') ? (
+                          <span
+                            ref={(element) => {
+                              this.selectableComponent.templateRender(element, {
+                                type: 'group',
+                              });
+                            }}
+                          ></span>
+                        ) : (
+                          <ion-label>{group.text}</ion-label>
+                        )}
                         {this.selectableComponent.hasTemplateRender &&
                           this.selectableComponent.hasTemplateRender('groupEnd') && (
                             <div
@@ -217,7 +299,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                 }}
               ></div>
             ) : (
-              <ion-toolbar /* *ngIf="!selectComponent.footerTemplate" */>
+              <ion-toolbar>
                 <ion-row>
                   {this.selectableComponent.canClear && (
                     <ion-col>
