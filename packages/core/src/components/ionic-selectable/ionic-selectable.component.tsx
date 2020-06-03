@@ -1717,11 +1717,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
     let addPlaceholderClass = false;
     let selectText = this.getText();
-    if (selectText === '' && placeholder != null) {
+    if (
+      selectText === '' &&
+      (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))
+    ) {
       selectText = placeholder;
       addPlaceholderClass = true;
     }
-
+    console.log(selectText);
     renderHiddenInput(true, element, name, this.parseValue(), isDisabled);
 
     const selectTextClasses: CssClassMap = {
@@ -1730,6 +1733,42 @@ export class IonicSelectableComponent implements ComponentInterface {
     };
 
     const textPart = addPlaceholderClass ? 'placeholder' : 'text';
+
+    let valueRender: any;
+
+    if (addPlaceholderClass && this.hasTemplateRender && this.hasTemplateRender('placeholder')) {
+      console.log('placeholder');
+      valueRender = (
+        <div
+          class={selectTextClasses}
+          ref={(element) => {
+            this.templateRender(element, {
+              type: 'placeholder',
+            });
+          }}
+        ></div>
+      );
+    } else if (this.hasTemplateRender && this.hasTemplateRender('value')) {
+      console.log('value');
+      valueRender = (
+        <div
+          class={selectTextClasses}
+          ref={(element) => {
+            this.templateRender(element, {
+              type: 'value',
+            });
+          }}
+        ></div>
+      );
+    } else {
+      valueRender = (
+        <div class={selectTextClasses} part={textPart}>
+          {selectText}
+        </div>
+      );
+    }
+
+    console.log(valueRender);
 
     return (
       <Host
@@ -1748,12 +1787,22 @@ export class IonicSelectableComponent implements ComponentInterface {
           'ionic-selectable-is-disabled': isDisabled,
         }}
       >
-        <div class={selectTextClasses} part={textPart}>
-          {selectText}
-        </div>
-        <div class="ionic-selectable-icon" role="presentation" part="icon">
-          <div class="ionic-selectable-icon-inner" part="icon-inner" />
-        </div>
+        {valueRender}
+
+        {this.hasTemplateRender && this.hasTemplateRender('icon') ? (
+          <div
+            class="ionic-selectable-icon-template"
+            ref={(element) => {
+              this.templateRender(element, {
+                type: 'icon',
+              });
+            }}
+          ></div>
+        ) : (
+          <div class="ionic-selectable-icon" role="presentation" part="icon">
+            <div class="ionic-selectable-icon-inner" part="icon-inner"></div>
+          </div>
+        )}
         <button
           type="button"
           onFocus={this.onFocus}
