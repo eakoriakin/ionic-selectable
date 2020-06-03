@@ -1,3 +1,5 @@
+import { TemplateType } from 'test-isc';
+
 declare const __zone_symbol__requestAnimationFrame: any;
 declare const requestAnimationFrame: any;
 
@@ -16,4 +18,8 @@ export interface TemplateContext {
   isItemSelected?: boolean | undefined | null;
   isItemDisabled?: boolean | undefined | null;
   isAdd?: boolean | undefined | null;
+  /**
+   * @internal
+   */
+  type: TemplateType;
 }

@@ -14,7 +14,7 @@
   </ion-header>
 
   <ion-item>
-    <ion-label>Ports</ion-label>
+    <ion-label position="floating">Ports</ion-label>
     <ionic-selectable
       #ionicSelectable
       id="sel1"
@@ -22,8 +22,10 @@
       itemValueField="id"
       itemTextField="port"
       [canAddItem]="true"
+      [canClear]="true"
       (changed)="onChanged($event)"
       [(ngModel)]="binding"
+
     >
       <div
         *ionicSelectableItemTemplate="let port; let isItemSelected = isItemSelected;"
@@ -33,9 +35,9 @@
       <div *ionicSelectableCloseButtonTemplate>
         Hola
       </div>
-      <ion-toolbar *ionicSelectableFooterTemplate>Footer</ion-toolbar>
-      <div *ionicSelectableValueTemplate>Value</div>
-      <div *ionicSelectablePlaceholderTemplate>Place</div>
+      <!-- <ion-toolbar *ionicSelectableFooterTemplate>Footer</ion-toolbar> -->
+      <div *ionicSelectableValueTemplate="let port;" class="hola">Value {{port}}</div>
+      <div *ionicSelectablePlaceholderTemplate="let port;" class="s">Place {{port}}</div>
       <div *ionicSelectableAddItemTemplate="let port; let isAdd = isAdd" class="hola">
         <ion-content>
           <ion-list>
