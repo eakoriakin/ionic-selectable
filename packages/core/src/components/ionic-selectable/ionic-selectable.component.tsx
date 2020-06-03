@@ -60,6 +60,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Element() private element!: HTMLIonicSelectableElement;
   private id = this.element.id ? this.element.id : `ionic-selectable-${nextId++}`;
   private isInited = false;
+  private isRendered = false;
   private buttonElement?: HTMLButtonElement;
   private modalElement!: HTMLIonModalElement;
   private isChangeInternal = false;
@@ -878,7 +879,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   public async confirm(): Promise<void> {
     if (this.isMultiple) {
       this.setValue(this.selectedItems);
-    } else if (this.hasConfirmButton /* || this.footerTemplate */) {
+    } else if (this.hasConfirmButton || (this.hasTemplateRender && this.hasTemplateRender('footer'))) {
       this.setValue(this.selectedItems[0] || null);
     }
   }
@@ -1197,10 +1198,9 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   public clearItems(): void {
-    this.emitCleared();
-    this.selectedItems = [];
-    this.itemsToConfirm = [];
+    this.setValue(null);
     this.selectableModalComponent?.update();
+    this.emitCleared();
   }
 
   public closeModal(): void {
@@ -1691,11 +1691,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   };
 
   public render(): void {
-    const { placeholder, name, isDisabled, isOpened, isMultiple, element } = this;
+    const { placeholder, name, isDisabled, isOpened, element /* isMultiple */ } = this;
     const mode = getMode();
-    // Add ripple efect
-    if (mode === 'md') {
-      addRippleEffectElement(element);
+
+    if (!this.isRendered) {
+      // Add ripple efect
+      if (mode === 'md') {
+        addRippleEffectElement(element);
+      }
     }
 
     const item = findItem(element);
@@ -1715,8 +1718,12 @@ export class IonicSelectableComponent implements ComponentInterface {
       label.id = labelId;
       labelPosition = `item-label-${label.getAttribute('position') ? label.getAttribute('position') : 'default'}`;
     }
+
+    renderHiddenInput(true, element, name, this.parseValue(), isDisabled);
+
     let addPlaceholderClass = false;
     let selectText = this.getText();
+
     if (
       selectText === '' &&
       (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))
@@ -1724,8 +1731,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       selectText = placeholder;
       addPlaceholderClass = true;
     }
-    console.log(selectText);
-    renderHiddenInput(true, element, name, this.parseValue(), isDisabled);
 
     const selectTextClasses: CssClassMap = {
       'ionic-selectable-text': true,
@@ -1737,7 +1742,6 @@ export class IonicSelectableComponent implements ComponentInterface {
     let valueRender: any;
 
     if (addPlaceholderClass && this.hasTemplateRender && this.hasTemplateRender('placeholder')) {
-      console.log('placeholder');
       valueRender = (
         <div
           class={selectTextClasses}
@@ -1749,13 +1753,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         ></div>
       );
     } else if (this.hasTemplateRender && this.hasTemplateRender('value')) {
-      console.log('value');
       valueRender = (
         <div
           class={selectTextClasses}
           ref={(element) => {
             this.templateRender(element, {
               type: 'value',
+              value: this.value,
             });
           }}
         ></div>
@@ -1767,8 +1771,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         </div>
       );
     }
-
-    console.log(valueRender);
+    this.isRendered = true;
 
     return (
       <Host
@@ -1783,7 +1786,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           [mode]: true,
           'in-item': hostContext('ion-item', element),
           [labelPosition]: true,
-          'item-multiple-inputs': isMultiple,
+          // 'item-multiple-inputs': isMultiple, // review
           'ionic-selectable-is-disabled': isDisabled,
         }}
       >

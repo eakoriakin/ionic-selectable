@@ -281,6 +281,7 @@ export class IonicSelectable {
       isItemSelected: template.isItemSelected,
       isItemDisabled: template.isItemDisabled,
       isAdd: template.isAdd,
+      type: template.type,
     });
     const childElement = getElement(node);
     element.appendChild(childElement);
@@ -297,6 +298,11 @@ export class IonicSelectable {
   private updateEmbeddedView(element: HTMLElement, template: ITemplate) {
     const node = template.type === 'addItem' ? this.refAddItem : this.refMap.get(element)!;
     const ctx = node.context;
+    if (template.type !== ctx.type) {
+      element.removeChild(element.lastChild);
+      this.createEmbeddedView(element, template);
+      return;
+    }
     ctx.$implicit = template.value;
     ctx.isItemSelected = template.isItemSelected;
     ctx.isItemDisabled = template.isItemDisabled;
