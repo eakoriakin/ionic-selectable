@@ -3,8 +3,5 @@
   "lib": {
     "entryFile": "index.ts"
   },
-  "whitelistedNonPeerDependencies": [
-    "cordova-ios",
-    "cordova-android"
-  ]
+  "allowedNonPeerDependencies": ["cordova-ios", "cordova-android"]
 }

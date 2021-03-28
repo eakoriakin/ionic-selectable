@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScrollToTopPage } from './scroll-to-top.page';
 
 describe('ScrollToTopPage', () => {
   let component: ScrollToTopPage;
   let fixture: ComponentFixture<ScrollToTopPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ScrollToTopPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

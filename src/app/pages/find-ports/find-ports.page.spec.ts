@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FindPortsPage } from './find-ports.page';
 
 describe('FindPortsPage', () => {
   let component: FindPortsPage;
   let fixture: ComponentFixture<FindPortsPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FindPortsPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

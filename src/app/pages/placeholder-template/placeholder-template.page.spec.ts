@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlaceholderTemplatePage } from './placeholder-template.page';
 
 describe('PlaceholderTemplatePage', () => {
   let component: PlaceholderTemplatePage;
   let fixture: ComponentFixture<PlaceholderTemplatePage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlaceholderTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
