@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MultipleValuesTemplatePage } from './multiple-values-template.page';
 
 describe('MultipleValuesTemplatePage', () => {
   let component: MultipleValuesTemplatePage;
   let fixture: ComponentFixture<MultipleValuesTemplatePage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MultipleValuesTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

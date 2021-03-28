@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EditingAsyncPage } from './editing-async.page';
 
 describe('EditingAsyncPage', () => {
   let component: EditingAsyncPage;
   let fixture: ComponentFixture<EditingAsyncPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EditingAsyncPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

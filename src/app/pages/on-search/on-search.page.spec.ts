@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OnSearchPage } from './on-search.page';
 
 describe('OnSearchPage', () => {
   let component: OnSearchPage;
   let fixture: ComponentFixture<OnSearchPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OnSearchPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

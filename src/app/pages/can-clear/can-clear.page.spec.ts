@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CanClearPage } from './can-clear.page';
 
 describe('CanClearPage', () => {
   let component: CanClearPage;
   let fixture: ComponentFixture<CanClearPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CanClearPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

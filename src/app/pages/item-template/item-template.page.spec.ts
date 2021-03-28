@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ItemTemplatePage } from './item-template.page';
 
 describe('ItemTemplatePage', () => {
   let component: ItemTemplatePage;
   let fixture: ComponentFixture<ItemTemplatePage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ItemTemplatePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

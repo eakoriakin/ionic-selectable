@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PrimitiveTypesPage } from './primitive-types.page';
 
 describe('PrimitiveTypesPage', () => {
   let component: PrimitiveTypesPage;
   let fixture: ComponentFixture<PrimitiveTypesPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PrimitiveTypesPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ShouldStoreItemValuePage } from './should-store-item-value.page';
 
 describe('ShouldStoreItemValuePage', () => {
   let component: ShouldStoreItemValuePage;
   let fixture: ComponentFixture<ShouldStoreItemValuePage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ShouldStoreItemValuePage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
