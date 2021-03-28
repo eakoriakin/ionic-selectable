@@ -57,7 +57,7 @@
     "@types/jasmine": "2.8.6",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "13.9.0",
-    "codelyzer": "^5.0.0",
+    "codelyzer": "~6.0.1",
     "cordova-android": "7.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
