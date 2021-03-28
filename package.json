@@ -85,7 +85,7 @@
     "rxjs": "~6.5.4",
     "sw-toolbox": "3.6.0",
     "ts-node": "7.0.0",
-    "tsickle": "~0.35.0",
+    "tsickle": "0.39.1",
     "tslint": "5.11.0",
     "typescript": "~3.7.5",
     "zone.js": "~0.10.2",
