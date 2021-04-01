@@ -8,7 +8,7 @@ import { IonicSelectableComponent } from '@ionic-selectable/angular';
 })
 export class HomePage {
 
-  @ViewChild('ionicSelectable', { static: false }) ionicSelectable: IonicSelectableComponent;
+  @ViewChild('ionicSelectable') ionicSelectable: IonicSelectableComponent;
 
   items = [];
 /*     { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } },
