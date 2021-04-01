@@ -1,4 +1,4 @@
-import { TemplateType } from 'test-isc';
+import { TemplateType } from '@ionic-selectable/core';
 
 declare const __zone_symbol__requestAnimationFrame: any;
 declare const requestAnimationFrame: any;

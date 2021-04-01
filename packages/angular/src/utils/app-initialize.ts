@@ -1,6 +1,6 @@
 
 import { NgZone } from '@angular/core';
-import { applyPolyfills, defineCustomElements } from 'test-isc/loader';
+import { applyPolyfills, defineCustomElements } from '@ionic-selectable/core/loader';
 import { raf } from './util';
 
 let didInitialize = false;

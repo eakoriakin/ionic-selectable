@@ -10,7 +10,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from '../utils/proxies-utils';
-import { Components, ITemplate, TemplateType } from 'test-isc';
+import { Components, ITemplate, TemplateType } from '@ionic-selectable/core';
 import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
 import { TemplateContext } from '../utils/util';
 import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-selectable-add-item-template.directive';
