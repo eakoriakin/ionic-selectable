@@ -33,7 +33,7 @@
     "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "@ionic-selectable/core": "^5.0.0-alpha.2",
+    "@ionic-selectable/core": "^5.0.0-alpha.3",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
