@@ -1,7 +1,7 @@
-[npm-url]: https://npmjs.org/package/ionic-selectable
-[npm-image]: https://img.shields.io/npm/v/ionic-selectable.svg
-[dm-image]: https://img.shields.io/npm/dm/ionic-selectable.svg
-[dt-image]: https://img.shields.io/npm/dt/ionic-selectable.svg
+[npm-url]: https://npmjs.org/package/@ionic-selectable/core
+[npm-image]: https://img.shields.io/npm/v/@ionic-selectable/core.svg
+[dm-image]: https://img.shields.io/npm/dm/@ionic-selectable/core.svg
+[dt-image]: https://img.shields.io/npm/dt/@ionic-selectable/core.svg
 
 # Ionic Selectable
 
@@ -29,7 +29,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 - Ionic 3 (3.6.0 - 3.9.2)
 - Ionic 4 (>=4.0.0)
-
+- Ionic 5 (>=5.0.0) alpha
 ## Features
 
 - [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
@@ -55,10 +55,10 @@ npm install ionic-selectable@3.4.0 --save
 
 // Ionic 4
 npm install ionic-selectable@4.5.0 --save
-```
 
 // Ionic 5 (Web Component)
-npm install ionic-selectable@5.0.0 --save
+npm install @ionic-selectable/core --save # only for vanilla js
+npm install @ionic-selectable/angular --save # only for angular
 ```
 
 2. Import it.  

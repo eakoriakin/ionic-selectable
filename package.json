@@ -6,8 +6,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "publish": "lerna publish",
-    "publish-no-git-reset": "lerna publish from-package --no-git-reset",
-    "link": "lerna link"
+    "publish": "lerna publish --pre-dist-tag next",
+    "publish-no-git-reset": "lerna publish from-package --no-git-reset"
   }
 }

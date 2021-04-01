@@ -1,7 +1,7 @@
-[npm-url]: https://npmjs.org/package/ionic-selectable
-[npm-image]: https://img.shields.io/npm/v/ionic-selectable.svg
-[dm-image]: https://img.shields.io/npm/dm/ionic-selectable.svg
-[dt-image]: https://img.shields.io/npm/dt/ionic-selectable.svg
+[npm-url]: https://npmjs.org/package/@ionic-selectable/core
+[npm-image]: https://img.shields.io/npm/v/@ionic-selectable/core.svg
+[dm-image]: https://img.shields.io/npm/dm/@ionic-selectable/core.svg
+[dt-image]: https://img.shields.io/npm/dt/@ionic-selectable/core.svg
 
 # Ionic Selectable
 
