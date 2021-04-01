@@ -29,10 +29,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
+    "prepare": "npm run build.ng",
     "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "@ionic-selectable/core": "^5.0.0-alpha.1",
+    "@ionic-selectable/core": "^5.0.0-alpha.0",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
@@ -70,5 +71,5 @@
       "test-isc"
     ]
   },
-  "gitHead": "98bddffb3ba76c937dc05ef73816afef2bc7be88"
+  "gitHead": "33e5900abab7d39886efc348ba3c790424e5466d"
 }
