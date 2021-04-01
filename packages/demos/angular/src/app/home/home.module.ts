@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
-import { IonicSelectableModule } from 'test-isa';
+import { IonicSelectableModule } from '@ionic-selectable/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 
