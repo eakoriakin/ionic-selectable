@@ -13,6 +13,14 @@
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
+## `@ionic-selectable/core` for Vanilla JS
+## `@ionic-selectable/angular` for Angular
+- Made with stencil
+- Web components
+- Suport for Vainilla JS
+- Suport for Angular
+- Other frameworks support is coming!!!
+
 ![iOS Demo](images/demo.gif)
 
 # Contents
