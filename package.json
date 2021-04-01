@@ -2,6 +2,11 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "~4.0.0"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "publish": "lerna publish --force-publish",
+    "publish-no-git-reset": "lerna publish from-package --force-publish --no-git-reset"
   }
 }

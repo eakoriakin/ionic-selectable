@@ -53,14 +53,10 @@ export class IonicSelectableModalComponent implements ComponentInterface {
 
   private renderItem(item: any): any {
     return (
-      <ion-item
-        button={true}
-        onClick={(): void => this.selectableComponent.selectItem(item)}
-        disabled={this.selectableComponent.isItemDisabled(item)}
-      >
+      <ion-item button={true} onClick={(): void => this.selectableComponent.selectItem(item)} disabled={this.selectableComponent.isItemDisabled(item)}>
         {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('item') ? (
           <span
-            ref={(element) => {
+            ref={element => {
               this.selectableComponent.templateRender(element, {
                 type: 'item',
                 value: item,
@@ -75,7 +71,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('itemEnd') && (
           <div
             slot="end"
-            ref={(element) => {
+            ref={element => {
               this.selectableComponent.templateRender(element, {
                 type: 'itemEnd',
                 value: item,
@@ -87,7 +83,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         )}
         {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('itemIcon') ? (
           <span
-            ref={(element) => {
+            ref={element => {
               this.selectableComponent.templateRender(element, {
                 type: 'itemIcon',
                 value: item,
@@ -126,7 +122,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
         <ion-header>
           {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('header') ? (
             <div
-              ref={(element) => {
+              ref={element => {
                 this.selectableComponent.templateRender(element, {
                   type: 'header',
                 });
@@ -137,7 +133,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               <ion-title>
                 {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('title') ? (
                   <span
-                    ref={(element) => {
+                    ref={element => {
                       this.selectableComponent.templateRender(element, {
                         type: 'title',
                       });
@@ -149,10 +145,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               </ion-title>
               <ion-buttons slot={this.selectableComponent.closeButtonSlot}>
                 <ion-button onClick={(): void => this.selectableComponent.closeModal()}>
-                  {this.selectableComponent.hasTemplateRender &&
-                  this.selectableComponent.hasTemplateRender('closeButton') ? (
+                  {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('closeButton') ? (
                     <span
-                      ref={(element) => {
+                      ref={element => {
                         this.selectableComponent.templateRender(element, {
                           type: 'closeButton',
                         });
@@ -183,7 +178,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                 {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('message') && (
                   <div
                     class="ionic-selectable-message"
-                    ref={(element) => {
+                    ref={element => {
                       this.selectableComponent.templateRender(element, {
                         type: 'message',
                       });
@@ -200,33 +195,28 @@ export class IonicSelectableModalComponent implements ComponentInterface {
               <ion-spinner></ion-spinner>
             </div>
           )}
-          {!this.selectableComponent.hasFilteredItems &&
-            this.selectableComponent.hasTemplateRender &&
-            this.selectableComponent.hasTemplateRender('searchFail') && (
-              <span
-                ref={(element) => {
-                  this.selectableComponent.templateRender(element, {
-                    type: 'searchFail',
-                  });
-                }}
-              ></span>
-            )}
-          {!this.selectableComponent.hasFilteredItems &&
-            (!this.selectableComponent.hasTemplateRender ||
-              !this.selectableComponent.hasTemplateRender('searchFail')) && (
-              <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
-            )}
+          {!this.selectableComponent.hasFilteredItems && this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('searchFail') && (
+            <span
+              ref={element => {
+                this.selectableComponent.templateRender(element, {
+                  type: 'searchFail',
+                });
+              }}
+            ></span>
+          )}
+          {!this.selectableComponent.hasFilteredItems && (!this.selectableComponent.hasTemplateRender || !this.selectableComponent.hasTemplateRender('searchFail')) && (
+            <div class="ion-margin ion-text-center">{this.selectableComponent.searchFailText}</div>
+          )}
           {!this.selectableComponent.hasVirtualScroll && this.selectableComponent.hasFilteredItems && (
             <ion-list>
-              {this.selectableComponent.filteredGroups.map((group) => {
+              {this.selectableComponent.filteredGroups.map(group => {
                 return (
                   <ion-item-group>
                     {this.selectableComponent.hasGroups && (
                       <ion-item-divider color={this.selectableComponent.groupColor}>
-                        {this.selectableComponent.hasTemplateRender &&
-                        this.selectableComponent.hasTemplateRender('group') ? (
+                        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('group') ? (
                           <span
-                            ref={(element) => {
+                            ref={element => {
                               this.selectableComponent.templateRender(element, {
                                 type: 'group',
                               });
@@ -235,21 +225,20 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                         ) : (
                           <ion-label>{group.text}</ion-label>
                         )}
-                        {this.selectableComponent.hasTemplateRender &&
-                          this.selectableComponent.hasTemplateRender('groupEnd') && (
-                            <div
-                              ref={(element) => {
-                                this.selectableComponent.templateRender(element, {
-                                  type: 'groupEnd',
-                                  value: group,
-                                });
-                              }}
-                              slot="end"
-                            ></div>
-                          )}
+                        {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('groupEnd') && (
+                          <div
+                            ref={element => {
+                              this.selectableComponent.templateRender(element, {
+                                type: 'groupEnd',
+                                value: group,
+                              });
+                            }}
+                            slot="end"
+                          ></div>
+                        )}
                       </ion-item-divider>
                     )}
-                    {group.items.map((item) => this.renderItem(item))}
+                    {group.items.map(item => this.renderItem(item))}
                   </ion-item-group>
                 );
               })}
@@ -266,10 +255,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             ></ion-virtual-scroll>
           )}
           {this.selectableComponent.hasInfiniteScroll && (
-            <ion-infinite-scroll
-              threshold={this.selectableComponent.infiniteScrollThreshold}
-              onIonInfinite={(): void => this.selectableComponent.getMoreItems()}
-            >
+            <ion-infinite-scroll threshold={this.selectableComponent.infiniteScrollThreshold} onIonInfinite={(): void => this.selectableComponent.getMoreItems()}>
               <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
           )}
@@ -278,7 +264,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
           <div
             class="ionic-selectable-add-item-template"
             style={{ top: this.headerElement.offsetHeight + 'px' }}
-            ref={(element) => {
+            ref={element => {
               this.selectableComponent.templateRender(element, {
                 type: 'addItem',
                 value: this.selectableComponent.itemToAdd,
@@ -287,12 +273,11 @@ export class IonicSelectableModalComponent implements ComponentInterface {
             }}
           ></div>
         )}
-        {(this.selectableComponent.footerButtonsCount > 0 ||
-          (this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('footer'))) && (
+        {(this.selectableComponent.footerButtonsCount > 0 || (this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('footer'))) && (
           <ion-footer style={{ visibility: this.selectableComponent.isFooterVisible ? 'initial' : 'hidden' }}>
             {this.selectableComponent.hasTemplateRender && this.selectableComponent.hasTemplateRender('footer') ? (
               <div
-                ref={(element) => {
+                ref={element => {
                   this.selectableComponent.templateRender(element, {
                     type: 'footer',
                   });
@@ -303,11 +288,7 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                 <ion-row>
                   {this.selectableComponent.canClear && (
                     <ion-col>
-                      <ion-button
-                        onClick={(): void => this.selectableComponent.clearItems()}
-                        disabled={!(this.selectableComponent.selectedItems.length > 0)}
-                        expand="full"
-                      >
+                      <ion-button onClick={(): void => this.selectableComponent.clearItems()} disabled={!(this.selectableComponent.selectedItems.length > 0)} expand="full">
                         {this.selectableComponent.clearButtonText}
                       </ion-button>
                     </ion-col>
@@ -319,15 +300,9 @@ export class IonicSelectableModalComponent implements ComponentInterface {
                       </ion-button>
                     </ion-col>
                   )}
-                  {(this.selectableComponent.isMultiple ||
-                    this.selectableComponent.hasConfirmButton ||
-                    this.selectableComponent.canClear) && (
+                  {(this.selectableComponent.isMultiple || this.selectableComponent.hasConfirmButton || this.selectableComponent.canClear) && (
                     <ion-col>
-                      <ion-button
-                        onClick={(): void => this.selectableComponent.confirmSelection()}
-                        disabled={!this.selectableComponent.isConfirmButtonEnabled}
-                        expand="full"
-                      >
+                      <ion-button onClick={(): void => this.selectableComponent.confirmSelection()} disabled={!this.selectableComponent.isConfirmButtonEnabled} expand="full">
                         {this.selectableComponent.confirmButtonText}
                       </ion-button>
                     </ion-col>

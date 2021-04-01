@@ -1,7 +1,7 @@
 {
-  "name": "test-isc",
+  "name": "@ionic-selectable/core",
   "title": "Ionic Selectable",
-  "version": "5.0.0-alpha.28",
+  "version": "5.0.0-alpha.0",
   "description": "An Ionic component similar to Ionic Select, that allows to search items, including async search, group, add, edit, delete items, and much more.",
   "author": {
     "name": "Evgenii Koriakin",
@@ -21,6 +21,7 @@
     "ionic 2",
     "ionic 3",
     "ionic 4",
+    "ionic 5",
     "ion-select",
     "search",
     "searchable",
@@ -28,14 +29,14 @@
     "select",
     "selectable"
   ],
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs.js",
+  "module": "dist/custom-elements/index.js",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/custom-elements/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/ionic-selectable/ionic-selectable.js",
+  "unpkg": "dist/ionic-selectable/teststencil.esm.js",
   "files": [
     "dist/",
     "loader/"
@@ -50,12 +51,13 @@
     "prepare": "npm run build"
   },
   "devDependencies": {
-    "@ionic/core": "^5.1.0",
-    "@stencil/core": "^1.12.7",
-    "@stencil/sass": "^1.3.1",
-    "prettier": "^2.0.5",
-    "tslint": "^6.1.2",
-    "tslint-config-prettier": "^1.18.0"
+    "@ionic/core": "^5.6.3",
+    "@stencil/core": "^2.5.2",
+    "@stencil/sass": "^1.4.1",
+    "prettier": "^2.2.1",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "~4.2.3"
   },
   "peerDependencies": {
     "@ionic/core": "5.x"
@@ -64,5 +66,5 @@
     "directory": "/",
     "access": "public"
   },
-  "gitHead": "1a9094ee22e4fd4e70323b7f9c33e95c4158678b"
+  "gitHead": "98bddffb3ba76c937dc05ef73816afef2bc7be88"
 }

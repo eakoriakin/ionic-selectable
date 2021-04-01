@@ -3,21 +3,22 @@ import { sass } from '@stencil/sass';
 
 export const config: Config = {
   namespace: 'ionic-selectable',
-  bundles: [ { components: ['ionic-selectable', 'ionic-selectable-modal'] }],
+  bundles: [{ components: ['ionic-selectable', 'ionic-selectable-modal'] }],
   outputTargets: [
     {
       type: 'dist',
-      esmLoaderPath: '../loader'
+      esmLoaderPath: '../loader',
     },
     {
-      type: 'docs-readme'
+      type: 'dist-custom-elements-bundle',
+    },
+    {
+      type: 'docs-readme',
     },
     {
       type: 'www',
-      serviceWorker: null
-    }
+      serviceWorker: null,
+    },
   ],
-  plugins: [
-    sass()
-  ]
+  plugins: [sass()],
 };

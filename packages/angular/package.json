@@ -1,6 +1,6 @@
 {
-  "name": "test-isa",
-  "version": "5.0.0-alpha.28",
+  "name": "@ionic-selectable/angular",
+  "version": "5.0.0-alpha.0",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -29,41 +29,34 @@
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build.ng": "ng-packagr -p package.json",
-    "prepare": "npm run build.ng"
+    "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "test-isc": "^5.0.0-alpha.28",
-    "tslib": "^1.9.3"
+    "test-isc": "^5.0.0-alpha.29",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/core": ">=8.2.7",
-    "@angular/forms": ">=8.2.7",
-    "@angular/router": ">=8.2.7",
     "rxjs": ">=6.2.0",
     "zone.js": ">=0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/core": "8.3.17",
-    "@angular-devkit/schematics": "8.3.17",
-    "@angular/common": "8.2.13",
-    "@angular/compiler": "8.2.13",
-    "@angular/compiler-cli": "8.2.13",
-    "@angular/core": "8.2.13",
-    "@angular/forms": "8.2.13",
-    "@angular/router": "8.2.13",
+    "@angular-devkit/core": "~11.2.6",
+    "@angular-devkit/schematics": "~11.2.6",
+    "@angular/common": "~11.2.7",
+    "@angular/compiler": "~11.2.7",
+    "@angular/compiler-cli": "~11.2.7",
+    "@angular/core": "~11.2.7",
     "@types/node": "12.12.5",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.4",
-    "ng-packagr": "5.7.1",
-    "rollup": "~1.17.0",
+    "ng-packagr": "^11.2.4",
+    "rollup": "~2.44.0",
     "rollup-plugin-node-resolve": "~5.2.0",
-    "rxjs": "^6.5.2",
-    "tsickle": "^0.34.0",
+    "rxjs": "^6.6.7",
     "tslint": "^5.12.1",
-    "tslint-ionic-rules": "0.0.21",
-    "typescript": "3.4.5",
-    "zone.js": "^0.8.28"
+    "zone.js": "^0.10.2",
+    "typescript": "~4.0.6"
   },
   "publishConfig": {
     "directory": "dist",
@@ -77,5 +70,5 @@
       "test-isc"
     ]
   },
-  "gitHead": "1a9094ee22e4fd4e70323b7f9c33e95c4158678b"
+  "gitHead": "98bddffb3ba76c937dc05ef73816afef2bc7be88"
 }

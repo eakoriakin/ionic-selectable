@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AnimationBuilder, HeaderFn, ModalOptions, StyleEventDetail, } from "@ionic/core";
-import { HasTemplateRenderFn, IonicSelectableBlurredEvent, IonicSelectableChangedEvent, IonicSelectableClearedEvent, IonicSelectableClosedEvent, IonicSelectableFocusedEvent, IonicSelectableInfiniteScrolledEvent, IonicSelectableItemAddingEvent, IonicSelectableItemsChangedEvent, IonicSelectableOpenedEvent, IonicSelectableSearchFailedEvent, IonicSelectableSearchingEvent, IonicSelectableSearchSuccessedEvent, IonicSelectableSelectedEvent, TemplateRenderFn, } from "./components/ionic-selectable/ionic-selectable.interfaces.component";
+import { AnimationBuilder, HeaderFn, ModalOptions, StyleEventDetail } from "@ionic/core";
+import { HasTemplateRenderFn, IonicSelectableBlurredEvent, IonicSelectableChangedEvent, IonicSelectableClearedEvent, IonicSelectableClosedEvent, IonicSelectableFocusedEvent, IonicSelectableInfiniteScrolledEvent, IonicSelectableItemAddingEvent, IonicSelectableItemsChangedEvent, IonicSelectableOpenedEvent, IonicSelectableSearchFailedEvent, IonicSelectableSearchingEvent, IonicSelectableSearchSuccessedEvent, IonicSelectableSelectedEvent, TemplateRenderFn } from "./components/ionic-selectable/ionic-selectable.interfaces.component";
 export namespace Components {
     interface IonicSelectable {
         /**
@@ -152,7 +152,7 @@ export namespace Components {
         /**
           * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
           * @default false
-          * @readonly
+          * @readonly 
           * @memberof IonicSelectableComponent
          */
         "hasSearchText": boolean;
@@ -215,7 +215,7 @@ export namespace Components {
         /**
           * Determines whether Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
           * @default false
-          * @readonly
+          * @readonly 
           * @memberof IonicSelectableComponent
          */
         "isOpened": boolean;
@@ -335,7 +335,7 @@ export namespace Components {
           * @default 'none'
           * @memberof IonicSelectableComponent
          */
-        "searchInputmode": "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+        "searchInputmode": 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
         /**
           * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
           * @default 'Search'
@@ -347,7 +347,7 @@ export namespace Components {
           * @default 'none'
           * @memberof IonicSelectableComponent
          */
-        "searchShowCancelButton": "always" | "focus" | "never";
+        "searchShowCancelButton": 'always' | 'focus' | 'never';
         /**
           * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
           * @default ''
@@ -405,7 +405,7 @@ export namespace Components {
         "templateRender"?: TemplateRenderFn;
         /**
           * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
-          * @readonly
+          * @readonly 
           * @default null
           * @memberof IonicSelectableComponent
          */
@@ -555,7 +555,7 @@ declare namespace LocalJSX {
         /**
           * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
           * @default false
-          * @readonly
+          * @readonly 
           * @memberof IonicSelectableComponent
          */
         "hasSearchText"?: boolean;
@@ -602,7 +602,7 @@ declare namespace LocalJSX {
         /**
           * Determines whether Modal is opened. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
           * @default false
-          * @readonly
+          * @readonly 
           * @memberof IonicSelectableComponent
          */
         "isOpened"?: boolean;
@@ -689,6 +689,10 @@ declare namespace LocalJSX {
          */
         "onInfiniteScrolled"?: (event: CustomEvent<IonicSelectableInfiniteScrolledEvent<string>>) => void;
         /**
+          * Emitted when the styles change.
+         */
+        "onIonStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        /**
           * Fires when Add item button has been clicked. When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create a form to add item. **Note**: `canAddItem` has to be enabled. See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemAdding).
           * @memberof IonicSelectableComponent
          */
@@ -769,7 +773,7 @@ declare namespace LocalJSX {
           * @default 'none'
           * @memberof IonicSelectableComponent
          */
-        "searchInputmode"?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+        "searchInputmode"?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
         /**
           * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
           * @default 'Search'
@@ -781,7 +785,7 @@ declare namespace LocalJSX {
           * @default 'none'
           * @memberof IonicSelectableComponent
          */
-        "searchShowCancelButton"?: "always" | "focus" | "never";
+        "searchShowCancelButton"?: 'always' | 'focus' | 'never';
         /**
           * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
           * @default ''
@@ -824,7 +828,7 @@ declare namespace LocalJSX {
         "templateRender"?: TemplateRenderFn;
         /**
           * Text of [Ionic Label](https://ionicframework.com/docs/api/label). See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
-          * @readonly
+          * @readonly 
           * @default null
           * @memberof IonicSelectableComponent
          */

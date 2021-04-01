@@ -1,25 +1,5 @@
-import {
-  Component,
-  Prop,
-  h,
-  Host,
-  ComponentInterface,
-  Element,
-  Event,
-  EventEmitter,
-  Watch,
-  Method,
-  State,
-} from '@stencil/core';
-import {
-  CssClassMap,
-  getMode,
-  modalController,
-  StyleEventDetail,
-  ModalOptions,
-  AnimationBuilder,
-  HeaderFn,
-} from '@ionic/core';
+import { Component, Prop, h, Host, ComponentInterface, Element, Event, EventEmitter, Watch, Method, State } from '@stencil/core';
+import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder, HeaderFn } from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import {
   IonicSelectableInfiniteScrolledEvent,
@@ -687,18 +667,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('shouldStoreItemValue')
   protected onShouldStoreItemValueChanged(value: boolean): void {
     if (!value && !this.hasObjects) {
-      throw new Error(
-        `If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`
-      );
+      throw new Error(`If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`);
     }
   }
 
   @Watch('itemValueField')
   protected onItemValueFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
-      throw new Error(
-        `If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`
-      );
+      throw new Error(`If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`);
     } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
       throw new Error(`If items contains primitive elements, itemValueField must be null: ${this.element.id}`);
     }
@@ -707,9 +683,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('itemTextField')
   protected onItemTextFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
-      throw new Error(
-        `If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`
-      );
+      throw new Error(`If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`);
     } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
       throw new Error(`If items contains primitive elements, itemTextField must be null: ${this.element.id}`);
     }
@@ -1076,15 +1050,13 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Remove deleted item from selected items.
     if (this.selectedItems) {
-      this.selectedItems = this.selectedItems.filter(
-        (_item) => this.getItemValue(item) !== this.getStoredItemValue(_item)
-      );
+      this.selectedItems = this.selectedItems.filter(_item => this.getItemValue(item) !== this.getStoredItemValue(_item));
     }
 
     // Remove deleted item from value.
     if (this.value) {
       if (this.isMultiple) {
-        const values = this.value.filter((value) => {
+        const values = this.value.filter(value => {
           return value.id !== item.id;
         });
 
@@ -1105,7 +1077,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
 
     // Remove deleted item from list.
-    const items = this.items.filter((_item) => {
+    const items = this.items.filter(_item => {
       return _item.id !== item.id;
     });
 
@@ -1141,9 +1113,9 @@ export class IonicSelectableComponent implements ComponentInterface {
 
       // Toggle specific items.
       if (hasItems) {
-        itemsToToggle = itemsToToggle.filter((itemToToggle) => {
+        itemsToToggle = itemsToToggle.filter(itemToToggle => {
           return (
-            items.find((item) => {
+            items.find(item => {
               return this.getItemValue(itemToToggle) === this.getItemValue(item);
             }) !== undefined
           );
@@ -1155,13 +1127,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         }
       }
 
-      itemsToToggle.forEach((item) => {
+      itemsToToggle.forEach(item => {
         this.addSelectedItem(item);
       });
     } else {
       const hasItems = items && items.length;
       if (hasItems) {
-        items.forEach((item) => {
+        items.forEach(item => {
           this.deleteSelectedItem(item);
         });
       } else {
@@ -1223,7 +1195,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   public isItemSelected(item: any): boolean {
     return (
-      this.selectedItems.find((selectedItem) => {
+      this.selectedItems.find(selectedItem => {
         return this.getItemValue(item) === this.getStoredItemValue(selectedItem);
       }) !== undefined
     );
@@ -1234,7 +1206,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
 
-    return this.disabledItems.some((_item) => {
+    return this.disabledItems.some(_item => {
       return this.getItemValue(_item) === this.getItemValue(item);
     });
   }
@@ -1310,13 +1282,13 @@ export class IonicSelectableComponent implements ComponentInterface {
         throw new Error(`If isMultiple is set to false, value must be object: ${this.element.id}`);
       }
       this.valueItems = [];
-      (value as []).forEach((_item) => {
+      (value as []).forEach(_item => {
         if (this.shouldStoreItemValue && typeof _item === 'object') {
           throw new Error(`If shouldStoreItemValue is set to true, value must be primitive: ${this.element.id}`);
         } else if (!this.shouldStoreItemValue && typeof _item !== 'object') {
           throw new Error(`If shouldStoreItemValue is set to false, value must be object: ${this.element.id}`);
         }
-        const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(_item));
+        const itemFind = this.items.find(item => this.getItemValue(item) === this.getStoredItemValue(_item));
         if (itemFind) {
           this.valueItems.push(this.getItem(itemFind));
         }
@@ -1351,7 +1323,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       throw new Error(`items must be array: ${this.element.id}`);
     }
 
-    this.items.forEach((item) => {
+    this.items.forEach(item => {
       if (typeof item === 'object') {
         this.hasObjects = true;
       }
@@ -1368,9 +1340,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Grouping is supported for objects only.
     // Ionic VirtualScroll has it's own implementation of grouping.
-    this.hasGroups = Boolean(
-      this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll
-    );
+    this.hasGroups = Boolean(this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll);
 
     /* It's important to have an empty starting group with empty items (groups[0].items),
      * because we bind to it when using VirtualScroll.
@@ -1385,9 +1355,9 @@ export class IonicSelectableComponent implements ComponentInterface {
       if (this.hasGroups) {
         groups = [];
 
-        items.forEach((item) => {
+        items.forEach(item => {
           const groupValue = this.getPropertyValue(item, this.groupValueField || this.groupTextField);
-          const group = groups.find((_group) => _group.value === groupValue);
+          const group = groups.find(_group => _group.value === groupValue);
 
           if (group) {
             group.items.push(item);
@@ -1427,8 +1397,8 @@ export class IonicSelectableComponent implements ComponentInterface {
       if (this.searchText === '') {
         groups = this.groups;
       } else {
-        this.groups.forEach((group) => {
-          const items = group.items.filter((item) => {
+        this.groups.forEach(group => {
+          const items = group.items.filter(item => {
             const itemText = (this.itemTextField ? item[this.itemTextField] : item).toString().toLowerCase();
             return itemText.indexOf(this.searchText.trim().toLowerCase()) !== -1;
           });
@@ -1458,7 +1428,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private addSelectedItem(item: any): void {
-    const exist = this.selectedItems.find((_item) => this.getItemValue(item) === this.getStoredItemValue(_item));
+    const exist = this.selectedItems.find(_item => this.getItemValue(item) === this.getStoredItemValue(_item));
     if (!exist) {
       this.selectedItems.push(this.getItem(item));
     }
@@ -1597,7 +1567,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   private areGroupsEmpty(groups: any[]): boolean {
     return (
       groups.length === 0 ||
-      groups.every((group) => {
+      groups.every(group => {
         return !group.items || group.items.length === 0;
       })
     );
@@ -1627,14 +1597,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   private generateText(): string {
     if (Array.isArray(this.valueItems)) {
       return this.valueItems
-        .map((_item) => {
-          const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(_item));
+        .map(_item => {
+          const itemFind = this.items.find(item => this.getItemValue(item) === this.getStoredItemValue(_item));
           return itemFind ? this.getItemText(itemFind) : '';
         })
-        .filter((opt) => opt !== null)
+        .filter(opt => opt !== null)
         .join(', ');
     } else {
-      const itemFind = this.items.find((item) => this.getItemValue(item) === this.getStoredItemValue(this.valueItems));
+      const itemFind = this.items.find(item => this.getItemValue(item) === this.getStoredItemValue(this.valueItems));
       return itemFind ? this.getItemText(itemFind) : '';
     }
   }
@@ -1649,7 +1619,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   private async emitStyle(): Promise<void> {
     this.ionStyle.emit({
-      interactive: true,
+      'interactive': true,
       'ionic-selectable': true,
       'has-placeholder': this.placeholder != null,
       'has-value': await this.hasValue(),
@@ -1659,7 +1629,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   }
 
   private whatchModalEvents(): void {
-    this.modalElement.onDidDismiss().then((event) => {
+    this.modalElement.onDidDismiss().then(event => {
       this.isOpened = false;
       this.setFocus();
       this.itemsToConfirm = [];
@@ -1724,10 +1694,7 @@ export class IonicSelectableComponent implements ComponentInterface {
     let addPlaceholderClass = false;
     let selectText = this.getText();
 
-    if (
-      selectText === '' &&
-      (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))
-    ) {
+    if (selectText === '' && (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))) {
       selectText = placeholder;
       addPlaceholderClass = true;
     }
@@ -1745,7 +1712,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       valueRender = (
         <div
           class={selectTextClasses}
-          ref={(element) => {
+          ref={element => {
             this.templateRender(element, {
               type: 'placeholder',
             });
@@ -1756,7 +1723,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       valueRender = (
         <div
           class={selectTextClasses}
-          ref={(element) => {
+          ref={element => {
             this.templateRender(element, {
               type: 'value',
               value: this.value,
@@ -1795,7 +1762,7 @@ export class IonicSelectableComponent implements ComponentInterface {
         {this.hasTemplateRender && this.hasTemplateRender('icon') ? (
           <div
             class="ionic-selectable-icon-template"
-            ref={(element) => {
+            ref={element => {
               this.templateRender(element, {
                 type: 'icon',
               });
@@ -1806,13 +1773,7 @@ export class IonicSelectableComponent implements ComponentInterface {
             <div class="ionic-selectable-icon-inner" part="icon-inner"></div>
           </div>
         )}
-        <button
-          type="button"
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          disabled={isDisabled}
-          ref={(buttonElement) => (this.buttonElement = buttonElement)}
-        />
+        <button type="button" onFocus={this.onFocus} onBlur={this.onBlur} disabled={isDisabled} ref={buttonElement => (this.buttonElement = buttonElement)} />
       </Host>
     );
   }
