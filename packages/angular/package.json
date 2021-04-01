@@ -4,16 +4,16 @@
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
-    "url": "https://github.com/eakoriakin"
+    "url": "https://github.com/ionic-selectable"
   },
   "license": "MIT",
-  "homepage": "https://github.com/eakoriakin/ionic-selectable",
+  "homepage": "https://github.com/ionic-selectable/ionic-selectable",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eakoriakin/ionic-selectable.git"
+    "url": "https://github.com/ionic-selectable/ionic-selectable.git"
   },
   "bugs": {
-    "url": "https://github.com/eakoriakin/ionic-selectable/issues"
+    "url": "https://github.com/ionic-selectable/ionic-selectable/issues"
   },
   "keywords": [
     "ionic",
@@ -32,7 +32,7 @@
     "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "test-isc": "^5.0.0-alpha.29",
+    "@ionic-selectable/core": "5.0.0-alpha.0",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {

@@ -1,5 +1,25 @@
-import { Component, Prop, h, Host, ComponentInterface, Element, Event, EventEmitter, Watch, Method, State } from '@stencil/core';
-import { CssClassMap, getMode, modalController, StyleEventDetail, ModalOptions, AnimationBuilder, HeaderFn } from '@ionic/core';
+import {
+  Component,
+  Prop,
+  h,
+  Host,
+  ComponentInterface,
+  Element,
+  Event,
+  EventEmitter,
+  Watch,
+  Method,
+  State,
+} from '@stencil/core';
+import {
+  CssClassMap,
+  getMode,
+  modalController,
+  StyleEventDetail,
+  ModalOptions,
+  AnimationBuilder,
+  HeaderFn,
+} from '@ionic/core';
 import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
 import {
   IonicSelectableInfiniteScrolledEvent,
@@ -667,14 +687,18 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('shouldStoreItemValue')
   protected onShouldStoreItemValueChanged(value: boolean): void {
     if (!value && !this.hasObjects) {
-      throw new Error(`If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`);
+      throw new Error(
+        `If items contains primitive elements, shouldStoreItemValue must be null or true: ${this.element.id}`,
+      );
     }
   }
 
   @Watch('itemValueField')
   protected onItemValueFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
-      throw new Error(`If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`);
+      throw new Error(
+        `If items contains object elements, itemValueField must be non null or non whitespace : ${this.element.id}`,
+      );
     } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
       throw new Error(`If items contains primitive elements, itemValueField must be null: ${this.element.id}`);
     }
@@ -683,7 +707,9 @@ export class IonicSelectableComponent implements ComponentInterface {
   @Watch('itemTextField')
   protected onItemTextFieldChanged(value: string): void {
     if (this.hasObjects && this.isNullOrWhiteSpace(value)) {
-      throw new Error(`If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`);
+      throw new Error(
+        `If items contains object elements, itemTextField must be non null or non whitespace : ${this.element.id}`,
+      );
     } else if (!this.hasObjects && !this.isNullOrWhiteSpace(value)) {
       throw new Error(`If items contains primitive elements, itemTextField must be null: ${this.element.id}`);
     }
@@ -1050,7 +1076,9 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Remove deleted item from selected items.
     if (this.selectedItems) {
-      this.selectedItems = this.selectedItems.filter(_item => this.getItemValue(item) !== this.getStoredItemValue(_item));
+      this.selectedItems = this.selectedItems.filter(
+        _item => this.getItemValue(item) !== this.getStoredItemValue(_item),
+      );
     }
 
     // Remove deleted item from value.
@@ -1340,7 +1368,9 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     // Grouping is supported for objects only.
     // Ionic VirtualScroll has it's own implementation of grouping.
-    this.hasGroups = Boolean(this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll);
+    this.hasGroups = Boolean(
+      this.hasObjects && (this.groupValueField || this.groupTextField) && !this.hasVirtualScroll,
+    );
 
     /* It's important to have an empty starting group with empty items (groups[0].items),
      * because we bind to it when using VirtualScroll.
@@ -1694,7 +1724,10 @@ export class IonicSelectableComponent implements ComponentInterface {
     let addPlaceholderClass = false;
     let selectText = this.getText();
 
-    if (selectText === '' && (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))) {
+    if (
+      selectText === '' &&
+      (placeholder != null || (this.hasTemplateRender && this.hasTemplateRender('placeholder')))
+    ) {
       selectText = placeholder;
       addPlaceholderClass = true;
     }
@@ -1773,7 +1806,13 @@ export class IonicSelectableComponent implements ComponentInterface {
             <div class="ionic-selectable-icon-inner" part="icon-inner"></div>
           </div>
         )}
-        <button type="button" onFocus={this.onFocus} onBlur={this.onBlur} disabled={isDisabled} ref={buttonElement => (this.buttonElement = buttonElement)} />
+        <button
+          type="button"
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          disabled={isDisabled}
+          ref={buttonElement => (this.buttonElement = buttonElement)}
+        />
       </Host>
     );
   }
