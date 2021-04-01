@@ -27,9 +27,11 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Supported Ionic versions
 
-- Ionic 3 (3.6.0 - 3.9.2)
-- Ionic 4 (>=4.0.0)
 - Ionic 5 (>=5.0.0) alpha
+
+## Supported previus Ionic versions
+- Ionic 3 (3.6.0 - 3.9.2) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
+- Ionic 4 (>=4.0.0) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
 ## Features
 
 - [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
@@ -50,13 +52,6 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 1. Install it.
 
 ```
-// Ionic 3
-npm install ionic-selectable@3.4.0 --save
-
-// Ionic 4
-npm install ionic-selectable@4.5.0 --save
-
-// Ionic 5 (Web Component)
 npm install @ionic-selectable/core --save # only for vanilla js
 npm install @ionic-selectable/angular --save # only for angular
 ```
@@ -101,7 +96,6 @@ export class HomePageModule { }
 <ion-item>
   <ion-label>Port</ion-label>
   <ionic-selectable
-    item-content // Required for Ionic 3 only.
     [(ngModel)]="port"
     [items]="ports"
     itemValueField="id"

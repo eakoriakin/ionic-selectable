@@ -15,7 +15,7 @@ Angular wrapper for [@ionic-selectable/angular](https://www.npmjs.com/package/@i
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
-![iOS Demo](../../images/demo.gif)
+![iOS Demo](images/demo.gif)
 
 # Contents
 
@@ -29,9 +29,11 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Supported Ionic versions
 
-- Ionic 3 (3.6.0 - 3.9.2)
-- Ionic 4 (>=4.0.0)
 - Ionic 5 (>=5.0.0) alpha
+
+## Supported previus Ionic versions
+- Ionic 3 (3.6.0 - 3.9.2) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
+- Ionic 4 (>=4.0.0) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
 ## Features
 
 - [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
@@ -52,13 +54,6 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 1. Install it.
 
 ```
-// Ionic 3
-npm install ionic-selectable@3.4.0 --save
-
-// Ionic 4
-npm install ionic-selectable@4.5.0 --save
-
-// Ionic 5 (Web Component)
 npm install @ionic-selectable/angular --save # only for angular
 ```
 
@@ -66,7 +61,7 @@ npm install @ionic-selectable/angular --save # only for angular
    First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
 
 ```
-import { IonicSelectableModule } from 'ionic-selectable';
+import { IonicSelectableModule } from '@ionic-selectable/angular';
 
 @NgModule({
   imports: [
@@ -80,7 +75,7 @@ export class AppModule { }
 **Note:** Additionally, if you use Ionic 3+ you might be as well using lazy loaded pages. Check if your pages have a module file, for example, `home.module.ts`, and if they do then import `IonicSelectableModule` to each page module too.
 
 ```
-import { IonicSelectableModule } from 'ionic-selectable';
+import { IonicSelectableModule } from '@ionic-selectable/angular';
 import { HomePage } from './home';
 
 @NgModule({
@@ -102,7 +97,6 @@ export class HomePageModule { }
 <ion-item>
   <ion-label>Port</ion-label>
   <ionic-selectable
-    item-content // Required for Ionic 3 only.
     [(ngModel)]="port"
     [items]="ports"
     itemValueField="id"
@@ -116,7 +110,7 @@ export class HomePageModule { }
 4. Configure it.
 
 ```
-import { IonicSelectableComponent } from 'ionic-selectable';
+import { IonicSelectableComponent } from '@ionic-selectable/angular ';
 
 class Port {
   public id: number;

@@ -27,9 +27,11 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Supported Ionic versions
 
-- Ionic 3 (3.6.0 - 3.9.2)
-- Ionic 4 (>=4.0.0)
 - Ionic 5 (>=5.0.0) alpha
+
+## Supported previus Ionic versions
+- Ionic 3 (3.6.0 - 3.9.2) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
+- Ionic 4 (>=4.0.0) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
 ## Features
 
 - [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
@@ -50,102 +52,24 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 1. Install it.
 
 ```
-// Ionic 3
-npm install ionic-selectable@3.4.0 --save
-
-// Ionic 4
-npm install ionic-selectable@4.5.0 --save
-
-// Ionic 5 (Web Component)
 npm install @ionic-selectable/core --save # only for vanilla js
-npm install @ionic-selectable/angular --save # only for angular
 ```
 
-2. Import it.  
-   First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
-
-```
-import { IonicSelectableModule } from 'ionic-selectable';
-
-@NgModule({
-  imports: [
-    IonicSelectableModule
-  ]
-})
-export class AppModule { }
-
-```
-
-**Note:** Additionally, if you use Ionic 3+ you might be as well using lazy loaded pages. Check if your pages have a module file, for example, `home.module.ts`, and if they do then import `IonicSelectableModule` to each page module too.
-
-```
-import { IonicSelectableModule } from 'ionic-selectable';
-import { HomePage } from './home';
-
-@NgModule({
-  declarations: [
-    HomePage
-  ],
-  imports: [
-    IonicPageModule.forChild(HomePage),
-    IonicSelectableModule
-  ]
-})
-export class HomePageModule { }
-
-```
-
-3. Add it to template.
+2. Add it to template.
 
 ```
 <ion-item>
-  <ion-label>Port</ion-label>
+  <ion-label>Ports</ion-label>
   <ionic-selectable
-    item-content // Required for Ionic 3 only.
-    [(ngModel)]="port"
-    [items]="ports"
-    itemValueField="id"
-    itemTextField="name"
-    [canSearch]="true"
-    (onChange)="portChange($event)">
-  </ionic-selectable>
+    item-value-field="id"
+    item-text-field="port"
+    placeholder="Select One"
+  ></ionic-selectable>
 </ion-item>
 ```
 
-4. Configure it.
-
-```
-import { IonicSelectableComponent } from 'ionic-selectable';
-
-class Port {
-  public id: number;
-  public name: string;
-}
-
-@Component({ ... })
-export class HomePage {
-  ports: Port[];
-  port: Port;
-
-  constructor() {
-    this.ports = [
-      { id: 1, name: 'Tokai' },
-      { id: 2, name: 'Vladivostok' },
-      { id: 3, name: 'Navlakhi' }
-    ];
-  }
-
-  portChange(event: {
-    component: IonicSelectableComponent,
-    value: any
-  }) {
-    console.log('port:', event.value);
-  }
-}
-```
-
-5. Enjoy it 😉
-6. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
+1. Enjoy it 😉
+2. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
    Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 
 ## Development
