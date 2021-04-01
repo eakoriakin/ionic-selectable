@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicSelectable } from 'test-isa';
+import { IonicSelectableComponent } from '@ionic-selectable/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { IonicSelectable } from 'test-isa';
 })
 export class HomePage {
 
-  @ViewChild('ionicSelectable', { static: false }) ionicSelectable: IonicSelectable;
+  @ViewChild('ionicSelectable', { static: false }) ionicSelectable: IonicSelectableComponent;
 
   items = [];
 /*     { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } },

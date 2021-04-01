@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { IonicSelectableModule } from 'test-isa';
+import { IonicSelectableModule } from '@ionic-selectable/angular';
 
 @NgModule({
   declarations: [AppComponent],
