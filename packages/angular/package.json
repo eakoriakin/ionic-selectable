@@ -1,6 +1,6 @@
 {
   "name": "@ionic-selectable/angular",
-  "version": "5.0.0-alpha.5",
+  "version": "5.0.0-alpha.4",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -33,7 +33,7 @@
     "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "@ionic-selectable/core": "^5.0.0-alpha.5",
+    "@ionic-selectable/core": "^5.0.0-alpha.4",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
@@ -42,14 +42,14 @@
     "zone.js": ">=0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/core": "8.3.17",
-    "@angular-devkit/schematics": "8.3.17",
-    "@angular/common": "8.2.13",
-    "@angular/compiler": "8.2.13",
-    "@angular/compiler-cli": "8.2.13",
-    "@angular/core": "8.2.13",
-    "@angular/forms": "8.2.13",
-    "@angular/platform-browser": "8.2.13",
+    "@angular-devkit/core": "~11.2.6",
+    "@angular-devkit/schematics": "~11.2.6",
+    "@angular/common": "~11.2.7",
+    "@angular/compiler": "~11.2.7",
+    "@angular/compiler-cli": "~11.2.7",
+    "@angular/core": "~11.2.7",
+    "@angular/forms": "^11.2.7",
+    "@angular/platform-browser": "^11.2.7",
     "@types/node": "12.12.5",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.4",
@@ -57,10 +57,9 @@
     "rollup": "~2.44.0",
     "rollup-plugin-node-resolve": "~5.2.0",
     "rxjs": "^6.6.7",
-    "tsickle": "^0.39.1",
     "tslint": "^5.12.1",
-    "typescript": "3.4.5",
-    "zone.js": "^0.11.1"
+    "typescript": "~4.0.6",
+    "zone.js": "^0.10.2"
   },
   "publishConfig": {
     "directory": "dist",
