@@ -19,8 +19,8 @@
       #ionicSelectable
       id="sel1"
       [items]="items"
-      itemValueField="id"
-      itemTextField="port"
+      [itemValueField]="'id'"
+      [itemTextField]="'port'"
       [canAddItem]="true"
       [canClear]="true"
       (changed)="onChanged($event)"

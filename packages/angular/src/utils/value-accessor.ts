@@ -35,7 +35,7 @@ export class ValueAccessor implements ControlValueAccessor, AfterViewInit, OnDes
     }
   }
 
-  @HostListener('ionBlur', ['$event.target'])
+  @HostListener('blurred', ['$event.target'])
   _handleBlurEvent(el: any) {
     if (el === this.el.nativeElement) {
       this.onTouched();
