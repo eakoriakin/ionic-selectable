@@ -1,6 +1,6 @@
 {
   "name": "@ionic-selectable/angular",
-  "version": "5.0.0-alpha.4",
+  "version": "5.0.0-alpha.5",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -33,7 +33,7 @@
     "build.ng": "ng-packagr -p package.json"
   },
   "dependencies": {
-    "@ionic-selectable/core": "^5.0.0-alpha.4",
+    "@ionic-selectable/core": "^5.0.0-alpha.5",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
@@ -54,10 +54,10 @@
     "fs-extra": "^7.0.0",
     "glob": "^7.1.4",
     "ng-packagr": "^11.2.4",
-    "tsickle": "^0.39.1",
     "rollup": "~2.44.0",
     "rollup-plugin-node-resolve": "~5.2.0",
     "rxjs": "^6.6.7",
+    "tsickle": "^0.39.1",
     "tslint": "^5.12.1",
     "typescript": "3.4.5",
     "zone.js": "^0.11.1"
