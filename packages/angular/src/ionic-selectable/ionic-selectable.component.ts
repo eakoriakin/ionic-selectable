@@ -28,7 +28,7 @@ import { IonicSelectableSearchFailTemplateDirective } from '../directives/ionic-
 import { IonicSelectableTitleTemplateDirective } from '../directives/ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from '../directives/ionic-selectable-value-template.directive';
 
-export declare interface IonicSelectable extends Components.IonicSelectable {}
+export declare interface IonicSelectableComponent extends Components.IonicSelectable {}
 
 @ProxyCmp({
   inputs: [
@@ -164,7 +164,7 @@ export declare interface IonicSelectable extends Components.IonicSelectable {}
     'virtualScrollHeaderFn',
   ],
 })
-export class IonicSelectable {
+export class IonicSelectableComponent {
   infiniteScrolled!: EventEmitter<CustomEvent>;
   searching!: EventEmitter<CustomEvent>;
   searchFailed!: EventEmitter<CustomEvent>;

@@ -1,7 +1,7 @@
 
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ModuleWithProviders, NgModule, APP_INITIALIZER, NgZone } from '@angular/core';
-import { IonicSelectable } from './ionic-selectable.component';
+import { IonicSelectableComponent } from './ionic-selectable.component';
 import { appInitialize } from '../utils/app-initialize';
 import { IonicSelectableValueAccessor } from '../utils/ionic-selectable-value-accessor';
 import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
@@ -22,7 +22,7 @@ import { IonicSelectableValueTemplateDirective } from '../directives/ionic-selec
 
 const DECLARATIONS = [
   //Component
-  IonicSelectable,
+  IonicSelectableComponent,
   //Value accesor
   IonicSelectableValueAccessor,
   //Directives,
