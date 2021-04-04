@@ -3,13 +3,13 @@
 [dm-image]: https://img.shields.io/npm/dm/@ionic-selectable/angular.svg
 [dt-image]: https://img.shields.io/npm/dt/@ionic-selectable/angular.svg
 
-# Ionic Selectable for Angular `@ionic-selectable/angular`
+# Ionic Selectable for Angular
 
 [![npm][npm-image]][npm-url]
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-Angular wrapper for [@ionic-selectable/angular](https://www.npmjs.com/package/@ionic-selectable/angular).
+Angular wrapper for [@ionic-selectable/core](https://www.npmjs.com/package/@ionic-selectable/core).
 
 [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
 

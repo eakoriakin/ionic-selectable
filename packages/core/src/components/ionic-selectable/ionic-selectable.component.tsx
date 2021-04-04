@@ -90,7 +90,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @readonly
    * @memberof IonicSelectableComponent
    */
-  @Prop() public isOpened = false;
+  @Prop({ mutable: true }) public isOpened = false;
 
   /**
    * Determines whether the component is disabled.
@@ -99,7 +99,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public isDisabled = false;
+  @Prop({ mutable: true }) public isDisabled = false;
 
   /**
    * A placeholder.
@@ -108,7 +108,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public placeholder?: string | null;
+  @Prop({ mutable: true }) public placeholder?: string | null;
 
   /**
    * Close button text.
@@ -118,7 +118,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'Cancel'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public closeButtonText = 'Cancel';
+  @Prop({ mutable: true }) public closeButtonText = 'Cancel';
 
   /**
    * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported.
@@ -127,7 +127,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'start'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public closeButtonSlot = 'start';
+  @Prop({ mutable: true }) public closeButtonSlot = 'start';
 
   /**
    * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported.
@@ -136,7 +136,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'start'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public itemIconSlot = 'start';
+  @Prop({ mutable: true }) public itemIconSlot = 'start';
 
   /**
    * Confirm button text.
@@ -145,7 +145,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'OK'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public confirmButtonText = 'OK';
+  @Prop({ mutable: true }) public confirmButtonText = 'OK';
 
   /**
    * Clear button text.
@@ -154,7 +154,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'Clear'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public clearButtonText = 'Clear';
+  @Prop({ mutable: true }) public clearButtonText = 'Clear';
 
   /**
    * Add button text.
@@ -163,7 +163,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'Add'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public addButtonText = 'Add';
+  @Prop({ mutable: true }) public addButtonText = 'Add';
 
   /**
    * The name of the control, which is submitted with the form data.
@@ -172,7 +172,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public name: string = this.id;
+  @Prop({ mutable: true }) public name: string = this.id;
 
   /**
    * Determines whether multiple items can be selected.
@@ -181,7 +181,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public selectedText?: string | null;
+  @Prop({ mutable: true }) public selectedText?: string | null;
 
   /**
    * Determines whether multiple items can be selected.
@@ -190,7 +190,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public isMultiple = false;
+  @Prop({ mutable: true }) public isMultiple = false;
 
   /**
    * The value of the component.
@@ -208,7 +208,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public shouldStoreItemValue?: boolean = false;
+  @Prop({ mutable: true }) public shouldStoreItemValue?: boolean = false;
 
   /**
    * A list of items.
@@ -226,7 +226,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default []
    * @memberof IonicSelectableComponent
    */
-  @Prop() public disabledItems: any[] = [];
+  @Prop({ mutable: true }) public disabledItems: any[] = [];
 
   /**
    * Item property to use as a unique identifier, e.g, `'id'`.
@@ -236,7 +236,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public itemValueField: string = null;
+  @Prop({ mutable: true }) public itemValueField: string = null;
 
   /**
    * Item property to display, e.g, `'name'`.
@@ -246,7 +246,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public itemTextField: string = null;
+  @Prop({ mutable: true }) public itemTextField: string = null;
 
   /**
    * Determines whether Modal should be closed when backdrop is clicked.
@@ -255,7 +255,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Prop() public shouldBackdropClose: boolean;
+  @Prop({ mutable: true }) public shouldBackdropClose: boolean;
 
   /**
    * Modal CSS class.
@@ -264,7 +264,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public modalCssClass: string = null;
+  @Prop({ mutable: true }) public modalCssClass: string = null;
 
   /**
    * Modal enter animation.
@@ -273,7 +273,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public modalEnterAnimation: AnimationBuilder = null;
+  @Prop({ mutable: true }) public modalEnterAnimation: AnimationBuilder = null;
 
   /**
    * Modal leave animation.
@@ -282,7 +282,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public modalLeaveAnimation: AnimationBuilder = null;
+  @Prop({ mutable: true }) public modalLeaveAnimation: AnimationBuilder = null;
 
   /**
    * Text of [Ionic Label](https://ionicframework.com/docs/api/label).
@@ -292,7 +292,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public titleText: string = null;
+  @Prop({ mutable: true }) public titleText: string = null;
 
   /**
    *
@@ -303,7 +303,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public groupValueField: string = null;
+  @Prop({ mutable: true }) public groupValueField: string = null;
 
   /**
    * Group property to display, e.g. `'country.name'`.
@@ -313,7 +313,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public groupTextField: string = null;
+  @Prop({ mutable: true }) public groupTextField: string = null;
 
   /**
    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled.
@@ -322,7 +322,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public hasInfiniteScroll = false;
+  @Prop({ mutable: true }) public hasInfiniteScroll = false;
 
   /**
    * The threshold distance from the bottom of the content to call the infinite output event when scrolled.
@@ -332,7 +332,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default '100px'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public infiniteScrollThreshold = '100px';
+  @Prop({ mutable: true }) public infiniteScrollThreshold = '100px';
 
   /**
    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled.
@@ -341,7 +341,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public hasVirtualScroll = false;
+  @Prop({ mutable: true }) public hasVirtualScroll = false;
 
   /**
    * See Ionic VirtualScroll [approxHeaderHeight](https://ionicframework.com/docs/api/virtual-scroll).
@@ -350,7 +350,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 30
    * @memberof IonicSelectableComponent
    */
-  @Prop() public virtualScrollApproxHeaderHeight = 30;
+  @Prop({ mutable: true }) public virtualScrollApproxHeaderHeight = 30;
 
   /**
    * See Ionic VirtualScroll [approxItemHeight](https://ionicframework.com/docs/api/virtual-scroll).
@@ -359,7 +359,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 45
    * @memberof IonicSelectableComponent
    */
-  @Prop() public virtualScrollApproxItemHeight = 45;
+  @Prop({ mutable: true }) public virtualScrollApproxItemHeight = 45;
 
   /**
    * Determines whether Confirm button is visible for single selection.
@@ -370,7 +370,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public hasConfirmButton: boolean = false;
+  @Prop({ mutable: true }) public hasConfirmButton: boolean = false;
 
   /**
    * Determines whether to allow adding items.
@@ -379,7 +379,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public canAddItem: boolean = false;
+  @Prop({ mutable: true }) public canAddItem: boolean = false;
 
   /**
    * Determines whether to show Clear button.
@@ -388,7 +388,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @memberof IonicSelectableComponent
    */
   // Pending - @HostBinding('class.ionic-selectable-can-clear')
-  @Prop() public canClear: boolean = false;
+  @Prop({ mutable: true }) public canClear: boolean = false;
 
   /**
    * Determines whether to show [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -397,7 +397,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public canSearch = false;
+  @Prop({ mutable: true }) public canSearch = false;
 
   /**
    * Determines the search is delegate to event, and not handled internally.
@@ -406,7 +406,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public shouldDelegateSearchToEvent = false;
+  @Prop({ mutable: true }) public shouldDelegateSearchToEvent = false;
 
   /**
    * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke.
@@ -415,7 +415,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 250
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchDebounce: number = 250;
+  @Prop({ mutable: true }) public searchDebounce: number = 250;
 
   /**
    * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -424,7 +424,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'Search'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchPlaceholder = 'Search';
+  @Prop({ mutable: true }) public searchPlaceholder = 'Search';
 
   /**
    * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -433,7 +433,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default ''
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchText = '';
+  @Prop({ mutable: true }) public searchText = '';
 
   /**
    * Text to display when no items have been found during search.
@@ -442,7 +442,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'No items found.'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchFailText = 'No items found.';
+  @Prop({ mutable: true }) public searchFailText = 'No items found.';
 
   /**
    * Determines whether Searchbar should receive focus when Modal is opened.
@@ -451,7 +451,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default false
    * @memberof IonicSelectableComponent
    */
-  @Prop() public shouldFocusSearchbar = false;
+  @Prop({ mutable: true }) public shouldFocusSearchbar = false;
 
   /**
    * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -461,7 +461,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @readonly
    * @memberof IonicSelectableComponent
    */
-  @Prop() public hasSearchText: boolean;
+  @Prop({ mutable: true }) public hasSearchText: boolean;
 
   /**
    * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -471,7 +471,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'arrow-back-sharp'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchCancelButtonIcon: string = 'arrow-back-sharp';
+  @Prop({ mutable: true }) public searchCancelButtonIcon: string = 'arrow-back-sharp';
 
   /**
    * Set the the cancel button text of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -481,7 +481,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'Cancel'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchCancelButtonText: string = 'Cancel';
+  @Prop({ mutable: true }) public searchCancelButtonText: string = 'Cancel';
 
   /**
    * Set the clear icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -490,7 +490,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchClearIcon: string = getMode() === 'ios' ? 'close-circle' : 'close-sharp';
+  @Prop({ mutable: true }) public searchClearIcon: string = getMode() === 'ios' ? 'close-circle' : 'close-sharp';
 
   /**
    * A hint to the browser for which keyboard to display.
@@ -499,7 +499,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchInputmode: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search' = 'none';
+  @Prop({ mutable: true }) public searchInputmode: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search' = 'none';
 
   /**
    * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -508,7 +508,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchIcon: string = getMode() === 'ios' ? 'search-outline' : 'search-sharp';
+  @Prop({ mutable: true }) public searchIcon: string = getMode() === 'ios' ? 'search-outline' : 'search-sharp';
 
   /**
    * Sets the behavior for the cancel button of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
@@ -520,7 +520,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
-  @Prop() public searchShowCancelButton: 'always' | 'focus' | 'never' = 'never';
+  @Prop({ mutable: true }) public searchShowCancelButton: 'always' | 'focus' | 'never' = 'never';
 
   /**
    * Determines whether Confirm button is enabled.
@@ -529,7 +529,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default true
    * @memberof IonicSelectableComponent
    */
-  @Prop() public isConfirmButtonEnabled: boolean = true;
+  @Prop({ mutable: true }) public isConfirmButtonEnabled: boolean = true;
 
   /**
    * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
@@ -538,7 +538,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public headerColor: string = null;
+  @Prop({ mutable: true }) public headerColor: string = null;
 
   /**
    * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
@@ -547,7 +547,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop() public groupColor: string = null;
+  @Prop({ mutable: true }) public groupColor: string = null;
 
   /**
    * Fires when the user has scrolled to the end of the list.
@@ -669,12 +669,12 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * NOTE: only Vanilla JS API.
    */
-  @Prop() public templateRender?: TemplateRenderFn;
+  @Prop({ mutable: true }) public templateRender?: TemplateRenderFn;
 
   /**
    * NOTE: only Vanilla JS API.
    */
-  @Prop() public hasTemplateRender?: HasTemplateRenderFn;
+  @Prop({ mutable: true }) public hasTemplateRender?: HasTemplateRenderFn;
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll).
@@ -682,7 +682,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * @memberof IonicSelectableComponent
    */
-  @Prop() public virtualScrollHeaderFn: HeaderFn = () => null;
+  @Prop({ mutable: true }) public virtualScrollHeaderFn: HeaderFn = () => null;
 
   @Watch('shouldStoreItemValue')
   protected onShouldStoreItemValueChanged(value: boolean): void {
