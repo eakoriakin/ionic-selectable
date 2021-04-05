@@ -30,8 +30,10 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 - Ionic 5 (>=5.0.0) alpha
 
 ## Supported previus Ionic versions
+
 - Ionic 3 (3.6.0 - 3.9.2) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
 - Ionic 4 (>=4.0.0) [ionic-selectable](https://www.npmjs.com/package/ionic-selectable)
+
 ## Features
 
 - [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
@@ -49,27 +51,63 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Getting started
 
-1. Install it.
+1. Add add the following inside the <head>.
 
-```
-npm install @ionic-selectable/core --save # only for vanilla js
+```html
+<!-- Ionic -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+<!-- Ionic Selectable -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic-selectable/core/dist/ionic-selectable/ionic-selectable.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic-selectable/core/dist/ionic-selectable/ionic-selectable.js"></script>
 ```
 
 2. Add it to template.
 
-```
+```html
 <ion-item>
   <ion-label>Ports</ion-label>
   <ionic-selectable
+    id="port"
+    should-store-item-value="false"
+    is-multiple="false"
     item-value-field="id"
-    item-text-field="port"
+    item-text-field="name"
     placeholder="Select One"
+    group-text-field="country.name"
   ></ionic-selectable>
 </ion-item>
 ```
 
-1. Enjoy it 😉
-2. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
+4. Configure it.
+
+```js
+var portElement = document.getElementById("port");
+portElement.items = [
+  { id: 1, name: "Salina Cruz", country: { name: "Mexico" } },
+  { id: 3, name: "Veracruz", country: { name: "Mexico" } },
+  { id: 2, name: "Alicante", country: { name: "Spain" } },
+  { id: 4, name: "Santa Eugenia De Riveira", country: { name: "Spain" } },
+  { id: 5, name: "Mantes", country: { name: "France" } },
+];
+portElement.value = {
+  id: 1,
+  name: "Salina Cruz",
+  country: { name: "Mexico" },
+};
+portElement.hasConfirmButton = true;
+portElement.value = { id: 1, name: 'Salina Cruz', country: { name: "Mexico"} };
+portElement.addEventListener("changed", (event) => {
+  console.log(event);
+});
+portElement.addEventListener("closed", (event) => {
+  console.log(event);
+});
+```
+
+3. Enjoy it 😉
+4. Check out [live demos](https://stackblitz.com/@eakoriakin) to see what it is capable of.  
    Also, explore the [docs](../../wiki) and [FAQ](../../wiki#faq) to learn more about its features.
 
 ## Development

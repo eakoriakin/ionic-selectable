@@ -60,7 +60,7 @@ npm install @ionic-selectable/angular --save # only for angular
 2. Import it.  
    First, import `IonicSelectableModule` to your `app.module.ts` that is normally located in `src\app\app.module.ts`.
 
-```
+```ts
 import { IonicSelectableModule } from '@ionic-selectable/angular';
 
 @NgModule({
@@ -74,7 +74,7 @@ export class AppModule { }
 
 **Note:** Additionally, if you use Ionic 3+ you might be as well using lazy loaded pages. Check if your pages have a module file, for example, `home.module.ts`, and if they do then import `IonicSelectableModule` to each page module too.
 
-```
+```ts
 import { IonicSelectableModule } from '@ionic-selectable/angular';
 import { HomePage } from './home';
 
@@ -93,7 +93,7 @@ export class HomePageModule { }
 
 3. Add it to template.
 
-```
+```html
 <ion-item>
   <ion-label>Port</ion-label>
   <ionic-selectable
@@ -109,7 +109,7 @@ export class HomePageModule { }
 
 4. Configure it.
 
-```
+```ts
 import { IonicSelectableComponent } from '@ionic-selectable/angular ';
 
 class Port {

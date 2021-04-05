@@ -22,7 +22,6 @@ npm run bootstrap # for install dependencies in all packages
 
 ```sh
 npm run publish # for publish all packages
-npm run publish-no-git-reset # for publish all packages without github changes
 ```
 
 ## Commit Message Guidelines

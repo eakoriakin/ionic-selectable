@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>IonicSelectable</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <script type="module" src="/build/ionic-selectable.esm.js"></script>
     <script nomodule src="/build/ionic-selectable.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
@@ -55,16 +57,16 @@
       el0.items = [
         { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } },
         { id: 2, port: 'Valencia', country: { country: 'Spain' } },
-        { id: 3, port: 'Veracruz', country: { country: 'Mexico' } }
+        { id: 3, port: 'Veracruz', country: { country: 'Mexico' } },
       ];
       el0.value = { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } };
       el0.hasConfirmButton = true;
       // el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       //el0.value = [1];
-      el0.addEventListener('changed', (event) => {
+      el0.addEventListener('changed', event => {
         console.log(event);
       });
-      el0.addEventListener('closed', (event) => {
+      el0.addEventListener('closed', event => {
         console.log(event);
       });
       var el1 = document.getElementById('sel1');
@@ -82,31 +84,31 @@
       el1.canSearch = true;
       el1.hasInfiniteScroll = true;
       el1.hasVirtualScroll = true;
-      el1.disabledItems = [{ id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } }]
-      el1.addEventListener('selected', (event) => {
+      el1.disabledItems = [{ id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } }];
+      el1.addEventListener('selected', event => {
         console.log(event);
       });
-      el1.addEventListener('cleared', (event) => {
+      el1.addEventListener('cleared', event => {
         console.log(event);
       });
-      el1.addEventListener('changed', (event) => {
+      el1.addEventListener('changed', event => {
         console.log(event);
         console.log(el1.value);
       });
-      el1.addEventListener('addItem', (event) => {
+      el1.addEventListener('addItem', event => {
         console.log(event);
       });
-      el1.addEventListener('search', (event) => {
+      el1.addEventListener('search', event => {
         console.log(event);
       });
 
       var el2 = document.getElementById('sel2');
       el2.items = [1, 2, 3];
       el2.value = [1, 2];
-      el2.addEventListener('changed', (event) => {
+      el2.addEventListener('changed', event => {
         console.log(event);
       });
-      el2.addEventListener('closed', (event) => {
+      el2.addEventListener('closed', event => {
         console.log(event);
       });
       //el2.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
