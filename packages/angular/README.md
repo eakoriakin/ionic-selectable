@@ -65,7 +65,7 @@ import { IonicSelectableModule } from '@ionic-selectable/angular';
 
 @NgModule({
   imports: [
-    IonicSelectableModule
+    IonicSelectableModule.forRoot()
   ]
 })
 export class AppModule { }
@@ -79,15 +79,12 @@ import { IonicSelectableModule } from '@ionic-selectable/angular';
 import { HomePage } from './home';
 
 @NgModule({
-  declarations: [
-    HomePage
-  ],
   imports: [
-    IonicPageModule.forChild(HomePage),
     IonicSelectableModule
-  ]
+  ],
+  declarations: [HomePage]
 })
-export class HomePageModule { }
+export class HomePageModule {}
 
 ```
 
