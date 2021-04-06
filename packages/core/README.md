@@ -51,7 +51,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Getting started
 
-1. Add add the following inside the <head>.
+1. Add add the following inside the `<head>`.
 
 ```html
 <!-- Ionic -->
@@ -91,13 +91,8 @@ portElement.items = [
   { id: 4, name: "Santa Eugenia De Riveira", country: { name: "Spain" } },
   { id: 5, name: "Mantes", country: { name: "France" } },
 ];
-portElement.value = {
-  id: 1,
-  name: "Salina Cruz",
-  country: { name: "Mexico" },
-};
-portElement.hasConfirmButton = true;
 portElement.value = { id: 1, name: 'Salina Cruz', country: { name: "Mexico"} };
+portElement.hasConfirmButton = true;
 portElement.addEventListener("changed", (event) => {
   console.log(event);
 });
