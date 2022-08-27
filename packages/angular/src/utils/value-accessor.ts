@@ -1,13 +1,16 @@
-import { AfterViewInit, ElementRef, HostListener, Injector, OnDestroy, Type } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Injector, OnDestroy, Type } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { raf } from './util';
-
+@Directive()
 export class ValueAccessor implements ControlValueAccessor, AfterViewInit, OnDestroy {
-
-  private onChange: (value: any) => void = () => {/**/};
-  private onTouched: () => void = () => {/**/};
+  private onChange: (value: any) => void = () => {
+    /**/
+  };
+  private onTouched: () => void = () => {
+    /**/
+  };
   protected lastValue: any;
   private statusChanges?: Subscription;
 
@@ -65,9 +68,13 @@ export class ValueAccessor implements ControlValueAccessor, AfterViewInit, OnDes
     let ngControl;
     try {
       ngControl = this.injector.get<NgControl>(NgControl as unknown as Type<NgControl>);
-    } catch { /* No FormControl or ngModel binding */ }
+    } catch {
+      /* No FormControl or ngModel binding */
+    }
 
-    if (!ngControl) { return; }
+    if (!ngControl) {
+      return;
+    }
 
     // Listen for changes in validity, disabled, or pending states
     if (ngControl.statusChanges) {
@@ -84,15 +91,15 @@ export class ValueAccessor implements ControlValueAccessor, AfterViewInit, OnDes
      * This patches the methods to manually sync
      * the classes until this feature is implemented in Angular.
      */
-    const formControl = ngControl.control;
+    const formControl = ngControl.control as any;
     if (formControl) {
       const methodsToPatch = ['markAsTouched', 'markAllAsTouched', 'markAsUntouched', 'markAsDirty', 'markAsPristine'];
       methodsToPatch.forEach(method => {
-       if (formControl[method]) {
-         const oldFn = formControl[method].bind(formControl);
-         formControl[method] = (...params) => {
-           oldFn(...params);
-           setIonicClasses(this.el);
+        if (typeof formControl[method] !== 'undefined') {
+          const oldFn = formControl[method].bind(formControl);
+          formControl[method] = (...params: any[]) => {
+            oldFn(...params);
+            setIonicClasses(this.el);
           };
         }
       });
@@ -127,14 +134,7 @@ const getClasses = (element: HTMLElement) => {
 
 const setClasses = (element: HTMLElement, classes: string[]) => {
   const classList = element.classList;
-  [
-    'ion-valid',
-    'ion-invalid',
-    'ion-touched',
-    'ion-untouched',
-    'ion-dirty',
-    'ion-pristine'
-  ].forEach(c => classList.remove(c));
+  ['ion-valid', 'ion-invalid', 'ion-touched', 'ion-untouched', 'ion-dirty', 'ion-pristine'].forEach(c => classList.remove(c));
 
   classes.forEach(c => classList.add(c));
 };

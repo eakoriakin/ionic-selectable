@@ -10,9 +10,9 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { proxyOutputs, ProxyCmp } from '../utils/proxies-utils';
-import { Components, ITemplate, TemplateType } from '@ionic-selectable/core';
-import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
+import { Components, ITemplate, TemplateRenderFn, TemplateType } from '@ionic-selectable/core';
 import { TemplateContext } from '../utils/util';
+import { IonicSelectableItemTemplateDirective } from '../directives/ionic-selectable-item-template.directive';
 import { IonicSelectableAddItemTemplateDirective } from '../directives/ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from '../directives/ionic-selectable-close-button-template.directive';
 import { IonicSelectableFooterTemplateDirective } from '../directives/ionic-selectable-footer-template.directive';
@@ -181,7 +181,7 @@ export class IonicSelectableComponent {
 
   protected el: HTMLIonicSelectableElement;
   private refMap = new WeakMap<HTMLElement, EmbeddedViewRef<TemplateContext>>();
-  private refAddItem: EmbeddedViewRef<TemplateContext>;
+  private refAddItem: EmbeddedViewRef<TemplateContext> | null;
 
   @ContentChild(IonicSelectableAddItemTemplateDirective, { static: false })
   ionicSelectableAddItemTemplateDirective!: IonicSelectableAddItemTemplateDirective;
@@ -230,7 +230,7 @@ export class IonicSelectableComponent {
 
   constructor(private elementRef: ElementRef, protected z: NgZone, private viewContainerRef: ViewContainerRef) {
     this.el = this.elementRef.nativeElement as HTMLIonicSelectableElement;
-    this.el.templateRender = this.render.bind(this);
+    this.el.templateRender = this.render.bind(this) as TemplateRenderFn;
     this.el.hasTemplateRender = this.hasTemplate.bind(this);
     proxyOutputs(this, this.el, [
       'infiniteScrolled',
@@ -297,9 +297,9 @@ export class IonicSelectableComponent {
 
   private updateEmbeddedView(element: HTMLElement, template: ITemplate) {
     const node = template.type === 'addItem' ? this.refAddItem : this.refMap.get(element)!;
-    const ctx = node.context;
+    const ctx = node!.context;
     if (template.type !== ctx.type) {
-      element.removeChild(element.lastChild);
+      element.removeChild(element.lastChild!);
       this.createEmbeddedView(element, template);
       return;
     }
@@ -308,7 +308,7 @@ export class IonicSelectableComponent {
     ctx.isItemDisabled = template.isItemDisabled;
     ctx.isAdd = template.isAdd;
     // run sync change detections
-    node.detectChanges();
+    node!.detectChanges();
   }
 
   private hasTemplate(type: TemplateType): boolean {
