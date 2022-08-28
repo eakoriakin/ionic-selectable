@@ -3,7 +3,7 @@ import { sass } from '@stencil/sass';
 
 export const config: Config = {
   namespace: 'ionic-selectable',
-  bundles: [{ components: ['ionic-selectable', 'ionic-selectable-modal'] }],
+  bundles: [{ components: ['ionic-selectable'] }],
   outputTargets: [
     {
       type: 'dist',
