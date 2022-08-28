@@ -1,21 +1,37 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "sourceMap": true,
-    "declaration": false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
-  },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  }
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": false,
+    "enableResourceInlining": true,
+    "compilationMode": "partial"
+  },
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": true,
+    "declarationDir": "dist",
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "es2017"],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "build/es2015",
+    "pretty": true,
+    "removeComments": false,
+    "importHelpers": true,
+    "rootDir": "src",
+    "strictPropertyInitialization": false,
+    "target": "es2015",
+    "baseUrl": ".",
+  },
+  "exclude": ["node_modules"],
+  "files": ["src/index.ts"]
 }

@@ -1,5 +1,7 @@
 {
-  "name": "ionic-selectable-angular-demo",
-  "integrations": {},
+  "name": "angular",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

@@ -11,17 +11,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
   </head>
   <body>
+    <!--
     <ion-item>
       <ion-label>Ports</ion-label>
-      <ionic-selectable
-        id="sel0"
-        should-store-item-value="false"
-        is-multiple="false"
-        item-value-field="id"
-        item-text-field="port"
-        placeholder="Select One"
-        group-text-field="country.country"
-      ></ionic-selectable>
     </ion-item>
     <ion-item>
       <ion-label>Ports</ion-label>
@@ -52,6 +44,34 @@
         <ion-select-option value="m">Male</ion-select-option>
       </ion-select>
     </ion-item>
+  -->
+
+    <ion-button id="open-modal" expand="block">Open</ion-button>
+    <p>{{ message }}</p>
+    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ionic-selectable
+        id="sel0"
+        should-store-item-value="false"
+        is-multiple="false"
+        item-value-field="id"
+        item-text-field="port"
+        placeholder="Select One"
+        group-text-field="country.country"
+      ></ionic-selectable>
+      </ion-content>
+    </ion-modal>
     <script>
       var el0 = document.getElementById('sel0');
       el0.items = [
@@ -60,7 +80,6 @@
         { id: 3, port: 'Veracruz', country: { country: 'Mexico' } },
       ];
       el0.value = { id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } };
-      el0.hasConfirmButton = true;
       // el0.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
       //el0.value = [1];
       el0.addEventListener('changed', event => {
@@ -69,6 +88,7 @@
       el0.addEventListener('closed', event => {
         console.log(event);
       });
+      /*
       var el1 = document.getElementById('sel1');
       var items = [];
       for (let index = 1; index < 2; index++) {
@@ -83,7 +103,7 @@
       el1.canAddItem = true;
       el1.canSearch = true;
       el1.hasInfiniteScroll = true;
-      el1.hasVirtualScroll = true;
+      el1.hasVirtualScroll = false;
       el1.disabledItems = [{ id: 1, port: 'Salina Cruz', country: { country: 'Mexico' } }];
       el1.addEventListener('selected', event => {
         console.log(event);
@@ -111,6 +131,7 @@
       el2.addEventListener('closed', event => {
         console.log(event);
       });
+      */
       //el2.value = { id: 1, port: 'Salina Cruz', country: { country: "Mexico"} };
     </script>
   </body>

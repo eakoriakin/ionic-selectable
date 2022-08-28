@@ -10,14 +10,15 @@ export const config: Config = {
       esmLoaderPath: '../loader',
     },
     {
-      type: 'dist-custom-elements-bundle',
+      type: 'dist-custom-elements',
+      generateTypeDeclarations: true,
     },
     {
       type: 'docs-readme',
     },
     {
       type: 'www',
-      serviceWorker: null,
+      serviceWorker: null, // disable service workers
     },
   ],
   plugins: [sass()],

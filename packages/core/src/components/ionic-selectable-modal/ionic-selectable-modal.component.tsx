@@ -33,7 +33,6 @@ export class IonicSelectableModalComponent implements ComponentInterface {
   public connectedCallback(): void {
     const modalElement = document.querySelector('ion-modal');
     this.selectableComponent = modalElement.componentProps.selectableComponent;
-    this.selectableComponent.selectableModalComponent = this;
   }
 
   public componentDidLoad(): void {

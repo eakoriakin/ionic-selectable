@@ -11,16 +11,15 @@ import {
   Method,
   State,
 } from '@stencil/core';
+import { CssClassMap, getMode, StyleEventDetail, AnimationBuilder, HeaderFn } from '@ionic/core';
 import {
-  CssClassMap,
-  getMode,
-  modalController,
-  StyleEventDetail,
-  ModalOptions,
-  AnimationBuilder,
-  HeaderFn,
-} from '@ionic/core';
-import { hostContext, addRippleEffectElement, findItem, findItemLabel, renderHiddenInput } from '../../utils/utils';
+  hostContext,
+  addRippleEffectElement,
+  findItem,
+  findItemLabel,
+  renderHiddenInput,
+  getClassMap,
+} from '../../utils/utils';
 import {
   IonicSelectableInfiniteScrolledEvent,
   IonicSelectableSearchingEvent,
@@ -38,7 +37,6 @@ import {
   TemplateRenderFn,
   HasTemplateRenderFn,
 } from './ionic-selectable.interfaces.component';
-import { IonicSelectableModalComponent } from '../ionic-selectable-modal/ionic-selectable-modal.component';
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.
@@ -63,10 +61,14 @@ export class IonicSelectableComponent implements ComponentInterface {
   private isRendered = false;
   private buttonElement?: HTMLButtonElement;
   private modalElement!: HTMLIonModalElement;
+
+  private contentElement: HTMLIonContentElement;
+  private infiniteScrollElement: HTMLIonInfiniteScrollElement;
+  private virtualScrollElement: HTMLIonVirtualScrollElement;
+  private headerElement: HTMLIonHeaderElement;
+
   private isChangeInternal = false;
   private groups: Array<{ value: string; text: string; items: any[] }> = [];
-
-  public selectableModalComponent!: IonicSelectableModalComponent;
 
   public filteredGroups: Array<{ value: string; text: string; items: any[] }> = [];
   public hasFilteredItems = false;
@@ -84,7 +86,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   @State() private itemsToConfirm: any[] = [];
   /**
    * Determines whether Modal is opened.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isopened).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#isopened).
    *
    * @default false
    * @readonly
@@ -94,7 +96,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether the component is disabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isdisabled).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#isdisabled).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -103,7 +105,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * A placeholder.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#placeholder).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#placeholder).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -113,7 +115,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Close button text.
    * The field is only applicable to **iOS** platform, on **Android** only Cross icon is displayed.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttontext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#closebuttontext).
    *
    * @default 'Cancel'
    * @memberof IonicSelectableComponent
@@ -122,7 +124,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#closebuttonslot).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#closebuttonslot).
    *
    * @default 'start'
    * @memberof IonicSelectableComponent
@@ -131,7 +133,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Item icon slot. [Ionic slots](https://ionicframework.com/docs/api/item) are supported.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemiconslot).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#itemiconslot).
    *
    * @default 'start'
    * @memberof IonicSelectableComponent
@@ -140,7 +142,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Confirm button text.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirmbuttontext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#confirmbuttontext).
    *
    * @default 'OK'
    * @memberof IonicSelectableComponent
@@ -149,7 +151,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Clear button text.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clearbuttontext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#clearbuttontext).
    *
    * @default 'Clear'
    * @memberof IonicSelectableComponent
@@ -158,7 +160,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Add button text.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#addbuttontext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#addbuttontext).
    *
    * @default 'Add'
    * @memberof IonicSelectableComponent
@@ -167,7 +169,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * The name of the control, which is submitted with the form data.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#name).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#name).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -176,7 +178,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether multiple items can be selected.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#selectedText).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#selectedText).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -185,7 +187,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether multiple items can be selected.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#ismultiple).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#ismultiple).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -194,7 +196,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * The value of the component.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#value).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#value).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -203,7 +205,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Is set to true, the value will be extracted from the itemValueField of the objects.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldStoreItemValue).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#shouldStoreItemValue).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -212,7 +214,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * A list of items.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#items).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#items).
    *
    * @default []
    * @memberof IonicSelectableComponent
@@ -221,7 +223,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * A list of items to disable.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableditems).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#disableditems).
    *
    * @default []
    * @memberof IonicSelectableComponent
@@ -231,7 +233,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Item property to use as a unique identifier, e.g, `'id'`.
    * **Note**: `items` should be an object array.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemvaluefield).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#itemvaluefield).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -241,7 +243,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Item property to display, e.g, `'name'`.
    * **Note**: `items` should be an object array.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemtextfield).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#itemtextfield).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -250,7 +252,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Modal should be closed when backdrop is clicked.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldbackdropclose).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#shouldbackdropclose).
    *
    * @default true
    * @memberof IonicSelectableComponent
@@ -259,16 +261,16 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Modal CSS class.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalcssclass).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#modalcssclass).
    *
    * @default null
    * @memberof IonicSelectableComponent
    */
-  @Prop({ mutable: true }) public modalCssClass: string = null;
+  @Prop({ mutable: true }) public modalCssClass: string | string[];
 
   /**
    * Modal enter animation.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalenteranimation).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#modalenteranimation).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -277,7 +279,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Modal leave animation.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#modalleaveanimation).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#modalleaveanimation).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -286,7 +288,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Text of [Ionic Label](https://ionicframework.com/docs/api/label).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#label).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#label).
    *
    * @readonly
    * @default null
@@ -298,7 +300,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    *
    * Group property to use as a unique identifier to group items, e.g. `'country.id'`.
    * **Note**: `items` should be an object array.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupvaluefield).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#groupvaluefield).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -308,7 +310,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Group property to display, e.g. `'country.name'`.
    * **Note**: `items` should be an object array.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#grouptextfield).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#grouptextfield).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -317,7 +319,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Ionic [InfiniteScroll](https://ionicframework.com/docs/api/infinite-scroll) is enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasinfinitescroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hasinfinitescroll).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -327,7 +329,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * The threshold distance from the bottom of the content to call the infinite output event when scrolled.
    * Use the value 100px when the scroll is within 100 pixels from the bottom of the page.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#infinite-scroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#infinite-scroll).
    *
    * @default '100px'
    * @memberof IonicSelectableComponent
@@ -336,16 +338,17 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll) is enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvirtualscroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hasvirtualscroll).
    *
    * @default false
    * @memberof IonicSelectableComponent
+   * @deprecated check Ionic [VirtualScroll](https://ionicframework.com/docs/api/virtual-scroll)
    */
   @Prop({ mutable: true }) public hasVirtualScroll = false;
 
   /**
    * See Ionic VirtualScroll [approxHeaderHeight](https://ionicframework.com/docs/api/virtual-scroll).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#virtualscrollheaderfn).
    *
    * @default 30
    * @memberof IonicSelectableComponent
@@ -354,7 +357,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * See Ionic VirtualScroll [approxItemHeight](https://ionicframework.com/docs/api/virtual-scroll).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#virtualscrollheaderfn).
    *
    * @default 45
    * @memberof IonicSelectableComponent
@@ -365,7 +368,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * Determines whether Confirm button is visible for single selection.
    * By default Confirm button is visible only for multiple selection.
    * **Note**: It is always true for multiple selection and cannot be changed.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasconfirmbutton).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hasconfirmbutton).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -374,7 +377,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether to allow adding items.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canadditem).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#canadditem).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -383,7 +386,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether to show Clear button.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#canclear).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#canclear).
    * @default false
    * @memberof IonicSelectableComponent
    */
@@ -392,7 +395,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether to show [Searchbar](https://ionicframework.com/docs/api/searchbar).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#cansearch).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -401,7 +404,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines the search is delegate to event, and not handled internally.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#cansearch).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#cansearch).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -410,7 +413,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * How long, in milliseconds, to wait to filter items or to trigger `onSearch` event after each keystroke.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchdebounce).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#searchdebounce).
    *
    * @default 250
    * @memberof IonicSelectableComponent
@@ -419,7 +422,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * A placeholder for [Searchbar](https://ionicframework.com/docs/api/searchbar).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchplaceholder).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#searchplaceholder).
    *
    * @default 'Search'
    * @memberof IonicSelectableComponent
@@ -428,7 +431,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Text in [Searchbar](https://ionicframework.com/docs/api/searchbar).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#searchtext).
    *
    * @default ''
    * @memberof IonicSelectableComponent
@@ -437,7 +440,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Text to display when no items have been found during search.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#searchfailtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#searchfailtext).
    *
    * @default 'No items found.'
    * @memberof IonicSelectableComponent
@@ -446,7 +449,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Searchbar should receive focus when Modal is opened.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#shouldfocussearchbar).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#shouldfocussearchbar).
    *
    * @default false
    * @memberof IonicSelectableComponent
@@ -455,7 +458,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether user has typed anything in [Searchbar](https://ionicframework.com/docs/api/searchbar).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    *
    * @default false
    * @readonly
@@ -466,7 +469,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Set the cancel button icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
    * Only applies to md mode. Defaults to "arrow-back-sharp".
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    *
    * @default 'arrow-back-sharp'
    * @memberof IonicSelectableComponent
@@ -476,7 +479,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Set the the cancel button text of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
    * Only applies to ios mode.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    *
    * @default 'Cancel'
    * @memberof IonicSelectableComponent
@@ -486,7 +489,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Set the clear icon of the [Searchbar](https://ionicframework.com/docs/api/searchbar).
    * Defaults to "close-circle" for ios and "close-sharp" for md.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    *
    * @memberof IonicSelectableComponent
    */
@@ -495,16 +498,24 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * A hint to the browser for which keyboard to display.
    * Possible values: "none", "text", "tel", "url", "email", "numeric", "decimal", and "search".
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
-  @Prop({ mutable: true }) public searchInputmode: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search' = 'none';
+  @Prop({ mutable: true }) public searchInputmode:
+    | 'none'
+    | 'text'
+    | 'tel'
+    | 'url'
+    | 'email'
+    | 'numeric'
+    | 'decimal'
+    | 'search' = 'none';
 
   /**
    * The icon to use as the search icon in the [Searchbar](https://ionicframework.com/docs/api/searchbar).
    * Defaults to "search-outline" in ios mode and "search-sharp" in md mode.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
@@ -516,7 +527,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * Setting to "focus" shows the cancel button on focus.
    * Setting to "never" hides the cancel button.
    * Setting to "always" shows the cancel button regardless of focus state.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hassearchtext).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hassearchtext).
    * @default 'none'
    * @memberof IonicSelectableComponent
    */
@@ -524,7 +535,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether Confirm button is enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#isconfirmbuttonenabled).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#isconfirmbuttonenabled).
    *
    * @default true
    * @memberof IonicSelectableComponent
@@ -533,7 +544,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Header color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#headercolor).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#headercolor).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -542,7 +553,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#groupcolor).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#groupcolor).
    *
    * @default null
    * @memberof IonicSelectableComponent
@@ -552,7 +563,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Fires when the user has scrolled to the end of the list.
    * **Note**: `hasInfiniteScroll` has to be enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#oninfinitescroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#oninfinitescroll).
    *
    * @memberof IonicSelectableComponent
    */
@@ -561,7 +572,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Fires when the user is typing in Searchbar.
    * **Note**: `canSearch` and `shouldDelegateSearchToEvent` has to be enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearch).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onsearch).
    *
    * @memberof IonicSelectableComponent
    */
@@ -569,7 +580,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when no items have been found.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchfail).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onsearchfail).
    *
    * @memberof IonicSelectableComponent
    */
@@ -577,7 +588,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when some items have been found.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onsearchsuccess).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onsearchsuccess).
    *
    * @memberof IonicSelectableComponent
    */
@@ -588,7 +599,7 @@ export class IonicSelectableComponent implements ComponentInterface {
    * When the button has been clicked `ionicSelectableAddItemTemplate` will be shown. Use the template to create
    * a form to add item.
    * **Note**: `canAddItem` has to be enabled.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemAdding).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#itemAdding).
    *
    * @memberof IonicSelectableComponent
    */
@@ -596,7 +607,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when Clear button has been clicked.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclear).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onclear).
    *
    * @memberof IonicSelectableComponent
    */
@@ -605,7 +616,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Fires when item/s has been selected and Modal closed.
    * if isMultiple is set to true 'value' is an array else is a object
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onChanged).
    *
    * @memberof IonicSelectableComponent
    */
@@ -614,7 +625,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Fires when items has changed.
    * if isMultiple is set to true 'value' is an array else is a object
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onChanged).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onChanged).
    *
    * @memberof IonicSelectableComponent
    */
@@ -622,7 +633,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when an item has been selected or unselected.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onselect).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onselect).
    *
    * @memberof IonicSelectableComponent
    */
@@ -630,7 +641,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when Modal has been opened.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onopen).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onopen).
    *
    * @memberof IonicSelectableComponent
    */
@@ -638,7 +649,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when Modal has been closed.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onclose).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onclose).
    *
    * @memberof IonicSelectableComponent
    */
@@ -646,7 +657,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when has focus
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onFocused).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onFocused).
    *
    * @memberof IonicSelectableComponent
    */
@@ -654,7 +665,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Fires when loses focus.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#onBlurred).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#onBlurred).
    *
    * @memberof IonicSelectableComponent
    */
@@ -678,7 +689,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/virtual-scroll).
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#virtualscrollheaderfn).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#virtualscrollheaderfn).
    *
    * @memberof IonicSelectableComponent
    */
@@ -759,7 +770,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   @Watch('disabledItems')
   protected onDisabledItemsChanged(): void {
-    this.selectableModalComponent?.update();
+    //
   }
 
   public async connectedCallback(): Promise<void> {
@@ -775,7 +786,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Determines whether any item has been selected.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hasvalue).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hasvalue).
    *
    * @returns A boolean determining whether any item has been selected.
    * @memberof IonicSelectableComponent
@@ -787,7 +798,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Opens Modal.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#open).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#open).
    *
    * @returns Promise that resolves when Modal has been opened.
    * @memberof IonicSelectableComponent
@@ -803,26 +814,11 @@ export class IonicSelectableComponent implements ComponentInterface {
       this.titleText = label.textContent;
     }
 
-    const modalOptions: ModalOptions = {
-      component: 'ionic-selectable-modal',
-      componentProps: { selectableComponent: this },
-      backdropDismiss: this.shouldBackdropClose,
-    };
-
-    if (this.modalCssClass) {
-      modalOptions.cssClass = this.modalCssClass;
-    }
-
-    if (this.modalEnterAnimation) {
-      modalOptions.enterAnimation = this.modalEnterAnimation;
-    }
-
-    if (this.modalLeaveAnimation) {
-      modalOptions.leaveAnimation = this.modalLeaveAnimation;
-    }
-    this.filterItems(this.searchText);
-    this.modalElement = await modalController.create(modalOptions);
-    await this.modalElement.present();
+    this.modalElement.isOpen = true;
+    this.infiniteScrollElement = this.modalElement.querySelector('ion-infinite-scroll');
+    this.virtualScrollElement = this.modalElement.querySelector('ion-virtual-scroll');
+    this.contentElement = this.modalElement.querySelector('ion-content');
+    this.headerElement = this.modalElement.querySelector('ion-header');
     this.isOpened = true;
     this.setFocus();
     this.whatchModalEvents();
@@ -832,7 +828,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Closes Modal.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#close).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#close).
    *
    * @returns Promise that resolves when Modal has been closed.
    * @memberof IonicSelectableComponent
@@ -843,7 +839,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       return Promise.reject(`IonicSelectable is disabled or already closed: ${this.element.id}`);
     }
 
-    await this.modalElement.dismiss();
+    this.modalElement.isOpen = false;
     this.itemToAdd = null;
     this.hideAddItemTemplate();
 
@@ -859,7 +855,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Return a list of items that are selected and awaiting confirmation by user, when he has clicked Confirm button.
    * After the user has clicked Confirm button items to confirm are cleared.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#itemstoconfirm).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#itemstoconfirm).
    *
    * @returns a promise whit de list of items that are selected and awaiting confirmation by user
    * @memberof IonicSelectableComponent
@@ -871,7 +867,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Confirms selected items by updating value.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#confirm).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#confirm).
    *
    * @memberof IonicSelectableComponent
    */
@@ -886,7 +882,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Clears value.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#clear).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#clear).
    *
    * @memberof IonicSelectableComponent
    */
@@ -897,7 +893,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Enables infinite scroll.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#enableinfinitescroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#enableinfinitescroll).
    *
    * @memberof IonicSelectableComponent
    */
@@ -907,12 +903,12 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
 
-    this.selectableModalComponent.infiniteScrollElement.disabled = false;
+    this.infiniteScrollElement.disabled = false;
   }
 
   /**
    * Disables infinite scroll.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#disableinfinitescroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#disableinfinitescroll).
    *
    * @memberof IonicSelectableComponent
    */
@@ -922,12 +918,12 @@ export class IonicSelectableComponent implements ComponentInterface {
       return;
     }
 
-    this.selectableModalComponent.infiniteScrollElement.disabled = true;
+    this.infiniteScrollElement.disabled = true;
   }
 
   /**
    * Ends infinite scroll.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endinfinitescroll).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#endinfinitescroll).
    *
    * @memberof IonicSelectableComponent
    */
@@ -936,13 +932,13 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (!this.hasInfiniteScroll) {
       return;
     }
-    this.selectableModalComponent.infiniteScrollElement.complete();
+    this.infiniteScrollElement.complete();
     this.setItems(this.items);
   }
 
   /**
    * Scrolls to the top of Modal content.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltotop).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#scrolltotop).
    *
    * @returns Promise that resolves when scroll has been completed.
    * @memberof IonicSelectableComponent
@@ -952,13 +948,13 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (!this.isOpened) {
       return Promise.reject(`IonicSelectable content cannot be scrolled: ${this.element.id}`);
     }
-    await this.selectableModalComponent.contentElement.scrollToTop();
+    await this.contentElement.scrollToTop();
     return Promise.resolve();
   }
 
   /**
    * Scrolls to the bottom of Modal content.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#scrolltobottom).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#scrolltobottom).
    *
    * @returns Promise that resolves when scroll has been completed.
    * @memberof IonicSelectableComponent
@@ -968,14 +964,14 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (!this.isOpened) {
       return Promise.reject(`IonicSelectable content cannot be scrolled: ${this.element.id}`);
     }
-    await this.selectableModalComponent.contentElement.scrollToBottom();
+    await this.contentElement.scrollToBottom();
     return Promise.resolve();
   }
 
   /**
    * Starts search process by showing Loading spinner.
    * Use it together with `onSearch` event to indicate search start.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#startsearch).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#startsearch).
    *
    * @memberof IonicSelectableComponent
    */
@@ -991,7 +987,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Ends search process by hiding Loading spinner and refreshing items.
    * Use it together with `onSearch` event to indicate search end.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#endsearch).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#endsearch).
    *
    * @memberof IonicSelectableComponent
    */
@@ -1010,7 +1006,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Shows Loading spinner.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showloading).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#showloading).
    *
    * @memberof IonicSelectableComponent
    */
@@ -1021,12 +1017,11 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
 
     this.isSearching = true;
-    this.selectableModalComponent?.update();
   }
 
   /**
    * Hides Loading spinner.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideloading).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hideloading).
    *
    * @memberof IonicSelectableComponent
    */
@@ -1037,13 +1032,12 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
 
     this.isSearching = false;
-    this.selectableModalComponent?.update();
   }
 
   /**
    * Adds item.
    * **Note**: If you want an item to be added to the original array as well use two-way data binding syntax on `[(items)]` field.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#additem).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#additem).
    *
    * @param item Item to add.
    * @returns Promise that resolves when item has been added.
@@ -1064,7 +1058,7 @@ export class IonicSelectableComponent implements ComponentInterface {
   /**
    * Deletes item.
    * **Note**: If you want an item to be deleted from the original array as well use two-way data binding syntax on `[(items)]` field.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#deleteitem).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#deleteitem).
    *
    * @param item Item to delete.
    * @returns Promise that resolves when item has been deleted.
@@ -1120,7 +1114,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Selects or deselects all or specific items.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#toggleitems).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#toggleitems).
    *
    * @param isSelect Determines whether to select or deselect items.
    * @param [items] Items to toggle. If items are not set all items will be toggled.
@@ -1167,7 +1161,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       } else {
         this.selectedItems = [];
       }
-      this.selectableModalComponent?.update();
     }
 
     this.itemsToConfirm = [...this.selectedItems];
@@ -1175,7 +1168,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Shows `ionicSelectableAddItemTemplate`.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#showadditemtemplate).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#showadditemtemplate).
    *
    * @memberof IonicSelectableComponent
    */
@@ -1186,7 +1179,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   /**
    * Hides `ionicSelectableAddItemTemplate`.
-   * See more on [GitHub](https://github.com/eakoriakin/ionic-selectable/wiki/Documentation#hideadditemtemplate).
+   * See more on [GitHub](https://github.com/ionic-selectable/ionic-selectable/wiki#hideadditemtemplate).
    *
    * @memberof IonicSelectableComponent
    */
@@ -1199,7 +1192,6 @@ export class IonicSelectableComponent implements ComponentInterface {
 
   public clearItems(): void {
     this.setValue(null);
-    this.selectableModalComponent?.update();
     this.emitCleared();
   }
 
@@ -1338,9 +1330,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
     }
     this.itemsToConfirm = [];
-    if (this.isOpened) {
-      this.selectableModalComponent?.update();
-    }
     if (this.isInited) {
       this.emitChanged();
     }
@@ -1374,7 +1363,7 @@ export class IonicSelectableComponent implements ComponentInterface {
 
     /* It's important to have an empty starting group with empty items (groups[0].items),
      * because we bind to it when using VirtualScroll.
-     * See https://github.com/eakoriakin/ionic-selectable/issues/70.
+     * See https://github.com/ionic-selectable/ionic-selectable/issues/70.
      */
     let groups: any[] = [
       {
@@ -1406,9 +1395,8 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.hasFilteredItems = !this.areGroupsEmpty(this.filteredGroups);
     if (this.hasVirtualScroll) {
       // Rerender Virtual Scroll List After Adding New Data
-      this.selectableModalComponent?.virtualScrollElement.checkEnd();
+      this.virtualScrollElement.checkEnd();
     }
-    this.selectableModalComponent?.update();
     if (this.isInited) {
       this.emitItemsChanged();
     }
@@ -1453,7 +1441,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       this.filteredGroups = groups;
       this.hasFilteredItems = !this.areGroupsEmpty(groups);
       this.emitOnSearchSuccessedOrFailed(this.hasFilteredItems);
-      this.selectableModalComponent?.update();
     }
   }
 
@@ -1462,7 +1449,6 @@ export class IonicSelectableComponent implements ComponentInterface {
     if (!exist) {
       this.selectedItems.push(this.getItem(item));
     }
-    this.selectableModalComponent?.update();
   }
 
   private deleteSelectedItem(item: any) {
@@ -1474,7 +1460,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       }
     });
     this.selectedItems.splice(itemToDeleteIndex, 1);
-    this.selectableModalComponent?.update();
   }
 
   private getItem(item: any): any {
@@ -1509,7 +1494,6 @@ export class IonicSelectableComponent implements ComponentInterface {
       // We don't hide list with *ngIf or [hidden] to prevent its scroll position.
       this.isAddItemTemplateVisible = isVisible;
       this.isFooterVisible = !isVisible;
-      this.selectableModalComponent?.update();
     }
   }
 
@@ -1591,7 +1575,6 @@ export class IonicSelectableComponent implements ComponentInterface {
     }
 
     this.footerButtonsCount = footerButtonsCount;
-    this.selectableModalComponent?.update();
   }
 
   private areGroupsEmpty(groups: any[]): boolean {
@@ -1690,6 +1673,290 @@ export class IonicSelectableComponent implements ComponentInterface {
     this.blurred.emit();
   };
 
+  private renderItem(item: any): any {
+    return (
+      <ion-item button={true} onClick={(): void => this.selectItem(item)} disabled={this.isItemDisabled(item)}>
+        {this.hasTemplateRender && this.hasTemplateRender('item') ? (
+          <span
+            ref={element => {
+              this.templateRender(element, {
+                type: 'item',
+                value: item,
+                isItemSelected: this.isItemSelected(item),
+                isItemDisabled: this.isItemDisabled(item),
+              });
+            }}
+          ></span>
+        ) : (
+          <ion-label>{this.getItemText(item)}</ion-label>
+        )}
+        {this.hasTemplateRender && this.hasTemplateRender('itemEnd') && (
+          <div
+            slot="end"
+            ref={element => {
+              this.templateRender(element, {
+                type: 'itemEnd',
+                value: item,
+                isItemSelected: this.isItemSelected(item),
+                isItemDisabled: this.isItemDisabled(item),
+              });
+            }}
+          ></div>
+        )}
+        {this.hasTemplateRender && this.hasTemplateRender('itemIcon') ? (
+          <span
+            ref={element => {
+              this.templateRender(element, {
+                type: 'itemIcon',
+                value: item,
+                isItemSelected: this.isItemSelected(item),
+                isItemDisabled: this.isItemDisabled(item),
+              });
+            }}
+          ></span>
+        ) : (
+          <ion-icon
+            name={this.isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'}
+            size="small"
+            slot={this.itemIconSlot}
+          ></ion-icon>
+        )}
+      </ion-item>
+    );
+  }
+
+  private renderHeader(header: any): any {
+    return (
+      <ion-item-divider color={this.groupColor}>
+        {/* Need ion-label for text ellipsis. */}
+        <ion-label>{header}</ion-label>
+      </ion-item-divider>
+    );
+  }
+
+  private renderContent() {
+    return (
+      <div style={{ width: '100%' }}>
+        {this.isSearching && (
+          <div class="ionic-selectable-spinner">
+            <div class="ionic-selectable-spinner-background"></div>
+            <ion-spinner></ion-spinner>
+          </div>
+        )}
+        {!this.hasFilteredItems && this.hasTemplateRender && this.hasTemplateRender('searchFail') && (
+          <span
+            ref={element => {
+              this.templateRender(element, {
+                type: 'searchFail',
+              });
+            }}
+          ></span>
+        )}
+        {!this.hasFilteredItems && (!this.hasTemplateRender || !this.hasTemplateRender('searchFail')) && (
+          <div class="ion-margin ion-text-center">{this.searchFailText}</div>
+        )}
+        {!this.hasVirtualScroll && this.hasFilteredItems && (
+          <ion-list>
+            {this.filteredGroups.map(group => {
+              return (
+                <ion-item-group>
+                  {this.hasGroups && (
+                    <ion-item-divider color={this.groupColor}>
+                      {this.hasTemplateRender && this.hasTemplateRender('group') ? (
+                        <span
+                          ref={element => {
+                            this.templateRender(element, {
+                              type: 'group',
+                            });
+                          }}
+                        ></span>
+                      ) : (
+                        <ion-label>{group.text}</ion-label>
+                      )}
+                      {this.hasTemplateRender && this.hasTemplateRender('groupEnd') && (
+                        <div
+                          ref={element => {
+                            this.templateRender(element, {
+                              type: 'groupEnd',
+                              value: group,
+                            });
+                          }}
+                          slot="end"
+                        ></div>
+                      )}
+                    </ion-item-divider>
+                  )}
+                  {group.items.map(item => this.renderItem(item))}
+                </ion-item-group>
+              );
+            })}
+          </ion-list>
+        )}
+        {this.hasVirtualScroll && this.hasFilteredItems && (
+          <ion-virtual-scroll
+            items={this.filteredGroups[0].items}
+            approxHeaderHeight={this.virtualScrollApproxHeaderHeight}
+            approxItemHeight={this.virtualScrollApproxItemHeight}
+            renderItem={(item): void => this.renderItem(item)}
+            renderHeader={(header): void => this.renderHeader(header)}
+            headerFn={this.virtualScrollHeaderFn}
+          ></ion-virtual-scroll>
+        )}
+        {this.hasInfiniteScroll && (
+          <ion-infinite-scroll threshold={this.infiniteScrollThreshold} onIonInfinite={(): void => this.getMoreItems()}>
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        )}
+      </div>
+    );
+  }
+
+  private renderModal() {
+    return (
+      <ion-modal
+        ref={modalElement => (this.modalElement = modalElement)}
+        class={{
+          ...getClassMap(this.modalCssClass),
+          'ionic-selectable-modal-is-add-item-template-visible ': this.isAddItemTemplateVisible,
+        }}
+        backdropDismiss={this.shouldBackdropClose}
+        enterAnimation={this.modalEnterAnimation}
+        leaveAnimation={this.modalLeaveAnimation}
+      >
+        <ion-header>
+          {this.hasTemplateRender && this.hasTemplateRender('header') ? (
+            <div
+              ref={element => {
+                this.templateRender(element, {
+                  type: 'header',
+                });
+              }}
+            ></div>
+          ) : (
+            <ion-toolbar color={this.headerColor}>
+              <ion-title>
+                {this.hasTemplateRender && this.hasTemplateRender('title') ? (
+                  <span
+                    ref={element => {
+                      this.templateRender(element, {
+                        type: 'title',
+                      });
+                    }}
+                  ></span>
+                ) : (
+                  <span>{this.titleText}</span>
+                )}
+              </ion-title>
+              <ion-buttons slot={this.closeButtonSlot}>
+                <ion-button onClick={(): void => this.closeModal()}>
+                  {this.hasTemplateRender && this.hasTemplateRender('closeButton') ? (
+                    <span
+                      ref={element => {
+                        this.templateRender(element, {
+                          type: 'closeButton',
+                        });
+                      }}
+                    ></span>
+                  ) : (
+                    <span>{this.closeButtonText}</span>
+                  )}
+                </ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          )}
+          {this.canSearch ||
+            (this.hasTemplateRender && this.hasTemplateRender('message') && (
+              <ion-toolbar>
+                <ion-searchbar
+                  value={this.searchText}
+                  placeholder={this.searchPlaceholder}
+                  debounce={this.searchDebounce}
+                  cancelButtonIcon={this.searchCancelButtonIcon}
+                  cancelButtonText={this.searchCancelButtonText}
+                  clearIcon={this.searchClearIcon}
+                  inputmode={this.searchInputmode}
+                  searchIcon={this.searchIcon}
+                  showCancelButton={this.searchShowCancelButton}
+                  onIonChange={(event): void => this.onSearchbarValueChanged(event)}
+                ></ion-searchbar>
+                {this.hasTemplateRender && this.hasTemplateRender('message') && (
+                  <div
+                    class="ionic-selectable-message"
+                    ref={element => {
+                      this.templateRender(element, {
+                        type: 'message',
+                      });
+                    }}
+                  ></div>
+                )}
+              </ion-toolbar>
+            ))}
+        </ion-header>
+        <ion-content>{this.renderContent()}</ion-content>
+        {this.isAddItemTemplateVisible && (
+          <div
+            class="ionic-selectable-add-item-template"
+            style={{ top: this.headerElement.offsetHeight + 'px' }}
+            ref={element => {
+              this.templateRender(element, {
+                type: 'addItem',
+                value: this.itemToAdd,
+                isAdd: this.itemToAdd == null,
+              });
+            }}
+          ></div>
+        )}
+        {(this.footerButtonsCount > 0 || (this.hasTemplateRender && this.hasTemplateRender('footer'))) && (
+          <ion-footer style={{ visibility: this.isFooterVisible ? 'initial' : 'hidden' }}>
+            {this.hasTemplateRender && this.hasTemplateRender('footer') ? (
+              <div
+                ref={element => {
+                  this.templateRender(element, {
+                    type: 'footer',
+                  });
+                }}
+              ></div>
+            ) : (
+              <ion-toolbar>
+                <ion-row>
+                  {this.canClear && (
+                    <ion-col>
+                      <ion-button
+                        onClick={(): void => this.clearItems()}
+                        disabled={!(this.selectedItems.length > 0)}
+                        expand="full"
+                      >
+                        {this.clearButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                  {this.canAddItem && (
+                    <ion-col>
+                      <ion-button onClick={(): void => this.addItemClick()} expand="full">
+                        {this.addButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                  {(this.isMultiple || this.hasConfirmButton || this.canClear) && (
+                    <ion-col>
+                      <ion-button
+                        onClick={(): void => this.confirmSelection()}
+                        disabled={!this.isConfirmButtonEnabled}
+                        expand="full"
+                      >
+                        {this.confirmButtonText}
+                      </ion-button>
+                    </ion-col>
+                  )}
+                </ion-row>
+              </ion-toolbar>
+            )}
+          </ion-footer>
+        )}
+      </ion-modal>
+    );
+  }
+
   public render(): void {
     const { placeholder, name, isDisabled, isOpened, element /* isMultiple */ } = this;
     const mode = getMode();
@@ -1772,6 +2039,7 @@ export class IonicSelectableComponent implements ComponentInterface {
       );
     }
     this.isRendered = true;
+    // return this.renderContent();
 
     return (
       <Host
@@ -1813,6 +2081,7 @@ export class IonicSelectableComponent implements ComponentInterface {
           disabled={isDisabled}
           ref={buttonElement => (this.buttonElement = buttonElement)}
         />
+        {this.renderModal()}
       </Host>
     );
   }

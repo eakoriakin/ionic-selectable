@@ -20,7 +20,7 @@ import { IonicSelectableSearchFailTemplateDirective } from '../directives/ionic-
 import { IonicSelectableTitleTemplateDirective } from '../directives/ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from '../directives/ionic-selectable-value-template.directive';
 
-const DECLARATIONS = [
+export const DECLARATIONS = [
   //Component
   IonicSelectableComponent,
   //Value accesor
