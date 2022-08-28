@@ -1,6 +1,6 @@
 {
   "name": "@ionic-selectable/angular",
-  "version": "5.0.0-alpha.13",
+  "version": "5.0.0-alpha.14",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
@@ -36,8 +36,8 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@ionic-selectable/core": "5.0.0-alpha.13",
     "@angular/core": ">=12.0.0",
+    "@ionic-selectable/core": "5.0.0-alpha.13",
     "rxjs": ">=6.2.0",
     "zone.js": ">=0.8.26"
   },
