@@ -6,8 +6,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "version": "lerna version --no-private",
-    "publish": "lerna publish --force-publish",
+    "publish": "lerna publish --force-publish --no-private",
     "publish-no-git-reset": "lerna publish from-package --force-publish --no-git-reset"
   }
 }
