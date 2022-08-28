@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicSelectableComponent } from '@ionic-selectable/angular';
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -24,7 +23,7 @@ export class HomePage {
     }
   }
 
-  onChanged(event: CustomEvent) {
+  onChanged(event: any) {
     console.log(event);
   }
 

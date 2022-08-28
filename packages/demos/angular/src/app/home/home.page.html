@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Blank </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -25,20 +23,24 @@
       [canClear]="true"
       (changed)="onChanged($event)"
       [(ngModel)]="binding"
-
     >
       <div
         *ionicSelectableItemTemplate="let port; let isItemSelected = isItemSelected;"
       >
         {{isItemSelected}} - {{port.port}} ({{port.country.country}})
       </div>
-      <div *ionicSelectableCloseButtonTemplate>
-        Hola
-      </div>
+      <div *ionicSelectableCloseButtonTemplate>Hola</div>
       <!-- <ion-toolbar *ionicSelectableFooterTemplate>Footer</ion-toolbar> -->
-      <div *ionicSelectableValueTemplate="let port;" class="hola">Value {{port}}</div>
-      <div *ionicSelectablePlaceholderTemplate="let port;" class="s">Place {{port}}</div>
-      <div *ionicSelectableAddItemTemplate="let port; let isAdd = isAdd" class="hola">
+      <div *ionicSelectableValueTemplate="let port;" class="hola">
+        Value {{port}}
+      </div>
+      <div *ionicSelectablePlaceholderTemplate="let port;" class="s">
+        Place {{port}}
+      </div>
+      <div
+        *ionicSelectableAddItemTemplate="let port; let isAdd = isAdd"
+        class="hola"
+      >
         <ion-content>
           <ion-list>
             <ion-item-divider>
@@ -53,7 +55,10 @@
           <ion-toolbar>
             <ion-row>
               <ion-col>
-                <ion-button expand="full" (click)="ionicSelectable.hideAddItemTemplate()">
+                <ion-button
+                  expand="full"
+                  (click)="ionicSelectable.hideAddItemTemplate()"
+                >
                   Cancelar
                 </ion-button>
               </ion-col>

@@ -31,10 +31,6 @@
     "strictPropertyInitialization": false,
     "target": "es2015",
     "baseUrl": ".",
-    "paths": {
-      "@ionic-selectable/core": ["../core"],
-      "@ionic-selectable/core/loader": ["../core/loader"],
-    },
   },
   "exclude": ["node_modules"],
   "files": ["src/index.ts"]
