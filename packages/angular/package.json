@@ -1,6 +1,6 @@
 {
   "name": "@ionic-selectable/angular",
-  "version": "5.0.0-alpha.14",
+  "version": "5.0.0-alpha.15",
   "description": "Angular wrapper for @ionic-selectable/core",
   "author": {
     "name": "Evgenii Koriakin",
