@@ -22,7 +22,7 @@
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-[Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
+[Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
@@ -30,7 +30,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 # Contents
 
-- [Demo](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
+- [Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=pages/home/home.html)
 - [Features](#features)
 - [Getting started](#getting-started)
 - [Supported Ionic versions](#supported-ionic-versions)
