@@ -22,7 +22,7 @@
 [![npm][dt-image]][npm-url]
 [![npm][dm-image]][npm-url]
 
-[Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
+[Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=app/pages/home/home.html) | [Features](#features) | [Getting started](#getting-started) | [FAQ](../../wiki#faq) | [Docs](../../wiki)
 
 An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api/components/select/Select/), that allows to search items, including async search, infinite scrolling and more.
 
@@ -30,7 +30,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 # Contents
 
-- [Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=pages/home/home.html)
+- [Demo](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=app/pages/home/home.html)
 - [Features](#features)
 - [Getting started](#getting-started)
 - [Supported Ionic versions](#supported-ionic-versions)
@@ -45,14 +45,14 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 ## Features
 
-- [Single selection](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
+- [Single selection](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=app/pages/home/home.html)
 - [Multiple selection](../../wiki#ismultiple)
-- [Search items](https://stackblitz.com/edit/ionic-selectable-basic?file=pages/home/home.html)
-- [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
-- [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-on-search?file=pages/home/home.html)
-- [Forms](https://stackblitz.com/edit/ionic-selectable-form-control?file=pages/home/home.html)
-- [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-infinite-scroll?file=pages/home/home.html)
-- [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-virtual-scroll?file=pages/home/home.html)
+- [Search items](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-basic?file=app/pages/home/home.html)
+- [Search items asynchronously](https://stackblitz.com/edit/ionic-selectable-v4-events-on-search?file=pages/home/home.html)
+- [Search by several item fields](https://stackblitz.com/edit/ionic-selectable-v4-events-on-search?file=pages/home/home.html)
+- [Forms](https://stackblitz.com/edit/ionic-selectable-v4-forms-form-control?file=pages/home/home.html)
+- [InfiniteScroll](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-infinite-scroll?file=pages/home/home.html)
+- [VirtualScroll](https://stackblitz.com/edit/ionic-selectable-v4-use-cases-virtual-scroll?file=pages/home/home.html)
 - [Templates](../../wiki#templates)
 - [Grouping items](../..//wiki#grouping)
 - [Editing, adding and deleting items](../../wiki#editing)
