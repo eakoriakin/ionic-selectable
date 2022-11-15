@@ -163,4 +163,4 @@ For contribution and delevopment please refer to [Contribution](../../wiki/Contr
 
 ## Share it
 
-If you find this component useful, please star the [repo](https://github.com/eakoriakin/ionic-selectable) to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
+If you find this component useful, please star the [repo](https://github.com/ionic-selectable/ionic-selectable) to let others know that it's reliable. Also, share it with friends and colleagues who might find it useful as well. Thank you 😄
