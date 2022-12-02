@@ -58,7 +58,7 @@
     "@types/jasminewd2": "2.0.3",
     "@types/node": "13.9.0",
     "codelyzer": "^6.0.0",
-    "cordova-android": "7.0.0",
+    "cordova-android": "11.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.1.4",
@@ -118,6 +118,6 @@
   },
   "dependencies": {
     "cordova-ios": "^5.0.1",
-    "cordova-android": "7.0.0"
+    "cordova-android": "11.0.0"
   }
 }
