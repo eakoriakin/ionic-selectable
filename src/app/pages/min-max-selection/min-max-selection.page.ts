@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { NgIf } from '@angular/common';
+import { IonicSelectableMessageTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-message-template.directive';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'min-max-selection',
-  templateUrl: './min-max-selection.page.html',
-  styleUrls: ['./min-max-selection.page.scss']
+    selector: 'min-max-selection',
+    templateUrl: './min-max-selection.page.html',
+    styleUrls: ['./min-max-selection.page.scss'],
+    standalone: true,
+    imports: [IonicModule, FormsModule, ReactiveFormsModule, IonicSelectableComponent, IonicSelectableMessageTemplateDirective, NgIf, WikiUrlPipe]
 })
 export class MinMaxSelectionPage implements OnInit {
   ports: Port[];

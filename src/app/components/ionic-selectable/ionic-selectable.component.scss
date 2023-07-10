@@ -3,12 +3,15 @@ $placeholder-color: #999;
 $padding: 16px;
 $item-padding-end: 16px;
 $item-padding-end-ios: 8px;
+
 .item {
   &-ionic-selectable {
-    // Vertical allignment for label.
+
+    // Vertical alignment for label.
     .item-inner .input-wrapper {
       align-items: normal;
     }
+
     ion-label {
       flex: 1;
       max-width: initial;
@@ -19,6 +22,7 @@ $item-padding-end-ios: 8px;
 .ionic-selectable {
   display: block;
   max-width: 45%;
+
   &-inner {
     display: flex;
     /*
@@ -29,28 +33,34 @@ $item-padding-end-ios: 8px;
     flex-direction: row;
     justify-content: flex-end;
   }
+
   &-has-placeholder {
     .ionic-selectable-value-item {
       color: var(--placeholder-color, $placeholder-color);
     }
   }
+
   &-value {
     flex: 1;
     padding-top: 13px;
     padding-bottom: 13px;
     overflow: hidden;
+
     &-item {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+
       &:not(:last-child) {
         margin-bottom: 5px;
       }
     }
   }
+
   &-icon {
     position: relative;
     width: 20px;
+
     &-inner {
       position: absolute;
       top: 20px;
@@ -61,22 +71,26 @@ $item-padding-end-ios: 8px;
       pointer-events: none;
       color: var(--icon-color, $icon-color);
     }
+
     &-template {
       align-self: center;
       margin-left: 5px;
     }
   }
+
   &-ios {
     .ionic-selectable-value {
       padding-top: 11px;
       padding-bottom: 11px;
     }
+
     .ionic-selectable-icon {
       &-inner {
         top: 19px;
       }
     }
   }
+
   &-spinner {
     position: fixed;
     bottom: 0;
@@ -84,6 +98,7 @@ $item-padding-end-ios: 8px;
     left: 0;
     right: 0;
     z-index: 1;
+
     &-background {
       top: 0;
       bottom: 0;
@@ -93,6 +108,7 @@ $item-padding-end-ios: 8px;
       background-color: #000000;
       opacity: 0.05;
     }
+
     ion-spinner {
       position: absolute;
       top: 50%;
@@ -102,6 +118,7 @@ $item-padding-end-ios: 8px;
       margin-left: -14px;
     }
   }
+
   &-cover {
     left: 0;
     top: 0;
@@ -115,30 +132,34 @@ $item-padding-end-ios: 8px;
     appearance: none;
     outline: 0;
   }
+
   &-add-item-template {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: #ffffff;
+
     &-inner {
       overflow-y: auto;
-      > ion-footer {
+
+      >ion-footer {
         bottom: 0;
         position: absolute;
       }
     }
   }
-  &:not(&-has-label) {
-    /*Occupy 100% of width when there's no label.*/
-    max-width: 100%;
-    width: 100%;
-    &-value {
-      &-item {
-        text-align: right;
-      }
-    }
-  }
+
+  // &:not(&-has-label) {
+  //   /*Occupy 100% of width when there's no label.*/
+  //   max-width: 100%;
+  //   width: 100%;
+  //   &-value {
+  //     &-item {
+  //       text-align: right;
+  //     }
+  //   }
+  // }
   &-label-stacked,
   &-label-floating {
     align-self: stretch;
@@ -146,31 +167,37 @@ $item-padding-end-ios: 8px;
     padding-left: 0;
     padding-top: 8px;
     padding-bottom: 8px;
+
     .ionic-selectable-value {
       padding-top: 0;
       padding-bottom: 0;
       min-height: 19px;
     }
+
     .ionic-selectable-icon-inner {
       top: 7px;
     }
+
     &.ionic-selectable-ios {
       .ionic-selectable-value {
         padding-top: 0;
         padding-bottom: 0;
         min-height: 20px;
       }
+
       .ionic-selectable-icon-inner {
         top: 8px;
       }
     }
   }
+
   &-label-default,
   &-label-fixed {
     .ionic-selectable-value {
       padding-left: var(--padding-start, $padding);
     }
   }
+
   &-label-fixed:not(&-has-value) {
     .ionic-selectable-value {
       padding-left: calc(var(--padding-start, $padding) + 11px);
@@ -184,43 +211,52 @@ $item-padding-end-ios: 8px;
       padding-right: $item-padding-end;
     }
   }
+
   .ionic-selectable-item-button {
     margin-left: 8px;
     margin-right: 8px;
   }
+
   &-ios {
     .ionic-selectable-message {
       padding: 8px;
     }
+
     .ionic-selectable-group {
       ion-item-divider {
         padding-right: $item-padding-end-ios;
       }
     }
   }
+
   &-md {
     .ionic-selectable-message {
       padding: 8px 12px;
     }
   }
+
   &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
     .footer .col:first-child {
-      padding-right: $padding / 2;
+      padding-right: calc($padding / 2);
     }
+
     .footer .col:last-child {
-      padding-left: $padding / 2;
+      padding-left: calc($padding / 2);
     }
   }
+
   &.ionic-selectable-modal-is-searching {
     .scroll-content {
       overflow-y: hidden;
     }
   }
+
   &.ionic-selectable-modal-is-add-item-template-visible {
+
     // Hide scroll from list content.
     // Use immediate child selector as we don't want to apply the rule
     // to content inside add item template defined by user.
-    > .content > .scroll-content {
+    >.content>.scroll-content {
       overflow-y: hidden;
     }
   }

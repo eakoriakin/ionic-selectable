@@ -1,5 +1,5 @@
-// tslint:disable-next-line:max-line-length
-import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer2, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Optional, Output, Renderer2, TemplateRef, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonItem, ModalController, Platform } from '@ionic/angular';
 import { AnimationBuilder, ModalOptions } from '@ionic/core';
@@ -10,6 +10,7 @@ import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-foote
 import { IonicSelectableGroupEndTemplateDirective } from './ionic-selectable-group-end-template.directive';
 import { IonicSelectableGroupTemplateDirective } from './ionic-selectable-group-template.directive';
 import { IonicSelectableHeaderTemplateDirective } from './ionic-selectable-header-template.directive';
+import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 import { IonicSelectableItemEndTemplateDirective } from './ionic-selectable-item-end-template.directive';
 import { IonicSelectableItemIconTemplateDirective } from './ionic-selectable-item-icon-template.directive';
 import { IonicSelectableItemTemplateDirective } from './ionic-selectable-item-template.directive';
@@ -19,7 +20,6 @@ import { IonicSelectablePlaceholderTemplateDirective } from './ionic-selectable-
 import { IonicSelectableSearchFailTemplateDirective } from './ionic-selectable-search-fail-template.directive';
 import { IonicSelectableTitleTemplateDirective } from './ionic-selectable-title-template.directive';
 import { IonicSelectableValueTemplateDirective } from './ionic-selectable-value-template.directive';
-import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-template.directive';
 
 @Component({
   selector: 'ionic-selectable',
@@ -30,15 +30,17 @@ import { IonicSelectableIconTemplateDirective } from './ionic-selectable-icon-te
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => IonicSelectableComponent),
     multi: true
-  }]
+  }],
+  standalone: true,
+  imports: [NgIf, NgTemplateOutlet, NgFor]
 })
 export class IonicSelectableComponent implements ControlValueAccessor, OnInit, DoCheck {
   @HostBinding('class.ionic-selectable')
   _cssClass = true;
   @HostBinding('class.ionic-selectable-ios')
-  _isIos: boolean;
+  _isIos!: boolean;
   @HostBinding('class.ionic-selectable-md')
-  _isMD: boolean;
+  _isMD!: boolean;
   @HostBinding('class.ionic-selectable-is-multiple')
   get _isMultipleCssClass(): boolean {
     return this.isMultiple;
@@ -76,21 +78,21 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   private _shouldBackdropClose = true;
   private _isOpened = false;
   private _value: any = null;
-  private _modal: HTMLIonModalElement;
+  private _modal!: HTMLIonModalElement;
   private _itemsDiffer: IterableDiffer<any>;
-  private _hasObjects: boolean;
+  private _hasObjects!: boolean;
   private _canClear = false;
   private _hasConfirmButton = false;
   private _isMultiple = false;
   private _canAddItem = false;
-  private _addItemObservable: Subscription;
-  private _deleteItemObservable: Subscription;
+  private _addItemObservable!: Subscription;
+  private _deleteItemObservable!: Subscription;
   private onItemsChange: EventEmitter<any> = new EventEmitter();
   private _ionItemElement: any;
   private _ionLabelElement: any;
   private _hasIonLabel = false;
   private _ionLabelPosition: 'fixed' | 'stacked' | 'floating' | 'default' | null = null;
-  private _label: string = null;
+  private _label: string = '';
   private get _hasInfiniteScroll(): boolean {
     return this.isEnabled && this._modalComponent &&
       this._modalComponent._infiniteScroll ? true : false;
@@ -104,11 +106,11 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   _groups: any[] = [];
   _itemsToConfirm: any[] = [];
   _selectedItems: any[] = [];
-  _modalComponent: IonicSelectableModalComponent;
+  _modalComponent!: IonicSelectableModalComponent;
   _filteredGroups: any[] = [];
-  _hasGroups: boolean;
-  _isSearching: boolean;
-  _hasPlaceholder: boolean;
+  _hasGroups!: boolean;
+  _isSearching!: boolean;
+  _hasPlaceholder!: boolean;
   _isAddItemTemplateVisible = false;
   _isFooterVisible = true;
   _itemToAdd: any = null;
@@ -242,7 +244,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  modalCssClass: string = null;
+  modalCssClass: string = '';
 
   /**
    * Modal enter animation.
@@ -252,7 +254,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  modalEnterAnimation: AnimationBuilder = null;
+  modalEnterAnimation!: AnimationBuilder;
 
   /**
    * Modal leave animation.
@@ -262,7 +264,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  modalLeaveAnimation: AnimationBuilder = null;
+  modalLeaveAnimation!: AnimationBuilder;
 
   /**
    * Determines whether Modal is opened.
@@ -313,7 +315,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  itemValueField: string = null;
+  itemValueField: string = '';
 
   /**
    * Item property to display, e.g, `'name'`.
@@ -324,7 +326,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  itemTextField: string = null;
+  itemTextField: string = '';
 
   /**
    *
@@ -336,7 +338,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  groupValueField: string = null;
+  groupValueField: string = '';
 
   /**
 * Group property to display, e.g. `'country.name'`.
@@ -347,7 +349,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 * @memberof IonicSelectableComponent
 */
   @Input()
-  groupTextField: string = null;
+  groupTextField: string = '';
 
   /**
    * Determines whether to show Searchbar.
@@ -441,7 +443,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  placeholder: string = null;
+  placeholder: string = '';
 
   /**
    * Determines whether multiple items can be selected.
@@ -528,7 +530,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  headerColor: string = null;
+  headerColor: string = '';
 
   /**
    * Group color. [Ionic colors](https://ionicframework.com/docs/theming/advanced#colors) are supported.
@@ -538,7 +540,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    * @memberof IonicSelectableComponent
    */
   @Input()
-  groupColor: string = null;
+  groupColor: string = '';
 
   /**
    * Close button slot. [Ionic slots](https://ionicframework.com/docs/api/buttons) are supported.
@@ -756,36 +758,36 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   onAddItem: EventEmitter<{ component: IonicSelectableComponent }> = new EventEmitter();
 
   @ContentChild(IonicSelectableValueTemplateDirective, { read: TemplateRef })
-  valueTemplate: TemplateRef<any>;
+  valueTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableItemTemplateDirective, { read: TemplateRef })
-  itemTemplate: TemplateRef<any>;
+  itemTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableItemEndTemplateDirective, { read: TemplateRef })
-  itemEndTemplate: TemplateRef<any>;
+  itemEndTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableTitleTemplateDirective, { read: TemplateRef })
-  titleTemplate: TemplateRef<any>;
+  titleTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectablePlaceholderTemplateDirective, { read: TemplateRef })
-  placeholderTemplate: TemplateRef<any>;
+  placeholderTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableMessageTemplateDirective, { read: TemplateRef })
-  messageTemplate: TemplateRef<any>;
+  messageTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableGroupTemplateDirective, { read: TemplateRef })
-  groupTemplate: TemplateRef<any>;
+  groupTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableGroupEndTemplateDirective, { read: TemplateRef })
-  groupEndTemplate: TemplateRef<any>;
+  groupEndTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableCloseButtonTemplateDirective, { read: TemplateRef })
-  closeButtonTemplate: TemplateRef<any>;
+  closeButtonTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableSearchFailTemplateDirective, { read: TemplateRef })
-  searchFailTemplate: TemplateRef<any>;
+  searchFailTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableAddItemTemplateDirective, { read: TemplateRef })
-  addItemTemplate: TemplateRef<any>;
+  addItemTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableFooterTemplateDirective, { read: TemplateRef })
-  footerTemplate: TemplateRef<any>;
-  _addItemTemplateFooterHeight: string;
+  footerTemplate!: TemplateRef<any>;
+  _addItemTemplateFooterHeight!: string;
   @ContentChild(IonicSelectableHeaderTemplateDirective, { read: TemplateRef })
-  headerTemplate: TemplateRef<any>;
+  headerTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableItemIconTemplateDirective, { read: TemplateRef })
-  itemIconTemplate: TemplateRef<any>;
+  itemIconTemplate!: TemplateRef<any>;
   @ContentChild(IonicSelectableIconTemplateDirective, { read: TemplateRef })
-  iconTemplate: TemplateRef<any>;
+  iconTemplate!: TemplateRef<any>;
 
   /**
    * See Ionic VirtualScroll [headerFn](https://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/).
@@ -902,7 +904,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   _formatItem(item: any): string {
     if (this._isNullOrWhiteSpace(item)) {
-      return null;
+      return '';
     }
 
     return this.itemTextField ? item[this.itemTextField] : item.toString();
@@ -959,7 +961,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
         const filterText = this._searchText.trim().toLowerCase();
 
         this._groups.forEach(group => {
-          const items = group.items.filter(item => {
+          const items = group.items.filter((item: any) => {
             const itemText = (this.itemTextField ?
               item[this.itemTextField] : item).toString().toLowerCase();
             return itemText.indexOf(filterText) !== -1;
@@ -990,7 +992,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   _isItemDisabled(item: any): boolean {
     if (!this.disabledItems) {
-      return;
+      return false;
     }
 
     return this.disabledItems.some(_item => {
@@ -1013,7 +1015,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
   }
 
   _deleteSelectedItem(item: any) {
-    let itemToDeleteIndex;
+    let itemToDeleteIndex = -1;
 
     this._selectedItems.forEach((selectedItem, itemIndex) => {
       if (
@@ -1124,7 +1126,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   _setItemsToConfirm(items: any[]) {
     // Return a copy of original array, so it couldn't be changed from outside.
-    this._itemsToConfirm = [].concat(items);
+    this._itemsToConfirm = structuredClone(items);
   }
 
   _doSelect(selectedItem: any) {
@@ -1193,8 +1195,8 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     return this._ionLabelElement ? this._ionLabelElement.textContent : null;
   }
 
-  private _areGroupsEmpty(groups) {
-    return groups.length === 0 || groups.every(group => {
+  private _areGroupsEmpty(groups: any) {
+    return groups.length === 0 || groups.every((group: any) => {
       return !group.items || group.items.length === 0;
     });
   }
@@ -1400,7 +1402,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       // so unsubscribe in both success and fail cases.
       self._addItemObservable = self.onItemsChange.asObservable().subscribe(() => {
         self._addItemObservable.unsubscribe();
-        resolve();
+        resolve('');
       }, () => {
         self._addItemObservable.unsubscribe();
         reject();
@@ -1431,7 +1433,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     // Remove deleted item from value.
     if (this.value) {
       if (this.isMultiple) {
-        const values = this.value.filter(value => {
+        const values = this.value.filter((value: any) => {
           return value.id !== item.id;
         });
 
@@ -1476,7 +1478,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       // so unsubscribe in both success and fail cases.
       self._deleteItemObservable = self.onItemsChange.asObservable().subscribe(() => {
         self._deleteItemObservable.unsubscribe();
-        resolve();
+        resolve('');
       }, () => {
         self._deleteItemObservable.unsubscribe();
         reject();
@@ -1639,7 +1641,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
       // Toggle specific items.
       if (hasItems) {
-        itemsToToggle = itemsToToggle.filter(itemToToggle => {
+        itemsToToggle = itemsToToggle.filter((itemToToggle: any) => {
           return items.find(item => {
             return this._getItemValue(itemToToggle) === this._getItemValue(item);
           }) !== undefined;
@@ -1651,7 +1653,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
         }
       }
 
-      itemsToToggle.forEach(item => {
+      itemsToToggle.forEach((item: any) => {
         this._addSelectedItem(item);
       });
     } else {
@@ -1678,7 +1680,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       }
 
       self._modalComponent._content.scrollToTop().then(() => {
-        resolve();
+        resolve('');
       });
     });
   }
@@ -1700,7 +1702,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       }
 
       self._modalComponent._content.scrollToBottom().then(() => {
-        resolve();
+        resolve('');
       });
     });
   }

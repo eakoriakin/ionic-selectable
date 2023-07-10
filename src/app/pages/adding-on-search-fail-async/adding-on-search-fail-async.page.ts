@@ -1,14 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { IonicSelectableAddItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-add-item-template.directive';
+import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'adding-on-search-fail-async',
-  templateUrl: './adding-on-search-fail-async.page.html',
-  styleUrls: ['./adding-on-search-fail-async.page.scss'],
+    selector: 'adding-on-search-fail-async',
+    templateUrl: './adding-on-search-fail-async.page.html',
+    styleUrls: ['./adding-on-search-fail-async.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableItemTemplateDirective,
+        IonicSelectableAddItemTemplateDirective,
+        ReactiveFormsModule,
+        WikiUrlPipe,
+    ],
 })
 export class AddingOnSearchFailAsyncPage implements OnInit {
   ports: Port[];

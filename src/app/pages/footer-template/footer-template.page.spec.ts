@@ -8,9 +8,9 @@ describe('FooterTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterTemplatePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [FooterTemplatePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

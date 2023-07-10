@@ -8,9 +8,9 @@ describe('SearchFailTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchFailTemplatePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [SearchFailTemplatePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

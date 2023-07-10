@@ -8,9 +8,9 @@ describe('PlaceholderPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PlaceholderPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [PlaceholderPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

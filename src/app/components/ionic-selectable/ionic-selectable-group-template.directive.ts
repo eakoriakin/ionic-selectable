@@ -1,6 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[ionicSelectableGroupTemplate]',
+    selector: '[ionicSelectableGroupTemplate]',
+    standalone: true,
 })
 export class IonicSelectableGroupTemplateDirective { }

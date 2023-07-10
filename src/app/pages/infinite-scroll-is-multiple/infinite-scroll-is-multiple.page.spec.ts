@@ -8,9 +8,9 @@ describe('InfiniteScrollIsMultiplePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InfiniteScrollIsMultiplePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [InfiniteScrollIsMultiplePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

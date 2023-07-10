@@ -8,9 +8,9 @@ describe('IsEnabledPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [IsEnabledPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [IsEnabledPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

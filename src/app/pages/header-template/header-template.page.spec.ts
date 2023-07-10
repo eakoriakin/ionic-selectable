@@ -8,9 +8,9 @@ describe('HeaderTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderTemplatePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [HeaderTemplatePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

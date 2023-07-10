@@ -8,9 +8,9 @@ describe('FormControlPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FormControlPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [FormControlPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

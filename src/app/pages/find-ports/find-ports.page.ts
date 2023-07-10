@@ -1,12 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
+import { NgIf } from '@angular/common';
+import { IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-value-template.directive';
+import { IonicSelectableItemEndTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-end-template.directive';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'find-ports',
-  templateUrl: './find-ports.page.html',
-  styleUrls: ['./find-ports.page.scss'],
+    selector: 'find-ports',
+    templateUrl: './find-ports.page.html',
+    styleUrls: ['./find-ports.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableItemEndTemplateDirective,
+        IonicSelectableValueTemplateDirective,
+        NgIf,
+    ],
 })
 export class FindPortsPage implements OnInit {
   ports: Port[];

@@ -1,11 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { IonicSelectableMessageTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-message-template.directive';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'message-template',
-  templateUrl: './message-template.page.html',
-  styleUrls: ['./message-template.page.scss'],
+    selector: 'message-template',
+    templateUrl: './message-template.page.html',
+    styleUrls: ['./message-template.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableMessageTemplateDirective,
+        WikiUrlPipe,
+    ],
 })
 export class MessageTemplatePage implements OnInit {
   ports: Port[];

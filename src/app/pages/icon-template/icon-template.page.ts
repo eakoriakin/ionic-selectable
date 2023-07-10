@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { IonicSelectableIconTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-icon-template.directive';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'icon-template',
-  templateUrl: './icon-template.page.html',
-  styleUrls: ['./icon-template.page.scss'],
+    selector: 'icon-template',
+    templateUrl: './icon-template.page.html',
+    styleUrls: ['./icon-template.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableIconTemplateDirective,
+    ],
 })
 export class IconTemplatePage implements OnInit {
   ports: Port[];

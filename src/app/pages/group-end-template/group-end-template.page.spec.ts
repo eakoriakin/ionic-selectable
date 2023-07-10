@@ -8,9 +8,9 @@ describe('GroupEndTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupEndTemplatePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [GroupEndTemplatePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

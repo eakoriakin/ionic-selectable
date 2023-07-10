@@ -8,9 +8,9 @@ describe('GroupingPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupingPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [GroupingPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

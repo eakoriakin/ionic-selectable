@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'infinite-scroll-is-multiple',
-  templateUrl: './infinite-scroll-is-multiple.page.html',
-  styleUrls: ['./infinite-scroll-is-multiple.page.scss']
+    selector: 'infinite-scroll-is-multiple',
+    templateUrl: './infinite-scroll-is-multiple.page.html',
+    styleUrls: ['./infinite-scroll-is-multiple.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule]
 })
 export class InfiniteScrollIsMultiplePage implements OnInit {
   ports: Port[];

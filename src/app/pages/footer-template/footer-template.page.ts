@@ -1,13 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { NgIf } from '@angular/common';
+import { IonicSelectableFooterTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-footer-template.directive';
+import { IonicSelectableAddItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-add-item-template.directive';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'footer-template',
-  templateUrl: './footer-template.page.html',
-  styleUrls: ['./footer-template.page.scss'],
+    selector: 'footer-template',
+    templateUrl: './footer-template.page.html',
+    styleUrls: ['./footer-template.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableAddItemTemplateDirective,
+        ReactiveFormsModule,
+        IonicSelectableFooterTemplateDirective,
+        NgIf,
+        WikiUrlPipe,
+    ],
 })
 export class FooterTemplatePage implements OnInit {
   ports: Port[];

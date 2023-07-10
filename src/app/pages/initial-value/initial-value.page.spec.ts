@@ -8,9 +8,9 @@ describe('InitialValuePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InitialValuePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [InitialValuePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

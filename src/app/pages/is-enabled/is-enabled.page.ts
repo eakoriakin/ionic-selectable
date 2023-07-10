@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'is-enabled',
-  templateUrl: './is-enabled.page.html',
-  styleUrls: ['./is-enabled.page.scss']
+    selector: 'is-enabled',
+    templateUrl: './is-enabled.page.html',
+    styleUrls: ['./is-enabled.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule, WikiUrlPipe]
 })
 export class IsEnabledPage implements OnInit {
   ports: Port[];

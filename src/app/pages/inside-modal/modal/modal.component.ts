@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { IonicSelectableComponent } from '../../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../../services';
 import { Port } from '../../../types';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../../components/ionic-selectable/ionic-selectable.component';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+    selector: 'app-modal',
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule]
 })
 export class ModalComponent implements OnInit {
   port: Port;

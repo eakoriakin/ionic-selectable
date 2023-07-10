@@ -8,9 +8,9 @@ describe('FindPortsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FindPortsPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [FindPortsPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

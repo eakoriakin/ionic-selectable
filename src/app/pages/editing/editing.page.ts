@@ -1,13 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { IonicSelectableAddItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-add-item-template.directive';
+import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'editing',
-  templateUrl: './editing.page.html',
-  styleUrls: ['./editing.page.scss'],
+    selector: 'editing',
+    templateUrl: './editing.page.html',
+    styleUrls: ['./editing.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        IonicSelectableItemTemplateDirective,
+        IonicSelectableAddItemTemplateDirective,
+        ReactiveFormsModule,
+        WikiUrlPipe,
+    ],
 })
 export class EditingPage implements OnInit {
   ports: Port[];

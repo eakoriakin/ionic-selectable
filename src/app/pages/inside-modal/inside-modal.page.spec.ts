@@ -8,9 +8,9 @@ describe('InsideModalPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InsideModalPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [InsideModalPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 
