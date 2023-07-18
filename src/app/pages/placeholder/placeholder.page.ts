@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./placeholder.page.scss']
 })
 export class PlaceholderPage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

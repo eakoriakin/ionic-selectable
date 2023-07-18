@@ -9,10 +9,10 @@ import { Country, Port } from '../../types';
   styleUrls: ['./find-ports.page.scss'],
 })
 export class FindPortsPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  country: Port;
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  country: Port | undefined;
 
   constructor(
     public portService: PortService
@@ -26,7 +26,7 @@ export class FindPortsPage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port?.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -45,11 +45,11 @@ export class FindPortsPage implements OnInit {
 
     event.component.startSearch();
 
-    this.portService.getPortsAsync(null, null).subscribe(ports => {
+    this.portService.getPortsAsync(undefined, undefined).subscribe(ports => {
       let items = this.filterPorts(ports, text);
 
       if (this.country) {
-        items = items.filter(port => port.country.id === this.country.id);
+        items = items.filter(port => port?.country?.id === this.country?.id);
       }
 
       event.component.items = items;
@@ -61,6 +61,6 @@ export class FindPortsPage implements OnInit {
     component: IonicSelectableComponent,
     value: any
   }) {
-    this.port = null;
+    this.port = undefined;
   }
 }

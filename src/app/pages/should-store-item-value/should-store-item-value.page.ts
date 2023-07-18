@@ -9,9 +9,9 @@ import { Port } from '../../types';
   styleUrls: ['./should-store-item-value.page.scss']
 })
 export class ShouldStoreItemValuePage implements OnInit {
-  ports: Port[];
-  portId: number;
-  portIds: number[];
+  ports: Port[] = [];
+  portId: number | undefined;
+  portIds: number[] = [];
 
   constructor(
     private portService: PortService

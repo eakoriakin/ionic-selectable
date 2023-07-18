@@ -11,14 +11,14 @@ import { Country, Port } from '../../types';
   styleUrls: ['./adding-on-search-fail-async.page.scss'],
 })
 export class AddingOnSearchFailAsyncPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  port: Port;
-  portForm: FormGroup;
-  portNameControl: FormControl;
-  portCountryControl: FormControl;
-  portsSubscription: Subscription;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  ports: Port[] = [];
+  countries: Country[] = [];
+  port: Port | undefined;
+  portForm!: FormGroup;
+  portNameControl: FormControl | undefined;
+  portCountryControl: FormControl | undefined;
+  portsSubscription: Subscription | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   constructor(
     private portService: PortService,
@@ -63,7 +63,7 @@ export class AddingOnSearchFailAsyncPage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 
@@ -78,12 +78,12 @@ export class AddingOnSearchFailAsyncPage implements OnInit {
   }) {
     if (event.component.hasSearchText) {
       // Clean form.
-      this.portNameControl.reset();
-      this.portCountryControl.reset();
+      this.portNameControl?.reset();
+      this.portCountryControl?.reset();
 
       // Copy search text to port name field, so
       // user doesn't have to type again.
-      this.portNameControl.setValue(event.component.searchText);
+      this.portNameControl?.setValue(event.component.searchText);
 
       // Show form.
       event.component.showAddItemTemplate();
@@ -102,26 +102,26 @@ export class AddingOnSearchFailAsyncPage implements OnInit {
     // Create port.
     const port = new Port({
       id: this.portService.getNewPortId(),
-      name: this.portNameControl.value,
-      country: this.portCountryControl.value
+      name: this.portNameControl?.value,
+      country: this.portCountryControl?.value
     });
 
     // Show loading while port is being added to storage.
-    this.portComponent.showLoading();
+    this.portComponent?.showLoading();
 
     // Add port to storage.
     this.portService.addPortAsync(port).subscribe(() => {
       // Search for added port.
-      this.portComponent.search(port.name);
+      this.portComponent?.search(port.name);
 
       // Wait for search to complete before showing list.
-      this.portsSubscription.add(() => {
+      this.portsSubscription?.add(() => {
         // Show list.
-        this.portComponent.hideAddItemTemplate();
+        this.portComponent?.hideAddItemTemplate();
 
         // Clean form.
-        this.portNameControl.reset();
-        this.portCountryControl.reset();
+        this.portNameControl?.reset();
+        this.portCountryControl?.reset();
       });
     });
   }

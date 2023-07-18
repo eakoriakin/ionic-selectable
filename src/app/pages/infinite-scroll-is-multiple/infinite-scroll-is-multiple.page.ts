@@ -10,10 +10,10 @@ import { Port } from '../../types';
   styleUrls: ['./infinite-scroll-is-multiple.page.scss']
 })
 export class InfiniteScrollIsMultiplePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
   page = 2;
-  portsSubscription: Subscription;
+  portsSubscription: Subscription | undefined;
 
   constructor(
     private portService: PortService
@@ -26,7 +26,7 @@ export class InfiniteScrollIsMultiplePage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port?.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -59,7 +59,7 @@ export class InfiniteScrollIsMultiplePage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 

@@ -8,9 +8,9 @@ import { Port } from '../../types';
   styleUrls: ['./initial-value.page.scss']
 })
 export class InitialValuePage implements OnInit {
-  ports: Port[];
-  port: Port;
-  selectedPorts: Port[];
+  ports: Port[] = [];
+  port: Port | undefined;
+  selectedPorts: Port[] = [];
 
   constructor(
     private portService: PortService

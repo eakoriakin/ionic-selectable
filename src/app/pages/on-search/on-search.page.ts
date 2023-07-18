@@ -10,9 +10,9 @@ import { Port } from '../../types';
   styleUrls: ['./on-search.page.scss']
 })
 export class OnSearchPage implements OnInit {
-  ports: Port[];
-  port: Port;
-  portsSubscription: Subscription;
+  ports: Port[] = [];
+  port: Port | undefined;
+  portsSubscription: Subscription | undefined;
 
   constructor(
     private portService: PortService
@@ -25,7 +25,7 @@ export class OnSearchPage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1 ||
+        port?.country?.name.toLowerCase().indexOf(text) !== -1 ||
         port.id.toString().toLowerCase().indexOf(text) !== -1;
     });
   }
@@ -55,7 +55,7 @@ export class OnSearchPage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 

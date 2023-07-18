@@ -9,9 +9,9 @@ import { Port } from '../../types';
   styleUrls: ['./form-control.page.scss']
 })
 export class FormControlPage implements OnInit {
-  ports: Port[];
-  portControl: FormControl;
-  form: FormGroup;
+  ports: Port[] = [];
+  portControl: FormControl | undefined;
+  form!: FormGroup;
 
   constructor(
     private portService: PortService,
@@ -28,6 +28,6 @@ export class FormControlPage implements OnInit {
   }
 
   reset() {
-    this.portControl.reset();
+    this.portControl?.reset();
   }
 }

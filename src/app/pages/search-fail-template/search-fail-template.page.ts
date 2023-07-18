@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./search-fail-template.page.scss'],
 })
 export class SearchFailTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

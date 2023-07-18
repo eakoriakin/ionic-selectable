@@ -8,17 +8,17 @@ import { Port } from '../../types';
   styleUrls: ['./labels.page.scss']
 })
 export class LabelsPage implements OnInit {
-  ports: Port[];
-  portEmpty: Port;
-  portEmptyNative: number;
-  portDefault: Port;
-  portDefaultNative: number;
-  portFixed: Port;
-  portFixedNative: number;
-  portStacked: Port;
-  portStackedNative: number;
-  portFloating: Port;
-  portFloatingNative: number;
+  ports: Port[] = [];
+  portEmpty: Port | undefined;
+  portEmptyNative: number | undefined;
+  portDefault: Port | undefined;
+  portDefaultNative: number | undefined;
+  portFixed: Port | undefined;
+  portFixedNative: number | undefined;
+  portStacked: Port | undefined;
+  portStackedNative: number | undefined;
+  portFloating: Port | undefined;
+  portFloatingNative: number | undefined;
 
   constructor(
     private portService: PortService
@@ -29,15 +29,15 @@ export class LabelsPage implements OnInit {
   }
 
   clear() {
-    this.portEmpty = null;
-    this.portEmptyNative = null;
-    this.portDefault = null;
-    this.portDefaultNative = null;
-    this.portFixed = null;
-    this.portFixedNative = null;
-    this.portStacked = null;
-    this.portStackedNative = null;
-    this.portFloating = null;
-    this.portFloatingNative = null;
+    this.portEmpty = undefined;
+    this.portEmptyNative = undefined;
+    this.portDefault = undefined;
+    this.portDefaultNative = undefined;
+    this.portFixed = undefined;
+    this.portFixedNative = undefined;
+    this.portStacked = undefined;
+    this.portStackedNative = undefined;
+    this.portFloating = undefined;
+    this.portFloatingNative = undefined;
   }
 }

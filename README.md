@@ -3,18 +3,14 @@
 [dm-image]: https://img.shields.io/npm/dm/ionic-selectable.svg
 [dt-image]: https://img.shields.io/npm/dt/ionic-selectable.svg
 
-# Ionic Selectable v5(alpha) is here
-
-## `@ionic-selectable/core` for Vanilla JS
-
-## `@ionic-selectable/angular` for Angular
+# Ionic Selectable v6 is here for angular
 
 - Made with stencil
 - Web components
 - Suport for Vainilla JS
 - Suport for Angular
 - Other frameworks support is coming!!!
-- [More info](https://github.com/ionic-selectable/ionic-selectable/tree/v5)
+- [More info](https://github.com/ionic-selectable/ionic-selectable/tree/v6)
 
 # Ionic Selectable
 

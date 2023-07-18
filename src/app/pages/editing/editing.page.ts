@@ -10,13 +10,13 @@ import { Country, Port } from '../../types';
   styleUrls: ['./editing.page.scss'],
 })
 export class EditingPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  port: Port;
-  portForm: FormGroup;
-  portNameControl: FormControl;
-  portCountryControl: FormControl;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  portForm!: FormGroup;
+  portNameControl: FormControl | undefined;
+  portCountryControl: FormControl | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   constructor(
     private portService: PortService,
@@ -40,12 +40,12 @@ export class EditingPage implements OnInit {
     component: IonicSelectableComponent
   }) {
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Copy search text to port name field, so
     // user doesn't have to type again.
-    this.portNameControl.setValue(event.component.searchText);
+    this.portNameControl?.setValue(event.component.searchText);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -56,8 +56,8 @@ export class EditingPage implements OnInit {
     item: Port
   }) {
     // Fill form.
-    this.portNameControl.setValue(event.item.name);
-    this.portCountryControl.setValue(event.item.country);
+    this.portNameControl?.setValue(event.item.name);
+    this.portCountryControl?.setValue(event.item.country);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -78,32 +78,32 @@ export class EditingPage implements OnInit {
     // Create port.
     const port = new Port({
       id: this.portService.getNewPortId(),
-      name: this.portNameControl.value,
-      country: this.portCountryControl.value
+      name: this.portNameControl?.value,
+      country: this.portCountryControl?.value
     });
 
     // Add port to storage.
     this.portService.addPort(port);
 
     // Add port to the top of list.
-    this.portComponent.addItem(port).then(() => {
-      this.portComponent.search(port.name);
+    this.portComponent?.addItem(port).then(() => {
+      this.portComponent?.search(port.name);
     });
 
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Show list.
-    this.portComponent.hideAddItemTemplate();
+    this.portComponent?.hideAddItemTemplate();
   }
 
   savePort(port: Port) {
     // Change port.
-    port.name = this.portNameControl.value;
-    port.country = this.portCountryControl.value;
+    port.name = this.portNameControl?.value;
+    port.country = this.portCountryControl?.value;
 
     // Show list.
-    this.portComponent.hideAddItemTemplate();
+    this.portComponent?.hideAddItemTemplate();
   }
 }

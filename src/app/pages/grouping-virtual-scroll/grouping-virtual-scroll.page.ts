@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./grouping-virtual-scroll.page.scss'],
 })
 export class GroupingVirtualScrollPage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService
@@ -20,10 +20,10 @@ export class GroupingVirtualScrollPage implements OnInit {
   }
 
   getGroupText(port: Port, portIndex: number, ports: Port[]) {
-    if (portIndex === 0 || port.country.id !== ports[portIndex - 1].country.id) {
-      return port.country.name;
+    if (portIndex === 0 || port?.country?.id !== ports[portIndex - 1]?.country?.id) {
+      return port?.country?.name;
     }
 
-    return null;
+    return undefined;
   }
 }

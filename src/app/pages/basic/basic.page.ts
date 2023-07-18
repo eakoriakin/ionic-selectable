@@ -9,8 +9,8 @@ import { Port } from '../../types';
   styleUrls: ['./basic.page.scss'],
 })
 export class BasicPage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

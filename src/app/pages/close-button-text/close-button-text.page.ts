@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./close-button-text.page.scss']
 })
 export class CloseButtonTextPage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

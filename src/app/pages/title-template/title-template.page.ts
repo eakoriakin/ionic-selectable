@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./title-template.page.scss'],
 })
 export class TitleTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

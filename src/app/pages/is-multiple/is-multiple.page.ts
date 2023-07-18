@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./is-multiple.page.scss']
 })
 export class IsMultiplePage implements OnInit {
-  ports: Port[];
-  selectedPorts: Port[];
+  ports: Port[] = [];
+  selectedPorts: Port[] = [];
 
   constructor(
     private portService: PortService

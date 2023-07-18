@@ -9,9 +9,9 @@ import { Port } from '../../types';
   styleUrls: ['./icon-template.page.scss'],
 })
 export class IconTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
-  portCustom: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
+  portCustom: Port | undefined;
 
   constructor(
     private portService: PortService

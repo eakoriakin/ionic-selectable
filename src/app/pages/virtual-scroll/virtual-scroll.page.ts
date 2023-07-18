@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./virtual-scroll.page.scss']
 })
 export class VirtualScrollPage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

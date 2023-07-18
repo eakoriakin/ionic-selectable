@@ -9,9 +9,9 @@ import { Port } from '../../types';
   styleUrls: ['./scroll-to-top.page.scss']
 })
 export class ScrollToTopPage implements OnInit {
-  ports: Port[];
-  port: Port;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  ports: Port[] = [];
+  port: Port | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   constructor(
     private portService: PortService
@@ -21,7 +21,7 @@ export class ScrollToTopPage implements OnInit {
     this.ports = this.portService.getPorts();
 
     setInterval(() => {
-      this.portComponent.scrollToTop().then(() => {
+      this.portComponent?.scrollToTop().then(() => {
         console.log('Scroll completed.');
       }).catch(() => { });
     }, 5000);

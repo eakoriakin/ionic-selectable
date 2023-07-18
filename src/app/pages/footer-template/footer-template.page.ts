@@ -10,13 +10,13 @@ import { Country, Port } from '../../types';
   styleUrls: ['./footer-template.page.scss'],
 })
 export class FooterTemplatePage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  port: Port;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
-  portForm: FormGroup;
-  portNameControl: FormControl;
-  portCountryControl: FormControl;
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
+  portForm!: FormGroup;
+  portNameControl: FormControl | undefined;
+  portCountryControl: FormControl | undefined;
 
   constructor(
     private portService: PortService,
@@ -37,7 +37,7 @@ export class FooterTemplatePage implements OnInit {
   }
 
   toggleItems() {
-    this.portComponent.toggleItems(this.portComponent.itemsToConfirm.length ? false : true);
+    this.portComponent?.toggleItems(this.portComponent.itemsToConfirm.length ? false : true);
 
     // Confirm items and close Modal
     // without having the user to click Confirm button.
@@ -46,26 +46,26 @@ export class FooterTemplatePage implements OnInit {
   }
 
   clear() {
-    this.portComponent.clear();
-    this.portComponent.close();
+    this.portComponent?.clear();
+    this.portComponent?.close();
   }
 
   confirm() {
-    this.portComponent.confirm();
-    this.portComponent.close();
+    this.portComponent?.confirm();
+    this.portComponent?.close();
   }
 
   onAddPort() {
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Copy search text to port name field, so
     // user doesn't have to type again.
-    this.portNameControl.setValue(this.portComponent.searchText);
+    this.portNameControl?.setValue(this.portComponent?.searchText);
 
     // Show form.
-    this.portComponent.showAddItemTemplate();
+    this.portComponent?.showAddItemTemplate();
   }
 
   onSavePort(event: {
@@ -73,8 +73,8 @@ export class FooterTemplatePage implements OnInit {
     item: Port
   }) {
     // Fill form.
-    this.portNameControl.setValue(event.item.name);
-    this.portCountryControl.setValue(event.item.country);
+    this.portNameControl?.setValue(event.item.name);
+    this.portCountryControl?.setValue(event.item.country);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -84,32 +84,32 @@ export class FooterTemplatePage implements OnInit {
     // Create port.
     const port = new Port({
       id: this.portService.getNewPortId(),
-      name: this.portNameControl.value,
-      country: this.portCountryControl.value
+      name: this.portNameControl?.value,
+      country: this.portCountryControl?.value
     });
 
     // Add port to storage.
     this.portService.addPort(port);
 
     // Add port to the top of list.
-    this.portComponent.addItem(port).then(() => {
-      this.portComponent.search(port.name);
+    this.portComponent?.addItem(port).then(() => {
+      this.portComponent?.search(port.name);
     });
 
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Show list.
-    this.portComponent.hideAddItemTemplate();
+    this.portComponent?.hideAddItemTemplate();
   }
 
   savePort(port: Port) {
     // Change port.
-    port.name = this.portNameControl.value;
-    port.country = this.portCountryControl.value;
+    port.name = this.portNameControl?.value;
+    port.country = this.portCountryControl?.value;
 
     // Show list.
-    this.portComponent.hideAddItemTemplate();
+    this.portComponent?.hideAddItemTemplate();
   }
 }
