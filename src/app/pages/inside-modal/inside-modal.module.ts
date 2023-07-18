@@ -23,9 +23,6 @@ const routes: Routes = [{
   declarations: [
     InsideModalPage,
     ModalComponent
-  ],
-  entryComponents: [
-    ModalComponent
   ]
 })
 export class InsideModalPageModule { }

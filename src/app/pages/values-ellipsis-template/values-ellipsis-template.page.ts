@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./values-ellipsis-template.page.scss'],
 })
 export class ValuesEllipsisTemplatePage implements OnInit {
-  ports: Port[];
-  selectedPorts: Port[];
+  ports: Port[] = [];
+  selectedPorts: Port[] = [];
 
   constructor(
     private portService: PortService

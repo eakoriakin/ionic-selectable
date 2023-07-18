@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./group-end-template.page.scss'],
 })
 export class GroupEndTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

@@ -9,9 +9,9 @@ import { Port } from '../../types';
   styleUrls: ['./disabling-items.page.scss'],
 })
 export class DisablingItemsPage implements OnInit {
-  @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent;
-  @ViewChild('dischargingPortsComponent') dischargingPortsComponent: IonicSelectableComponent;
-  ports: Port[];
+  @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent | undefined;
+  @ViewChild('dischargingPortsComponent') dischargingPortsComponent: IonicSelectableComponent | undefined;
+  ports: Port[] = [];
   loadingPorts: Port[] = [];
   dischargingPorts: Port[] = [];
   disabledLoadingPorts: Port[] = [];
@@ -40,8 +40,8 @@ export class DisablingItemsPage implements OnInit {
   }
 
   clear() {
-    this.loadingPortsComponent.clear();
-    this.dischargingPortsComponent.clear();
+    this.loadingPortsComponent?.clear();
+    this.dischargingPortsComponent?.clear();
     this.disabledDischargingPorts = [];
     this.disabledLoadingPorts = [];
   }

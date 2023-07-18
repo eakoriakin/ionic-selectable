@@ -9,10 +9,10 @@ import { Country, Port } from '../../types';
   styleUrls: ['./cascading.page.scss']
 })
 export class CascadingPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  country: Country;
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  country: Country | undefined;
 
   constructor(
     private portService: PortService
@@ -28,11 +28,11 @@ export class CascadingPage implements OnInit {
   }) {
     if (event.value) {
       this.ports = this.portService.getPorts().filter(port => {
-        return port.country.id === event.value.id;
+        return port?.country?.id === event.value.id;
       });
     } else {
       this.ports = [];
-      this.port = null;
+      this.port = undefined;
     }
   }
 }

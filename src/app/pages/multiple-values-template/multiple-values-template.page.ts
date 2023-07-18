@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./multiple-values-template.page.scss'],
 })
 export class MultipleValuesTemplatePage implements OnInit {
-  ports: Port[];
-  selectedPorts: Port[];
+  ports: Port[] = [];
+  selectedPorts: Port[] = [];
 
   constructor(
     private portService: PortService

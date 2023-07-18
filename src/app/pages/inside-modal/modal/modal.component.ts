@@ -11,9 +11,9 @@ import { Port } from '../../../types';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-  port: Port;
-  ports: Port[];
-  portsSubscription: Subscription;
+  ports: Port[] = [];
+  port: Port | undefined;
+  portsSubscription: Subscription | undefined;
 
   constructor(
     private modalController: ModalController,
@@ -29,7 +29,7 @@ export class ModalComponent implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port?.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -58,7 +58,7 @@ export class ModalComponent implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 

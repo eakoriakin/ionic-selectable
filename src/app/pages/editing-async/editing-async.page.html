@@ -67,7 +67,7 @@
               <ion-col>
                 <ion-button expand="full"
                   (click)="isAdd ? addPort() : savePort(port)"
-                  [disabled]="!portForm.valid">
+                  [disabled]="!portForm?.valid">
                   {{isAdd ? 'Add' : 'Save'}}
                 </ion-button>
               </ion-col>

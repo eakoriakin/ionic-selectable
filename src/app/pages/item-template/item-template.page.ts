@@ -8,8 +8,8 @@ import { Port } from '../../types';
   styleUrls: ['./item-template.page.scss'],
 })
 export class ItemTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  ports: Port[] = [];
+  port: Port | undefined;
 
   constructor(
     private portService: PortService

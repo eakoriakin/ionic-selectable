@@ -8,11 +8,11 @@ import { PortService } from '../../services';
   styleUrls: ['./primitive-types.page.scss']
 })
 export class PrimitiveTypesPage implements OnInit {
-  ports: string[];
-  terminals: number[];
-  port: string;
-  terminal: number;
-  towageRequired: boolean;
+  ports: string[] = [];
+  terminals: number[] = [];
+  port: string | undefined;
+  terminal: number | undefined;
+  towageRequired: boolean | undefined;
 
   constructor(
     private portService: PortService

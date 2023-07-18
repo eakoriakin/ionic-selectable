@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
 import { IonicSelectableCloseButtonTemplateDirective } from './ionic-selectable-close-button-template.directive';
 import { IonicSelectableFooterTemplateDirective } from './ionic-selectable-footer-template.directive';
@@ -60,7 +61,8 @@ const components = [IonicSelectableComponent, IonicSelectableModalComponent],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    ScrollingModule
   ],
   declarations: [
     ...components,
@@ -70,6 +72,5 @@ const components = [IonicSelectableComponent, IonicSelectableModalComponent],
     ...components,
     ...directives
   ],
-  entryComponents: components
 })
 export class IonicSelectableModule { }

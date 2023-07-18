@@ -30,11 +30,11 @@
       </ionic-selectable>
     </ion-item>
     <ion-item>
-      <ion-badge slot="end" color="danger" *ngIf="!form.valid">Invalid
+      <ion-badge slot="end" color="danger" *ngIf="!form?.valid">Invalid
       </ion-badge>
-      <ion-badge slot="end" color="secondary" *ngIf="form.valid">Valid
+      <ion-badge slot="end" color="secondary" *ngIf="form?.valid">Valid
       </ion-badge>
-      <ion-button (click)="clear()" [disabled]="!form.valid">Clear</ion-button>
+      <ion-button (click)="clear()" [disabled]="!form?.valid">Clear</ion-button>
     </ion-item>
   </form>
 </ion-content>

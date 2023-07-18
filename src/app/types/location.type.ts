@@ -1,5 +1,3 @@
-import { ILocation } from './location.interface';
-
 export class Location implements ILocation {
   id: number;
   name: string;
@@ -8,4 +6,9 @@ export class Location implements ILocation {
     this.id = port.id;
     this.name = port.name;
   }
+}
+
+export interface ILocation {
+  id: number;
+  name: string;
 }

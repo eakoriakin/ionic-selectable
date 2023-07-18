@@ -3,6 +3,7 @@ $placeholder-color: #999;
 $padding: 16px;
 $item-padding-end: 16px;
 $item-padding-end-ios: 8px;
+
 .item {
   &-ionic-selectable {
     // Vertical allignment for label.
@@ -12,6 +13,60 @@ $item-padding-end-ios: 8px;
     ion-label {
       flex: 1;
       max-width: initial;
+    }
+  }
+}
+
+.ionic-selectable-modal {
+  .ionic-selectable-group {
+    ion-item-divider {
+      padding-right: $item-padding-end;
+    }
+  }
+  .ionic-selectable-item-button {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  &-ios {
+    .ionic-selectable-message {
+      padding: 8px;
+    }
+    .ionic-selectable-group {
+      ion-item-divider {
+        padding-right: $item-padding-end-ios;
+      }
+    }
+  }
+  &-md {
+    .ionic-selectable-message {
+      padding: 8px 12px;
+    }
+  }
+  &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
+    .footer .col:first-child {
+      padding-right: $padding / 2;
+    }
+    .footer .col:last-child {
+      padding-left: $padding / 2;
+    }
+  }
+  &.ionic-selectable-modal-is-searching {
+    .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+  &.ionic-selectable-modal-is-add-item-template-visible {
+    // Hide scroll from list content.
+    // Use immediate child selector as we don't want to apply the rule
+    // to content inside add item template defined by user.
+    > .content > .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+
+  ion-header {
+    ion-toolbar:first-of-type {
+      padding-top: var(--ion-safe-area-top, 0);
     }
   }
 }
@@ -129,16 +184,6 @@ $item-padding-end-ios: 8px;
       }
     }
   }
-  &:not(&-has-label) {
-    /*Occupy 100% of width when there's no label.*/
-    max-width: 100%;
-    width: 100%;
-    &-value {
-      &-item {
-        text-align: right;
-      }
-    }
-  }
   &-label-stacked,
   &-label-floating {
     align-self: stretch;
@@ -178,56 +223,18 @@ $item-padding-end-ios: 8px;
   }
 }
 
-.ionic-selectable-modal {
-  .ionic-selectable-group {
-    ion-item-divider {
-      padding-right: $item-padding-end;
+.ionic-selectable:not(.ionic-selectable-has-label) {
+  /*Occupy 100% of width when there's no label.*/
+  max-width: 100%;
+  width: 100%;
+  .ionic-selectable-value {
+    .ionic-selectable-value-item {
+      text-align: left;
     }
   }
-  .ionic-selectable-item-button {
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-  &-ios {
-    .ionic-selectable-message {
-      padding: 8px;
-    }
-    .ionic-selectable-group {
-      ion-item-divider {
-        padding-right: $item-padding-end-ios;
-      }
-    }
-  }
-  &-md {
-    .ionic-selectable-message {
-      padding: 8px 12px;
-    }
-  }
-  &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
-    .footer .col:first-child {
-      padding-right: $padding / 2;
-    }
-    .footer .col:last-child {
-      padding-left: $padding / 2;
-    }
-  }
-  &.ionic-selectable-modal-is-searching {
-    .scroll-content {
-      overflow-y: hidden;
-    }
-  }
-  &.ionic-selectable-modal-is-add-item-template-visible {
-    // Hide scroll from list content.
-    // Use immediate child selector as we don't want to apply the rule
-    // to content inside add item template defined by user.
-    > .content > .scroll-content {
-      overflow-y: hidden;
-    }
-  }
+}
 
-  ion-header {
-    ion-toolbar:first-of-type {
-      padding-top: var(--ion-safe-area-top, 0);
-    }
-  }
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  width: 100%;
 }

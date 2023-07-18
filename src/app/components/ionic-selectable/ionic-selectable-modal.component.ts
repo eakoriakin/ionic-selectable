@@ -8,13 +8,13 @@ import { IonicSelectableComponent } from './ionic-selectable.component';
 })
 export class IonicSelectableModalComponent implements AfterViewInit {
   @ViewChild(IonContent)
-  _content: IonContent;
-  _header: HTMLElement;
+  _content: IonContent | undefined;
+  _header: HTMLElement | undefined;
   selectComponent: IonicSelectableComponent;
   @ViewChild('searchbarComponent')
-  _searchbarComponent: IonSearchbar;
+  _searchbarComponent: IonSearchbar | undefined;
   @ViewChild(IonInfiniteScroll)
-  _infiniteScroll: IonInfiniteScroll;
+  _infiniteScroll: IonInfiniteScroll | undefined;
   @HostBinding('class.ionic-selectable-modal')
   _cssClass = true;
   @HostBinding('class.ionic-selectable-modal-can-clear')
@@ -26,15 +26,15 @@ export class IonicSelectableModalComponent implements AfterViewInit {
     return this.selectComponent.isMultiple;
   }
   @HostBinding('class.ionic-selectable-modal-is-searching')
-  get _isSearchingCssClass(): boolean {
+  get _isSearchingCssClass(): boolean | undefined {
     return this.selectComponent._isSearching;
   }
   @HostBinding('class.ionic-selectable-modal-ios')
-  get _isIos(): boolean {
+  get _isIos(): boolean | undefined {
     return this.selectComponent._isIos;
   }
   @HostBinding('class.ionic-selectable-modal-md')
-  _isMD(): boolean {
+  _isMD(): boolean | undefined {
     return this.selectComponent._isMD;
   }
   @HostBinding('class.ionic-selectable-modal-is-add-item-template-visible')
@@ -58,7 +58,7 @@ export class IonicSelectableModalComponent implements AfterViewInit {
 
     if (!this.selectComponent._isNullOrWhiteSpace(this.selectComponent.value)) {
       if (this.selectComponent.isMultiple) {
-        this.selectComponent.value.forEach(item => {
+        this.selectComponent.value.forEach((item: any) => {
           this.selectComponent._selectedItems.push(item);
         });
       } else {
@@ -75,7 +75,7 @@ export class IonicSelectableModalComponent implements AfterViewInit {
     if (this._searchbarComponent && this.selectComponent.shouldFocusSearchbar) {
       // Focus after a delay because focus doesn't work without it.
       setTimeout(() => {
-        this._searchbarComponent.setFocus();
+        this._searchbarComponent?.setFocus();
       }, 1000);
     }
   }
