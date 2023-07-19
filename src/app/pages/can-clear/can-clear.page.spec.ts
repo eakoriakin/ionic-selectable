@@ -8,9 +8,9 @@ describe('CanClearPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CanClearPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [CanClearPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

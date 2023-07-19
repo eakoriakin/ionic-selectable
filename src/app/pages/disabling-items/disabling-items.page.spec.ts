@@ -8,9 +8,9 @@ describe('DisablingItemsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DisablingItemsPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [DisablingItemsPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

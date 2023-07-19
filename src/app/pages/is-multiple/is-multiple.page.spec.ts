@@ -8,9 +8,9 @@ describe('IsMultiplePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [IsMultiplePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [IsMultiplePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

@@ -8,9 +8,9 @@ describe('PrimitiveTypesPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PrimitiveTypesPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [PrimitiveTypesPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

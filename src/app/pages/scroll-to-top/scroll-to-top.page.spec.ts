@@ -8,9 +8,9 @@ describe('ScrollToTopPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ScrollToTopPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [ScrollToTopPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

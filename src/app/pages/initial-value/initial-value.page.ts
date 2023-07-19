@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'initial-value',
-  templateUrl: './initial-value.page.html',
-  styleUrls: ['./initial-value.page.scss']
+    selector: 'initial-value',
+    templateUrl: './initial-value.page.html',
+    styleUrls: ['./initial-value.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule]
 })
 export class InitialValuePage implements OnInit {
   ports: Port[];

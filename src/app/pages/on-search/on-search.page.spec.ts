@@ -8,9 +8,9 @@ describe('OnSearchPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [OnSearchPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [OnSearchPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

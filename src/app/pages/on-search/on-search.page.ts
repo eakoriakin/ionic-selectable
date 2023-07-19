@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'on-search',
-  templateUrl: './on-search.page.html',
-  styleUrls: ['./on-search.page.scss']
+    selector: 'on-search',
+    templateUrl: './on-search.page.html',
+    styleUrls: ['./on-search.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule, IonicSelectableItemTemplateDirective, WikiUrlPipe]
 })
 export class OnSearchPage implements OnInit {
   ports: Port[];

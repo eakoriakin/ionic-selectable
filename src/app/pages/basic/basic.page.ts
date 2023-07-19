@@ -1,12 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'basic',
-  templateUrl: './basic.page.html',
-  styleUrls: ['./basic.page.scss'],
+    selector: 'basic',
+    templateUrl: './basic.page.html',
+    styleUrls: ['./basic.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+    ],
 })
 export class BasicPage implements OnInit {
   ports: Port[];

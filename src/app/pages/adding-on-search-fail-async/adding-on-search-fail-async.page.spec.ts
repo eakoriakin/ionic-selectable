@@ -8,9 +8,9 @@ describe('AddingOnSearchFailAsyncPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddingOnSearchFailAsyncPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [AddingOnSearchFailAsyncPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

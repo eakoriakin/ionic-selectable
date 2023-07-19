@@ -8,9 +8,9 @@ describe('ShouldStoreItemValuePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ShouldStoreItemValuePage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [ShouldStoreItemValuePage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

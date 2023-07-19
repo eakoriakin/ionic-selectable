@@ -8,9 +8,9 @@ describe('LabelsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LabelsPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [LabelsPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

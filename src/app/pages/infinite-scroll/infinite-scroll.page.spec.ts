@@ -8,9 +8,9 @@ describe('InfiniteScrollPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InfiniteScrollPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [InfiniteScrollPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

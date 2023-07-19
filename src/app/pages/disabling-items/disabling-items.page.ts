@@ -1,12 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
+import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'disabling-items',
-  templateUrl: './disabling-items.page.html',
-  styleUrls: ['./disabling-items.page.scss'],
+    selector: 'disabling-items',
+    templateUrl: './disabling-items.page.html',
+    styleUrls: ['./disabling-items.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        IonicSelectableComponent,
+        FormsModule,
+        WikiUrlPipe,
+    ],
 })
 export class DisablingItemsPage implements OnInit {
   @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent;

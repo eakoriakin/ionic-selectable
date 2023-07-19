@@ -1,6 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[ionicSelectableAddItemTemplate]',
+    selector: '[ionicSelectableAddItemTemplate]',
+    standalone: true,
 })
 export class IonicSelectableAddItemTemplateDirective { }

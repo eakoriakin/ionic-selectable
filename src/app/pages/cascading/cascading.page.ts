@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'cascading',
-  templateUrl: './cascading.page.html',
-  styleUrls: ['./cascading.page.scss']
+    selector: 'cascading',
+    templateUrl: './cascading.page.html',
+    styleUrls: ['./cascading.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule]
 })
 export class CascadingPage implements OnInit {
   ports: Port[];

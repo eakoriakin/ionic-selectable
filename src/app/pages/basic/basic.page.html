@@ -16,7 +16,7 @@
     <ion-label>Port</ion-label>
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
       itemTextField="name" [items]="ports" [canSearch]="true"
-      (onChange)="portChange($event)">
+      (onChange)="portChange($event)" aria-label="Port">
     </ionic-selectable>
   </ion-item>
 </ion-content>

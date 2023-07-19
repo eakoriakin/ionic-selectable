@@ -8,9 +8,9 @@ describe('CascadingPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CascadingPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [CascadingPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

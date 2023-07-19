@@ -8,9 +8,9 @@ describe('AddingOnSearchFailPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddingOnSearchFailPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [AddingOnSearchFailPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

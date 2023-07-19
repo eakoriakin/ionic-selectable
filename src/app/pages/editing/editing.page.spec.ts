@@ -8,9 +8,9 @@ describe('EditingPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [EditingPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [EditingPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

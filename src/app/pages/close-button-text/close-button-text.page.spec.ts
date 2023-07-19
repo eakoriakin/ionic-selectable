@@ -8,9 +8,9 @@ describe('CloseButtonTextPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CloseButtonTextPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [CloseButtonTextPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

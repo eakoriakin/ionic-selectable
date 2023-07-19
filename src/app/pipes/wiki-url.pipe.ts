@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'wikiUrl'
+    name: 'wikiUrl',
+    standalone: true
 })
 export class WikiUrlPipe implements PipeTransform {
   transform(memberName: string): any {

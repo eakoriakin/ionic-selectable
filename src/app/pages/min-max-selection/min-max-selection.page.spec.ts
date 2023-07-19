@@ -8,9 +8,9 @@ describe('MinMaxSelectionPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MinMaxSelectionPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [MinMaxSelectionPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

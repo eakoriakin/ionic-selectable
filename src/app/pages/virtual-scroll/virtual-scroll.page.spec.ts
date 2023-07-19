@@ -8,9 +8,9 @@ describe('VirtualScrollPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [VirtualScrollPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [VirtualScrollPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 

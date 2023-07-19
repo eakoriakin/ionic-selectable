@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
+import { IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-value-template.directive';
+import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
+import { FormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'primitive-types',
-  templateUrl: './primitive-types.page.html',
-  styleUrls: ['./primitive-types.page.scss']
+    selector: 'primitive-types',
+    templateUrl: './primitive-types.page.html',
+    styleUrls: ['./primitive-types.page.scss'],
+    standalone: true,
+    imports: [IonicModule, IonicSelectableComponent, FormsModule, IonicSelectableItemTemplateDirective, IonicSelectableValueTemplateDirective]
 })
 export class PrimitiveTypesPage implements OnInit {
   ports: string[];

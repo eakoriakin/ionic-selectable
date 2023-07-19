@@ -8,9 +8,9 @@ describe('BasicPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BasicPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    imports: [BasicPage],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
       .compileComponents();
   }));
 
