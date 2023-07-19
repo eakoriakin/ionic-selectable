@@ -11,8 +11,8 @@
 
 - Made with stencil
 - Web components
-- Suport for Vainilla JS
-- Suport for Angular
+- Support for Vanilla JS
+- Support for Angular
 - Other frameworks support is coming!!!
 - [More info](https://github.com/ionic-selectable/ionic-selectable/tree/v5)
 
@@ -42,6 +42,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 - Ionic 3 (3.6.0 - 3.9.2)
 - Ionic 4 (>=4.0.0)
+- Ionic 7 Standalone Component (>=5.0.0)
 
 ## Features
 
@@ -68,6 +69,10 @@ npm install ionic-selectable@3.5.0 --save
 
 // Ionic 4
 npm install ionic-selectable@4.8.0 --save
+
+// Ionic 7 with Angular 16 Standalone component
+npm install ionic-selectable@5.0.0 --save
+
 ```
 
 2. Import it.  
@@ -82,6 +87,18 @@ import { IonicSelectableModule } from 'ionic-selectable';
   ]
 })
 export class AppModule { }
+
+```
+**For Angular 16 standalone component**
+
+```
+import { IonicSelectableComponent } from 'ionic-selectable';
+
+@Component({
+    ...,
+    standalone: true,
+    imports: [IonicSelectableComponent]
+})
 
 ```
 
