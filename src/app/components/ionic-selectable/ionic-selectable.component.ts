@@ -808,7 +808,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
     private _element: ElementRef,
     private _renderer: Renderer2
   ) {
-    if (!this.items || !this.items.length) {
+    if (!this.items?.length) {
       this.items = [];
     }
 
@@ -955,7 +955,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       // Default filtering.
       let groups = [];
 
-      if (!this._searchText || !this._searchText.trim()) {
+      if (!this._searchText?.trim()) {
         groups = this._groups;
       } else {
         const filterText = this._searchText.trim().toLowerCase();
@@ -1197,7 +1197,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   private _areGroupsEmpty(groups: any) {
     return groups.length === 0 || groups.every((group: any) => {
-      return !group.items || group.items.length === 0;
+      return !group.items?.length;
     });
   }
 
@@ -1227,7 +1227,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
       items: items || []
     }];
 
-    if (items && items.length) {
+    if (items?.length) {
       if (this._hasGroups) {
         groups = [];
 
@@ -1366,7 +1366,6 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
     if (itemsChanges) {
       this._setItems(this.items);
-      this.value = this.value;
 
       this.onItemsChange.emit({
         component: this
@@ -1629,7 +1628,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
    */
   toggleItems(isSelect: boolean, items?: any[]) {
     if (isSelect) {
-      const hasItems = items && items.length;
+      const hasItems = items?.length;
       let itemsToToggle = this._groups.reduce((allItems, group) => {
         return allItems.concat(group.items);
       }, []);
