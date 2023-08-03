@@ -37,7 +37,7 @@
     <div class="ionic-selectable-spinner-background"></div>
     <ion-spinner></ion-spinner>
   </div>
-  <ion-list class="ion-no-margin" *ngIf="!selectComponent.hasVirtualScroll && selectComponent._hasFilteredItems">
+  <ion-list class="ion-no-margin" *ngIf="selectComponent._hasFilteredItems">
     <ion-item-group *ngFor="let group of selectComponent._filteredGroups" class="ionic-selectable-group">
       <ion-item-divider *ngIf="selectComponent._hasGroups"
         [color]="selectComponent.groupColor ? selectComponent.groupColor : null">
@@ -98,46 +98,10 @@
       {{selectComponent.searchFailText}}
     </div>
   </div>
-  <ion-infinite-scroll *ngIf="!selectComponent.hasVirtualScroll" [disabled]="!selectComponent.hasInfiniteScroll"
+  <ion-infinite-scroll [disabled]="!selectComponent.hasInfiniteScroll"
     (ionInfinite)="selectComponent._getMoreItems()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <div *ngFor="let item of selectComponent._filteredGroups[0].items">
-    <ion-item button="true" detail="false" *virtualItem="let item" (click)="selectComponent._select(item)"
-      class="ionic-selectable-item" [ngClass]="{
-        'ionic-selectable-item-is-selected': selectComponent._isItemSelected(item),
-        'ionic-selectable-item-is-disabled': selectComponent._isItemDisabled(item)
-      }" [disabled]="selectComponent._isItemDisabled(item)">
-      <!-- Need span for text ellipsis. -->
-      <span *ngIf="selectComponent.itemTemplate" [ngTemplateOutlet]="selectComponent.itemTemplate"
-        [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
-      </span>
-      <!-- Need ion-label for text ellipsis. -->
-      <ion-label *ngIf="!selectComponent.itemTemplate">
-        {{selectComponent._formatItem(item)}}
-      </ion-label>
-      <div *ngIf="selectComponent.itemEndTemplate" slot="end">
-        <div [ngTemplateOutlet]="selectComponent.itemEndTemplate"
-          [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
-        </div>
-      </div>
-      <span *ngIf="selectComponent.itemIconTemplate" [ngTemplateOutlet]="selectComponent.itemIconTemplate"
-        [ngTemplateOutletContext]="{ item: item, isItemSelected: selectComponent._isItemSelected(item) }">
-      </span>
-      <ion-icon *ngIf="!selectComponent.itemIconTemplate"
-        [name]="selectComponent._isItemSelected(item) ? 'checkmark-circle' : 'radio-button-off'"
-        [color]="selectComponent._isItemSelected(item) ? 'primary' : null" [slot]="selectComponent.itemIconSlot">
-      </ion-icon>
-      <ion-button *ngIf="selectComponent.canSaveItem" class="ionic-selectable-item-button" slot="end" fill="outline"
-        (click)="selectComponent._saveItem($event, item)">
-        <ion-icon slot="icon-only" name="md-create"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="selectComponent.canDeleteItem" class="ionic-selectable-item-button" slot="end" fill="outline"
-        (click)="selectComponent._deleteItemClick($event, item)">
-        <ion-icon slot="icon-only" name="md-trash"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </div>
 </ion-content>
 <div class="ionic-selectable-add-item-template" *ngIf="selectComponent._isAddItemTemplateVisible"
   [ngStyle]="{ 'top.px': _header.offsetHeight }">
