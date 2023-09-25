@@ -42,7 +42,7 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 - Ionic 3 (3.6.0 - 3.9.2)
 - Ionic 4 (>=4.0.0)
-- Ionic 7 Standalone Component (>=5.0.0)
+- Ionic 7 Standalone Component (>=5.0.2)
 
 ## Features
 
@@ -71,7 +71,7 @@ npm install ionic-selectable@3.5.0 --save
 npm install ionic-selectable@4.8.0 --save
 
 // Ionic 7 with Angular 16 Standalone component
-npm install ionic-selectable@5.0.0 --save
+npm install ionic-selectable@5.0.2 --save
 
 ```
 
