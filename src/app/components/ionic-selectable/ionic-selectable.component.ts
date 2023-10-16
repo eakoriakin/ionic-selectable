@@ -1126,7 +1126,7 @@ export class IonicSelectableComponent implements ControlValueAccessor, OnInit, D
 
   _setItemsToConfirm(items: any[]) {
     // Return a copy of original array, so it couldn't be changed from outside.
-    this._itemsToConfirm = structuredClone(items);
+    this._itemsToConfirm = [].concat(items);
   }
 
   _doSelect(selectedItem: any) {
