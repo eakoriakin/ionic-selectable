@@ -1,0 +1,11 @@
+/* To learn more about this file see: https://angular.dev/reference/configs/tsconfig. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "rootDir": "./src",
+    "types": []
+  },
+  "files": ["src/main.ts", "src/zone-flags.ts"],
+  "include": ["src/**/*.d.ts"]
+}

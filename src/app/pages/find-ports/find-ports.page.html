@@ -29,9 +29,11 @@
       itemTextField="name" [items]="ports" [canSearch]="true" [canClear]="true"
       (onSearch)="searchPorts($event)">
       <ng-template ionicSelectableItemEndTemplate let-port="item">
-        <ion-badge color="light" *ngIf="port.timeZone">
-          UTC{{portService.formatTimeZone(port.timeZone)}}
-        </ion-badge>
+        @if (port.timeZone) {
+          <ion-badge color="light">
+            UTC{{portService.formatTimeZone(port.timeZone)}}
+          </ion-badge>
+        }
       </ng-template>
     </ionic-selectable>
   </ion-item>

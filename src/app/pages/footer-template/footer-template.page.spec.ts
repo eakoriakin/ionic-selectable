@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FooterTemplatePage } from './footer-template.page';
 
@@ -8,9 +9,10 @@ describe('FooterTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [FooterTemplatePage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [FooterTemplatePage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

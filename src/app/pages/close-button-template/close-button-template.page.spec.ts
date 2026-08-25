@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CloseButtonTemplatePage } from './close-button-template.page';
 
@@ -9,9 +10,10 @@ describe('CloseButtonTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [CloseButtonTemplatePage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [CloseButtonTemplatePage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

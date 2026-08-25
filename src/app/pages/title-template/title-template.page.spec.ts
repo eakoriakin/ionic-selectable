@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TitleTemplatePage } from './title-template.page';
 
@@ -8,9 +9,10 @@ describe('TitleTemplatePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [TitleTemplatePage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [TitleTemplatePage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

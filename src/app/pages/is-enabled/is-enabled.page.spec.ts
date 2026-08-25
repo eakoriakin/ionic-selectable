@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IsEnabledPage } from './is-enabled.page';
 
@@ -8,9 +9,10 @@ describe('IsEnabledPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [IsEnabledPage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [IsEnabledPage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

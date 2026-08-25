@@ -1,14 +1,10 @@
-import { ICountry } from './country.interface';
-import { IPort } from './port.interface';
+import { Port } from "./port.type";
 
 export class Country implements ICountry {
   id: number;
   name: string;
   flag?: string;
-  ports?: IPort[];
-  get flagUrl(): string {
-    return `https://lipis.github.io/flag-icon-css/flags/4x3/${this.flag}.svg`;
-  }
+  ports?: Port[];
 
   constructor(country: ICountry) {
     this.id = country.id;
@@ -16,4 +12,15 @@ export class Country implements ICountry {
     this.flag = country.flag;
     this.ports = country.ports;
   }
+
+  get flagUrl(): string {
+    return `https://lipis.github.io/flag-icon-css/flags/4x3/${this.flag}.svg`;
+  }
+}
+
+export interface ICountry {
+  id: number;
+  name: string;
+  flag?: string;
+  ports?: Port[];
 }

@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { delay, share } from 'rxjs/operators';
 import { Country, Port } from '../types';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PortService {
   private countries: Country[] = [new Country({
     id: 0,
@@ -251,7 +253,7 @@ export class PortService {
       new Port({ id: 41, name: 'Mantes' })
     ]
   })];
-  private portsObservable: Observable<Port[]>;
+  private portsObservable: Observable<Port[]> | undefined;
 
   getCountries(page?: number, size?: number): Country[] {
     let countries = [];
@@ -266,10 +268,10 @@ export class PortService {
   }
 
   getPorts(page?: number, size?: number): Port[] {
-    let ports = [];
+    let ports: any[] = [];
 
     this.countries.forEach(country => {
-      country.ports.forEach(port => {
+      country?.ports?.forEach(port => {
         port.country = country;
         ports.push(port);
       });
@@ -297,7 +299,7 @@ export class PortService {
 
     this.portsObservable.subscribe(() => {
       // Remove completed observable.
-      this.portsObservable = null;
+      this.portsObservable = undefined;
     });
 
     return this.portsObservable;
@@ -306,7 +308,7 @@ export class PortService {
   filterPorts(ports: Port[], text: string): Port[] {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -318,24 +320,22 @@ export class PortService {
 
   addPort(port: Port) {
     port.id = this.getNewPortId();
-    this.countries.find(country => {
-      return country.id === port.country.id;
-    }).ports.push(port);
+    this.countries?.find(country => {
+      return country?.id === port.country?.id;
+    })?.ports?.push(port);
   }
 
   addPortAsync(port: Port, timeout = 1000): Observable<any> {
-    const self = this;
-
     return new Observable<any>(observer => {
-      self.addPort(port);
-      observer.next();
+      this.addPort(port);
+      observer.next(null);
       observer.complete();
     }).pipe(delay(timeout));
   }
 
   deletePort(port: Port) {
     const country = this.countries.find(_country => {
-      return _country.id === port.country.id;
+      return _country?.id === port?.country?.id;
     });
 
     if (country && country.ports) {
@@ -346,11 +346,9 @@ export class PortService {
   }
 
   deletePortAsync(port: Port, timeout = 1000): Observable<any> {
-    const self = this;
-
     return new Observable<any>(observer => {
-      self.deletePort(port);
-      observer.next();
+      this.deletePort(port);
+      observer.next(null);
       observer.complete();
     }).pipe(delay(timeout));
   }

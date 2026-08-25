@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ModalComponent } from './modal.component';
 
 describe('ModalComponent', () => {
@@ -7,8 +8,9 @@ describe('ModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ModalComponent]
-})
+      imports: [ModalComponent],
+      providers: [provideIonicAngular()]
+    })
       .compileComponents();
   }));
 

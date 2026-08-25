@@ -1,48 +1,41 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'disabling-items',
-    templateUrl: './disabling-items.page.html',
-    styleUrls: ['./disabling-items.page.scss'],
-    standalone: true,
-    imports: [
-        IonicModule,
-        IonicSelectableComponent,
-        FormsModule,
-        WikiUrlPipe,
-    ],
+  selector: 'disabling-items',
+  templateUrl: './disabling-items.page.html',
+  styleUrls: ['./disabling-items.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class DisablingItemsPage implements OnInit {
-  @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent;
-  @ViewChild('dischargingPortsComponent') dischargingPortsComponent: IonicSelectableComponent;
-  ports: Port[];
+  private portService = inject(PortService);
+
+  @ViewChild('loadingPortsComponent') loadingPortsComponent: IonicSelectableComponent | undefined;
+  @ViewChild('dischargingPortsComponent') dischargingPortsComponent: IonicSelectableComponent | undefined;
+  ports: Port[] = [];
   loadingPorts: Port[] = [];
   dischargingPorts: Port[] = [];
   disabledLoadingPorts: Port[] = [];
   disabledDischargingPorts: Port[] = [];
 
-  constructor(
-    private portService: PortService
-  ) { }
-
   ngOnInit() {
     this.ports = this.portService.getPorts();
   }
 
-  loadingPortChange(event: {
+  loadingPortChange(_event: {
     component: IonicSelectableComponent,
     value: any
   }) {
     this.disabledDischargingPorts = this.loadingPorts;
   }
 
-  dischargingPortChange(event: {
+  dischargingPortChange(_event: {
     component: IonicSelectableComponent,
     value: any
   }) {
@@ -50,8 +43,8 @@ export class DisablingItemsPage implements OnInit {
   }
 
   clear() {
-    this.loadingPortsComponent.clear();
-    this.dischargingPortsComponent.clear();
+    this.loadingPortsComponent?.clear();
+    this.dischargingPortsComponent?.clear();
     this.disabledDischargingPorts = [];
     this.disabledLoadingPorts = [];
   }

@@ -1,33 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { IonicSelectableAddItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-add-item-template.directive';
-import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'adding-on-search-fail',
-    templateUrl: './adding-on-search-fail.page.html',
-    styleUrls: ['./adding-on-search-fail.page.scss'],
-    standalone: true,
-    imports: [IonicModule, FormsModule, IonicSelectableItemTemplateDirective, IonicSelectableAddItemTemplateDirective, ReactiveFormsModule, WikiUrlPipe, IonicSelectableComponent]
+  selector: 'adding-on-search-fail',
+  templateUrl: './adding-on-search-fail.page.html',
+  styleUrls: ['./adding-on-search-fail.page.scss'],
+  imports: [ReactiveFormsModule, FormsModule, IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class AddingOnSearchFailPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  port: Port;
-  portForm: FormGroup;
-  portNameControl: FormControl;
-  portCountryControl: FormControl;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  private portService = inject(PortService);
+  private formBuilder = inject(FormBuilder);
 
-  constructor(
-    private portService: PortService,
-    private formBuilder: FormBuilder
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  portForm!: FormGroup;
+  portNameControl: FormControl | undefined;
+  portCountryControl: FormControl | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
@@ -47,12 +44,12 @@ export class AddingOnSearchFailPage implements OnInit {
     text: string
   }) {
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Copy search text to port name field, so
     // user doesn't have to type again.
-    this.portNameControl.setValue(event.component.searchText);
+    this.portNameControl?.setValue(event.component.searchText);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -70,23 +67,23 @@ export class AddingOnSearchFailPage implements OnInit {
     // Create port.
     const port = new Port({
       id: this.portService.getNewPortId(),
-      name: this.portNameControl.value,
-      country: this.portCountryControl.value
+      name: this.portNameControl?.value,
+      country: this.portCountryControl?.value
     });
 
     // Add port to storage.
     this.portService.addPort(port);
 
     // Add port to the top of list.
-    this.portComponent.addItem(port).then(() => {
-      this.portComponent.search(port.name);
+    this.portComponent?.addItem(port).then(() => {
+      this.portComponent?.search(port.name);
     });
 
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Show list.
-    this.portComponent.hideAddItemTemplate();
+    this.portComponent?.hideAddItemTemplate();
   }
 }

@@ -1,30 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { NgIf } from '@angular/common';
-import { IonicSelectableMessageTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-message-template.directive';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'min-max-selection',
-    templateUrl: './min-max-selection.page.html',
-    styleUrls: ['./min-max-selection.page.scss'],
-    standalone: true,
-    imports: [IonicModule, FormsModule, ReactiveFormsModule, IonicSelectableComponent, IonicSelectableMessageTemplateDirective, NgIf, WikiUrlPipe]
+  selector: 'min-max-selection',
+  templateUrl: './min-max-selection.page.html',
+  styleUrls: ['./min-max-selection.page.scss'],
+  imports: [ReactiveFormsModule, CommonModule, IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class MinMaxSelectionPage implements OnInit {
-  ports: Port[];
-  port: Port;
-  portsControl: FormControl;
-  form: FormGroup;
+  private portService = inject(PortService);
+  private formBuilder = inject(UntypedFormBuilder);
 
-  constructor(
-    private portService: PortService,
-    private formBuilder: FormBuilder
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  portsControl: UntypedFormControl | undefined;
+  form!: UntypedFormGroup;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
@@ -37,6 +33,6 @@ export class MinMaxSelectionPage implements OnInit {
   }
 
   clear() {
-    this.portsControl.reset();
+    this.portsControl?.reset();
   }
 }

@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddingOnSearchFailPage } from './adding-on-search-fail.page';
 
@@ -8,9 +9,10 @@ describe('AddingOnSearchFailPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [AddingOnSearchFailPage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [AddingOnSearchFailPage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

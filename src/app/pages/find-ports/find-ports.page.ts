@@ -1,36 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
-import { NgIf } from '@angular/common';
-import { IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-value-template.directive';
-import { IonicSelectableItemEndTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-end-template.directive';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonBadge, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 
 @Component({
-    selector: 'find-ports',
-    templateUrl: './find-ports.page.html',
-    styleUrls: ['./find-ports.page.scss'],
-    standalone: true,
-    imports: [
-        IonicModule,
-        IonicSelectableComponent,
-        FormsModule,
-        IonicSelectableItemEndTemplateDirective,
-        IonicSelectableValueTemplateDirective,
-        NgIf,
-    ],
+  selector: 'find-ports',
+  templateUrl: './find-ports.page.html',
+  styleUrls: ['./find-ports.page.scss'],
+  imports: [CommonModule, FormsModule, IonBackButton, IonBadge, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
 })
 export class FindPortsPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  country: Port;
-  port: Port;
+  portService = inject(PortService);
 
-  constructor(
-    public portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  country: Port | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
@@ -40,7 +29,7 @@ export class FindPortsPage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port?.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -59,11 +48,11 @@ export class FindPortsPage implements OnInit {
 
     event.component.startSearch();
 
-    this.portService.getPortsAsync(null, null).subscribe(ports => {
+    this.portService.getPortsAsync(undefined, undefined).subscribe(ports => {
       let items = this.filterPorts(ports, text);
 
       if (this.country) {
-        items = items.filter(port => port.country.id === this.country.id);
+        items = items.filter(port => port?.country?.id === this.country?.id);
       }
 
       event.component.items = items;
@@ -71,10 +60,10 @@ export class FindPortsPage implements OnInit {
     });
   }
 
-  countryChange(event: {
+  countryChange(_event: {
     component: IonicSelectableComponent,
     value: any
   }) {
-    this.port = null;
+    this.port = undefined;
   }
 }

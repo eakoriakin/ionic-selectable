@@ -67,23 +67,27 @@
       <ng-template ionicSelectableFooterTemplate>
         <ion-toolbar>
           <ion-row>
-            <ion-col *ngIf="portComponent.canClear">
-              <ion-button expand="full" (click)="clear()"
-                [disabled]="!portComponent.itemsToConfirm.length">
-                {{portComponent.clearButtonText}}
-              </ion-button>
-            </ion-col>
+            @if (portComponent.canClear) {
+              <ion-col>
+                <ion-button expand="full" (click)="clear()"
+                  [disabled]="!portComponent.itemsToConfirm.length">
+                  {{portComponent.clearButtonText}}
+                </ion-button>
+              </ion-col>
+            }
             <ion-col>
               <ion-button expand="full" (click)="toggleItems()">
                 {{portComponent.itemsToConfirm.length ? 'Deselect' : 'Select'}}
                 All
               </ion-button>
             </ion-col>
-            <ion-col *ngIf="portComponent.canAddItem">
-              <ion-button expand="full" (click)="onAddPort()">
-                {{portComponent.addButtonText}}
-              </ion-button>
-            </ion-col>
+            @if (portComponent.canAddItem) {
+              <ion-col>
+                <ion-button expand="full" (click)="onAddPort()">
+                  {{portComponent.addButtonText}}
+                </ion-button>
+              </ion-col>
+            }
             <ion-col>
               <ion-button expand="full" (click)="confirm()">
                 {{portComponent.confirmButtonText}}

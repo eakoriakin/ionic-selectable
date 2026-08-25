@@ -1,43 +1,31 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { IonicSelectableAddItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-add-item-template.directive';
-import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'editing-async',
-    templateUrl: './editing-async.page.html',
-    styleUrls: ['./editing-async.page.scss'],
-    standalone: true,
-    imports: [
-        IonicModule,
-        IonicSelectableComponent,
-        FormsModule,
-        IonicSelectableItemTemplateDirective,
-        IonicSelectableAddItemTemplateDirective,
-        ReactiveFormsModule,
-        WikiUrlPipe,
-    ],
+  selector: 'editing-async',
+  templateUrl: './editing-async.page.html',
+  styleUrls: ['./editing-async.page.scss'],
+  imports: [ReactiveFormsModule, FormsModule, IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class EditingAsyncPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  port: Port;
-  portForm: FormGroup;
-  portNameControl: FormControl;
-  portCountryControl: FormControl;
-  portsSubscription: Subscription;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  private portService = inject(PortService);
+  private formBuilder = inject(FormBuilder);
 
-  constructor(
-    private portService: PortService,
-    private formBuilder: FormBuilder
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  portForm!: FormGroup;
+  portNameControl: FormControl | undefined;
+  portCountryControl: FormControl | undefined;
+  portsSubscription: Subscription | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   ngOnInit() {
     this.countries = this.portService.getCountries();
@@ -76,7 +64,7 @@ export class EditingAsyncPage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 
@@ -89,12 +77,12 @@ export class EditingAsyncPage implements OnInit {
     component: IonicSelectableComponent
   }) {
     // Clean form.
-    this.portNameControl.reset();
-    this.portCountryControl.reset();
+    this.portNameControl?.reset();
+    this.portCountryControl?.reset();
 
     // Copy search text to port name field, so
     // user doesn't have to type again.
-    this.portNameControl.setValue(event.component.searchText);
+    this.portNameControl?.setValue(event.component.searchText);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -105,8 +93,8 @@ export class EditingAsyncPage implements OnInit {
     item: Port
   }) {
     // Fill form.
-    this.portNameControl.setValue(event.item.name);
-    this.portCountryControl.setValue(event.item.country);
+    this.portNameControl?.setValue(event.item.name);
+    this.portCountryControl?.setValue(event.item.country);
 
     // Show form.
     event.component.showAddItemTemplate();
@@ -117,7 +105,7 @@ export class EditingAsyncPage implements OnInit {
     item: Port
   }) {
     // Show loading while port is being added to storage.
-    event.component.showLoading();
+    event.component?.showLoading();
 
     // Delete port from storage.
     this.portService.deletePortAsync(event.item).subscribe(() => {
@@ -133,45 +121,45 @@ export class EditingAsyncPage implements OnInit {
     // Create port.
     const port = new Port({
       id: this.portService.getNewPortId(),
-      name: this.portNameControl.value,
-      country: this.portCountryControl.value
+      name: this.portNameControl?.value,
+      country: this.portCountryControl?.value
     });
 
     // Show loading while port is being added to storage.
-    this.portComponent.showLoading();
+    this.portComponent?.showLoading();
 
     // Add port to storage.
     this.portService.addPortAsync(port).subscribe(() => {
       // Search for added port.
-      this.portComponent.search(port.name);
+      this.portComponent?.search(port.name);
 
       // Wait for search to complete before showing list.
-      this.portsSubscription.add(() => {
+      this.portsSubscription?.add(() => {
         // Show list.
-        this.portComponent.hideAddItemTemplate();
+        this.portComponent?.hideAddItemTemplate();
 
         // Clean form.
-        this.portNameControl.reset();
-        this.portCountryControl.reset();
+        this.portNameControl?.reset();
+        this.portCountryControl?.reset();
       });
     });
   }
 
   savePort(port: Port) {
     // Show loading while port is being saved to storage.
-    this.portComponent.showLoading();
+    this.portComponent?.showLoading();
 
     // Simulate async request.
     setTimeout(() => {
       // Change port.
-      port.name = this.portNameControl.value;
-      port.country = this.portCountryControl.value;
+      port.name = this.portNameControl?.value;
+      port.country = this.portCountryControl?.value;
 
       // Show list.
-      this.portComponent.hideAddItemTemplate();
+      this.portComponent?.hideAddItemTemplate();
 
       // Hide loading.
-      this.portComponent.hideLoading();
+      this.portComponent?.hideLoading();
     }, 1000);
   }
 }

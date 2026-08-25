@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlaceholderPage } from './placeholder.page';
 
@@ -8,9 +9,10 @@ describe('PlaceholderPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [PlaceholderPage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [PlaceholderPage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

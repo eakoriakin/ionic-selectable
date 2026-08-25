@@ -1,32 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'scroll-to-top',
-    templateUrl: './scroll-to-top.page.html',
-    styleUrls: ['./scroll-to-top.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule, WikiUrlPipe]
+  selector: 'scroll-to-top',
+  templateUrl: './scroll-to-top.page.html',
+  styleUrls: ['./scroll-to-top.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class ScrollToTopPage implements OnInit {
-  ports: Port[];
-  port: Port;
-  @ViewChild('portComponent') portComponent: IonicSelectableComponent;
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  @ViewChild('portComponent') portComponent: IonicSelectableComponent | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
 
     setInterval(() => {
-      this.portComponent.scrollToTop().then(() => {
+      this.portComponent?.scrollToTop().then(() => {
         console.log('Scroll completed.');
       }).catch(() => { });
     }, 5000);

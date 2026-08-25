@@ -1,27 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 
 @Component({
-    selector: 'infinite-scroll-is-multiple',
-    templateUrl: './infinite-scroll-is-multiple.page.html',
-    styleUrls: ['./infinite-scroll-is-multiple.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule]
+  selector: 'infinite-scroll-is-multiple',
+  templateUrl: './infinite-scroll-is-multiple.page.html',
+  styleUrls: ['./infinite-scroll-is-multiple.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
 })
 export class InfiniteScrollIsMultiplePage implements OnInit {
-  ports: Port[];
-  port: Port;
-  page = 2;
-  portsSubscription: Subscription;
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  page = 2;
+  portsSubscription: Subscription | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
@@ -30,7 +27,7 @@ export class InfiniteScrollIsMultiplePage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1;
+        port?.country?.name.toLowerCase().indexOf(text) !== -1;
     });
   }
 
@@ -63,7 +60,7 @@ export class InfiniteScrollIsMultiplePage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 

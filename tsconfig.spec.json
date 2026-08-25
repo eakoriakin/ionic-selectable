@@ -1,0 +1,10 @@
+/* To learn more about this file see: https://angular.dev/reference/configs/tsconfig. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["jasmine"]
+  },
+  "files": ["src/zone-flags.ts"],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+}

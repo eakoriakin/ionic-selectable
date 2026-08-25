@@ -1,41 +1,44 @@
 <div class="ionic-selectable-inner">
   <div class="ionic-selectable-value">
-    <div *ngIf="valueTemplate && _valueItems.length && isMultiple"
-      [ngTemplateOutlet]="valueTemplate"
-      [ngTemplateOutletContext]="{ value: _valueItems }">
-    </div>
-    <div class="ionic-selectable-value-item"
-      *ngIf="valueTemplate && _valueItems.length && !isMultiple">
-      <div [ngTemplateOutlet]="valueTemplate"
-        [ngTemplateOutletContext]="{ value: _valueItems[0] }">
+    @if (valueTemplate && _valueItems.length) {
+      @if (isMultiple) {
+        <div [ngTemplateOutlet]="valueTemplate" [ngTemplateOutletContext]="{ value: _valueItems }"></div>
+      } @else {
+        <div class="ionic-selectable-value-item">
+          <div [ngTemplateOutlet]="valueTemplate" [ngTemplateOutletContext]="{ value: _valueItems[0] }"></div>
+        </div>
+      }
+    }
+    @if (!valueTemplate && _valueItems.length) {
+      <span>
+        @for (valueItem of _valueItems; track $index) {
+          <div class="ionic-selectable-value-item">{{_formatValueItem(valueItem)}}</div>
+        }
+      </span>
+    }
+    @if (_hasPlaceholder) {
+      <div class="ionic-selectable-value-item">
+        @if (placeholderTemplate) {
+          <div [ngTemplateOutlet]="placeholderTemplate"></div>
+        } @else {
+          {{placeholder}}
+        }
       </div>
-    </div>
-    <span *ngIf="!valueTemplate && _valueItems.length">
-      <div class="ionic-selectable-value-item"
-        *ngFor="let valueItem of _valueItems">
-        {{_formatValueItem(valueItem)}}
-      </div>
-    </span>
-    <div *ngIf="_hasPlaceholder && placeholderTemplate"
-      class="ionic-selectable-value-item">
-      <div [ngTemplateOutlet]="placeholderTemplate">
-      </div>
-    </div>
-    <div class="ionic-selectable-value-item"
-      *ngIf="_hasPlaceholder && !placeholderTemplate">
-      {{placeholder}}
-    </div>
+    }
     <!-- Fix icon allignment when there's no value or placeholder. -->
-    <span *ngIf="!_valueItems.length && !_hasPlaceholder">&nbsp;</span>
+    @if (!_valueItems.length && !_hasPlaceholder) {
+      <span>&nbsp;</span>
+    }
   </div>
-  <div *ngIf="iconTemplate" class="ionic-selectable-icon-template">
+  @if (iconTemplate) {
+    <div class="ionic-selectable-icon-template">
       <div [ngTemplateOutlet]="iconTemplate"></div>
-  </div>
-  <div *ngIf="!iconTemplate" class="ionic-selectable-icon">
-    <div class="ionic-selectable-icon-inner"></div>
-  </div>
+    </div>
+  } @else {
+    <div class="ionic-selectable-icon">
+      <div class="ionic-selectable-icon-inner"></div>
+    </div>
+  }
   <!-- Need to be type="button" otherwise click event triggers form ngSubmit. -->
-  <button class="ionic-selectable-cover" [disabled]="!isEnabled"
-    (click)="_click()" type="button">
-  </button>
+  <button class="ionic-selectable-cover" [disabled]="!isEnabled" (click)="_click()" type="button"></button>
 </div>

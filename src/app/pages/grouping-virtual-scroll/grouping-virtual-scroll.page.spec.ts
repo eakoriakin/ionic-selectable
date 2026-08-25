@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GroupingVirtualScrollPage } from './grouping-virtual-scroll.page';
 
@@ -8,9 +9,10 @@ describe('GroupingVirtualScrollPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [GroupingVirtualScrollPage],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-})
+      imports: [GroupingVirtualScrollPage],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideIonicAngular()],
+    })
       .compileComponents();
   }));
 

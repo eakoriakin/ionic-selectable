@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'on-search',
-    templateUrl: './on-search.page.html',
-    styleUrls: ['./on-search.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule, IonicSelectableItemTemplateDirective, WikiUrlPipe]
+  selector: 'on-search',
+  templateUrl: './on-search.page.html',
+  styleUrls: ['./on-search.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class OnSearchPage implements OnInit {
-  ports: Port[];
-  port: Port;
-  portsSubscription: Subscription;
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  portsSubscription: Subscription | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();
@@ -31,7 +27,7 @@ export class OnSearchPage implements OnInit {
   filterPorts(ports: Port[], text: string) {
     return ports.filter(port => {
       return port.name.toLowerCase().indexOf(text) !== -1 ||
-        port.country.name.toLowerCase().indexOf(text) !== -1 ||
+        port?.country?.name.toLowerCase().indexOf(text) !== -1 ||
         port.id.toString().toLowerCase().indexOf(text) !== -1;
     });
   }
@@ -61,7 +57,7 @@ export class OnSearchPage implements OnInit {
 
     this.portsSubscription = this.portService.getPortsAsync().subscribe(ports => {
       // Subscription will be closed when unsubscribed manually.
-      if (this.portsSubscription.closed) {
+      if (this.portsSubscription?.closed) {
         return;
       }
 

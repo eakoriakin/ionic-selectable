@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { JsonPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'should-store-item-value',
-    templateUrl: './should-store-item-value.page.html',
-    styleUrls: ['./should-store-item-value.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule, JsonPipe, WikiUrlPipe]
+  selector: 'should-store-item-value',
+  templateUrl: './should-store-item-value.page.html',
+  styleUrls: ['./should-store-item-value.page.scss'],
+  imports: [CommonModule, FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class ShouldStoreItemValuePage implements OnInit {
-  ports: Port[];
-  portId: number;
-  portIds: number[];
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  portId: number | undefined;
+  portIds: number[] = [];
 
   ngOnInit() {
     this.ports = this.portService.getPorts();

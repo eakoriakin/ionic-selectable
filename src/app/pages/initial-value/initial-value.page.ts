@@ -1,25 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 
 @Component({
-    selector: 'initial-value',
-    templateUrl: './initial-value.page.html',
-    styleUrls: ['./initial-value.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule]
+  selector: 'initial-value',
+  templateUrl: './initial-value.page.html',
+  styleUrls: ['./initial-value.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
 })
 export class InitialValuePage implements OnInit {
-  ports: Port[];
-  port: Port;
-  selectedPorts: Port[];
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  selectedPorts: Port[] = [];
 
   ngOnInit() {
     this.ports = this.portService.getPorts();

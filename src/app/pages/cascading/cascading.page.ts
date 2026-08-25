@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
 
 @Component({
-    selector: 'cascading',
-    templateUrl: './cascading.page.html',
-    styleUrls: ['./cascading.page.scss'],
-    standalone: true,
-    imports: [IonicModule, IonicSelectableComponent, FormsModule]
+  selector: 'cascading',
+  templateUrl: './cascading.page.html',
+  styleUrls: ['./cascading.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
 })
 export class CascadingPage implements OnInit {
-  ports: Port[];
-  countries: Country[];
-  country: Country;
-  port: Port;
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
+  countries: Country[] = [];
+  country: Country | undefined;
 
   ngOnInit() {
     this.countries = this.portService.getCountries();
@@ -32,11 +30,11 @@ export class CascadingPage implements OnInit {
   }) {
     if (event.value) {
       this.ports = this.portService.getPorts().filter(port => {
-        return port.country.id === event.value.id;
+        return port?.country?.id === event.value.id;
       });
     } else {
       this.ports = [];
-      this.port = null;
+      this.port = undefined;
     }
   }
 }

@@ -19,6 +19,85 @@ $item-padding-end-ios: 8px;
   }
 }
 
+.ionic-selectable-modal {
+  .ionic-selectable-group {
+    ion-item-divider {
+      padding-right: $item-padding-end;
+    }
+  }
+  .ionic-selectable-item-button {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  &-ios {
+    .ionic-selectable-message {
+      padding: 8px;
+    }
+    .ionic-selectable-group {
+      ion-item-divider {
+        padding-right: $item-padding-end-ios;
+      }
+    }
+  }
+  &-md {
+    .ionic-selectable-message {
+      padding: 8px 12px;
+    }
+  }
+  &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
+    .footer .col:first-child {
+      padding-right: $padding * 0.5;
+    }
+    .footer .col:last-child {
+      padding-left: $padding * 0.5;
+    }
+  }
+  &.ionic-selectable-modal-is-searching {
+    .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+  &.ionic-selectable-modal-is-add-item-template-visible {
+    // Hide scroll from list content.
+    // Use immediate child selector as we don't want to apply the rule
+    // to content inside add item template defined by user.
+    > .content > .scroll-content {
+      overflow-y: hidden;
+    }
+  }
+
+  ion-header {
+    ion-toolbar:first-of-type {
+      padding-top: var(--ion-safe-area-top, 0);
+    }
+  }
+
+  /*
+    Virtual scroll. The viewport is the scrolling element (ion-content has its
+    own scrolling turned off), and rows are rendered at a fixed height, so both
+    items and group headers have to be pinned to that height.
+  */
+  cdk-virtual-scroll-viewport.ionic-selectable-virtual-scroll {
+    height: 100%;
+    width: 100%;
+
+    $item-height: var(--ionic-selectable-virtual-item-height, 40px);
+
+    .ionic-selectable-item,
+    .ionic-selectable-group-header {
+      --min-height: #{$item-height};
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --inner-padding-top: 0;
+      --inner-padding-bottom: 0;
+
+      height: $item-height;
+      min-height: $item-height;
+      overflow: hidden;
+    }
+  }
+}
+
 .ionic-selectable {
   display: block;
   max-width: 45%;
@@ -149,17 +228,6 @@ $item-padding-end-ios: 8px;
       }
     }
   }
-
-  // &:not(&-has-label) {
-  //   /*Occupy 100% of width when there's no label.*/
-  //   max-width: 100%;
-  //   width: 100%;
-  //   &-value {
-  //     &-item {
-  //       text-align: right;
-  //     }
-  //   }
-  // }
   &-label-stacked,
   &-label-floating {
     align-self: stretch;
@@ -205,65 +273,13 @@ $item-padding-end-ios: 8px;
   }
 }
 
-.ionic-selectable-modal {
-  .ionic-selectable-group {
-    ion-item-divider {
-      padding-right: $item-padding-end;
-    }
-  }
-
-  .ionic-selectable-item-button {
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-
-  &-ios {
-    .ionic-selectable-message {
-      padding: 8px;
-    }
-
-    .ionic-selectable-group {
-      ion-item-divider {
-        padding-right: $item-padding-end-ios;
-      }
-    }
-  }
-
-  &-md {
-    .ionic-selectable-message {
-      padding: 8px 12px;
-    }
-  }
-
-  &.ionic-selectable-modal-can-clear.ionic-selectable-modal-is-multiple {
-    .footer .col:first-child {
-      padding-right: calc($padding / 2);
-    }
-
-    .footer .col:last-child {
-      padding-left: calc($padding / 2);
-    }
-  }
-
-  &.ionic-selectable-modal-is-searching {
-    .scroll-content {
-      overflow-y: hidden;
-    }
-  }
-
-  &.ionic-selectable-modal-is-add-item-template-visible {
-
-    // Hide scroll from list content.
-    // Use immediate child selector as we don't want to apply the rule
-    // to content inside add item template defined by user.
-    >.content>.scroll-content {
-      overflow-y: hidden;
-    }
-  }
-
-  ion-header {
-    ion-toolbar:first-of-type {
-      padding-top: var(--ion-safe-area-top, 0);
+.ionic-selectable:not(.ionic-selectable-has-label) {
+  /*Occupy 100% of width when there's no label.*/
+  max-width: 100%;
+  width: 100%;
+  .ionic-selectable-value {
+    .ionic-selectable-value-item {
+      text-align: left;
     }
   }
 }

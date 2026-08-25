@@ -1,7 +1,7 @@
 {
-  "name": "ionic-selectable",
+  "name": "Ionic Selectable",
   "integrations": {
-    "cordova": {}
+    "capacitor": {}
   },
   "type": "angular"
 }

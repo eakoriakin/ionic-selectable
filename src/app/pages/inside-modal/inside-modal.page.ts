@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, IonicModule } from '@ionic/angular';
+import { Component, inject } from '@angular/core';
+import { ModalController } from '@ionic/angular/standalone';
 import { ModalComponent } from './modal/modal.component';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
-    selector: 'inside-modal',
-    templateUrl: './inside-modal.page.html',
-    styleUrls: ['./inside-modal.page.scss'],
-    standalone: true,
-    imports: [IonicModule]
+  selector: 'inside-modal',
+  templateUrl: './inside-modal.page.html',
+  styleUrls: ['./inside-modal.page.scss'],
+  imports: [IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar]
 })
-export class InsideModalPage implements OnInit {
-  constructor(
-    private modalController: ModalController
-  ) { }
+export class InsideModalPage {
+  private modalController = inject(ModalController);
 
-  ngOnInit() { }
 
   async openModal() {
     const modal = await this.modalController.create({

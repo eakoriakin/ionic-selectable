@@ -18,8 +18,22 @@
     </ion-label>
   </ion-item>
   <ion-item>
-    <ion-label>Port</ion-label>
+    <ion-label>Port (groupValueField)</ion-label>
     <ionic-selectable [(ngModel)]="port" itemValueField="id"
+      itemTextField="name" groupValueField="country.id"
+      groupTextField="country.name" [items]="ports"
+      [hasVirtualScroll]="true" [canSearch]="true">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label class="ion-text-wrap">
+      When items aren't grouped with <b>groupValueField</b>, headers can still
+      be inserted with <b>virtualScrollHeaderFn</b>.
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Port (virtualScrollHeaderFn)</ion-label>
+    <ionic-selectable [(ngModel)]="portWithHeaderFn" itemValueField="id"
       itemTextField="name" [items]="ports" [hasVirtualScroll]="true"
       [virtualScrollHeaderFn]="getGroupText" [canSearch]="true">
     </ionic-selectable>

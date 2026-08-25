@@ -1,32 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { PortService } from '../../services';
 import { Port } from '../../types';
-import { WikiUrlPipe } from '../../pipes/wiki-url.pipe';
-import { IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable/ionic-selectable-item-template.directive';
 import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.component';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { PipesModule } from '../../pipes';
 
 @Component({
-    selector: 'item-template',
-    templateUrl: './item-template.page.html',
-    styleUrls: ['./item-template.page.scss'],
-    standalone: true,
-    imports: [
-        IonicModule,
-        IonicSelectableComponent,
-        FormsModule,
-        IonicSelectableItemTemplateDirective,
-        WikiUrlPipe,
-    ],
+  selector: 'item-template',
+  templateUrl: './item-template.page.html',
+  styleUrls: ['./item-template.page.scss'],
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
 })
 export class ItemTemplatePage implements OnInit {
-  ports: Port[];
-  port: Port;
+  private portService = inject(PortService);
 
-  constructor(
-    private portService: PortService
-  ) { }
+  ports: Port[] = [];
+  port: Port | undefined;
 
   ngOnInit() {
     this.ports = this.portService.getPorts();

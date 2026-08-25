@@ -23,10 +23,12 @@
       itemTextField="name" [items]="ports" [isMultiple]="true"
       [canClear]="true">
       <ng-template ionicSelectableValueTemplate let-ports="value">
-        <div class="ionic-selectable-value-item" *ngFor="let port of ports">
-          <img class="value-country-flag" [src]="port.country.flagUrl" />
-          {{port.name}} ({{port.country.name}})
-        </div>
+        @for (port of ports; track port.id) {
+          <div class="ionic-selectable-value-item">
+            <img class="value-country-flag" [src]="port.country.flagUrl" />
+            {{port.name}} ({{port.country.name}})
+          </div>
+        }
       </ng-template>
     </ionic-selectable>
   </ion-item>
