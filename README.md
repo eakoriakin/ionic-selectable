@@ -277,6 +277,18 @@ npm run lint       # lint
 npm run build.ng   # build the publishable library into dist/
 ```
 
+### Publishing
+
+Always publish the **built** package from `dist/`, never from the repo root
+(the root only contains sources and would ship raw `.ts` files without a
+`module`/`exports` entry). A `prepublishOnly` script fails on purpose if you try:
+
+```bash
+npm version <x.y.z> --no-git-tag-version   # bump version in package.json
+npm run build.ng                            # build into dist/ (copies package.json, README, LICENSE)
+cd dist && npm publish                      # publish the built package
+```
+
 For contribution guidelines please refer to
 [Contribution](../../wiki/Contribution).
 

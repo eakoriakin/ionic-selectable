@@ -1,5 +1,5 @@
 {
-  "version": "7.0.1",
+  "version": "7.0.2",
   "name": "ionic-selectable",
   "title": "Ionic Selectable",
   "description": "An Ionic component similar to Ionic Select, that allows to search items, including async search, group, add, edit, delete items, and much more.",
@@ -82,6 +82,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "gulp": "gulp",
-    "build.ng": "ng-packagr -p ng-package.json"
+    "build.ng": "ng-packagr -p ng-package.json",
+    "prepublishOnly": "echo ERROR: never publish from the repo root. Run npm run build.ng and then publish from dist/ && exit 1"
   }
 }
