@@ -3,13 +3,13 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { IonicSelectableComponent } from '../../components/ionic-selectable';
 
 @Component({
   selector: 'labels',
   templateUrl: './labels.page.html',
   styleUrls: ['./labels.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonSelect, IonSelectOption, IonTitle, IonToolbar, IonicSelectableModule]
+  imports: [FormsModule, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonSelect, IonSelectOption, IonTitle, IonToolbar, IonicSelectableComponent]
 })
 export class LabelsPage implements OnInit {
   private portService = inject(PortService);

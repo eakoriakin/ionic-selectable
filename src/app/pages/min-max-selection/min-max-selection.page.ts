@@ -4,14 +4,14 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { CommonModule } from '@angular/common';
 import { IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { PipesModule } from '../../pipes';
+import { IonicSelectableComponent, IonicSelectableMessageTemplateDirective } from '../../components/ionic-selectable';
+import { WikiUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'min-max-selection',
   templateUrl: './min-max-selection.page.html',
   styleUrls: ['./min-max-selection.page.scss'],
-  imports: [ReactiveFormsModule, CommonModule, IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
+  imports: [ReactiveFormsModule, CommonModule, IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableMessageTemplateDirective, WikiUrlPipe]
 })
 export class MinMaxSelectionPage implements OnInit {
   private portService = inject(PortService);

@@ -1,17 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonBadge, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { IonicSelectableComponent, IonicSelectableItemEndTemplateDirective, IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable';
 
 @Component({
   selector: 'find-ports',
   templateUrl: './find-ports.page.html',
   styleUrls: ['./find-ports.page.scss'],
-  imports: [CommonModule, FormsModule, IonBackButton, IonBadge, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
+  imports: [CommonModule, FormsModule, IonBackButton, IonBadge, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableItemEndTemplateDirective, IonicSelectableValueTemplateDirective]
 })
 export class FindPortsPage implements OnInit {
   portService = inject(PortService);

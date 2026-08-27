@@ -4,14 +4,14 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { CommonModule } from '@angular/common';
 import { IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { PipesModule } from '../../pipes';
+import { IonicSelectableComponent } from '../../components/ionic-selectable';
+import { WikiUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'form-control',
   templateUrl: './form-control.page.html',
   styleUrls: ['./form-control.page.scss'],
-  imports: [ReactiveFormsModule, CommonModule, IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
+  imports: [ReactiveFormsModule, CommonModule, IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent, WikiUrlPipe]
 })
 export class FormControlPage implements OnInit {
   private portService = inject(PortService);

@@ -4,13 +4,13 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { IonicSelectableComponent } from '../../components/ionic-selectable';
 
 @Component({
   selector: 'infinite-scroll-is-multiple',
   templateUrl: './infinite-scroll-is-multiple.page.html',
   styleUrls: ['./infinite-scroll-is-multiple.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule]
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent]
 })
 export class InfiniteScrollIsMultiplePage implements OnInit {
   private portService = inject(PortService);

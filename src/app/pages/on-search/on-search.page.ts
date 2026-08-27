@@ -4,14 +4,14 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { PipesModule } from '../../pipes';
+import { IonicSelectableComponent, IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable';
+import { WikiUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'on-search',
   templateUrl: './on-search.page.html',
   styleUrls: ['./on-search.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableItemTemplateDirective, WikiUrlPipe]
 })
 export class OnSearchPage implements OnInit {
   private portService = inject(PortService);

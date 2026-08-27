@@ -25,8 +25,6 @@ import {
 import { addIcons } from 'ionicons';
 import { checkmarkCircle, create, createSharp, radioButtonOff, trash, trashSharp } from 'ionicons/icons';
 import { IonicSelectableComponent } from './ionic-selectable.component';
-import { FormsModule } from '@angular/forms';
-import { NgIf, NgTemplateOutlet, NgFor, NgClass, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'ionic-selectable-modal',

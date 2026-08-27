@@ -5,14 +5,14 @@ import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { PipesModule } from '../../pipes';
+import { IonicSelectableComponent, IonicSelectableAddItemTemplateDirective, IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable';
+import { WikiUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'editing-async',
   templateUrl: './editing-async.page.html',
   styleUrls: ['./editing-async.page.scss'],
-  imports: [ReactiveFormsModule, FormsModule, IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
+  imports: [ReactiveFormsModule, FormsModule, IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableAddItemTemplateDirective, IonicSelectableItemTemplateDirective, WikiUrlPipe]
 })
 export class EditingAsyncPage implements OnInit {
   private portService = inject(PortService);

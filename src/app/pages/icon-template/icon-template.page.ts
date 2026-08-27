@@ -1,16 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { IonicSelectableComponent, IonicSelectableIconTemplateDirective } from '../../components/ionic-selectable';
 
 @Component({
   selector: 'icon-template',
   templateUrl: './icon-template.page.html',
   styleUrls: ['./icon-template.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar, IonicSelectableModule]
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableIconTemplateDirective]
 })
 export class IconTemplatePage implements OnInit {
   private portService = inject(PortService);
