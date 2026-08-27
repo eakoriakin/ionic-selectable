@@ -3,14 +3,14 @@ import { PortService } from '../../services';
 import { Port } from '../../types';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
-import { PipesModule } from '../../pipes';
+import { IonicSelectableComponent, IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable';
+import { WikiUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'values-ellipsis-template',
   templateUrl: './values-ellipsis-template.page.html',
   styleUrls: ['./values-ellipsis-template.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableModule, PipesModule]
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableValueTemplateDirective, WikiUrlPipe]
 })
 export class ValuesEllipsisTemplatePage implements OnInit {
   private portService = inject(PortService);

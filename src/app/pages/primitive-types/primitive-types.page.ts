@@ -1,15 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { IonicSelectableComponent } from '../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../services';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicSelectableModule } from '../../components/ionic-selectable/ionic-selectable.module';
+import { IonicSelectableComponent, IonicSelectableItemTemplateDirective, IonicSelectableValueTemplateDirective } from '../../components/ionic-selectable';
 
 @Component({
   selector: 'primitive-types',
   templateUrl: './primitive-types.page.html',
   styleUrls: ['./primitive-types.page.scss'],
-  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar, IonicSelectableModule]
+  imports: [FormsModule, IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonItemGroup, IonLabel, IonListHeader, IonTitle, IonToolbar, IonicSelectableComponent, IonicSelectableItemTemplateDirective, IonicSelectableValueTemplateDirective]
 })
 export class PrimitiveTypesPage implements OnInit {
   private portService = inject(PortService);

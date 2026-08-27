@@ -46,8 +46,7 @@ export interface IonicSelectableVirtualItem {
     useExisting: forwardRef(() => IonicSelectableComponent),
     multi: true
   }],
-  standalone: true,
-  imports: [NgIf, NgTemplateOutlet, NgFor]
+  standalone: true
 })
 export class IonicSelectableComponent implements ControlValueAccessor, OnInit, DoCheck {
   @HostBinding('class.ionic-selectable')

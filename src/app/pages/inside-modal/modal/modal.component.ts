@@ -2,11 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar, ModalController } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
-import { IonicSelectableComponent, IonicSelectableModule } from '../../../components/ionic-selectable/ionic-selectable.module';
 import { PortService } from '../../../services';
 import { Port } from '../../../types';
-import { FormsModule } from '@angular/forms';
-import { IonicSelectableComponent } from '../../../components/ionic-selectable/ionic-selectable.component';
+import { IonicSelectableComponent } from '../../../components/ionic-selectable';
 
 @Component({
   selector: 'app-modal',
@@ -22,7 +20,7 @@ import { IonicSelectableComponent } from '../../../components/ionic-selectable/i
     IonLabel,
     IonTitle,
     IonToolbar,
-    IonicSelectableModule
+    IonicSelectableComponent
   ]
 })
 export class ModalComponent {
