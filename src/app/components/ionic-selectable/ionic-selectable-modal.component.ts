@@ -21,7 +21,7 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { checkmarkCircle, create, createSharp, radioButtonOff, trash, trashSharp } from 'ionicons/icons';
 import { IonicSelectableComponent } from './ionic-selectable.component';

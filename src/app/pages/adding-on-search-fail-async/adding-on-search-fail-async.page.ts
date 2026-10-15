@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { IonicSelectableComponent, IonicSelectableAddItemTemplateDirective, IonicSelectableItemTemplateDirective } from '../../components/ionic-selectable';
 import { WikiUrlPipe } from '../../pipes';
 

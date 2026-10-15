@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular';
 import { IonicSelectableComponent } from '../../components/ionic-selectable';
 
 @Component({

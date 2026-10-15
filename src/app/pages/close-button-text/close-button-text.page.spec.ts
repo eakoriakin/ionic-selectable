@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { provideIonicAngular } from '@ionic/angular/standalone';
+import { provideIonicAngular } from '@ionic/angular';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CloseButtonTextPage } from './close-button-text.page';
 

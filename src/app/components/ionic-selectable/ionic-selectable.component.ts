@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChild, DoCheck, ElementRef, EventEmitter, forwardRef, HostBinding, Input, IterableDiffer, IterableDiffers, OnInit, Output, Renderer2, TemplateRef, ViewEncapsulation, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ModalController, Platform } from '@ionic/angular/standalone';
+import { ModalController, Platform } from '@ionic/angular';
 import { AnimationBuilder, ModalOptions } from '@ionic/core';
 import { Subscription } from 'rxjs';
 import { IonicSelectableAddItemTemplateDirective } from './ionic-selectable-add-item-template.directive';
