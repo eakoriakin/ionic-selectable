@@ -3,7 +3,7 @@ import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, Re
 import { PortService } from '../../services';
 import { Port } from '../../types';
 import { CommonModule } from '@angular/common';
-import { IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonBadge, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonTitle, IonToolbar } from '@ionic/angular';
 import { IonicSelectableComponent, IonicSelectableMessageTemplateDirective } from '../../components/ionic-selectable';
 import { WikiUrlPipe } from '../../pipes';
 

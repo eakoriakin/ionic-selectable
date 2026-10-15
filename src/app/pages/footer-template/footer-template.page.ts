@@ -4,7 +4,7 @@ import { PortService } from '../../services';
 import { Country, Port } from '../../types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonFooter, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonList, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { IonicSelectableComponent, IonicSelectableAddItemTemplateDirective, IonicSelectableFooterTemplateDirective } from '../../components/ionic-selectable';
 import { WikiUrlPipe } from '../../pipes';
 

@@ -35,18 +35,20 @@ An Ionic component similar to [Ionic Select](https://ionicframework.com/docs/api
 
 | ionic-selectable | Ionic | Angular |
 | ---------------- | ----- | ------- |
+| 8.x              | 9     | 21 – 22 |
 | 7.x              | 8     | 20 – 22 |
 | 6.x              | 7     | 16      |
 | 4.x              | 4     | —       |
 | 3.x              | 3     | —       |
 
-**7.x is a standalone build.** The component, the modal and all template
-directives are standalone, and Ionic is consumed through
-`@ionic/angular/standalone`. It works both in apps bootstrapped with
-`provideIonicAngular()` and in apps still using `IonicModule.forRoot()`.
+**8.x targets Ionic 9.** The component, the modal and all template
+directives are standalone, and Ionic is consumed through `@ionic/angular`
+(Ionic 9 removed the `@ionic/angular/standalone` entry point). It works both
+in apps bootstrapped with `provideIonicAngular()` and in apps still using the
+deprecated `IonicModule.forRoot()`. Still on Ionic 8? Use `ionic-selectable@7`.
 
 The package is published in Angular's *partial* compilation mode, so a build
-made with Angular 21 links cleanly into Angular 20, 21 and 22 applications.
+made with Angular 21 links cleanly into Angular 21 and 22 applications.
 
 ## Features
 
@@ -86,7 +88,7 @@ component uses it:
 ```ts
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonItem, IonLabel } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
 
 @Component({
