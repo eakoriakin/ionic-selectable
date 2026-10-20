@@ -1,6 +1,6 @@
 import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, Input, OnInit, ViewChild, inject } from '@angular/core';
 import {
   IonButton,
   IonButtons,
@@ -59,6 +59,7 @@ export class IonicSelectableModalComponent implements OnInit, AfterViewInit {
   /**
    * Set by `ModalController` through `componentProps` when the Modal is created.
    */
+  @Input({ required: true })
   selectComponent!: IonicSelectableComponent;
 
   @ViewChild(IonContent)
